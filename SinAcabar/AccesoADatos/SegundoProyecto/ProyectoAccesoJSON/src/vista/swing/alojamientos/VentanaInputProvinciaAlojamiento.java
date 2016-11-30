@@ -119,7 +119,7 @@ public class VentanaInputProvinciaAlojamiento extends javax.swing.JFrame {
         if(DBBConexion.checkConexionDBBExiste()) {
             col = fachada.listadoAlojamientosBDD(provincia);
         } else {
-//            col = fachada.listadoAlojamientosJSON(provincia);
+            col = fachada.listadoAlojamientosJSON(provincia);
         }
 
         new VentanaListadoAlojamientos(col);

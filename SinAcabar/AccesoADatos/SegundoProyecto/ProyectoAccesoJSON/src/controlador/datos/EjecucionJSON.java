@@ -16,12 +16,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,55 +37,74 @@ import org.json.JSONObject;
  * @since 22/11/2016
  */
 public class EjecucionJSON {
-//    private static final String PATH_JSON = "ficheros/alojamientos.json"; //Ruta donde quiero el .json
-//    private static final String URL_CUSTOM_PHP = "http://localhost/generarJSONAlojamientos.php"; //fixme: Acordarme que en casa cambie los puertos de acceso a :8088 por problemas de compatibilidad con VirtualBox.
-    
-    private EjecucionJSON() {} //Clase estatica, no quiero que se pueda instanciar.
-    
-//    /**
-//     * Check previo, no quiero sobreescribirlo siempre si ya existe.
-//     * @return True si existe.
-//     */
-//    private static boolean checkFicheroJSONexiste() {
-//        File fileTmp = new File(PATH_JSON);
-//        return fileTmp.isFile(); //.exist() no diferencia entre fichero y directorio, esto si. Evito posibles problemas.
-//    }
-//    
-//    /**
-//     * Check para comprobar si el fichero esta vacio.
-//     * @return True si esta vacio.
-//     */
-//    private static boolean checkFicheroJSONVacio() {
-//        File fileTmp = new File(PATH_JSON);
-//        return (fileTmp.length() == 0);
-//    }
-//    
-//    /**
-//     * Deja el fichero en blanco. No lo puedo borrar ya que Windows no me deja al haberlo abierto Netbeans.
-//     */
-//    public static void borrarContenidoFicheroJSON() {
-//        try {
-//            File fichero = new File(PATH_JSON);
-//            PrintWriter pw = new PrintWriter(fichero);
-//            pw.write("");
-//            pw.close();
-//        }catch(FileNotFoundException ex) {
-//            ex.printStackTrace();
-//        }
-//    }
+    private static final String SHARED_BASE_URL = "http://localhost:8088/ServerWeb/"; //fixme: Acordarme que en casa cambie los puertos de acceso a :8088 por problemas de compatibilidad con VirtualBox.
     
     /**
-     * Ejecuta el .php que hace el get a la BDD y escribe el JSON que devuelve este, en un fichero local en la localizacion del proyecto.
+     * Ejecuta el .php y obtiene una JSONArray con todos los alojamientos disponibles.
+     * @return Collection de AlojamientoDTO con toda la informacion de la BDD.
      */
-    public static void ejecucionPHPgeneracionArchivoJSON() {
+    public Collection<AlojamientoDTO> listadoAlojamientos() {
         try {
-//            if(!checkFicheroJSONexiste() || checkFicheroJSONVacio()) { //Que solo lo sobreescriba si no existe o este se encuentra vacio.
-                PeticionPost post = new PeticionPost("http://localhost/listadoAlojamientos.php");
-                post.generacionArchivoJSON();
-//            }
+            PeticionPost post = new PeticionPost(SHARED_BASE_URL +"listadoAlojamientos.php");
+            JSONArray locs = new JSONArray(post.getRespueta());
+            ArrayList<AlojamientoDTO> arrayListTmpAlojamientos = new ArrayList<>();
+            
+            for (int i = 0; i < locs.length(); i++) {
+                JSONObject rec = locs.getJSONObject(i);
+
+                int id = rec.getInt("ID_ALOJAMIENTO");
+                String nombre = rec.getString("NOMBRE");
+                String dirSocial = rec.getString("DIRECCION_SOCIAL");
+                String razonSocial = rec.getString("RAZON_SOCIAL");
+                String telefono = rec.getString("TELEFONO_CONTACTO");
+                String descripcion = rec.getString("DESCRIPCION");
+                int valoracion = rec.getInt("VALORACION");
+                String fechaApertura = rec.getString("FECHA_APERTURA");
+                int numHabitaciones = rec.getInt("NUM_HABITACIONES");
+                String provincia = rec.getString("PROVINCIA");
+
+                AlojamientoDTO alDTOTmp = new AlojamientoDTO(id, nombre, telefono, dirSocial, razonSocial, descripcion, valoracion, fechaApertura, numHabitaciones, provincia);
+                arrayListTmpAlojamientos.add(alDTOTmp);
+            }
+            
+            return arrayListTmpAlojamientos;
         }catch(IOException ex) {
-            JOptionPane.showMessageDialog(null, ex);
-            System.exit(0); //Si hay excepcion en este punto probablemente sera por los parametros de conexion. Cierro programa porque si no seran problemas por todos lados.
+            throw new RuntimeException(ex);
+        } catch (JSONException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+    
+    public Collection<AlojamientoDTO> listadoAlojamientos(String provincia) {
+        try {
+            PeticionPost post = new PeticionPost(SHARED_BASE_URL +"listadoAlojamientosFiltrado.php");
+            post.add("provincia", provincia);
+            JSONArray locs = new JSONArray(post.getRespueta());
+            ArrayList<AlojamientoDTO> arrayListTmpAlojamientos = new ArrayList<>();
+            
+            for (int i = 0; i < locs.length(); i++) {
+                JSONObject rec = locs.getJSONObject(i);
+
+                int id = rec.getInt("ID_ALOJAMIENTO");
+                String nombre = rec.getString("NOMBRE");
+                String dirSocial = rec.getString("DIRECCION_SOCIAL");
+                String razonSocial = rec.getString("RAZON_SOCIAL");
+                String telefono = rec.getString("TELEFONO_CONTACTO");
+                String descripcion = rec.getString("DESCRIPCION");
+                int valoracion = rec.getInt("VALORACION");
+                String fechaApertura = rec.getString("FECHA_APERTURA");
+                int numHabitaciones = rec.getInt("NUM_HABITACIONES");
+                String prov = rec.getString("PROVINCIA");
+
+                AlojamientoDTO alDTOTmp = new AlojamientoDTO(id, nombre, telefono, dirSocial, razonSocial, descripcion, valoracion, fechaApertura, numHabitaciones, prov);
+                arrayListTmpAlojamientos.add(alDTOTmp);
+            }
+            
+            return arrayListTmpAlojamientos;
+        }catch(IOException ex) {
+            throw new RuntimeException(ex);
+        } catch (JSONException ex) {
+            throw new RuntimeException(ex);
         }
     }
     
@@ -89,7 +112,7 @@ public class EjecucionJSON {
      * Lectura del archivo .json local y cargado de los datos de este al HashMap miembro.
      * @return 
      */
-    public static Collection<AlojamientoDTO> cargadoJSONlocalAJava(JSONArray jsonArray) {
+    public Collection<AlojamientoDTO> cargadoJSONlocalAJava(JSONArray jsonArray) {
         try {
             ArrayList<AlojamientoDTO> arrayListTmpAlojamientos = new ArrayList<>();
             
@@ -163,44 +186,47 @@ public class EjecucionJSON {
 //    }
     
     /**
-     * Inner Class pasada por Angel. De lo pasado solo necesito 1 metodo y esta relacionado con EjecucionJSON. Lo meto aqui aunque lo mantengo separado.
+     * Inner Class pasada por Angel. Como no tiene sentido su existencia sin la clase base contenedora, lo meto aqui.
      */
-    private static class PeticionPost {
-        private final URL URL;
-        private final String DATA;
+    private class PeticionPost {
+	private URL url;
+	private String data;
 
-        PeticionPost(String url) throws MalformedURLException {
-            this.URL = new URL(url);
-            DATA="";
+        public PeticionPost(String url) throws MalformedURLException{
+            this.url = new URL(url);
+            data="";
         }
 
-        /**
-         * Ejecuta el .php que hace el get a la BDD y escribe el JSON que devuelve este, en un fichero local en la localizacion del proyecto.
-         * @throws IOException 
-         */
-        private JSONArray generacionArchivoJSON() throws IOException {
-//            File file = new File("ficheros/alojamientos.json");
-//            file.getParentFile().mkdirs();
-//            PrintWriter writer = new PrintWriter(file, "UTF-8");
-            try {
-                URLConnection conn = URL.openConnection(); //abrimos la conexión
-                conn.setDoOutput(true); //especificamos que vamos a escribir
-                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream()); //obtenemos el flujo de escritura
-                wr.write(DATA); //escribimos
-                wr.close(); //cerramos la conexión
+        public void add(String propiedad, String valor) throws UnsupportedEncodingException {
+            //codificamos cada uno de los valores
+            if (data.length()>0)
+            data+= "&"+ URLEncoder.encode(propiedad, "UTF-8")+ "=" +URLEncoder.encode(valor, "UTF-8");
+            else
+            data+= URLEncoder.encode(propiedad, "UTF-8")+ "=" +URLEncoder.encode(valor, "UTF-8");
+        }
 
-                BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream())); //obtenemos el flujo de lectura
-                String linea;
-                String buffer = "";
+        public String getRespueta() throws IOException {
+            String respuesta = "";
+            //abrimos la conexiÃ³n
+            URLConnection conn = url.openConnection();
+            //especificamos que vamos a escribir
+            conn.setDoOutput(true);
+            //obtenemos el flujo de escritura
+            OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+            //escribimos
+            wr.write(data);
+            //cerramos la conexiÃ³n
+              wr.close();
 
-                while ((linea = rd.readLine()) != null) { //procesamos al salida
-                    buffer += linea;
-                }
-
-                return new JSONArray(buffer); //todo: check de .close().
-            }catch(JSONException ex) {
-                throw new RuntimeException(ex);
+            //obtenemos el flujo de lectura
+            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String linea;
+            //procesamos al salida
+            while ((linea = rd.readLine()) != null) {
+               respuesta+= linea;
             }
+            return respuesta;
         }
+
     }
 }

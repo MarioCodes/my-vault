@@ -12,6 +12,7 @@ import controlador.DAO.DAOFactory;
 import controlador.DTO.HabitacionDTO;
 import controlador.datos.EjecucionJSON;
 import java.util.Collection;
+import org.json.JSONException;
 
 /**
  * Patron de Diseño Façade. Modelo Vista - Controlador. Clase Intermediaria entre ambas para mantener separado el la ejecucion de codigo.
@@ -133,24 +134,24 @@ public class Facade {
 //            return opJSON.buscarAlojamiento(id);
 //        }
         
-//        /**
-//         * Recorremos el HashMap entero, almacenando cada AlojamientoDTO en una Collection que al final devolvemos.
-//         * @return Collection de AlojamientosDTO con todos los existentes actualmente.
-//         */
-//        public Collection <AlojamientoDTO> listadoAlojamientosJSON() {
-//            OperacionesJSON opJSON = (OperacionesJSON) DAOFactory.getInstancia("OperacionesJSON");
-//            return opJSON.transformarHashMapEnCollectionParaListar();
-//        }
-//        
-//        /**
-//         * Listamos todos los AlojamientoDTO existentes filtrando por Provincia.
-//         * @param provincia Provincia de la que queremos obtener todos los AlojamientoDTO.
-//         * @return Collection de AlojamientosDTO situados en la provincia indicada.
-//         */
-//        public Collection <AlojamientoDTO> listadoAlojamientosJSON(String provincia) {
-//            OperacionesJSON opJSON = (OperacionesJSON) DAOFactory.getInstancia("OperacionesJSON");
-//            return opJSON.transformarHashMapEnCollectionParaListar(provincia);
-//        }
+        /**
+         * Recorremos el HashMap entero, almacenando cada AlojamientoDTO en una Collection que al final devolvemos.
+         * @return Collection de AlojamientosDTO con todos los existentes actualmente.
+         */
+        public Collection <AlojamientoDTO> listadoAlojamientosJSON() {
+            EjecucionJSON ejecJSON = (EjecucionJSON) DAOFactory.getInstancia("EjecucionJSON");
+            return ejecJSON.listadoAlojamientos();
+        }
+        
+        /**
+         * Listamos todos los AlojamientoDTO existentes filtrando por Provincia.
+         * @param provincia Provincia de la que queremos obtener todos los AlojamientoDTO.
+         * @return Collection de AlojamientosDTO situados en la provincia indicada.
+         */
+        public Collection <AlojamientoDTO> listadoAlojamientosJSON(String provincia) {
+            EjecucionJSON ejecJSON = (EjecucionJSON) DAOFactory.getInstancia("EjecucionJSON");
+            return ejecJSON.listadoAlojamientos(provincia);
+        }
         
     /*
         Parte relacionada a Habitaciones (BDD hasta ahora, aqui no me meto con JSON).

@@ -83,16 +83,16 @@ public class VentanaListadoAlojamientos extends javax.swing.JFrame {
      * Si hay conexion a BDD, carga desde la BDD. Si no la hay, lo hace desde JSON.
      */
     private void creacionTablaCompletaBDDoJSON() {
-//        Facade fachada = new Facade();
-//        Collection <AlojamientoDTO> col;
-//        
-//        if(DBBConexion.checkConexionDBBExiste()) {
-//            col = fachada.listadoAlojamientosBDD();
-//        }else {
-////            col = fachada.listadoAlojamientosJSON();
-//        }
-//        
-//        rellenoTablaDatos(col);
+        Facade fachada = new Facade();
+        Collection <AlojamientoDTO> col;
+        
+        if(DBBConexion.checkConexionDBBExiste()) {
+            col = fachada.listadoAlojamientosBDD();
+        }else {
+            col = fachada.listadoAlojamientosJSON();
+        }
+        
+        rellenoTablaDatos(col);
     }
     
     /**
@@ -210,7 +210,7 @@ public class VentanaListadoAlojamientos extends javax.swing.JFrame {
         if(DBBConexion.checkConexionDBBExiste()) {
             coleccionResultados = fachada.listadoAlojamientosBDD(provincia);
         }else {
-//            coleccionResultados = fachada.listadoAlojamientosJSON(provincia);
+            coleccionResultados = fachada.listadoAlojamientosJSON(provincia);
         }
 
         rellenoTablaDatos(coleccionResultados);

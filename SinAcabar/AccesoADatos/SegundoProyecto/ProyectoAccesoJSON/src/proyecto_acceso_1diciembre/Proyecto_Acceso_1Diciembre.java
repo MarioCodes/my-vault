@@ -5,6 +5,7 @@
  */
 package proyecto_acceso_1diciembre;
 
+import aplicacion.facade.Facade;
 import controlador.datos.EjecucionJSON;
 import java.io.IOException;
 import vista.swing.comun.SingletonVentanas;
