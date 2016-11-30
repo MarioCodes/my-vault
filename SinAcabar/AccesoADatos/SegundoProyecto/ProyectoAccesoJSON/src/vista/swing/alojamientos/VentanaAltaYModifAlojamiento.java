@@ -38,7 +38,7 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
         
         VP.setVisible(false);
         
-        setIDautomaticoSegunModoEjecucion();
+        desactivarCamposIDAlojamiento(); //En todas las ventanas de alta, no me interesa que se vea el campo de ID, ya que estara vacio. Lo hace la propia BDD con AI / Secuencias.
     }
     
     /**
@@ -65,16 +65,6 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
     private void desactivarCamposIDAlojamiento() {
         this.jLabelID.setVisible(false);
         this.inputIDAlojamiento.setVisible(false);
-    }
-    
-    /**
-     * Segun si hay conexion a BDD o es JSON de manera interna, carga el ID siguiente de una manera u otra.
-     */
-    private void setIDautomaticoSegunModoEjecucion() {
-        if(checkConexionDBB()) {
-            desactivarCamposIDAlojamiento();
-        } else {
-        }
     }
     
     /*

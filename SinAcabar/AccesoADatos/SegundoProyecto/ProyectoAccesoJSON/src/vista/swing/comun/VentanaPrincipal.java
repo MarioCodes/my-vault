@@ -20,7 +20,7 @@ import vista.swing.habitacion.*;
  * @author Mario Codes Sánchez
  * @since 22/11/16
  */
-public class VentanaPrincipal extends javax.swing.JFrame implements WindowListener  {
+public class VentanaPrincipal extends javax.swing.JFrame  {
     private final ArrayList<JFrame> VENTANAS_INDEPENDIENTES_ABIERTAS = new ArrayList<>(); //Para almarcenar y cerrar las que se abren de forma independiente cuando volvamos a la ventana de "escoger modo".
     
     /**
@@ -31,18 +31,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements WindowListen
         
         this.setVisible(true);
         this.setLocationRelativeTo(null);
-        this.setResizable(false);
-        
-        activarDesactivarOpcionesJSONsegunModo();
-        addWindowListener(this);
-    }
-    
-    /**
-     * En funcion de si accedemos por BDD o por JSON, se desactivan / activan las opciones del menu.
-     */
-    private void activarDesactivarOpcionesJSONsegunModo() {
-        if(DBBConexion.checkConexionDBBExiste()) this.jMenuJSON.setEnabled(false);
-        else this.jMenuJSON.setEnabled(true);
+        this.setResizable(false);        
     }
     
 //    /**
@@ -195,9 +184,6 @@ public class VentanaPrincipal extends javax.swing.JFrame implements WindowListen
         jMenuPrograma = new javax.swing.JMenu();
         jMenuItemEscogerModo = new javax.swing.JMenuItem();
         jMenuItemSalir = new javax.swing.JMenuItem();
-        jMenuJSON = new javax.swing.JMenu();
-        jMenuItemSobreescribir = new javax.swing.JMenuItem();
-        jMenuItemGuardar = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -396,29 +382,6 @@ public class VentanaPrincipal extends javax.swing.JFrame implements WindowListen
 
         jMenuBar1.add(jMenuPrograma);
 
-        jMenuJSON.setText("JSON");
-        jMenuJSON.setToolTipText("");
-
-        jMenuItemSobreescribir.setText("Volver a Cargar (Sobreescribir)");
-        jMenuItemSobreescribir.setToolTipText("Sobreescribe los datos internos actuales con el contenido actual de la Base de Datos.");
-        jMenuItemSobreescribir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemSobreescribirActionPerformed(evt);
-            }
-        });
-        jMenuJSON.add(jMenuItemSobreescribir);
-
-        jMenuItemGuardar.setText("Guardar Cambios");
-        jMenuItemGuardar.setToolTipText("Guarda los cambios realizados en el fichero JSON.");
-        jMenuItemGuardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemGuardarActionPerformed(evt);
-            }
-        });
-        jMenuJSON.add(jMenuItemGuardar);
-
-        jMenuBar1.add(jMenuJSON);
-
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -444,7 +407,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements WindowListen
                 .addComponent(labelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -499,16 +462,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements WindowListen
     private void jMenuItemEscogerModoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEscogerModoActionPerformed
 //        confirmacionVolverVentanaPrincipalGuardarCambiosJSON();
     }//GEN-LAST:event_jMenuItemEscogerModoActionPerformed
-
-    private void jMenuItemGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGuardarActionPerformed
-//        Facade fachada = new Facade();
-//        fachada.guardarSobreescribiendoFicheroLocalActual();
-    }//GEN-LAST:event_jMenuItemGuardarActionPerformed
        
-    private void jMenuItemSobreescribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSobreescribirActionPerformed
-//        sobreescrituraDatosInternos();
-    }//GEN-LAST:event_jMenuItemSobreescribirActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAltaAlojamiento;
     private javax.swing.JButton botonAltaHabitacion;
@@ -522,10 +476,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements WindowListen
     private javax.swing.JButton jButtonBuscarAlProvincia;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItemEscogerModo;
-    private javax.swing.JMenuItem jMenuItemGuardar;
     private javax.swing.JMenuItem jMenuItemSalir;
-    private javax.swing.JMenuItem jMenuItemSobreescribir;
-    private javax.swing.JMenu jMenuJSON;
     private javax.swing.JMenu jMenuPrograma;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -565,36 +516,5 @@ public class VentanaPrincipal extends javax.swing.JFrame implements WindowListen
      */
     public javax.swing.JButton getBotonModificacionHabitacion() {
         return botonModificacionHabitacion;
-    }
-
-    @Override
-    public void windowOpened(WindowEvent we) {
-    }
-
-    @Override
-    public void windowClosing(WindowEvent we) {
-//        confirmacionSalirGuardarCambiosJSON();
-    }
-
-    @Override
-    public void windowClosed(WindowEvent we) {
-    }
-
-    @Override
-    public void windowIconified(WindowEvent we) {
-    }
-
-    @Override
-    public void windowDeiconified(WindowEvent we) {
-    }
-
-    @Override
-    public void windowActivated(WindowEvent we) {
-        activarDesactivarOpcionesJSONsegunModo();
-    }
-
-    @Override
-    public void windowDeactivated(WindowEvent we) {
-        activarDesactivarOpcionesJSONsegunModo();
     }
 }

@@ -62,6 +62,29 @@ public class EjecucionJSON {
     }
     
     /**
+     * Actualizacion (Update) de un ALojamiento con los datos pasados.
+     * @param alDTO AlojamientoDTO de donde se obtienen los datos que queremos cambiar.
+     */
+    public void modificacionAlojamiento(AlojamientoDTO alDTO) {
+        try {
+            PeticionPost post = new PeticionPost(SHARED_BASE_URL +"modificacionAlojamiento.php");
+            post.add("id", Integer.toString(alDTO.getId()));
+            post.add("nombre", alDTO.getNombre());
+            post.add("dirSocial", alDTO.getDir_Social());
+            post.add("razSoc", alDTO.getRazon_Social());
+            post.add("telefono", alDTO.getTelefono_Contacto());
+            post.add("desc", alDTO.getDescripcion());
+            post.add("valoracion", Integer.toString(alDTO.getValoracion()));
+            post.add("fecha", alDTO.getFecha_Apertura());
+            post.add("numHabitaciones", Integer.toString(alDTO.getNumero_Habitaciones()));
+            post.add("provincia", alDTO.getProvincia());
+            post.getRespueta();
+        }catch(IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+    
+    /**
      * Da de baja el Alojamiento deseado.
      * @param alDTO AlojamientoDTO que deseamos dar de Baja.
      */

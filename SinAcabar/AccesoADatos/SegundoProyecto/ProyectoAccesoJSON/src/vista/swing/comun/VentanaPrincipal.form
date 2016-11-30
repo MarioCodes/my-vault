@@ -29,32 +29,6 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenuJSON">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="JSON"/>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemSobreescribir">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Volver a Cargar (Sobreescribir)"/>
-                <Property name="toolTipText" type="java.lang.String" value="Sobreescribe los datos internos actuales con el contenido actual de la Base de Datos."/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemSobreescribirActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemGuardar">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Guardar Cambios"/>
-                <Property name="toolTipText" type="java.lang.String" value="Guarda los cambios realizados en el fichero JSON."/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemGuardarActionPerformed"/>
-              </Events>
-            </MenuItem>
-          </SubComponents>
-        </Menu>
       </SubComponents>
     </Menu>
   </NonVisualComponents>
@@ -106,7 +80,7 @@
               <Component id="labelTitulo" min="-2" pref="37" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jPanel2" pref="416" max="32767" attributes="0"/>
+                  <Component id="jPanel2" pref="433" max="32767" attributes="0"/>
                   <Component id="jPanel1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>

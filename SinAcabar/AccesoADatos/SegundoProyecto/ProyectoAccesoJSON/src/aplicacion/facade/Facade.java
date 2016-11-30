@@ -109,7 +109,7 @@ public class Facade {
             if((ejecJSON.buscarAlojamientoPorIdJSON(alDTO.getId())) == null) {
                 ejecJSON.altaAlojamiento(alDTO);
             } else {
-                throw new UnsupportedOperationException("Por implementar");
+                ejecJSON.modificacionAlojamiento(alDTO);
             }
         }
         
