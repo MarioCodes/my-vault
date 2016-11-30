@@ -23,7 +23,6 @@ import vista.swing.comun.SingletonVentanas;
 public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
     private final Facade FACHADA = new Facade();
     private final VentanaPrincipal VP = SingletonVentanas.getVentanaPrincipalObtencionSingleton(); //Obtencion de VentanaPrincipal por Singleton.
-    private int idAlojamientoMasAlto; //ID actual para poner en la ventana cuando creamos un alojamiento NUEVO, sale de una query a BDD.
     private AlojamientoDTO alDTO; //AlojamientoDTO del cual cargaremos los datos en pantalla para MODIFICAR. Lo utilizo como comprobante (== null) para ver que pantalla se ha iniciado.
     
     /**
@@ -75,7 +74,6 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
         if(checkConexionDBB()) {
             desactivarCamposIDAlojamiento();
         } else {
-            setIdJSONAutomaticamente();
         }
     }
     
@@ -153,8 +151,9 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
      * @param alDTO AlojamientoDTO donde necesito meter los datos para realizar las operaciones oportunas con el.
      */
     private void recoleccionDatosID(AlojamientoDTO alDTO) {
-        if(!DBBConexion.checkConexionDBBExiste()) alDTO.setId(Integer.parseInt(this.inputIDAlojamiento.getText())); //Solo se necesita para version JSON (cuando no haya conexion).
-        else if(this.alDTO != null) alDTO.setId(this.alDTO.getId()); //Version Modificacion desde BDD. Realmente da igual cojerlo desde la ventana que desde el AlojamientoDTO que paso como parametro, los 2 ID van a ser iguales ya que no permito modificarlo.
+        if(this.alDTO != null) alDTO.setId(Integer.parseInt(this.inputIDAlojamiento.getText()));
+//        if(!DBBConexion.checkConexionDBBExiste()) alDTO.setId(Integer.parseInt(this.inputIDAlojamiento.getText())); //Solo se necesita para version JSON (cuando no haya conexion).
+//        else if(this.alDTO != null) alDTO.setId(this.alDTO.getId()); //Version Modificacion desde BDD. Realmente da igual cojerlo desde la ventana que desde el AlojamientoDTO que paso como parametro, los 2 ID van a ser iguales ya que no permito modificarlo.
     }
     
     /**
@@ -179,17 +178,17 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
      * Recoleccion de los campos de la ventana e instanciacion de un alojamiento con esos datos. Previamente se ha realizado la comprobacion de que los datos sean correctos.
      */
     private void recoleccionDatosVentana() {
-        AlojamientoDTO alDTO = null;
+        AlojamientoDTO alDTOLocal = null;
 
         try {
             //Instanciacion del DTO de Alojamiento y pasado a fachada con este DTO.
-            alDTO = new AlojamientoDTO();
-            recoleccionDatos(alDTO);
+            alDTOLocal = new AlojamientoDTO();
+            recoleccionDatos(alDTOLocal);
             
             if(DBBConexion.checkConexionDBBExiste()) {
-                FACHADA.altaOModificacionAlojamientoBDD(alDTO);
+                FACHADA.altaOModificacionAlojamientoBDD(alDTOLocal);
             } else {
-                FACHADA.altaOModificacionAlojamientoJSON(alDTO);
+                FACHADA.altaOModificacionAlojamientoJSON(alDTOLocal);
             }
 
             //Output para el usuario, dependiendo de si estamos dando de alta o modificando.
@@ -208,22 +207,12 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
         } catch(ClassCastException ex) {
             JOptionPane.showMessageDialog(this, "ERROR. Problema generico: \n" +ex.getLocalizedMessage());
         }
-    } 
-    
-    /*
-        Metodos Version Ventana Alta Alojamiento.
-    */
-    private void setIdJSONAutomaticamente() {
-//        idAlojamientoMasAlto = FACHADA.obtenerIdAUsarNuevoAlojamientoJSON(); //ID a utilizar para crear el nuevo alojamiento.
-//        inputIDAlojamiento.setText(Integer.toString(idAlojamientoMasAlto));
     }
     
     /**
      * Se encarga de vaciar los campos de input, una vez se haya instanciado con exito el alojamiento.
      */
     private void reseteoCamposVentana() {
-        if(!DBBConexion.checkConexionDBBExiste()) setIdJSONAutomaticamente();
-        
         this.spinnerNumHabitaciones.setValue(0);
         this.inputNombre.setText(null);
         this.inputTelefono.setText(null);

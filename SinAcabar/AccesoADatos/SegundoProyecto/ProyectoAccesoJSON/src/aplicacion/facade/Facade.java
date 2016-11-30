@@ -104,35 +104,33 @@ public class Facade {
          * @param alDTO AlojamientoDTO instanciado y listo.
          */
         public void altaOModificacionAlojamientoJSON(AlojamientoDTO alDTO) {
+            EjecucionJSON ejecJSON = (EjecucionJSON) DAOFactory.getInstancia("EjecucionJSON");
             
+            if((ejecJSON.buscarAlojamientoPorIdJSON(alDTO.getId())) == null) {
+                ejecJSON.altaAlojamiento(alDTO);
+            } else {
+                throw new UnsupportedOperationException("Por implementar");
+            }
         }
-        
-//        /**
-//         * Hace una Iteracion completa del HashMap y devuelve el ID máx. +1.
-//         * @return ID maximo actualmente en el HashMap +1.
-//         */
-//        public int obtenerIdAUsarNuevoAlojamientoJSON() {
-//            OperacionesJSON opJSON = (OperacionesJSON) DAOFactory.getInstancia("OperacionesJSON");
-//            return opJSON.obtenerNuevaIDaUsar();
-//        }
         
         /**
          * Da de baja en el HashMap interno, el AlojamientoDTO que le pasamos como parametro.
          * @param alDTO AlojamientoDTO instanciado que queremos dar de baja.
          */
         public void bajaAlojamientoJSON(AlojamientoDTO alDTO) {
-            
+            EjecucionJSON ejecJSON = (EjecucionJSON) DAOFactory.getInstancia("EjecucionJSON");
+            ejecJSON.bajaAlojamiento(alDTO);
         }
         
-//        /**
-//         * Busca un AlojamientoDTO en el HashMap por su #ID.
-//         * @param id ID del Alojamiento que queremos obtener.
-//         * @return AlojamientoDTO con esa ID.
-//         */
-//        public AlojamientoDTO buscarAlojamientoIDespecificoJSON(int id) {
-//            OperacionesJSON opJSON = (OperacionesJSON) DAOFactory.getInstancia("OperacionesJSON");
-//            return opJSON.buscarAlojamiento(id);
-//        }
+        /**
+         * Busca un AlojamientoDTO en el HashMap por su #ID.
+         * @param id ID del Alojamiento que queremos obtener.
+         * @return AlojamientoDTO con esa ID.
+         */
+        public AlojamientoDTO buscarAlojamientoIDespecificoJSON(int id) {
+            EjecucionJSON ejecJSON = (EjecucionJSON) DAOFactory.getInstancia("EjecucionJSON");
+            return ejecJSON.buscarAlojamientoPorIdJSON(id);
+        }
         
         /**
          * Recorremos el HashMap entero, almacenando cada AlojamientoDTO en una Collection que al final devolvemos.
@@ -140,7 +138,7 @@ public class Facade {
          */
         public Collection <AlojamientoDTO> listadoAlojamientosJSON() {
             EjecucionJSON ejecJSON = (EjecucionJSON) DAOFactory.getInstancia("EjecucionJSON");
-            return ejecJSON.listadoAlojamientos();
+            return ejecJSON.listadoAlojamientosJSON();
         }
         
         /**
@@ -150,7 +148,7 @@ public class Facade {
          */
         public Collection <AlojamientoDTO> listadoAlojamientosJSON(String provincia) {
             EjecucionJSON ejecJSON = (EjecucionJSON) DAOFactory.getInstancia("EjecucionJSON");
-            return ejecJSON.listadoAlojamientos(provincia);
+            return ejecJSON.listadoAlojamientosJSON(provincia);
         }
         
     /*

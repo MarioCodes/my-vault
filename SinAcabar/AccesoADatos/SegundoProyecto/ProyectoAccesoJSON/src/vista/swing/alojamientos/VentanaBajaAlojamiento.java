@@ -205,21 +205,21 @@ public class VentanaBajaAlojamiento extends javax.swing.JFrame implements Window
      * @param nombre Nombre del Alojamiento a borrar.
      */
     private void operacionBorrarDesdeJSONInterno(int id, String nombre) {
-//        Facade fachada = new Facade();
-//        
-//        AlojamientoDTO alDTOTmp = fachada.buscarAlojamientoIDespecificoJSON(id);
-//
-//        if(alDTOTmp != null) {
-//            if(alDTOTmp.getNombre().matches(nombre)) {
-//                fachada.bajaAlojamientoJSON(alDTOTmp);
-//                JOptionPane.showMessageDialog(this, "Alojamiento dado de Baja.");
-//                reseteoCampos();
-//            } else {
-//                JOptionPane.showMessageDialog(this, "El nombre del Alojamiento no coincide con los datos de esa ID.");
-//            }
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Ningun Alojamiento con esa ID");
-//        }
+        Facade fachada = new Facade();
+        
+        AlojamientoDTO alDTOTmp = fachada.buscarAlojamientoIDespecificoJSON(id);
+
+        if(alDTOTmp != null) {
+            if(alDTOTmp.getNombre().matches(nombre)) {
+                fachada.bajaAlojamientoJSON(alDTOTmp);
+                JOptionPane.showMessageDialog(this, "Alojamiento dado de Baja.");
+                reseteoCampos();
+            } else {
+                JOptionPane.showMessageDialog(this, "El nombre del Alojamiento no coincide con los datos de esa ID.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Ningun Alojamiento con esa ID");
+        }
     }
     
     /**

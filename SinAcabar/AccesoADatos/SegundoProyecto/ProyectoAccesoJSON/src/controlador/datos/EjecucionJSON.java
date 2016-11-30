@@ -40,10 +40,82 @@ public class EjecucionJSON {
     private static final String SHARED_BASE_URL = "http://localhost:8088/ServerWeb/"; //fixme: Acordarme que en casa cambie los puertos de acceso a :8088 por problemas de compatibilidad con VirtualBox.
     
     /**
+     * Da de Alta un Alojamiento en la BDD con los datos intrinsecos del Alojamiento pasado como parametro.
+     * @param alDTO AlojamientoDTO del que sacamos los datos para introducir en la BDD.
+     */
+    public void altaAlojamiento(AlojamientoDTO alDTO) {
+        try {
+            PeticionPost post = new PeticionPost(SHARED_BASE_URL +"altaAlojamiento.php");
+            post.add("nombre", alDTO.getNombre());
+            post.add("dirSocial", alDTO.getDir_Social());
+            post.add("razSoc", alDTO.getRazon_Social());
+            post.add("telefono", alDTO.getTelefono_Contacto());
+            post.add("desc", alDTO.getDescripcion());
+            post.add("valoracion", Integer.toString(alDTO.getValoracion()));
+            post.add("fecha", alDTO.getFecha_Apertura());
+            post.add("numHabitaciones", Integer.toString(alDTO.getNumero_Habitaciones()));
+            post.add("provincia", alDTO.getProvincia());
+            post.getRespueta();
+        }catch(IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+    
+    /**
+     * Da de baja el Alojamiento deseado.
+     * @param alDTO AlojamientoDTO que deseamos dar de Baja.
+     */
+    public void bajaAlojamiento(AlojamientoDTO alDTO) {
+        try {
+            PeticionPost post = new PeticionPost(SHARED_BASE_URL +"bajaAlojamiento.php");
+            post.add("id", Integer.toString(alDTO.getId()));
+            post.add("nombre", alDTO.getNombre());
+            post.getRespueta();
+        }catch(IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+    
+    /**
+     * Se le introduce una ID y devuelve el Alojamiento indicado.
+     * @param id ID del Alojamiento que queremos obtener.
+     * @return AlojamientoDTO con los datos del ALojamiento que queremos obtener.
+     */
+    public AlojamientoDTO buscarAlojamientoPorIdJSON(int id) {
+        try {
+            PeticionPost post = new PeticionPost(SHARED_BASE_URL +"buscarAlojamientoPorID.php");
+            post.add("idBuscar", Integer.toString(id));
+            JSONArray locs = new JSONArray(post.getRespueta());
+
+            AlojamientoDTO alDTO = null;
+            for (int i = 0; i < locs.length(); i++) {
+                JSONObject rec = locs.getJSONObject(i);
+
+                int idLocal = rec.getInt("ID_ALOJAMIENTO");
+                String nombre = rec.getString("NOMBRE");
+                String dirSocial = rec.getString("DIRECCION_SOCIAL");
+                String razonSocial = rec.getString("RAZON_SOCIAL");
+                String telefono = rec.getString("TELEFONO_CONTACTO");
+                String descripcion = rec.getString("DESCRIPCION");
+                int valoracion = rec.getInt("VALORACION");
+                String fechaApertura = rec.getString("FECHA_APERTURA");
+                int numHabitaciones = rec.getInt("NUM_HABITACIONES");
+                String provincia = rec.getString("PROVINCIA");
+
+                alDTO = new AlojamientoDTO(idLocal, nombre, telefono, dirSocial, razonSocial, descripcion, valoracion, fechaApertura, numHabitaciones, provincia);
+            }
+            
+            return alDTO;
+        }catch(IOException | JSONException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+    
+    /**
      * Ejecuta el .php y obtiene una JSONArray con todos los alojamientos disponibles.
      * @return Collection de AlojamientoDTO con toda la informacion de la BDD.
      */
-    public Collection<AlojamientoDTO> listadoAlojamientos() {
+    public Collection<AlojamientoDTO> listadoAlojamientosJSON() {
         try {
             PeticionPost post = new PeticionPost(SHARED_BASE_URL +"listadoAlojamientos.php");
             JSONArray locs = new JSONArray(post.getRespueta());
@@ -68,14 +140,17 @@ public class EjecucionJSON {
             }
             
             return arrayListTmpAlojamientos;
-        }catch(IOException ex) {
-            throw new RuntimeException(ex);
-        } catch (JSONException ex) {
+        }catch(IOException | JSONException ex) {
             throw new RuntimeException(ex);
         }
     }
     
-    public Collection<AlojamientoDTO> listadoAlojamientos(String provincia) {
+    /**
+     * Listado de Alojamientos, version filtradas por Provincia.
+     * @param provincia provincia de la que queremos obtener todos los Alojamientos.
+     * @return Collection con la informacion JSON transformada.
+     */
+    public Collection<AlojamientoDTO> listadoAlojamientosJSON(String provincia) {
         try {
             PeticionPost post = new PeticionPost(SHARED_BASE_URL +"listadoAlojamientosFiltrado.php");
             post.add("provincia", provincia);
@@ -101,89 +176,10 @@ public class EjecucionJSON {
             }
             
             return arrayListTmpAlojamientos;
-        }catch(IOException ex) {
-            throw new RuntimeException(ex);
-        } catch (JSONException ex) {
+        }catch(IOException | JSONException ex) {
             throw new RuntimeException(ex);
         }
     }
-    
-    /**
-     * Lectura del archivo .json local y cargado de los datos de este al HashMap miembro.
-     * @return 
-     */
-    public Collection<AlojamientoDTO> cargadoJSONlocalAJava(JSONArray jsonArray) {
-        try {
-            ArrayList<AlojamientoDTO> arrayListTmpAlojamientos = new ArrayList<>();
-            
-//            HashMap<Integer, AlojamientoDTO> hashMapTmpLocalAlojamientos = new HashMap<>();
-
-//            FileReader in = new FileReader("ficheros/alojamientos.json");
-//            BufferedReader rd = new BufferedReader(in); //obtenemos el flujo de lectura
-//            
-//            String bufferLinea;
-//            String respuestaFinal = "";
-//            while ((bufferLinea = rd.readLine()) != null) { //procesamos la salida
-//               respuestaFinal+= bufferLinea;
-//            }
-//        
-            //Parte de tratamiento del JSON.
-            JSONArray locs = jsonArray;
-            for (int i = 0; i < locs.length(); i++) {
-                JSONObject rec = locs.getJSONObject(i);
-
-                int id = rec.getInt("ID_ALOJAMIENTO");
-                String nombre = rec.getString("NOMBRE");
-                String dirSocial = rec.getString("DIRECCION_SOCIAL");
-                String razonSocial = rec.getString("RAZON_SOCIAL");
-                String telefono = rec.getString("TELEFONO_CONTACTO");
-                String descripcion = rec.getString("DESCRIPCION");
-                int valoracion = rec.getInt("VALORACION");
-                String fechaApertura = rec.getString("FECHA_APERTURA");
-                int numHabitaciones = rec.getInt("NUM_HABITACIONES");
-                String provincia = rec.getString("PROVINCIA");
-
-                AlojamientoDTO alDTOTmp = new AlojamientoDTO(id, nombre, telefono, dirSocial, razonSocial, descripcion, valoracion, fechaApertura, numHabitaciones, provincia);
-                arrayListTmpAlojamientos.add(alDTOTmp);
-//                hashMapTmpLocalAlojamientos.put(alDTOTmp.getId(), alDTOTmp);
-            }
-        
-//            OperacionesJSON.setAlojamientosJSONHashmap(hashMapTmpLocalAlojamientos);            
-            return arrayListTmpAlojamientos;
-        } catch (JSONException ex) {
-//            JOptionPane.showMessageDialog(null, "Error. Revise si hay conexion con la BDD MySQL.");
-//            Facade fachada = new Facade(); //Si no hay conexion la primera vez, el fichero se corrompe con el msg de error del .PHP, como no se cambiar esto en php, borro el fichero y lo intento cargar de nuevo.
-//            fachada.recargarDatosDesdeBDDySobreescribirDatosJavaLocales();
-//            System.exit(0);
-            throw new RuntimeException(ex);
-        }
-    }
-//    
-//    /**
-//     * Escritura del archivo JSON con la JSONArray que se le pasa como parametro conteniendo todos los datos.
-//     * @param jsonArrayDatos JSONArray con todos los datos ya transformados.
-//     */
-//    public static void escrituraArchivoJSON(JSONArray jsonArrayDatos) {
-//        File file = new File("ficheros/alojamientos.json");
-//        file.getParentFile().mkdirs();
-//        FileWriter fw = null;
-//        
-//        try {
-//            fw = new FileWriter(file);
-//            fw.write(jsonArrayDatos.toString());
-//            
-//            JOptionPane.showMessageDialog(null, "¡Cambios Guardados!");
-//        }catch(IOException ex) {
-//            ex.printStackTrace();
-//        }finally {
-//            try {
-//                if(fw != null) fw.close();
-//            }catch(IOException ex) {
-//                ex.printStackTrace();
-//            }
-//        }
-        
-//    }
     
     /**
      * Inner Class pasada por Angel. Como no tiene sentido su existencia sin la clase base contenedora, lo meto aqui.
