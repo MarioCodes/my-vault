@@ -5,24 +5,15 @@
  */
 package proyecto_acceso_1diciembre;
 
-import aplicacion.facade.Facade;
-import controlador.datos.EjecucionJSON;
 import java.io.IOException;
 import vista.swing.comun.SingletonVentanas;
 
 /**
  * Segundo Proyecto para Angel (Acceso a Datos).
- * ATENCION! - Revisar readme del proyecto antes de ejecutar esto. En el estan descritos los pasos previos necesarios.
- *  Nota: La primera vez que se ejecute el modo de JSON, si el fichero no esta creado, se necesitara de conectividad a la BDD de MySQL. A partir de esta primera ejecucion o si el fichero
- *          se ha copiado de forma externa, se podra trabajar de modo offline sin ser necesario ningun tipo de conexion con la Base De Datos.
+ * ATENCION! - Antes de ejecutar el proyecto, copiar los .php con su carpeta dentro del servidor raiz de Apache. Aparte, ejecutar las Queries para rellenar las 2 BDD necesarias (MySQL y Oracle XE).
  * @author Mario Codes Sánchez
- * @since 28/11/2016
- * @version 0.5 Comenzando a arreglar el estropicio de JSON.
- * 
- * Arreglos:
- *  Revisar las operaciones de delete en Oraclce, da fallo de clave.
- *  Cambiar los like para que funcionen bien ([...]like '%ab%').
- *  Cambiar toda la parte de JSON para que opere como deba mediante php y no sobre un fichero como ahora.
+ * @since 30/11/2016
+ * @version 0.6 Arreglado el estropicio de JSON. Ya funciona como deberia.
  */
 public class Proyecto_Acceso_1Diciembre {
 
