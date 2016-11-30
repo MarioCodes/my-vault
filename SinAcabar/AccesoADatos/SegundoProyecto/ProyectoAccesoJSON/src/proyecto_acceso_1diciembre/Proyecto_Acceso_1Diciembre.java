@@ -29,6 +29,6 @@ public class Proyecto_Acceso_1Diciembre {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-//        SingletonVentanas.getVentanaModoEjecucionObtencionSingleton();
+        SingletonVentanas.getVentanaModoEjecucionObtencionSingleton();
     }
 }
