@@ -6,16 +6,10 @@
 package controlador.datos;
 
 import controlador.DTO.AlojamientoDTO;
-import aplicacion.facade.Facade;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -23,18 +17,15 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Clase encargada de Obtener JSON a traves del Servidor web y cargar este a Java. Desgrano los .java de Angel cacho a cacho para ver como funciona. 
+ * Clase encargada de realizar las operaciones mediante los .php y JSON.
  * @author Mario Codes Sánchez
- * @since 22/11/2016
+ * @since 30/11/2016
+ * @version 0.2 Modificada para arreglar el estropicio que monte.
  */
 public class EjecucionJSON {
     private static final String SHARED_BASE_URL = "http://localhost:8088/ServerWeb/"; //fixme: Acordarme que en casa cambie los puertos de acceso a :8088 por problemas de compatibilidad con VirtualBox.

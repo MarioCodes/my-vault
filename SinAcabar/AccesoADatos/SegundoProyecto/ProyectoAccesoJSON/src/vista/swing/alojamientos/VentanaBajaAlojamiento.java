@@ -17,7 +17,7 @@ import vista.swing.comun.SingletonVentanas;
 /**
  * Ventana para dar de Baja un Alojamiento ya existente en la BDD.
  * @author Mario Codes Sánchez
- * @since 11/11/2016
+ * @since 30/11/2016
  */
 public class VentanaBajaAlojamiento extends javax.swing.JFrame implements WindowListener {
     private final VentanaPrincipal VP = SingletonVentanas.getVentanaPrincipalObtencionSingleton();

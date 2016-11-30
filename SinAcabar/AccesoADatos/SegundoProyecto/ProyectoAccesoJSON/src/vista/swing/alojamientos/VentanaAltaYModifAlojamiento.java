@@ -18,7 +18,7 @@ import vista.swing.comun.SingletonVentanas;
  * Ventana de doble funcionalidad. Segun que constructor se utilice, sirve para dar de Alta un Alojamiento completamente nuevo; O para modificar los datos de uno ya existente.
  *  En función de esto, se utilizaran unos metodos de la clase u otros.
  * @author Mario Codes Sánchez
- * @since 11/11/2016
+ * @since 30/11/2016
  */
 public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
     private final Facade FACHADA = new Facade();
@@ -136,14 +136,11 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
     }
 
     /**
-     * Recoleccion del ID en funcion del modo de ejecucion (BDD o JSON) y la ventana (alta o modificacion). 
-     * En la version de Alta desde BDD se debe omitir totalmente, se encargara MySQL con un AI.
-     * @param alDTO AlojamientoDTO donde necesito meter los datos para realizar las operaciones oportunas con el.
+     * Recoleccionamos el ID cuando estemos en la ventana de Modificacion. En las de Alta no, porque se gestiona automaticamente en la BDD.
+     * @param alDTO AlojamientoDTO donde meter el ID.
      */
     private void recoleccionDatosID(AlojamientoDTO alDTO) {
         if(this.alDTO != null) alDTO.setId(Integer.parseInt(this.inputIDAlojamiento.getText()));
-//        if(!DBBConexion.checkConexionDBBExiste()) alDTO.setId(Integer.parseInt(this.inputIDAlojamiento.getText())); //Solo se necesita para version JSON (cuando no haya conexion).
-//        else if(this.alDTO != null) alDTO.setId(this.alDTO.getId()); //Version Modificacion desde BDD. Realmente da igual cojerlo desde la ventana que desde el AlojamientoDTO que paso como parametro, los 2 ID van a ser iguales ya que no permito modificarlo.
     }
     
     /**

@@ -6,9 +6,6 @@
 package vista.swing.comun;
 
 import controlador.datos.DBBConexion;
-import aplicacion.facade.Facade;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -34,55 +31,23 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         this.setResizable(false);        
     }
     
-//    /**
-//     * Confirmacion del Usuario para guardar los cambios antes de cerrar el programa.
-//     *  Si estamos en la version de DBB, directamente cierra el programa.
-//     */
-//    private void confirmacionSalirGuardarCambiosJSON() {
-//        if(!DBBConexion.checkConexionDBBExiste()) {
-//            Facade fachada = new Facade();
-//            int res = JOptionPane.showConfirmDialog(this, "Estas a punto de cerrar. ¿Quieres guardar los cambios realizados, en el .JSON?", "¿Sobreescribir cambios?",  JOptionPane.YES_NO_OPTION);
-//
-//            switch(res) {
-//                case 0:
-//                    fachada.guardarSobreescribiendoFicheroLocalActual();
-//                    System.exit(0);
-//                    break;
-//                case 1:
-//                    System.exit(0);
-//                    break;
-//                case 2: case -1:
-//                    break;
-//                default:
-//                    throw new RuntimeException("Case por defecto switch. No deberia haber llegado aqui.");
-//            }
-//        } else {
-//            System.exit(0);
-//        }
-//    }
-//    
-//    /**
-//     * Pregunta al usuario para guardar o no cambios en fichero .JSON antes de volver a la ventana de elegir menu.
-//     */
-//    private void volverVentanaElegirVersionJSON() {
-//        int res = JOptionPane.showConfirmDialog(this, "Estas a punto de volver al menu principal. ¿Quieres guardar los cambios realizados, en el .JSON?");
-//
-//        switch(res) {
-//            case 0: //Si
-//                Facade fachada = new Facade();
-//                fachada.guardarSobreescribiendoFicheroLocalActual();
-//                cerrarVentanasIndependientesAbiertas();
-//            case 1: //No
-//                SingletonVentanas.getVentanaModoEjecucionObtencionSingleton().setVisible(true);
-//                this.setVisible(false);
-//                cerrarVentanasIndependientesAbiertas();
-//                break;
-//            case 2: case -1: //Cancelar o 'x'.
-//                break;
-//            default: 
-//                System.out.println("Valor por defecto en Switch volverVentanaElegirVersionJSON()");
-//        }
-//    }
+    /**
+     * Pregunta al usuario para guardar o no cambios en fichero .JSON antes de volver a la ventana de elegir menu.
+     */
+    private void volverVentanaElegirVersionJSON() {
+        int res = JOptionPane.showConfirmDialog(this, "Estas a punto de volver al menu principal. ¿Seguro?");
+
+        switch(res) {
+            case 0: //Si
+                SingletonVentanas.getVentanaModoEjecucionObtencionSingleton().setVisible(true);
+                this.setVisible(false);
+                cerrarVentanasIndependientesAbiertas();
+            case 1: case 2: case -1: //Cancelar o 'x'.
+                break;
+            default: 
+                System.out.println("Valor por defecto en Switch volverVentanaElegirVersionJSON()");
+        }
+    }
     
     /**
      * Confirmacion por parte del usuario de que se cerrara la conexion de BDD. Permiso para continuar.
@@ -104,17 +69,17 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
                 break;
         }
     }
-//    
-//    /**
-//     * Confirmacion del Usuario para guardar cambios antes de volver al menu para elegir entre 'BDD' o 'JSON'. Posibilidad de cancelar cerrado.
-//     */
-//    private void confirmacionVolverVentanaPrincipalGuardarCambiosJSON() {
-//        if(!DBBConexion.checkConexionDBBExiste()) {
-//            volverVentanaElegirVersionJSON();
-//        } else {
-//            volverVentanaElegirVersionBDD();
-//        }
-//    }
+    
+    /**
+     * Confirmacion del Usuario para guardar cambios antes de volver al menu para elegir entre 'BDD' o 'JSON'. Posibilidad de cancelar cerrado.
+     */
+    private void confirmacionVolverVentanaPrincipalGuardarCambiosJSON() {
+        if(!DBBConexion.checkConexionDBBExiste()) {
+            volverVentanaElegirVersionJSON();
+        } else {
+            volverVentanaElegirVersionBDD();
+        }
+    }
     
     /**
      * Cerramos todas las ventanas independientes de la VentanaPrincipal que se han instanciado / abierto.
@@ -124,39 +89,6 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
             if(jFrameTmp != null) jFrameTmp.dispose(); //En teoria nunca seran nulls aqui, si se ha aniadido es porque se ha instanciado. Preveo NullPointerException de todos modos.
         }
     }
-//    
-//    /**
-//     * Pedir confirmacion al Usuario, aviso de que se sobreescribiran los datos del fichero.
-//     */
-//    private void sobreescrituraDatosInternos() {
-//        int res = JOptionPane.showConfirmDialog(this, "Esta apunto de sobreescribir los datos actuales con la informacion de la BDD. ¿Seguro?");
-//        
-//        switch(res) {
-//            case 0:
-//                int res2 = JOptionPane.showConfirmDialog(this, "ATENCION. Los cambios seran permanentes. ¿Seguro?", "test", JOptionPane.YES_NO_OPTION);
-//                
-//                switch(res2) { //Pedida de la segunda confirmacion.
-//                    case 0:
-//                        Facade fachada = new Facade();
-//                        fachada.recargarDatosDesdeBDDySobreescribirDatosJavaLocales();
-//                        JOptionPane.showMessageDialog(this, "Datos Sobreescritos");
-//                        break;
-//                    case 1:
-//                        JOptionPane.showMessageDialog(this, "Operacion Cancelada.");
-//                        break;
-//                    default:
-//                        break;
-//                }
-//                break;
-//            case 1:
-//                JOptionPane.showMessageDialog(this, "Operacion Cancelada.");
-//                break;
-//            case 2: case -1:
-//                break;
-//            default:
-//                break;
-//        }
-//    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -456,11 +388,11 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     }//GEN-LAST:event_botonBajaHabitacionActionPerformed
 
     private void jMenuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalirActionPerformed
-//        confirmacionSalirGuardarCambiosJSON();
+        System.exit(0);
     }//GEN-LAST:event_jMenuItemSalirActionPerformed
 
     private void jMenuItemEscogerModoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEscogerModoActionPerformed
-//        confirmacionVolverVentanaPrincipalGuardarCambiosJSON();
+        confirmacionVolverVentanaPrincipalGuardarCambiosJSON();
     }//GEN-LAST:event_jMenuItemEscogerModoActionPerformed
        
     // Variables declaration - do not modify//GEN-BEGIN:variables

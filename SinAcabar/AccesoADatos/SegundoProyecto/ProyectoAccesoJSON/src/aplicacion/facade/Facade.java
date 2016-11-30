@@ -12,7 +12,6 @@ import controlador.DAO.DAOFactory;
 import controlador.DTO.HabitacionDTO;
 import controlador.datos.EjecucionJSON;
 import java.util.Collection;
-import org.json.JSONException;
 
 /**
  * Patron de Diseño Façade. Modelo Vista - Controlador. Clase Intermediaria entre ambas para mantener separado el la ejecucion de codigo.
@@ -100,7 +99,7 @@ public class Facade {
         Parte relacionada a Alojamientos desde JSON.
     */
         /**
-         * Le pasamos un AlojamientoDTO como parametro, comprueba si existe. Si no lo hace, lo da de Alta y lo almacena en el HashMap. Si si que existe, lo modifica.
+         * Le pasamos un AlojamientoDTO como parametro, comprueba si existe. Si no lo hace, lo da de Alta. Si si que existe, lo modifica.
          * @param alDTO AlojamientoDTO instanciado y listo.
          */
         public void altaOModificacionAlojamientoJSON(AlojamientoDTO alDTO) {
@@ -114,7 +113,7 @@ public class Facade {
         }
         
         /**
-         * Da de baja en el HashMap interno, el AlojamientoDTO que le pasamos como parametro.
+         * Da de baja el AlojamientoDTO que le pasamos como parametro.
          * @param alDTO AlojamientoDTO instanciado que queremos dar de baja.
          */
         public void bajaAlojamientoJSON(AlojamientoDTO alDTO) {
@@ -123,7 +122,7 @@ public class Facade {
         }
         
         /**
-         * Busca un AlojamientoDTO en el HashMap por su #ID.
+         * Busca un AlojamientoDTO por su #ID.
          * @param id ID del Alojamiento que queremos obtener.
          * @return AlojamientoDTO con esa ID.
          */
@@ -133,7 +132,7 @@ public class Facade {
         }
         
         /**
-         * Recorremos el HashMap entero, almacenando cada AlojamientoDTO en una Collection que al final devolvemos.
+         * Recorremos la BDD entera, almacenando cada AlojamientoDTO en una Collection que al final devolvemos.
          * @return Collection de AlojamientosDTO con todos los existentes actualmente.
          */
         public Collection <AlojamientoDTO> listadoAlojamientosJSON() {

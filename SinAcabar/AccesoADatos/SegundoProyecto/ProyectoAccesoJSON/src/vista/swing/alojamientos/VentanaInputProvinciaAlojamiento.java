@@ -13,7 +13,7 @@ import java.util.Collection;
 /**
  * Ventana con las posibles provincias disponibles para hacer busqueda. Pasa esta al modo de listado correspondiente.
  * @author Mario Codes Sánchez
- * @since 11/11/2016
+ * @since 30/11/2016
  */
 public class VentanaInputProvinciaAlojamiento extends javax.swing.JFrame {
 

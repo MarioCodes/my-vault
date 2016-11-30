@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
 /**
  * Ventana con la estructura para mostrar resultados de Alojamientos. Segun el constructor ejecutara unos metodos u otros.
  * @author Mario Codes Sánchez
- * @since 11/11/2016
+ * @since 30/11/2016
  */
 public class VentanaListadoAlojamientos extends javax.swing.JFrame {    
     private DefaultTableModel model;

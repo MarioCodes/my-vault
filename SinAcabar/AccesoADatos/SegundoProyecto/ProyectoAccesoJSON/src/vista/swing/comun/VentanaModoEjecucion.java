@@ -5,12 +5,10 @@
  */
 package vista.swing.comun;
 
-import controlador.datos.EjecucionJSON;
-import java.io.IOException;
-
 /**
- *
- * @author Mario
+ * Ventana para seleccionar en que modo queremos ejecutar el programa. JSON + Java o BDD.
+ * @author Mario Codes Sánchez
+ * @since 30/11/2016
  */
 public class VentanaModoEjecucion extends javax.swing.JFrame {
 
@@ -110,9 +108,6 @@ public class VentanaModoEjecucion extends javax.swing.JFrame {
     }
     
     private void jButtonJSONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonJSONActionPerformed
-//        EjecucionJSON.ejecucionPHPgeneracionArchivoJSON();
-//        EjecucionJSON.cargadoJSONlocalAJava();
-
         VentanaPrincipal vp = SingletonVentanas.getVentanaPrincipalObtencionSingleton();
         disableBotonesHabitacionVentanaPrincipal(vp);    
         vp.setTitle("Ventana Principal - Version JSON");

@@ -8,6 +8,7 @@ package vista.swing.comun;
 
 /**
  * Aplicacion del Patron de disenio 'Singleton' para tener una unica instancia de las ventanas de menu que vamos a utilizar varias veces en el programa.
+ *  Este patron se encuentra explicado en la clase 'controlador.DAO.DAOFactory'.
  * @author Mario Codes Sánchez.
  * @since 21/11/2016
  */

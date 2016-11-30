@@ -256,7 +256,7 @@ public class VentanaLoginBDD extends javax.swing.JFrame {
                 this.jTextFieldInputUser.setText("dai3");
                 this.jPasswordFieldInputPWD.setText("tiger");
                 this.jTextFieldInputUrl.setText("172.30.160.190:1521/xe");
-//                url = "jdbc:oracle:thin:@localhost:1521:xe"; //fixme: Cambio la URL a la del server de clase. Tenerlo en cuenta al trabajar en casa.
+//                this.jTextFieldInputUrl.setText("localhost:1521:xe"); //fixme: Cambio la URL a la del server de clase. Tenerlo en cuenta al trabajar en casa.
                 break;
             default:
                 this.jTextFieldInputUser.setText("root");

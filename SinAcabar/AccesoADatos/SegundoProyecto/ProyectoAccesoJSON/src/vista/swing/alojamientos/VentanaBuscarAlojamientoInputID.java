@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 /**
  * Pide un numero ID entero, sobre el cual busca su Alojamiento correspondiente y pasa ese AlojamientoDTO a la ventana de modificacion.
  * @author Mario Codes Sánchez
- * @since 11/11/2016
+ * @since 30/11/2016
  */
 public class VentanaBuscarAlojamientoInputID extends javax.swing.JFrame {
 
