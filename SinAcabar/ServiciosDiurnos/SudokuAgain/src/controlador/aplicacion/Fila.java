@@ -20,4 +20,29 @@ public class Fila {
     public Fila(Casilla[] casillas) {
         this.casillas = casillas;
     }
+
+    @Override
+    public String toString() {
+        String buffer = "\n";
+        
+        for(Casilla casTmp : casillas) {
+            buffer += casTmp +" ";
+        }
+        
+        return buffer;
+    }
+    
+    /**
+     * @return the casillas
+     */
+    public Casilla[] getCasillas() {
+        return casillas;
+    }
+
+    /**
+     * @param casillas the casillas to set
+     */
+    public void setCasillas(Casilla[] casillas) {
+        this.casillas = casillas;
+    }
 }

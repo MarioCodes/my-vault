@@ -17,10 +17,18 @@ public class Cuadrado {
     private Casilla[] casilla = new Casilla[9]; //Cambio de Array a ArrayList con capacidad maxima de 9. Me es mas sencillo para trabajar.
     
     /**
-     * Constructor por defecto. Genera el cuadrado con sus 9 casillas.
+     * Constructor Inicial por defecto. Genera el cuadrado con sus 9 casillas. Los numeros aleatorios los genera cada Cuadrado comprobandose solo a si mismo.
      */
     public Cuadrado() {
         generacionCasillas();
+    }
+    
+    /**
+     * Constructor final a utilizar, le paso un ArrayList de Integers que previamente ya habre comprobado que sean unicos segun las reglas.
+     * @param numerosChequeadosCuadrado ArrayList de Integers ya chequeados.
+     */
+    public Cuadrado(int[] numerosChequeadosCuadrado) {
+        generacionCasillas(numerosChequeadosCuadrado);
     }
     
     /**
@@ -65,6 +73,16 @@ public class Cuadrado {
     }
     
     /**
+     * Rellenamos el cuadrado con sus 9 Casillas correspondientes con los numeros ya comprobados que le pasamos.
+     * @param numerosChequeadosCuadrado ArrayList de 9 numeros ya comprobados para meter en las casillas.
+     */
+    private void generacionCasillas(int[] numerosChequeadosCuadrado) {
+        for (int i = 0; i < casilla.length; i++) {
+            casilla[i] = new Casilla(numerosChequeadosCuadrado[i]);
+        }
+    }
+    
+    /**
      * Al hacer Sout de un cuadrado, sale este correctamente formado de forma directa.
      * @return String con el contenido de un Cuadrado con todas sus Casillas.
      */
@@ -77,6 +95,7 @@ public class Cuadrado {
             if(i%3 == 0) buffer += "\n"; //Para que salga con forma de cuadrado. Salto de linea cada 3 numeros.
         }
         
+        buffer += "-----------------\n";
         return buffer;
     }
     
