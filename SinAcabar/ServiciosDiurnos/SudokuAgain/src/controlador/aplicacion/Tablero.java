@@ -5,9 +5,6 @@
  */
 package controlador.aplicacion;
 
-import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
-
 /**
  * Tablero de juego que contiene los Cuadrados, Filas y Columnas.
  * @author Mario Codes Sánchez

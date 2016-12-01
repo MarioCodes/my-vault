@@ -11,7 +11,7 @@ import controlador.aplicacion.Tablero;
 /**
  * Programado del juego Sudoku. Se genera automaticamente y se puede de la misma manera o jugando a mano.
  * @author Mario Codes Sánchez
- * @since 30/11/2016
+ * @since 01/12/2016
  * @version 0.2.2 Metidas las Casillas en sus Filas. Modificando la generacion del numero aleatorio para que se comparta entre fila y casilla.
  */
 public class SudokuAgain {
@@ -25,5 +25,4 @@ public class SudokuAgain {
         Tablero t = new Tablero();
         System.out.println(t);
     }
-    
 }
