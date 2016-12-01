@@ -19,7 +19,7 @@ public class GeneracionNumeros {
      * @param numerosGeneradosPreviamente
      * @return True si el numero no se habia generado previamente en el mismo cuadrado.
      */
-    public static boolean checkNumeroGeneradoIsOK(int numeroAComprobar, int[] numerosGeneradosPreviamente) {
+    public static boolean checkNumeroGeneradoPrimerCuadradoIsOK(int numeroAComprobar, int[] numerosGeneradosPreviamente) {
         boolean numIsOk = true; //Por defecto lo considero valido hasta que se demuestre lo contrario.
         
         for(int enteroTmp: numerosGeneradosPreviamente) {
@@ -40,7 +40,7 @@ public class GeneracionNumeros {
         for (int i = 0; i < numerosGeneradosPreviamente.length; i++) {
             do {
                 actualNumber = ThreadLocalRandom.current().nextInt(1, 9 + 1);
-            }while(!checkNumeroGeneradoIsOK(actualNumber, numerosGeneradosPreviamente));
+            }while(!checkNumeroGeneradoPrimerCuadradoIsOK(actualNumber, numerosGeneradosPreviamente));
             
             numerosGeneradosPreviamente[i] = actualNumber;
         }
