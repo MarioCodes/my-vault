@@ -17,7 +17,6 @@ import controlador.aplicacion.Tablero;
 public class SudokuAgain {
 
     /**
-     * todo: Paso Actual -> que el tablero genere 9 cuadrados, 9 filas y 9 columnas.
      * @param args the command line arguments
      */
     public static void main(String[] args) {
