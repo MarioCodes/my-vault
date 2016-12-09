@@ -5,9 +5,13 @@
  */
 package sudoku;
 
+import aplicacion.controlador.Tablero;
+
 /**
- *
- * @author Mario
+ * Solucion al problema del Sudoku. (3er intento).
+ * @author Mario Codes Sánchez
+ * @since 08/12/2016
+ * @version 0.1 Creados cuadrados con casillas e introducidos en filas / Columnas. Ahora que.
  */
 public class Sudoku {
 
@@ -15,7 +19,7 @@ public class Sudoku {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        System.out.println(new Tablero());
     }
     
 }
