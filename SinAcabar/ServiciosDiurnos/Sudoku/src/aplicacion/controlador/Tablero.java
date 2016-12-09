@@ -11,12 +11,12 @@ package aplicacion.controlador;
  * @since 08/12/2016
  */
 public class Tablero {
-    private Cuadrado[] cuadrados = new Cuadrado[9];
-    private Fila[] filas = new Fila[9];
-    private Columna[] columnas = new Columna[9];
+    private final Cuadrado[] CUADRADOS = new Cuadrado[9];
+    private final Fila[] FILAS = new Fila[9];
+    private final Columna[] COLUMNAS = new Columna[9];
     
     /**
-     * Constructor para inicializar el Tablero de juego. El se encargara de inicializar todo lo necesario.
+     * Constructor para inicializar el Tablero de juego. El se encargara de inicializar lo que sea necesario.
      */
     public Tablero() {
         preparacionTablero();
@@ -36,8 +36,8 @@ public class Tablero {
      * todo: Mas adelante habra que poner los numeros de cada casilla. Ahora mismo se ponen solas a 0.
      */
     private void iniCuadrados() {
-        for (int i = 0; i < cuadrados.length; i++) {
-            cuadrados[i] = new Cuadrado();
+        for (int i = 0; i < CUADRADOS.length; i++) {
+            CUADRADOS[i] = new Cuadrado();
         }
     }
     
@@ -52,11 +52,11 @@ public class Tablero {
             casillasTmp = new Casilla[9];
             indiceCasillaTmp = 0;
             for (int x = 0; x <= 2; x++) {
-                casillasTmp[indiceCasillaTmp++] = cuadrados[numPrimerCuadrado].getCASILLAS()[indiceCasillaCuadrado];
-                casillasTmp[indiceCasillaTmp++] = cuadrados[numPrimerCuadrado+1].getCASILLAS()[indiceCasillaCuadrado+1];
-                casillasTmp[indiceCasillaTmp++] = cuadrados[numPrimerCuadrado+2].getCASILLAS()[indiceCasillaCuadrado+2];
+                casillasTmp[indiceCasillaTmp++] = CUADRADOS[numPrimerCuadrado].getCASILLAS()[indiceCasillaCuadrado];
+                casillasTmp[indiceCasillaTmp++] = CUADRADOS[numPrimerCuadrado+1].getCASILLAS()[indiceCasillaCuadrado+1];
+                casillasTmp[indiceCasillaTmp++] = CUADRADOS[numPrimerCuadrado+2].getCASILLAS()[indiceCasillaCuadrado+2];
             }
-            filas[indiceFila] = new Fila(casillasTmp);
+            FILAS[indiceFila] = new Fila(casillasTmp);
         }
     }
     
@@ -74,8 +74,8 @@ public class Tablero {
      * @return Int con la primera posicion a rellenar.
      */
     private int obtenerPrimeraColumnaNula() {
-        for (int i = 0; i < columnas.length; i++) {
-            if(columnas[i] == null) return i;
+        for (int i = 0; i < COLUMNAS.length; i++) {
+            if(COLUMNAS[i] == null) return i;
         }
         
         return -1; //Nunca deberia llegar a este punto.
@@ -93,11 +93,11 @@ public class Tablero {
             casillasTmp = new Casilla[9];
             indiceCasillaTmp = 0;
             for (int i = 0; i <= 2; i++) {
-                casillasTmp[indiceCasillaTmp++] = cuadrados[numPrimerCuadrado].getCASILLAS()[indiceCasillaCuadrado];
-                casillasTmp[indiceCasillaTmp++] = cuadrados[numPrimerCuadrado+3].getCASILLAS()[indiceCasillaCuadrado+3];
-                casillasTmp[indiceCasillaTmp++] = cuadrados[numPrimerCuadrado+6].getCASILLAS()[indiceCasillaCuadrado+6];
+                casillasTmp[indiceCasillaTmp++] = CUADRADOS[numPrimerCuadrado].getCASILLAS()[indiceCasillaCuadrado];
+                casillasTmp[indiceCasillaTmp++] = CUADRADOS[numPrimerCuadrado+3].getCASILLAS()[indiceCasillaCuadrado+3];
+                casillasTmp[indiceCasillaTmp++] = CUADRADOS[numPrimerCuadrado+6].getCASILLAS()[indiceCasillaCuadrado+6];
             }
-            columnas[indiceColumna] = new Columna(casillasTmp);
+            COLUMNAS[indiceColumna] = new Columna(casillasTmp);
         }
     }
     
@@ -114,17 +114,17 @@ public class Tablero {
     public String toString() {
         String buffer = "Cuadrados: \n";
         
-        for(Cuadrado cuad : cuadrados) {
+        for(Cuadrado cuad : CUADRADOS) {
             buffer += cuad;
         }
         
         buffer += "Filas: \n";
-        for(Fila fil : filas) {
+        for(Fila fil : FILAS) {
             buffer += fil;
         }
         
         buffer += "\nColumnas: \n";
-        for(Columna col : columnas) {
+        for(Columna col : COLUMNAS) {
             buffer += col;
         }
         
