@@ -15,6 +15,6 @@ public class Facade {
      * Generacion del tablero mediante singleton pattern.
      */
     public void generacionTablero() {
-        ContenedorSingletton.getTableroSingleton();
+        System.out.println(ContenedorSingletton.getTableroSingleton());
     }
 }

@@ -6,6 +6,7 @@
 package sudoku;
 
 import aplicacion.facade.Facade;
+import vista.WindowJuego;
 
 /**
  * Solucion al problema del Sudoku. (3er intento).
@@ -21,5 +22,6 @@ public class Sudoku {
     public static void main(String[] args) {
         Facade fachada = new Facade();
         fachada.generacionTablero();
+        new WindowJuego();
     }
 }

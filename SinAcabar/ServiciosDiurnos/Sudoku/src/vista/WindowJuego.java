@@ -5,6 +5,15 @@
  */
 package vista;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
 /**
  *
  * @author Mario
@@ -16,8 +25,29 @@ public class WindowJuego extends javax.swing.JFrame {
      */
     public WindowJuego() {
         initComponents();
+        
+        this.setTitle("¡Sudoku!");
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
+        this.setResizable(false);
+        creacionLineasTablero();
     }
 
+    /**
+     * Metemos a mano las lineas adicionales del tablero.
+     */
+    private void creacionLineasTablero() {
+        int[][] parametrosLineasGraficas = new int[][] {{130, 0, 5, 400}, //Mapeado a mano, si se modifica la pantalla por cualquier cosa, habra que remapear.
+                                                            {259, 0, 5, 400}, 
+                                                            {0, 95, 400, 5},
+                                                            {0, 195, 400, 5}};
+        
+        this.jTableContenidoJuego.add(new PanelJuego(parametrosLineasGraficas[0][0], parametrosLineasGraficas[0][1], parametrosLineasGraficas[0][2], parametrosLineasGraficas[0][3]));
+        this.jTableContenidoJuego.add(new PanelJuego(parametrosLineasGraficas[1][0], parametrosLineasGraficas[1][1], parametrosLineasGraficas[1][2], parametrosLineasGraficas[1][3]));
+        this.jTableContenidoJuego.add(new PanelJuego(parametrosLineasGraficas[2][0], parametrosLineasGraficas[2][1], parametrosLineasGraficas[2][2], parametrosLineasGraficas[2][3]));
+        this.jTableContenidoJuego.add(new PanelJuego(parametrosLineasGraficas[3][0], parametrosLineasGraficas[3][1], parametrosLineasGraficas[3][2], parametrosLineasGraficas[3][3]));
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,58 +57,139 @@ public class WindowJuego extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPanePrinc = new javax.swing.JTabbedPane();
+        jPanelMenuOpcionesJuego = new javax.swing.JPanel();
+        jPanelJuego = new javax.swing.JPanel();
+        jTableContenidoJuego = new javax.swing.JTable();
+        jMenuBar = new javax.swing.JMenuBar();
+        jMenuOpciones = new javax.swing.JMenu();
+        jMenuItemSalir = new javax.swing.JMenuItem();
+        jMenuAcercaDe = new javax.swing.JMenu();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        javax.swing.GroupLayout jPanelMenuOpcionesJuegoLayout = new javax.swing.GroupLayout(jPanelMenuOpcionesJuego);
+        jPanelMenuOpcionesJuego.setLayout(jPanelMenuOpcionesJuegoLayout);
+        jPanelMenuOpcionesJuegoLayout.setHorizontalGroup(
+            jPanelMenuOpcionesJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 395, Short.MAX_VALUE)
+        );
+        jPanelMenuOpcionesJuegoLayout.setVerticalGroup(
+            jPanelMenuOpcionesJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 333, Short.MAX_VALUE)
+        );
+
+        jTabbedPanePrinc.addTab("Menu Principal", jPanelMenuOpcionesJuego);
+
+        jTableContenidoJuego.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
+        jTableContenidoJuego.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "", "", "", "", "", "", "", "", ""
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jTableContenidoJuego.setRowHeight(33);
+
+        javax.swing.GroupLayout jPanelJuegoLayout = new javax.swing.GroupLayout(jPanelJuego);
+        jPanelJuego.setLayout(jPanelJuegoLayout);
+        jPanelJuegoLayout.setHorizontalGroup(
+            jPanelJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelJuegoLayout.createSequentialGroup()
+                .addGap(0, 1, Short.MAX_VALUE)
+                .addComponent(jTableContenidoJuego, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 1, Short.MAX_VALUE))
+        );
+        jPanelJuegoLayout.setVerticalGroup(
+            jPanelJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelJuegoLayout.createSequentialGroup()
+                .addComponent(jTableContenidoJuego, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        jTabbedPanePrinc.addTab("Juego", jPanelJuego);
+
+        jMenuOpciones.setText("Opciones");
+
+        jMenuItemSalir.setText("Salir");
+        jMenuItemSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemSalirActionPerformed(evt);
+            }
+        });
+        jMenuOpciones.add(jMenuItemSalir);
+
+        jMenuBar.add(jMenuOpciones);
+
+        jMenuAcercaDe.setText("Acerca De...");
+        jMenuBar.add(jMenuAcercaDe);
+
+        setJMenuBar(jMenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jTabbedPanePrinc)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jTabbedPanePrinc)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(WindowJuego.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(WindowJuego.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(WindowJuego.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(WindowJuego.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
+    private void jMenuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalirActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItemSalirActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new WindowJuego().setVisible(true);
-            }
-        });
+    
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu jMenuAcercaDe;
+    private javax.swing.JMenuBar jMenuBar;
+    private javax.swing.JMenuItem jMenuItemSalir;
+    private javax.swing.JMenu jMenuOpciones;
+    private javax.swing.JPanel jPanelJuego;
+    private javax.swing.JPanel jPanelMenu;
+    private javax.swing.JPanel jPanelMenuOpcionesJuego;
+    private javax.swing.JTabbedPane jTabbedPanePrinc;
+    private javax.swing.JTabbedPane jTabbedPanePrincipal;
+    private javax.swing.JTable jTableContenidoJuego;
+    // End of variables declaration//GEN-END:variables
+    
+    /**
+     * Inner Class hecha unicamente como representacion de las lineas graficas.
+     */
+    private class PanelJuego extends JPanel {        
+        /**
+         * Constructor por defecto.
+         * @param ejeX Coordenadas del eje x.
+         * @param ejeY Coordenadas del eje y.
+         * @param ancho Ancho que ocupara la linea.
+         * @param alto Alto de la linea.
+         */
+        public PanelJuego(int ejeX, int ejeY, int ancho, int alto) {
+            setBackground(Color.black);
+            this.setBounds(ejeX, ejeY, ancho, alto);
+        }
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
 }
