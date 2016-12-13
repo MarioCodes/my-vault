@@ -37,6 +37,15 @@ public class ContenedorSingletton {
     }
     
     /**
+     * Generacion de un tablero nuevo para nueva partida.
+     * @return Nuevo tablero generado correctamente.
+     */
+    public static Tablero getNuevoTableroSingleton() {
+        INSTANCIAS.remove("Tablero");
+        return getTableroSingleton();
+    }
+    
+    /**
      * Generacion del Facade una sola vez.
      * @return Facade instanciado.
      */

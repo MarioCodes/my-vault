@@ -5,14 +5,13 @@
  */
 package sudoku;
 
-import aplicacion.facade.Facade;
 import vista.WindowJuego;
 
 /**
  * Solucion al problema del Sudoku. (3er intento).
  * @author Mario Codes Sánchez
- * @since 12/12/2016
- * @version 0.2 Solucionado el marron de la generacion aleatoria de numeros de forma correcta. A por la parte grafica.
+ * @since 13/12/2016
+ * @version 0.3 Parte grafica medio hecha. A mirar algoritmos para ocultar numeros.
  */
 public class Sudoku {
 
