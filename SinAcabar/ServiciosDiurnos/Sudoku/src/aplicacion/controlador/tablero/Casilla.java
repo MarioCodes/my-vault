@@ -70,4 +70,11 @@ public class Casilla {
     public void setNumeroPropio(int numeroPropio) {
         this.numeroPropio = numeroPropio;
     }
+
+    /**
+     * @return the numeroPropio
+     */
+    public int getNumeroPropio() {
+        return numeroPropio;
+    }
 }

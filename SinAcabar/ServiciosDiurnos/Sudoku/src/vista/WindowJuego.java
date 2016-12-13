@@ -5,14 +5,9 @@
  */
 package vista;
 
+import aplicacion.facade.Facade;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 /**
  *
@@ -31,6 +26,9 @@ public class WindowJuego extends javax.swing.JFrame {
         this.setVisible(true);
         this.setResizable(false);
         creacionLineasTablero();
+        
+        Facade fachada = new Facade();
+        fachada.rellenoTablaConNumeros(this.jTableContenidoJuego); //fixme: cambiarlo a cuando le de al boton de comenzar juego.
     }
 
     /**
@@ -42,10 +40,10 @@ public class WindowJuego extends javax.swing.JFrame {
                                                             {0, 95, 400, 5},
                                                             {0, 195, 400, 5}};
         
-        this.jTableContenidoJuego.add(new PanelJuego(parametrosLineasGraficas[0][0], parametrosLineasGraficas[0][1], parametrosLineasGraficas[0][2], parametrosLineasGraficas[0][3]));
-        this.jTableContenidoJuego.add(new PanelJuego(parametrosLineasGraficas[1][0], parametrosLineasGraficas[1][1], parametrosLineasGraficas[1][2], parametrosLineasGraficas[1][3]));
-        this.jTableContenidoJuego.add(new PanelJuego(parametrosLineasGraficas[2][0], parametrosLineasGraficas[2][1], parametrosLineasGraficas[2][2], parametrosLineasGraficas[2][3]));
-        this.jTableContenidoJuego.add(new PanelJuego(parametrosLineasGraficas[3][0], parametrosLineasGraficas[3][1], parametrosLineasGraficas[3][2], parametrosLineasGraficas[3][3]));
+        this.jTableContenidoJuego.add(new LineaGraficaCuadrado(parametrosLineasGraficas[0][0], parametrosLineasGraficas[0][1], parametrosLineasGraficas[0][2], parametrosLineasGraficas[0][3]));
+        this.jTableContenidoJuego.add(new LineaGraficaCuadrado(parametrosLineasGraficas[1][0], parametrosLineasGraficas[1][1], parametrosLineasGraficas[1][2], parametrosLineasGraficas[1][3]));
+        this.jTableContenidoJuego.add(new LineaGraficaCuadrado(parametrosLineasGraficas[2][0], parametrosLineasGraficas[2][1], parametrosLineasGraficas[2][2], parametrosLineasGraficas[2][3]));
+        this.jTableContenidoJuego.add(new LineaGraficaCuadrado(parametrosLineasGraficas[3][0], parametrosLineasGraficas[3][1], parametrosLineasGraficas[3][2], parametrosLineasGraficas[3][3]));
     }
     
     /**
@@ -61,6 +59,7 @@ public class WindowJuego extends javax.swing.JFrame {
         jPanelMenuOpcionesJuego = new javax.swing.JPanel();
         jPanelJuego = new javax.swing.JPanel();
         jTableContenidoJuego = new javax.swing.JTable();
+        jButtonComprobar = new javax.swing.JButton();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuOpciones = new javax.swing.JMenu();
         jMenuItemSalir = new javax.swing.JMenuItem();
@@ -76,7 +75,7 @@ public class WindowJuego extends javax.swing.JFrame {
         );
         jPanelMenuOpcionesJuegoLayout.setVerticalGroup(
             jPanelMenuOpcionesJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 333, Short.MAX_VALUE)
+            .addGap(0, 337, Short.MAX_VALUE)
         );
 
         jTabbedPanePrinc.addTab("Menu Principal", jPanelMenuOpcionesJuego);
@@ -108,6 +107,8 @@ public class WindowJuego extends javax.swing.JFrame {
         });
         jTableContenidoJuego.setRowHeight(33);
 
+        jButtonComprobar.setText("Comprobar");
+
         javax.swing.GroupLayout jPanelJuegoLayout = new javax.swing.GroupLayout(jPanelJuego);
         jPanelJuego.setLayout(jPanelJuegoLayout);
         jPanelJuegoLayout.setHorizontalGroup(
@@ -116,12 +117,18 @@ public class WindowJuego extends javax.swing.JFrame {
                 .addGap(0, 1, Short.MAX_VALUE)
                 .addComponent(jTableContenidoJuego, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 1, Short.MAX_VALUE))
+            .addGroup(jPanelJuegoLayout.createSequentialGroup()
+                .addGap(152, 152, 152)
+                .addComponent(jButtonComprobar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelJuegoLayout.setVerticalGroup(
             jPanelJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelJuegoLayout.createSequentialGroup()
                 .addComponent(jTableContenidoJuego, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonComprobar)
+                .addContainerGap())
         );
 
         jTabbedPanePrinc.addTab("Juego", jPanelJuego);
@@ -163,6 +170,7 @@ public class WindowJuego extends javax.swing.JFrame {
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonComprobar;
     private javax.swing.JMenu jMenuAcercaDe;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItemSalir;
@@ -178,7 +186,7 @@ public class WindowJuego extends javax.swing.JFrame {
     /**
      * Inner Class hecha unicamente como representacion de las lineas graficas.
      */
-    private class PanelJuego extends JPanel {        
+    private class LineaGraficaCuadrado extends JPanel {        
         /**
          * Constructor por defecto.
          * @param ejeX Coordenadas del eje x.
@@ -186,7 +194,7 @@ public class WindowJuego extends javax.swing.JFrame {
          * @param ancho Ancho que ocupara la linea.
          * @param alto Alto de la linea.
          */
-        public PanelJuego(int ejeX, int ejeY, int ancho, int alto) {
+        public LineaGraficaCuadrado(int ejeX, int ejeY, int ancho, int alto) {
             setBackground(Color.black);
             this.setBounds(ejeX, ejeY, ancho, alto);
         }

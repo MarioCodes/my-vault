@@ -21,7 +21,7 @@ public class Sudoku {
      */
     public static void main(String[] args) {
         Facade fachada = new Facade();
-        fachada.generacionTablero();
+        fachada.obtencionTablero();
         new WindowJuego();
     }
 }
