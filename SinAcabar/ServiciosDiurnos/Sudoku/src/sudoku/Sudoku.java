@@ -5,13 +5,13 @@
  */
 package sudoku;
 
-import aplicacion.controlador.Tablero;
+import aplicacion.facade.Facade;
 
 /**
  * Solucion al problema del Sudoku. (3er intento).
  * @author Mario Codes Sánchez
- * @since 08/12/2016
- * @version 0.1 Creados cuadrados con casillas e introducidos en filas / Columnas. Ahora que.
+ * @since 12/12/2016
+ * @version 0.2 Solucionado el marron de la generacion aleatoria de numeros de forma correcta. A por la parte grafica.
  */
 public class Sudoku {
 
@@ -19,7 +19,7 @@ public class Sudoku {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        System.out.println(new Tablero());
+        Facade fachada = new Facade();
+        fachada.generacionTablero();
     }
-    
 }
