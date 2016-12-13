@@ -19,7 +19,7 @@ public class Facade {
      * Generacion del tablero mediante singleton pattern.
      */
     public void obtencionTablero() {
-        System.out.println(ContenedorSingletton.getTableroSingleton());
+        ContenedorSingletton.getTableroSingleton();
     }
     
     /**
@@ -31,13 +31,10 @@ public class Facade {
      * @param primeraFila 
      */
     private void rellenoCuadradoGrafico(Cuadrado[] cuadrados, JTable tabla, int numeroCuadrado, int primeraColumna, int primeraFila) {
-        for (int indiceCuadrado = numeroCuadrado, indiceColumna, indiceCasilla = 0; indiceCuadrado < 1; indiceCuadrado++) { //Un cuadrado.
-            indiceColumna = primeraColumna;
-            for (int i = 0, indiceFila = primeraFila; i < 3; indiceFila++, indiceCasilla++, i++) { //Una fila de un cuadrado.
-                tabla.setValueAt(cuadrados[indiceCuadrado].getCASILLAS()[indiceCasilla].getNumeroPropio(), indiceColumna, indiceFila); //Valor, row, columna.
-                tabla.setValueAt(cuadrados[indiceCuadrado].getCASILLAS()[indiceCasilla+3].getNumeroPropio(), indiceColumna+1, indiceFila); //Valor, row, columna.
-                tabla.setValueAt(cuadrados[indiceCuadrado].getCASILLAS()[indiceCasilla+6].getNumeroPropio(), indiceColumna+2, indiceFila); //Valor, row, columna.
-            }
+        for (int indiceCasilla = 0, indiceFila = primeraFila; indiceCasilla < 3; indiceFila++, indiceCasilla++) { //Una fila de un cuadrado.
+            tabla.setValueAt(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla].getNumeroPropio(), primeraColumna, indiceFila); //Valor, row, columna.
+            tabla.setValueAt(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+3].getNumeroPropio(), primeraColumna+1, indiceFila); //Valor, row, columna.
+            tabla.setValueAt(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+6].getNumeroPropio(), primeraColumna+2, indiceFila); //Valor, row, columna.
         }        
     }
     
@@ -48,16 +45,14 @@ public class Facade {
     public void rellenoTablaConNumeros(JTable tabla) {
         Cuadrado[] cuadrados = ContenedorSingletton.getTableroSingleton().getCUADRADOS();
         
-        rellenoCuadradoGrafico(cuadrados, tabla, 0, 0 ,0);
-        rellenoCuadradoGrafico(cuadrados, tabla, 1, 3 ,0);
-        
-//        for (int indiceCuadrado = 0, indiceFila = 0, indiceColumna; indiceCuadrado < 9; indiceCuadrado++, indiceFila++) {
-//            int indiceCasilla;
-//            for (indiceCasilla = 0, indiceColumna = 0; indiceCasilla < 9; indiceCasilla++, indiceColumna++) {
-//                tabla.setValueAt(cuadrados[indiceCuadrado].getCASILLAS()[indiceCasilla].getNumeroPropio(), indiceFila, indiceColumna); //Valor, row, columna.
-//            }
-//        }
-        
-        
+        rellenoCuadradoGrafico(cuadrados, tabla, 0, 0 ,0); //fixme: arreglar esta chapuza y pasarlo a un 'for' para hacerlo mediante bucle.
+        rellenoCuadradoGrafico(cuadrados, tabla, 1, 0 ,3);
+        rellenoCuadradoGrafico(cuadrados, tabla, 2, 0 ,6);
+        rellenoCuadradoGrafico(cuadrados, tabla, 3, 3 ,0);
+        rellenoCuadradoGrafico(cuadrados, tabla, 4, 3 ,3);
+        rellenoCuadradoGrafico(cuadrados, tabla, 5, 3 ,6);
+        rellenoCuadradoGrafico(cuadrados, tabla, 6, 6 ,0);
+        rellenoCuadradoGrafico(cuadrados, tabla, 7, 6 ,3);
+        rellenoCuadradoGrafico(cuadrados, tabla, 8, 6 ,6);
     }
 }

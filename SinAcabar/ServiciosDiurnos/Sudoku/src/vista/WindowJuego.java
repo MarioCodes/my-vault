@@ -7,7 +7,9 @@ package vista;
 
 import aplicacion.facade.Facade;
 import java.awt.Color;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -29,8 +31,21 @@ public class WindowJuego extends javax.swing.JFrame {
         
         Facade fachada = new Facade();
         fachada.rellenoTablaConNumeros(this.jTableContenidoJuego); //fixme: cambiarlo a cuando le de al boton de comenzar juego.
+        
+        centrarTextoCells();
     }
 
+    /**
+     * Centrado de las labels de las cells.
+     */
+    private void centrarTextoCells() {
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        for (int i = 0; i < this.jTableContenidoJuego.getColumnCount(); i++) {
+            this.jTableContenidoJuego.getColumnModel().getColumn(i).setCellRenderer( centerRenderer );
+        }
+    }
+    
     /**
      * Metemos a mano las lineas adicionales del tablero.
      */
@@ -81,6 +96,7 @@ public class WindowJuego extends javax.swing.JFrame {
         jTabbedPanePrinc.addTab("Menu Principal", jPanelMenuOpcionesJuego);
 
         jTableContenidoJuego.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
+        jTableContenidoJuego.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jTableContenidoJuego.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null},
