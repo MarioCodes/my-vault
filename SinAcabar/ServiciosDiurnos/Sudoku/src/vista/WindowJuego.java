@@ -5,15 +5,19 @@
  */
 package vista;
 
+import aplicacion.facade.ContenedorSingletton;
 import aplicacion.facade.Facade;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
 /**
- *
- * @author Mario
+ * Ventana principal del programa.
+ * @author Mario Codes Sánchez
+ * @since 13/12/2016
  */
 public class WindowJuego extends javax.swing.JFrame {
 
@@ -27,10 +31,9 @@ public class WindowJuego extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.setResizable(false);
-        creacionLineasTablero();
         
-        Facade fachada = new Facade();
-        fachada.rellenoTablaConNumeros(this.jTableContenidoJuego); //fixme: cambiarlo a cuando le de al boton de comenzar juego.
+        creacionLineasTablero(this.jTableJuego);
+        creacionLineasTablero(this.jTableTrampas);
         
         centrarTextoCells();
     }
@@ -41,24 +44,27 @@ public class WindowJuego extends javax.swing.JFrame {
     private void centrarTextoCells() {
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment( JLabel.CENTER );
-        for (int i = 0; i < this.jTableContenidoJuego.getColumnCount(); i++) {
-            this.jTableContenidoJuego.getColumnModel().getColumn(i).setCellRenderer( centerRenderer );
+        for (int i = 0; i < this.jTableTrampas.getColumnCount(); i++) {
+            this.jTableTrampas.getColumnModel().getColumn(i).setCellRenderer( centerRenderer );
         }
+        
+        jTabbedPanePrincipal.setEnabledAt(1, false); //Para que la de juego ni la de trampas se puedan seleccionar salvo cuando se haya creado el juego..
+        jTabbedPanePrincipal.setEnabledAt(2, false); 
     }
     
     /**
      * Metemos a mano las lineas adicionales del tablero.
      */
-    private void creacionLineasTablero() {
+    private void creacionLineasTablero(JTable jTable) {
         int[][] parametrosLineasGraficas = new int[][] {{130, 0, 5, 400}, //Mapeado a mano, si se modifica la pantalla por cualquier cosa, habra que remapear.
                                                             {259, 0, 5, 400}, 
-                                                            {0, 95, 400, 5},
-                                                            {0, 195, 400, 5}};
+                                                            {0, 107, 400, 5},
+                                                            {0, 218, 400, 5}};
         
-        this.jTableContenidoJuego.add(new LineaGraficaCuadrado(parametrosLineasGraficas[0][0], parametrosLineasGraficas[0][1], parametrosLineasGraficas[0][2], parametrosLineasGraficas[0][3]));
-        this.jTableContenidoJuego.add(new LineaGraficaCuadrado(parametrosLineasGraficas[1][0], parametrosLineasGraficas[1][1], parametrosLineasGraficas[1][2], parametrosLineasGraficas[1][3]));
-        this.jTableContenidoJuego.add(new LineaGraficaCuadrado(parametrosLineasGraficas[2][0], parametrosLineasGraficas[2][1], parametrosLineasGraficas[2][2], parametrosLineasGraficas[2][3]));
-        this.jTableContenidoJuego.add(new LineaGraficaCuadrado(parametrosLineasGraficas[3][0], parametrosLineasGraficas[3][1], parametrosLineasGraficas[3][2], parametrosLineasGraficas[3][3]));
+        jTable.add(new LineaGraficaCuadrado(parametrosLineasGraficas[0][0], parametrosLineasGraficas[0][1], parametrosLineasGraficas[0][2], parametrosLineasGraficas[0][3]));
+        jTable.add(new LineaGraficaCuadrado(parametrosLineasGraficas[1][0], parametrosLineasGraficas[1][1], parametrosLineasGraficas[1][2], parametrosLineasGraficas[1][3]));
+        jTable.add(new LineaGraficaCuadrado(parametrosLineasGraficas[2][0], parametrosLineasGraficas[2][1], parametrosLineasGraficas[2][2], parametrosLineasGraficas[2][3]));
+        jTable.add(new LineaGraficaCuadrado(parametrosLineasGraficas[3][0], parametrosLineasGraficas[3][1], parametrosLineasGraficas[3][2], parametrosLineasGraficas[3][3]));
     }
     
     /**
@@ -70,11 +76,11 @@ public class WindowJuego extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPanePrinc = new javax.swing.JTabbedPane();
+        jTabbedPanePrincipal = new javax.swing.JTabbedPane();
         jPanelMenuOpcionesJuego = new javax.swing.JPanel();
-        jPanelJuego = new javax.swing.JPanel();
-        jTableContenidoJuego = new javax.swing.JTable();
-        jButtonComprobar = new javax.swing.JButton();
+        jButtonJugar = new javax.swing.JButton();
+        jTableJuego = new javax.swing.JTable();
+        jTableTrampas = new javax.swing.JTable();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuOpciones = new javax.swing.JMenu();
         jMenuItemSalir = new javax.swing.JMenuItem();
@@ -82,22 +88,37 @@ public class WindowJuego extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jTabbedPanePrincipal.setFont(new java.awt.Font("sansserif", 2, 12)); // NOI18N
+
+        jButtonJugar.setText("Jugar");
+        jButtonJugar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonJugarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelMenuOpcionesJuegoLayout = new javax.swing.GroupLayout(jPanelMenuOpcionesJuego);
         jPanelMenuOpcionesJuego.setLayout(jPanelMenuOpcionesJuegoLayout);
         jPanelMenuOpcionesJuegoLayout.setHorizontalGroup(
             jPanelMenuOpcionesJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 395, Short.MAX_VALUE)
+            .addGroup(jPanelMenuOpcionesJuegoLayout.createSequentialGroup()
+                .addGap(167, 167, 167)
+                .addComponent(jButtonJugar)
+                .addContainerGap(163, Short.MAX_VALUE))
         );
         jPanelMenuOpcionesJuegoLayout.setVerticalGroup(
             jPanelMenuOpcionesJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 337, Short.MAX_VALUE)
+            .addGroup(jPanelMenuOpcionesJuegoLayout.createSequentialGroup()
+                .addGap(139, 139, 139)
+                .addComponent(jButtonJugar)
+                .addContainerGap(166, Short.MAX_VALUE))
         );
 
-        jTabbedPanePrinc.addTab("Menu Principal", jPanelMenuOpcionesJuego);
+        jTabbedPanePrincipal.addTab("Menu Principal", jPanelMenuOpcionesJuego);
 
-        jTableContenidoJuego.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
-        jTableContenidoJuego.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jTableContenidoJuego.setModel(new javax.swing.table.DefaultTableModel(
+        jTableJuego.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
+        jTableJuego.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jTableJuego.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null},
@@ -121,33 +142,49 @@ public class WindowJuego extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jTableContenidoJuego.setRowHeight(33);
+        jTableJuego.setCellSelectionEnabled(false);
+        jTableJuego.setColumnSelectionAllowed(true);
+        jTableJuego.setMaximumSize(new java.awt.Dimension(2147483647, 333));
+        jTableJuego.setMinimumSize(new java.awt.Dimension(135, 333));
+        jTableJuego.setPreferredSize(new java.awt.Dimension(675, 333));
+        jTableJuego.setRowHeight(37);
+        jTableJuego.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTableJuego.setShowHorizontalLines(true);
+        jTableJuego.setShowVerticalLines(true);
+        jTabbedPanePrincipal.addTab("Juego", jTableJuego);
 
-        jButtonComprobar.setText("Comprobar");
+        jTableTrampas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
+        jTableTrampas.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jTableTrampas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "", "", "", "", "", "", "", "", ""
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+            };
 
-        javax.swing.GroupLayout jPanelJuegoLayout = new javax.swing.GroupLayout(jPanelJuego);
-        jPanelJuego.setLayout(jPanelJuegoLayout);
-        jPanelJuegoLayout.setHorizontalGroup(
-            jPanelJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelJuegoLayout.createSequentialGroup()
-                .addGap(0, 1, Short.MAX_VALUE)
-                .addComponent(jTableContenidoJuego, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 1, Short.MAX_VALUE))
-            .addGroup(jPanelJuegoLayout.createSequentialGroup()
-                .addGap(152, 152, 152)
-                .addComponent(jButtonComprobar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanelJuegoLayout.setVerticalGroup(
-            jPanelJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelJuegoLayout.createSequentialGroup()
-                .addComponent(jTableContenidoJuego, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonComprobar)
-                .addContainerGap())
-        );
-
-        jTabbedPanePrinc.addTab("Juego", jPanelJuego);
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jTableTrampas.setColumnSelectionAllowed(true);
+        jTableTrampas.setRowHeight(37);
+        jTableTrampas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTableTrampas.setShowHorizontalLines(true);
+        jTableTrampas.setShowVerticalLines(true);
+        jTabbedPanePrincipal.addTab("Trampas", jTableTrampas);
 
         jMenuOpciones.setText("Opciones");
 
@@ -170,11 +207,13 @@ public class WindowJuego extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPanePrinc)
+            .addComponent(jTabbedPanePrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPanePrinc)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPanePrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
 
         pack();
@@ -184,23 +223,28 @@ public class WindowJuego extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jMenuItemSalirActionPerformed
 
+    private void jButtonJugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonJugarActionPerformed
+        ContenedorSingletton.getFacadeSingleton().generacionTablero(this.jTableTrampas);
+        this.jTabbedPanePrincipal.setEnabledAt(1, true);
+        this.jTabbedPanePrincipal.setEnabledAt(2, true);
+        this.jTabbedPanePrincipal.setSelectedIndex(1);
+    }//GEN-LAST:event_jButtonJugarActionPerformed
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonComprobar;
+    private javax.swing.JButton jButtonJugar;
     private javax.swing.JMenu jMenuAcercaDe;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItemSalir;
     private javax.swing.JMenu jMenuOpciones;
-    private javax.swing.JPanel jPanelJuego;
-    private javax.swing.JPanel jPanelMenu;
     private javax.swing.JPanel jPanelMenuOpcionesJuego;
-    private javax.swing.JTabbedPane jTabbedPanePrinc;
     private javax.swing.JTabbedPane jTabbedPanePrincipal;
-    private javax.swing.JTable jTableContenidoJuego;
+    private javax.swing.JTable jTableJuego;
+    private javax.swing.JTable jTableTrampas;
     // End of variables declaration//GEN-END:variables
     
     /**
-     * Inner Class hecha unicamente como representacion de las lineas graficas.
+     * Inner Class hecha unicamente para la representacion de las lineas graficas.
      */
     private class LineaGraficaCuadrado extends JPanel {        
         /**

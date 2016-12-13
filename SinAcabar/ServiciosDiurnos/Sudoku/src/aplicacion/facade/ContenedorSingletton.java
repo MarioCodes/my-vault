@@ -35,4 +35,19 @@ public class ContenedorSingletton {
         
         return tablero;
     }
+    
+    /**
+     * Generacion del Facade una sola vez.
+     * @return Facade instanciado.
+     */
+    public static Facade getFacadeSingleton() {
+        Facade facade = (Facade) INSTANCIAS.get("Facade");
+        
+        if(facade == null) {
+            facade = new Facade();
+            INSTANCIAS.put("Facade", facade);
+        }
+        
+        return facade;
+    }
 }

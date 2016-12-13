@@ -17,11 +17,10 @@ import vista.WindowJuego;
 public class Sudoku {
 
     /**
+     * todo: que al cliquear una celda, haga un highlight de su fila y columna enteros.
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Facade fachada = new Facade();
-        fachada.obtencionTablero();
         new WindowJuego();
     }
 }

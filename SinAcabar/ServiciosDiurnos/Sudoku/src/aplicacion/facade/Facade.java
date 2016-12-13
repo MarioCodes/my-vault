@@ -15,13 +15,6 @@ import javax.swing.JTable;
  */
 public class Facade {
     /**
-     * Generacion / obtencion del tablero mediante Singleton Pattern.
-     */
-    public void obtencionTablero() {
-        ContenedorSingletton.getTableroSingleton();
-    }
-    
-    /**
      * Relleno de un 'cuadrado' de la tabla, con los valores de las casillas de su homologo Cuadrado.
      *  Son necesarios los datos de la primera columna y fila propia de cada cuadrado, para ir rellenando a partir de alli. Antes los pasaba como parametro, pero estos datos los contiene
      *      la Casilla[0] de cada Cuadrado, por lo que los puedo obtener de alli directamente.
@@ -41,10 +34,19 @@ public class Facade {
      * Rellenamos cada 'casilla' de la tabla con su Casilla correspondiente.
      * @param tabla Tabla a rellenar.
      */
-    public void rellenoTablaConNumeros(JTable tabla) {
+    private void rellenoTablaConNumeros(JTable tabla) {
         Cuadrado[] cuadrados = ContenedorSingletton.getTableroSingleton().getCUADRADOS();
         for(int i = 0; i < cuadrados.length; i++) {
             rellenoCuadradoGrafico(cuadrados, tabla, i);
         }
+    }
+    
+    /**
+     * Generacion / obtencion del tablero mediante Singleton Pattern.
+     * @param tabla JTable para rellenar con los numeros.
+     */
+    public void generacionTablero(JTable tabla) {
+        ContenedorSingletton.getTableroSingleton();
+        rellenoTablaConNumeros(tabla);
     }
 }
