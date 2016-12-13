@@ -77,4 +77,11 @@ public class Casilla {
     public int getNumeroPropio() {
         return numeroPropio;
     }
+
+    /**
+     * @return the visible
+     */
+    public boolean isVisible() {
+        return visible;
+    }
 }

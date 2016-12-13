@@ -64,7 +64,7 @@ public class GeneracionNumeros {
     
     /**
      * Le pasamos el tablero y la casilla de donde queremos obtener los numeros validos de: cuadrado, fila y columna; Y sacamos un numero valido aleatorio de entre todos ellos. Quitando
-     *  este para que no aparezca como un futuro valido.
+     *  este de cada ArrayList para que no aparezca como un futuro valido.
      * @param tablero Tablero de donde obtener los Cuadrados, Filas y Columnas.
      * @param casilla Casilla para saber que Cuadrados, Filas y Columnas obtener.
      * @return entero aleatorio valido entre todos.

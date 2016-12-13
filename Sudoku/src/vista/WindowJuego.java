@@ -266,8 +266,8 @@ public class WindowJuego extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemSalirActionPerformed
 
     private void jButtonJugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonJugarActionPerformed
-        ContenedorSingletton.getFacadeSingleton().generacionTablero(this.jTableJuego);
-        ContenedorSingletton.getFacadeSingleton().generacionTablero(this.jTableTrampas);
+        ContenedorSingletton.getFacadeSingleton().generacionTablero(this.jTableJuego, false);
+        ContenedorSingletton.getFacadeSingleton().generacionTablero(this.jTableTrampas, true);
         this.jTabbedPanePrincipal.setEnabledAt(1, true);
         this.jTabbedPanePrincipal.setSelectedIndex(1);
         this.jButtonJugar.setEnabled(false);
@@ -282,8 +282,8 @@ public class WindowJuego extends javax.swing.JFrame {
         int confirmacion = JOptionPane.showConfirmDialog(this, "Se perdera el juego actual y se comenzara uno nuevo. ¿Seguro?", "Confirmacion", JOptionPane.YES_NO_OPTION);
         if(confirmacion == 0) {
             ContenedorSingletton.getNuevoTableroSingleton();
-            ContenedorSingletton.getFacadeSingleton().generacionTablero(this.jTableJuego);
-            ContenedorSingletton.getFacadeSingleton().generacionTablero(this.jTableTrampas);
+            ContenedorSingletton.getFacadeSingleton().generacionTablero(this.jTableJuego, false);
+            ContenedorSingletton.getFacadeSingleton().generacionTablero(this.jTableTrampas, true);
 
             this.jTabbedPanePrincipal.setSelectedIndex(1);
             this.jTabbedPanePrincipal.setEnabledAt(2, false);

@@ -22,31 +22,41 @@ public class Facade {
      * @param tabla Tabla grafica que queremos rellenar.
      * @param numeroCuadrado Numero de cuadrado que toca rellenar en esta iteracion.
      */
-    private void rellenoCuadradoGrafico(Cuadrado[] cuadrados, JTable tabla, int numeroCuadrado) {
+    private void rellenoCuadradoGrafico(Cuadrado[] cuadrados, JTable tabla, int numeroCuadrado, boolean mostrarTodos) {
         for (int indiceCasilla = 0, indiceColumna = cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_COLUMNA(); indiceCasilla < 3; indiceColumna++, indiceCasilla++) { //Una fila de un cuadrado.
-            tabla.setValueAt(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla].getNumeroPropio(), cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA(), indiceColumna); //Valor, row, columna.
-            tabla.setValueAt(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+3].getNumeroPropio(), cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA()+1, indiceColumna); //Valor, row, columna.
-            tabla.setValueAt(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+6].getNumeroPropio(), cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA()+2, indiceColumna); //Valor, row, columna.
+            if(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla].isVisible() || mostrarTodos) tabla.setValueAt(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla].getNumeroPropio(), cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA(), indiceColumna); //Valor, row, columna.
+            if(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+3].isVisible() || mostrarTodos)tabla.setValueAt(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+3].getNumeroPropio(), cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA()+1, indiceColumna); //Valor, row, columna.
+            if(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+6].isVisible() || mostrarTodos)tabla.setValueAt(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+6].getNumeroPropio(), cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA()+2, indiceColumna); //Valor, row, columna.
         }
     }
     
     /**
      * Rellenamos cada 'casilla' de la tabla con su Casilla correspondiente.
      * @param tabla Tabla a rellenar.
+     * @param mostrarTodos mostrar todas las casillas (usado en la version de trampas).
      */
-    private void rellenoTablaConNumeros(JTable tabla) {
+    private void rellenoTablaConNumeros(JTable tabla, boolean mostrarTodos) {
         Cuadrado[] cuadrados = ContenedorSingletton.getTableroSingleton().getCUADRADOS();
         for(int i = 0; i < cuadrados.length; i++) {
-            rellenoCuadradoGrafico(cuadrados, tabla, i);
+            rellenoCuadradoGrafico(cuadrados, tabla, i, mostrarTodos);
         }
     }
     
     /**
      * Generacion / obtencion del tablero mediante Singleton Pattern.
      * @param tabla JTable para rellenar con los numeros.
+     * @param mostrarTodos mostrar todas las casillas (version JTable Trampas).
      */
-    public void generacionTablero(JTable tabla) {
+    public void generacionTablero(JTable tabla, boolean mostrarTodos) {
         ContenedorSingletton.getTableroSingleton();
-        rellenoTablaConNumeros(tabla);
+        rellenoTablaConNumeros(tabla, mostrarTodos);
+    }
+    
+    /**
+     * Ocultacion de casillas para hacer el juego, 5 casillas por cuadrado.
+     * todo: lo dejo aqui, mirar cuanto hay que ocultar o algoritmos de ocultacion.
+     */
+    public void ocultacionNumerosAleatorios() {
+        
     }
 }
