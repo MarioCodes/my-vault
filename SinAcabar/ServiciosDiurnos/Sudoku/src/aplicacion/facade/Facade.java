@@ -5,7 +5,6 @@
  */
 package aplicacion.facade;
 
-import aplicacion.controlador.tablero.Casilla;
 import aplicacion.controlador.tablero.Cuadrado;
 import javax.swing.JTable;
 
@@ -16,43 +15,36 @@ import javax.swing.JTable;
  */
 public class Facade {
     /**
-     * Generacion del tablero mediante singleton pattern.
+     * Generacion / obtencion del tablero mediante Singleton Pattern.
      */
     public void obtencionTablero() {
         ContenedorSingletton.getTableroSingleton();
     }
     
     /**
-     * Relleno de un cuadrado grafico de la tabla con su homologo Cuadrado.
-     * @param cuadrados
-     * @param tabla
-     * @param numeroCuadrado
-     * @param primeraColumna
-     * @param primeraFila 
+     * Relleno de un 'cuadrado' de la tabla, con los valores de las casillas de su homologo Cuadrado.
+     *  Son necesarios los datos de la primera columna y fila propia de cada cuadrado, para ir rellenando a partir de alli. Antes los pasaba como parametro, pero estos datos los contiene
+     *      la Casilla[0] de cada Cuadrado, por lo que los puedo obtener de alli directamente.
+     * @param cuadrados Cuadrados creados previamente de donde extraer los datos de valor de cada Casilla.
+     * @param tabla Tabla grafica que queremos rellenar.
+     * @param numeroCuadrado Numero de cuadrado que toca rellenar en esta iteracion.
      */
-    private void rellenoCuadradoGrafico(Cuadrado[] cuadrados, JTable tabla, int numeroCuadrado, int primeraColumna, int primeraFila) {
-        for (int indiceCasilla = 0, indiceFila = primeraFila; indiceCasilla < 3; indiceFila++, indiceCasilla++) { //Una fila de un cuadrado.
-            tabla.setValueAt(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla].getNumeroPropio(), primeraColumna, indiceFila); //Valor, row, columna.
-            tabla.setValueAt(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+3].getNumeroPropio(), primeraColumna+1, indiceFila); //Valor, row, columna.
-            tabla.setValueAt(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+6].getNumeroPropio(), primeraColumna+2, indiceFila); //Valor, row, columna.
-        }        
+    private void rellenoCuadradoGrafico(Cuadrado[] cuadrados, JTable tabla, int numeroCuadrado) {
+        for (int indiceCasilla = 0, indiceColumna = cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_COLUMNA(); indiceCasilla < 3; indiceColumna++, indiceCasilla++) { //Una fila de un cuadrado.
+            tabla.setValueAt(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla].getNumeroPropio(), cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA(), indiceColumna); //Valor, row, columna.
+            tabla.setValueAt(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+3].getNumeroPropio(), cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA()+1, indiceColumna); //Valor, row, columna.
+            tabla.setValueAt(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+6].getNumeroPropio(), cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA()+2, indiceColumna); //Valor, row, columna.
+        }
     }
     
     /**
-     * Rellenamos cada casilla de la tabla con su Casilla correspondiente.
+     * Rellenamos cada 'casilla' de la tabla con su Casilla correspondiente.
      * @param tabla Tabla a rellenar.
      */
     public void rellenoTablaConNumeros(JTable tabla) {
         Cuadrado[] cuadrados = ContenedorSingletton.getTableroSingleton().getCUADRADOS();
-        
-        rellenoCuadradoGrafico(cuadrados, tabla, 0, 0 ,0); //fixme: arreglar esta chapuza y pasarlo a un 'for' para hacerlo mediante bucle.
-        rellenoCuadradoGrafico(cuadrados, tabla, 1, 0 ,3);
-        rellenoCuadradoGrafico(cuadrados, tabla, 2, 0 ,6);
-        rellenoCuadradoGrafico(cuadrados, tabla, 3, 3 ,0);
-        rellenoCuadradoGrafico(cuadrados, tabla, 4, 3 ,3);
-        rellenoCuadradoGrafico(cuadrados, tabla, 5, 3 ,6);
-        rellenoCuadradoGrafico(cuadrados, tabla, 6, 6 ,0);
-        rellenoCuadradoGrafico(cuadrados, tabla, 7, 6 ,3);
-        rellenoCuadradoGrafico(cuadrados, tabla, 8, 6 ,6);
+        for(int i = 0; i < cuadrados.length; i++) {
+            rellenoCuadradoGrafico(cuadrados, tabla, i);
+        }
     }
 }
