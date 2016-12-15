@@ -11,7 +11,11 @@ import vista.WindowJuego;
  * Solucion al problema del Sudoku. (3er intento).
  * @author Mario Codes Sánchez
  * @since 13/12/2016
- * @version 0.3 Parte grafica medio hecha. A mirar algoritmos para ocultar numeros.
+ * @version 0.3 Parte grafica medio hecha. A ocultar numeros. Logica:
+ *      Oculto numero.
+ *      Comprobar si sudoku tiene solo 1 solucion
+ *      Ocultar otro mientras solo 1 solucion.
+ * @see http://www.sudokuoftheday.com/techniques/
  */
 public class Sudoku {
 
