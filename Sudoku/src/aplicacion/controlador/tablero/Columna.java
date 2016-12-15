@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * @since 12/12/2016
  */
 public class Columna {
-    private final Casilla[] CASILLAS = new Casilla[9];
+    private final Casilla[] CASILLAS;
     private ArrayList<Integer> numerosDisponiblesColumna = new ArrayList<Integer>() {{
         add(1);
         add(2);
@@ -26,13 +26,18 @@ public class Columna {
         add(9);
     }};
     
-//    /**
-//     * Constructor a utilizar por defecto para rellenar.
-//     * @param casillas Casilla[] que formara la columna.
-//     */
-//    public Columna(Casilla[] casillas) {
-//        //this.casillas = casillas;
-//    }
+    //fixme: borrar. Testeo.
+    public Columna() {
+        this.CASILLAS = new Casilla[9];
+    }
+    
+    /**
+     * Constructor a utilizar por defecto para rellenar.
+     * @param casillas Casilla[] que formara la columna.
+     */
+    public Columna(Casilla[] casillas) {
+        this.CASILLAS = casillas;
+    }
 
     /**
      * @param numerosDisponiblesColumna the numerosDisponiblesColumna to set
@@ -46,5 +51,19 @@ public class Columna {
      */
     public ArrayList<Integer> getNumerosDisponiblesColumna() {
         return numerosDisponiblesColumna;
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        
+        for(Casilla cas: CASILLAS) {
+            sb.append(cas);
+            sb.append("\n");
+        }
+        
+        sb.append("\n");
+        
+        return sb.toString();
     }
 }

@@ -31,6 +31,7 @@ public class Tablero {
     private void preparacionTablero() {
         iniElementosNecesarios();
         rellenoFilas();
+        rellenoColumnas();
     }
     
     /**
@@ -40,7 +41,7 @@ public class Tablero {
                                 //numCuadrado, numFila, numColumna.
         for (int i = 0, indiceFila = 0, indiceColumna = 0; i < CUADRADOS.length; i++) {
             CUADRADOS[i] = new Cuadrado(i, indiceFila, indiceColumna);
-            COLUMNAS[i] = new Columna(); //fixme: mover y hacer directamente new Fila(Casillas[]) cuando tenga las Casillas metidas y generadas.
+            COLUMNAS[i] = new Columna(); //fixme: borrar cuando haya puesto las columnas con las casillas.
             
             if((i+1)%3 == 0) {
                 indiceFila += 3;
@@ -97,6 +98,35 @@ public class Tablero {
         }
     }
 
+    /**
+     * Introduccion de casillas en columnas. Se debera repetir tres veces.
+     * @param numPrimerCuadrado Numero del primer cuadrado del set de 3.
+     */
+    private void introduccionCasillasCuadradosEnColumnas(int numPrimerCuadrado) {
+        Casilla[] casillasTmp;
+        
+        for(int indiceColumna = numPrimerCuadrado*3, indiceCasillaTmp, indiceCasillaCuadrado, indiceCasillaBaseCuadrado = 0; indiceColumna < ((numPrimerCuadrado*3)+3); indiceColumna++, indiceCasillaBaseCuadrado += 3) {
+            casillasTmp = new Casilla[9];
+            indiceCasillaCuadrado = indiceCasillaBaseCuadrado;
+            indiceCasillaTmp = 0;
+            for (int x = 0; x <= 2; x++, indiceCasillaTmp++, indiceCasillaCuadrado++) {
+                casillasTmp[indiceCasillaTmp] = CUADRADOS[numPrimerCuadrado].getCASILLAS()[indiceCasillaCuadrado];
+                casillasTmp[indiceCasillaTmp+1] = CUADRADOS[numPrimerCuadrado+3].getCASILLAS()[indiceCasillaCuadrado];
+                casillasTmp[indiceCasillaTmp+2] = CUADRADOS[numPrimerCuadrado+6].getCASILLAS()[indiceCasillaCuadrado];
+            }
+            COLUMNAS[indiceColumna] = new Columna(casillasTmp);
+        }
+    }
+    
+    /**
+     * Introduccion de las Casillas de los Cuadrados en las Columnas.
+     */
+    private void rellenoColumnas() {
+        for (int i = 0; i < 3; i++) {
+            introduccionCasillasCuadradosEnColumnas(i); //0, 1, 2.
+        }
+    }
+    
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Cuadrados: \n");
@@ -109,6 +139,13 @@ public class Tablero {
         
         for(Fila fila: FILAS) {
             sb.append(fila);
+            sb.append("\n");
+        }
+        
+        sb.append("Columnas: \n");
+        
+        for(Columna columna: COLUMNAS) {
+            sb.append(columna);
             sb.append("\n");
         }
         
