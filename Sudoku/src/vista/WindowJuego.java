@@ -85,6 +85,7 @@ public class WindowJuego extends javax.swing.JFrame {
         jTableTrampas = new javax.swing.JTable();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuOpciones = new javax.swing.JMenu();
+        jMenuItemTesteoTablero = new javax.swing.JMenuItem();
         jMenuItemSalir = new javax.swing.JMenuItem();
         jMenuJuego = new javax.swing.JMenu();
         jMenuItemActivarTrampas = new javax.swing.JMenuItem();
@@ -169,13 +170,10 @@ public class WindowJuego extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jTableJuego.setCellSelectionEnabled(false);
         jTableJuego.setMinimumSize(new java.awt.Dimension(135, 333));
         jTableJuego.setPreferredSize(new java.awt.Dimension(400, 390));
         jTableJuego.setRowHeight(41);
         jTableJuego.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTableJuego.setShowHorizontalLines(true);
-        jTableJuego.setShowVerticalLines(true);
         jTabbedPanePrincipal.addTab("Juego", jTableJuego);
 
         jTableTrampas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
@@ -210,11 +208,18 @@ public class WindowJuego extends javax.swing.JFrame {
         jTableTrampas.setPreferredSize(new java.awt.Dimension(400, 390));
         jTableTrampas.setRowHeight(41);
         jTableTrampas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTableTrampas.setShowHorizontalLines(true);
-        jTableTrampas.setShowVerticalLines(true);
         jTabbedPanePrincipal.addTab("Trampas", jTableTrampas);
 
         jMenuOpciones.setText("File");
+
+        jMenuItemTesteoTablero.setText("Comprobar Tablero");
+        jMenuItemTesteoTablero.setEnabled(false);
+        jMenuItemTesteoTablero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemTesteoTableroActionPerformed(evt);
+            }
+        });
+        jMenuOpciones.add(jMenuItemTesteoTablero);
 
         jMenuItemSalir.setText("Salir");
         jMenuItemSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -272,6 +277,7 @@ public class WindowJuego extends javax.swing.JFrame {
         this.jTabbedPanePrincipal.setSelectedIndex(1);
         this.jButtonJugar.setEnabled(false);
         this.jButtonRecomenzar.setEnabled(true);
+        this.jMenuItemTesteoTablero.setEnabled(true);
     }//GEN-LAST:event_jButtonJugarActionPerformed
 
     private void jMenuItemActivarTrampasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemActivarTrampasActionPerformed
@@ -290,6 +296,10 @@ public class WindowJuego extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonRecomenzarActionPerformed
 
+    private void jMenuItemTesteoTableroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemTesteoTableroActionPerformed
+        System.out.println(ContenedorSingletton.getTableroSingleton());
+    }//GEN-LAST:event_jMenuItemTesteoTableroActionPerformed
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonJugar;
@@ -300,6 +310,7 @@ public class WindowJuego extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemActivarTrampas;
     private javax.swing.JMenuItem jMenuItemComprobar;
     private javax.swing.JMenuItem jMenuItemSalir;
+    private javax.swing.JMenuItem jMenuItemTesteoTablero;
     private javax.swing.JMenu jMenuJuego;
     private javax.swing.JMenu jMenuOpciones;
     private javax.swing.JPanel jPanelMenuOpcionesJuego;

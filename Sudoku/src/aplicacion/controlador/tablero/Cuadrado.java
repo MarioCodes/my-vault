@@ -52,14 +52,16 @@ public class Cuadrado {
     
     @Override
     public String toString() {
-        String buffer = "";
+        StringBuilder sb = new StringBuilder();
         
         for (int i = 0; i < CASILLAS.length; i++) {
-            buffer += CASILLAS[i] +" ";
-            if((i+1) % 3 == 0) buffer += "\n";
-        }
+            sb.append(CASILLAS[i]);
+            sb.append(" ");
+            if((i+1) % 3 == 0) sb.append("\n");
+        }        
+        sb.append("\n");
         
-        return buffer +"\n";
+        return sb.toString();
     }
 
     /**

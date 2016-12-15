@@ -5,6 +5,7 @@
  */
 package sudoku;
 
+import aplicacion.controlador.tablero.Tablero;
 import vista.WindowJuego;
 
 /**
@@ -24,6 +25,7 @@ public class Sudoku {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+//        System.out.println(new Tablero());
         new WindowJuego();
     }
 }

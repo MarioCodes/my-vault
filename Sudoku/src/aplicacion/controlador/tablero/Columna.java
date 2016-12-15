@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * @since 12/12/2016
  */
 public class Columna {
-    //private Casilla[] casillas = new Casilla[9];
+    private final Casilla[] CASILLAS = new Casilla[9];
     private ArrayList<Integer> numerosDisponiblesColumna = new ArrayList<Integer>() {{
         add(1);
         add(2);
@@ -33,10 +33,6 @@ public class Columna {
 //    public Columna(Casilla[] casillas) {
 //        //this.casillas = casillas;
 //    }
-    
-    public Columna() {
-        //this.casillas = new Casilla[9];
-    }
 
     /**
      * @param numerosDisponiblesColumna the numerosDisponiblesColumna to set

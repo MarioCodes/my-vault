@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * @since 12/12/2016
  */
 public class Fila {
-//    private Casilla[] casillas;
+    private Casilla[] casillas;
     private ArrayList<Integer> numerosDisponiblesFila = new ArrayList<Integer>() {{
         add(1);
         add(2);
@@ -26,24 +26,13 @@ public class Fila {
         add(9);
     }};
     
-//    /**
-//     * Constructor por defecto.
-//     * @param casillas Casillas ya instanciadas que formaran la fila en si misma.
-//     */
-//    public Fila(Casilla[] casillas) {
-//        this.casillas = casillas;
-//    }
-    
-    public Fila() {
-//        casillas = new Casilla[9];
+    /**
+     * Constructor por defecto.
+     * @param casillas Casillas ya instanciadas que formaran la fila en si misma.
+     */
+    public Fila(Casilla[] casillas) {
+        this.casillas = casillas;
     }
-
-//    /**
-//     * @return the casillas
-//     */
-//    public Casilla[] getCasillas() {
-//        return casillas;
-//    }
 
     /**
      * @param numerosDisponiblesFila the numerosDisponiblesFila to set
@@ -57,5 +46,24 @@ public class Fila {
      */
     public ArrayList<Integer> getNumerosDisponiblesFila() {
         return numerosDisponiblesFila;
+    }
+
+    /**
+     * @return the casillas
+     */
+    public Casilla[] getCasillas() {
+        return casillas;
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        
+        for(Casilla cas : casillas) {
+            sb.append(cas);
+            sb.append(" ");
+        }
+        
+        return sb.toString() +"\n";
     }
 }
