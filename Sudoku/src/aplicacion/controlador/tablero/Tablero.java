@@ -11,7 +11,7 @@ import aplicacion.controlador.juego.GeneracionNumeros;
  * Tablero de juego. Es el conjunto de Cuadrados, Filas y Columnas, cada uno con sus casillas correspondientes.
  *  Para ver como funciona el reparto de numeros propio de cuadrados, filas y columnas, ver la representacion en Paint anexada.
  * @author Mario Codes Sánchez
- * @since 13/12/2016
+ * @since 15/12/2016
  */
 public class Tablero {
     private final Cuadrado[] CUADRADOS = new Cuadrado[9];
@@ -41,7 +41,6 @@ public class Tablero {
                                 //numCuadrado, numFila, numColumna.
         for (int i = 0, indiceFila = 0, indiceColumna = 0; i < CUADRADOS.length; i++) {
             CUADRADOS[i] = new Cuadrado(i, indiceFila, indiceColumna);
-            COLUMNAS[i] = new Columna(); //fixme: borrar cuando haya puesto las columnas con las casillas.
             
             if((i+1)%3 == 0) {
                 indiceFila += 3;
@@ -71,6 +70,7 @@ public class Tablero {
     
     /**
      * Introduccion en si misma. Se debera repetir 3 veces.
+     * Funciona. Evitar tocarlo a no ser que sea extremamente necesario.
      * @param numPrimerCuadrado Numero del primer cuadrado. Debera ser 0/3/6.
      */
     private void introduccionCasillasCuadradosEnFilas(int numPrimerCuadrado) {
@@ -100,19 +100,20 @@ public class Tablero {
 
     /**
      * Introduccion de casillas en columnas. Se debera repetir tres veces.
+     * Funciona. Evitar tocarlo a no ser que sea extremamente necesario.
      * @param numPrimerCuadrado Numero del primer cuadrado del set de 3.
      */
     private void introduccionCasillasCuadradosEnColumnas(int numPrimerCuadrado) {
         Casilla[] casillasTmp;
         
-        for(int indiceColumna = numPrimerCuadrado*3, indiceCasillaTmp, indiceCasillaCuadrado, indiceCasillaBaseCuadrado = 0; indiceColumna < ((numPrimerCuadrado*3)+3); indiceColumna++, indiceCasillaBaseCuadrado += 3) {
+        for(int indiceColumna = numPrimerCuadrado*3, indiceCasillaTmp, indiceCasillaCuadrado, indiceCasillaCuadradoBase = 0; indiceColumna < ((numPrimerCuadrado*3)+3); indiceColumna++, indiceCasillaCuadradoBase++) {
             casillasTmp = new Casilla[9];
-            indiceCasillaCuadrado = indiceCasillaBaseCuadrado;
+            indiceCasillaCuadrado = indiceCasillaCuadradoBase;
             indiceCasillaTmp = 0;
-            for (int x = 0; x <= 2; x++, indiceCasillaTmp++, indiceCasillaCuadrado++) {
+            for (int x = 0; x <= 2; x++, indiceCasillaTmp++, indiceCasillaCuadrado+=3) {
                 casillasTmp[indiceCasillaTmp] = CUADRADOS[numPrimerCuadrado].getCASILLAS()[indiceCasillaCuadrado];
-                casillasTmp[indiceCasillaTmp+1] = CUADRADOS[numPrimerCuadrado+3].getCASILLAS()[indiceCasillaCuadrado];
-                casillasTmp[indiceCasillaTmp+2] = CUADRADOS[numPrimerCuadrado+6].getCASILLAS()[indiceCasillaCuadrado];
+                casillasTmp[indiceCasillaTmp+3] = CUADRADOS[numPrimerCuadrado+3].getCASILLAS()[indiceCasillaCuadrado];
+                casillasTmp[indiceCasillaTmp+6] = CUADRADOS[numPrimerCuadrado+6].getCASILLAS()[indiceCasillaCuadrado];
             }
             COLUMNAS[indiceColumna] = new Columna(casillasTmp);
         }

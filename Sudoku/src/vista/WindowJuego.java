@@ -5,7 +5,7 @@
  */
 package vista;
 
-import aplicacion.facade.ContenedorSingletton;
+import aplicacion.patrones.Singleton;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 /**
  * Ventana principal del programa.
  * @author Mario Codes Sánchez
- * @since 13/12/2016
+ * @since 15/12/2016
  */
 public class WindowJuego extends javax.swing.JFrame {
 
@@ -212,7 +212,7 @@ public class WindowJuego extends javax.swing.JFrame {
 
         jMenuOpciones.setText("File");
 
-        jMenuItemTesteoTablero.setText("Comprobar Tablero");
+        jMenuItemTesteoTablero.setText("Print Tablero (Check)");
         jMenuItemTesteoTablero.setEnabled(false);
         jMenuItemTesteoTablero.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -271,8 +271,8 @@ public class WindowJuego extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemSalirActionPerformed
 
     private void jButtonJugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonJugarActionPerformed
-        ContenedorSingletton.getFacadeSingleton().generacionTablero(this.jTableJuego, false);
-        ContenedorSingletton.getFacadeSingleton().generacionTablero(this.jTableTrampas, true);
+        Singleton.getFacadeSingleton().generacionTablero(this.jTableJuego, false);
+        Singleton.getFacadeSingleton().generacionTablero(this.jTableTrampas, true);
         this.jTabbedPanePrincipal.setEnabledAt(1, true);
         this.jTabbedPanePrincipal.setSelectedIndex(1);
         this.jButtonJugar.setEnabled(false);
@@ -287,9 +287,9 @@ public class WindowJuego extends javax.swing.JFrame {
     private void jButtonRecomenzarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRecomenzarActionPerformed
         int confirmacion = JOptionPane.showConfirmDialog(this, "Se perdera el juego actual y se comenzara uno nuevo. ¿Seguro?", "Confirmacion", JOptionPane.YES_NO_OPTION);
         if(confirmacion == 0) {
-            ContenedorSingletton.getNuevoTableroSingleton();
-            ContenedorSingletton.getFacadeSingleton().generacionTablero(this.jTableJuego, false);
-            ContenedorSingletton.getFacadeSingleton().generacionTablero(this.jTableTrampas, true);
+            Singleton.getTableroNuevoSingleton();
+            Singleton.getFacadeSingleton().generacionTablero(this.jTableJuego, false);
+            Singleton.getFacadeSingleton().generacionTablero(this.jTableTrampas, true);
 
             this.jTabbedPanePrincipal.setSelectedIndex(1);
             this.jTabbedPanePrincipal.setEnabledAt(2, false);
@@ -297,7 +297,7 @@ public class WindowJuego extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonRecomenzarActionPerformed
 
     private void jMenuItemTesteoTableroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemTesteoTableroActionPerformed
-        System.out.println(ContenedorSingletton.getTableroSingleton());
+        System.out.println(Singleton.getTableroSingleton());
     }//GEN-LAST:event_jMenuItemTesteoTableroActionPerformed
 
     

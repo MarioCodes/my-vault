@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aplicacion.facade;
+package aplicacion.patrones;
 
 import aplicacion.controlador.tablero.Tablero;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import java.util.HashMap;
  * @author Mario Codes Sánchez
  * @since 12/12/2016
  */
-public class ContenedorSingletton {
+public class Singleton {
     private final static HashMap<String, Object> INSTANCIAS = new HashMap();
     
     /**
@@ -37,10 +37,10 @@ public class ContenedorSingletton {
     }
     
     /**
-     * Generacion de un tablero nuevo para nueva partida.
+     * Generacion de un tablero nuevo para comenzar una nueva partida.
      * @return Nuevo tablero generado correctamente.
      */
-    public static Tablero getNuevoTableroSingleton() {
+    public static Tablero getTableroNuevoSingleton() {
         INSTANCIAS.remove("Tablero");
         return getTableroSingleton();
     }

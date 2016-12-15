@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aplicacion.facade;
+package aplicacion.patrones;
 
 import aplicacion.controlador.tablero.Cuadrado;
 import javax.swing.JTable;
@@ -36,7 +36,7 @@ public class Facade {
      * @param mostrarTodos mostrar todas las casillas (usado en la version de trampas).
      */
     private void rellenoTablaConNumeros(JTable tabla, boolean mostrarTodos) {
-        Cuadrado[] cuadrados = ContenedorSingletton.getTableroSingleton().getCUADRADOS();
+        Cuadrado[] cuadrados = Singleton.getTableroSingleton().getCUADRADOS();
         for(int i = 0; i < cuadrados.length; i++) {
             rellenoCuadradoGrafico(cuadrados, tabla, i, mostrarTodos);
         }
@@ -48,7 +48,7 @@ public class Facade {
      * @param mostrarTodos mostrar todas las casillas (version JTable Trampas).
      */
     public void generacionTablero(JTable tabla, boolean mostrarTodos) {
-        ContenedorSingletton.getTableroSingleton();
+        Singleton.getTableroSingleton();
         rellenoTablaConNumeros(tabla, mostrarTodos);
     }
     

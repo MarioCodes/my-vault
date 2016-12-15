@@ -11,7 +11,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemTesteoTablero">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Comprobar Tablero"/>
+                <Property name="text" type="java.lang.String" value="Print Tablero (Check)"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>

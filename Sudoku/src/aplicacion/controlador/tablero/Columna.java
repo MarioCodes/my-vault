@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Representacion de una columna del tablero de juego.
  * @author Mario Codes Sánchez
- * @since 12/12/2016
+ * @since 15/12/2016
  */
 public class Columna {
     private final Casilla[] CASILLAS;
@@ -25,11 +25,6 @@ public class Columna {
         add(8);
         add(9);
     }};
-    
-    //fixme: borrar. Testeo.
-    public Columna() {
-        this.CASILLAS = new Casilla[9];
-    }
     
     /**
      * Constructor a utilizar por defecto para rellenar.
