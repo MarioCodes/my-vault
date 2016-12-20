@@ -5,13 +5,13 @@
  */
 package aplicacion.controlador.tablero;
 
-import aplicacion.controlador.juego.GeneracionNumeros;
+import aplicacion.controlador.juego.GestionNumeros;
 
 /**
  * Tablero de juego. Es el conjunto de Cuadrados, Filas y Columnas, cada uno con sus casillas correspondientes.
  *  Para ver como funciona el reparto de numeros propio de cuadrados, filas y columnas, ver la representacion en Paint anexada.
  * @author Mario Codes Sánchez
- * @since 15/12/2016
+ * @since 20/12/2016
  */
 public class Tablero {
     private final Cuadrado[] CUADRADOS = new Cuadrado[9];
@@ -59,7 +59,7 @@ public class Tablero {
         for (int i = 0; i < CUADRADOS.length; i++) {
             Casilla[] casillasCuadrado = CUADRADOS[i].getCASILLAS();
             for (int x = 0; x < casillasCuadrado.length; x++) {
-                int num = GeneracionNumeros.generacionNumeroCasilla(this, casillasCuadrado[x]);
+                int num = GestionNumeros.generacionNumeroCasilla(this, casillasCuadrado[x]);
                 if(num == -1) return false; //Punto muerto.
                 casillasCuadrado[x].setNumeroPropio(num);
             }
@@ -130,7 +130,7 @@ public class Tablero {
     
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Cuadrados: \n");
+        StringBuilder sb = new StringBuilder("Diferentes partes del tablero para comprobar que todas ellas coinciden y cuadran: \nCuadrados: \n");
         
         for(Cuadrado cuad : CUADRADOS) {
             sb.append(cuad);

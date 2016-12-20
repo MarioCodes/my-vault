@@ -5,8 +5,11 @@
  */
 package vista;
 
+import aplicacion.controlador.juego.Resolucion;
 import aplicacion.patrones.Singleton;
 import java.awt.Color;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -14,9 +17,10 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 /**
+ * todo: acordarme de añadir al final de todo hints y demas para cada boton.
  * Ventana principal del programa.
  * @author Mario Codes Sánchez
- * @since 15/12/2016
+ * @since 20/12/2016
  */
 public class WindowJuego extends javax.swing.JFrame {
 
@@ -50,6 +54,7 @@ public class WindowJuego extends javax.swing.JFrame {
         
         jTabbedPanePrincipal.setEnabledAt(1, false); //Para que la de juego ni la de trampas se puedan seleccionar salvo cuando se haya creado el juego..
         jTabbedPanePrincipal.setEnabledAt(2, false); 
+        jTabbedPanePrincipal.setEnabledAt(3, false); 
     }
     
     /**
@@ -81,15 +86,19 @@ public class WindowJuego extends javax.swing.JFrame {
         jButtonJugar = new javax.swing.JButton();
         jLabelTitulo = new javax.swing.JLabel();
         jButtonRecomenzar = new javax.swing.JButton();
+        jButtonSolventar = new javax.swing.JButton();
         jTableJuego = new javax.swing.JTable();
         jTableTrampas = new javax.swing.JTable();
+        jPanelSolventar = new javax.swing.JPanel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuOpciones = new javax.swing.JMenu();
-        jMenuItemTesteoTablero = new javax.swing.JMenuItem();
         jMenuItemSalir = new javax.swing.JMenuItem();
         jMenuJuego = new javax.swing.JMenu();
         jMenuItemActivarTrampas = new javax.swing.JMenuItem();
         jMenuItemComprobar = new javax.swing.JMenuItem();
+        jMenuTesteo = new javax.swing.JMenu();
+        jMenuItemTesteoTablero = new javax.swing.JMenuItem();
+        jMenuItemOcultarCasilla = new javax.swing.JMenuItem();
         jMenuAcercaDe = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -114,6 +123,9 @@ public class WindowJuego extends javax.swing.JFrame {
             }
         });
 
+        jButtonSolventar.setText("Solucionar Sudoku 'Custom'");
+        jButtonSolventar.setEnabled(false);
+
         javax.swing.GroupLayout jPanelMenuOpcionesJuegoLayout = new javax.swing.GroupLayout(jPanelMenuOpcionesJuego);
         jPanelMenuOpcionesJuego.setLayout(jPanelMenuOpcionesJuegoLayout);
         jPanelMenuOpcionesJuegoLayout.setHorizontalGroup(
@@ -127,8 +139,9 @@ public class WindowJuego extends javax.swing.JFrame {
                         .addGap(71, 71, 71)
                         .addGroup(jPanelMenuOpcionesJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButtonRecomenzar, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonJugar, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(79, Short.MAX_VALUE))
+                            .addComponent(jButtonJugar, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonSolventar, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(74, Short.MAX_VALUE))
         );
         jPanelMenuOpcionesJuegoLayout.setVerticalGroup(
             jPanelMenuOpcionesJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,7 +152,9 @@ public class WindowJuego extends javax.swing.JFrame {
                 .addComponent(jButtonJugar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonRecomenzar)
-                .addContainerGap(230, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonSolventar)
+                .addContainerGap(206, Short.MAX_VALUE))
         );
 
         jTabbedPanePrincipal.addTab("Menu Principal", jPanelMenuOpcionesJuego);
@@ -210,16 +225,20 @@ public class WindowJuego extends javax.swing.JFrame {
         jTableTrampas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTabbedPanePrincipal.addTab("Trampas", jTableTrampas);
 
-        jMenuOpciones.setText("File");
+        javax.swing.GroupLayout jPanelSolventarLayout = new javax.swing.GroupLayout(jPanelSolventar);
+        jPanelSolventar.setLayout(jPanelSolventarLayout);
+        jPanelSolventarLayout.setHorizontalGroup(
+            jPanelSolventarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 385, Short.MAX_VALUE)
+        );
+        jPanelSolventarLayout.setVerticalGroup(
+            jPanelSolventarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 351, Short.MAX_VALUE)
+        );
 
-        jMenuItemTesteoTablero.setText("Print Tablero (Check)");
-        jMenuItemTesteoTablero.setEnabled(false);
-        jMenuItemTesteoTablero.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemTesteoTableroActionPerformed(evt);
-            }
-        });
-        jMenuOpciones.add(jMenuItemTesteoTablero);
+        jTabbedPanePrincipal.addTab("Solventar", jPanelSolventar);
+
+        jMenuOpciones.setText("File");
 
         jMenuItemSalir.setText("Salir");
         jMenuItemSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -234,6 +253,7 @@ public class WindowJuego extends javax.swing.JFrame {
         jMenuJuego.setText("Juego");
 
         jMenuItemActivarTrampas.setText("Activar Trampas");
+        jMenuItemActivarTrampas.setEnabled(false);
         jMenuItemActivarTrampas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemActivarTrampasActionPerformed(evt);
@@ -241,11 +261,38 @@ public class WindowJuego extends javax.swing.JFrame {
         });
         jMenuJuego.add(jMenuItemActivarTrampas);
 
-        jMenuItemComprobar.setText("Comprobar Solucion");
+        jMenuItemComprobar.setText("Solventar Sudoku Actual");
         jMenuItemComprobar.setEnabled(false);
+        jMenuItemComprobar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemComprobarActionPerformed(evt);
+            }
+        });
         jMenuJuego.add(jMenuItemComprobar);
 
         jMenuBar.add(jMenuJuego);
+
+        jMenuTesteo.setText("Testeo");
+
+        jMenuItemTesteoTablero.setText("Print Tablero");
+        jMenuItemTesteoTablero.setEnabled(false);
+        jMenuItemTesteoTablero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemTesteoTableroActionPerformed(evt);
+            }
+        });
+        jMenuTesteo.add(jMenuItemTesteoTablero);
+
+        jMenuItemOcultarCasilla.setText("Ocultar Casilla");
+        jMenuItemOcultarCasilla.setEnabled(false);
+        jMenuItemOcultarCasilla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemOcultarCasillaActionPerformed(evt);
+            }
+        });
+        jMenuTesteo.add(jMenuItemOcultarCasilla);
+
+        jMenuBar.add(jMenuTesteo);
 
         jMenuAcercaDe.setText("Acerca De...");
         jMenuBar.add(jMenuAcercaDe);
@@ -269,8 +316,9 @@ public class WindowJuego extends javax.swing.JFrame {
     private void jMenuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalirActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jMenuItemSalirActionPerformed
-
+       
     private void jButtonJugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonJugarActionPerformed
+//        Singleton.getFacadeSingleton().ocultacionNumerosAleatorios();
         Singleton.getFacadeSingleton().generacionTablero(this.jTableJuego, false);
         Singleton.getFacadeSingleton().generacionTablero(this.jTableTrampas, true);
         this.jTabbedPanePrincipal.setEnabledAt(1, true);
@@ -278,6 +326,9 @@ public class WindowJuego extends javax.swing.JFrame {
         this.jButtonJugar.setEnabled(false);
         this.jButtonRecomenzar.setEnabled(true);
         this.jMenuItemTesteoTablero.setEnabled(true);
+        this.jMenuItemActivarTrampas.setEnabled(true);
+        this.jMenuItemComprobar.setEnabled(true);
+        this.jMenuItemOcultarCasilla.setEnabled(true);
     }//GEN-LAST:event_jButtonJugarActionPerformed
 
     private void jMenuItemActivarTrampasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemActivarTrampasActionPerformed
@@ -287,12 +338,8 @@ public class WindowJuego extends javax.swing.JFrame {
     private void jButtonRecomenzarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRecomenzarActionPerformed
         int confirmacion = JOptionPane.showConfirmDialog(this, "Se perdera el juego actual y se comenzara uno nuevo. ¿Seguro?", "Confirmacion", JOptionPane.YES_NO_OPTION);
         if(confirmacion == 0) {
-            Singleton.getTableroNuevoSingleton();
-            Singleton.getFacadeSingleton().generacionTablero(this.jTableJuego, false);
-            Singleton.getFacadeSingleton().generacionTablero(this.jTableTrampas, true);
+            this.jButtonJugarActionPerformed(evt);
 
-            this.jTabbedPanePrincipal.setSelectedIndex(1);
-            this.jTabbedPanePrincipal.setEnabledAt(2, false);
         }
     }//GEN-LAST:event_jButtonRecomenzarActionPerformed
 
@@ -300,20 +347,48 @@ public class WindowJuego extends javax.swing.JFrame {
         System.out.println(Singleton.getTableroSingleton());
     }//GEN-LAST:event_jMenuItemTesteoTableroActionPerformed
 
+    private void jMenuItemComprobarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemComprobarActionPerformed
+        Resolucion.solucionFuerzaBruta();
+    }//GEN-LAST:event_jMenuItemComprobarActionPerformed
+
+    private void jMenuItemOcultarCasillaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOcultarCasillaActionPerformed
+        Scanner scanner;
+        int fila = -1, casilla = -1;
+        
+        System.out.println("Ocultar Casilla.");
+        while(fila == -1 || casilla == -1) {
+            scanner = new Scanner(System.in);
+            try {
+                System.out.print("\tNumero de fila: ");
+                fila = scanner.nextInt();
+                System.out.print("\tNumero de casilla SEGUN FILA: ");
+                casilla = scanner.nextInt();
+            }catch(InputMismatchException ex) {
+                System.out.println("Dato no valido.");
+            }
+        }
+        
+        Singleton.getFacadeSingleton().ocultarCasilla(jTableJuego, fila, casilla);
+    }//GEN-LAST:event_jMenuItemOcultarCasillaActionPerformed
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonJugar;
     private javax.swing.JButton jButtonRecomenzar;
+    private javax.swing.JButton jButtonSolventar;
     private javax.swing.JLabel jLabelTitulo;
     private javax.swing.JMenu jMenuAcercaDe;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItemActivarTrampas;
     private javax.swing.JMenuItem jMenuItemComprobar;
+    private javax.swing.JMenuItem jMenuItemOcultarCasilla;
     private javax.swing.JMenuItem jMenuItemSalir;
     private javax.swing.JMenuItem jMenuItemTesteoTablero;
     private javax.swing.JMenu jMenuJuego;
     private javax.swing.JMenu jMenuOpciones;
+    private javax.swing.JMenu jMenuTesteo;
     private javax.swing.JPanel jPanelMenuOpcionesJuego;
+    private javax.swing.JPanel jPanelSolventar;
     private javax.swing.JTabbedPane jTabbedPanePrincipal;
     private javax.swing.JTable jTableJuego;
     private javax.swing.JTable jTableTrampas;

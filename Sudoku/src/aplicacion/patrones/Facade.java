@@ -5,13 +5,16 @@
  */
 package aplicacion.patrones;
 
+import aplicacion.controlador.juego.GestionNumeros;
+import aplicacion.controlador.tablero.Casilla;
 import aplicacion.controlador.tablero.Cuadrado;
+import aplicacion.controlador.tablero.Tablero;
 import javax.swing.JTable;
 
 /**
  * Patron de disenio Facade. Sirve de intermediario entre vista y controlador del programa.
  * @author Mario Codes Sánchez
- * @since 13/12/2016
+ * @since 20/12/2016
  */
 public class Facade {
     /**
@@ -54,9 +57,34 @@ public class Facade {
     
     /**
      * Ocultacion de casillas para hacer el juego, 5 casillas por cuadrado.
-     * todo: lo dejo aqui, mirar cuanto hay que ocultar o algoritmos de ocultacion.
+     * fixme: cambiarlo y arreglarlo.
      */
     public void ocultacionNumerosAleatorios() {
+        Cuadrado[] cuadrados = Singleton.getTableroSingleton().getCUADRADOS();
         
+        for(Cuadrado cuadrado : cuadrados) {
+            for(Casilla casilla : cuadrado.getCASILLAS()) {
+                GestionNumeros.ocultacionNumeros(casilla);
+            }
+        }
+    }
+    
+    /**
+     * Oculta una casilla suelta tanto en la matriz de casillas como en el tablero de forma grafica.
+     * todo: hacerlo en un hilo aparte, asi no se quedara colgado el programa.
+     * @param tabla Tabla de la cual queremos ocultar. Sera la de juego.
+     * @param row Fila donde se encuentra la casilla.
+     * @param numeroCasillaFila Numero de casilla dentro de la fila.
+     */
+    public void ocultarCasilla(JTable tabla, int row, int numeroCasillaFila) {
+        try {
+            Tablero tablero = Singleton.getTableroSingleton();
+            tablero.getFILAS()[row].getCASILLAS()[numeroCasillaFila].setVisible(false);
+            tablero.getFILAS()[row].getCASILLAS()[numeroCasillaFila].setNumeroPropio(0);
+            tabla.setValueAt("", row, tablero.getFILAS()[row].getCASILLAS()[numeroCasillaFila].getNUMERO_COLUMNA()); //Necesito el numero de columna pero lo puedo sacar de la propia casilla.
+            System.out.println("Casilla Ocultada.");
+        }catch(ArrayIndexOutOfBoundsException ex) {
+            System.out.println("Valores fuera de rango.");
+        }
     }
 }

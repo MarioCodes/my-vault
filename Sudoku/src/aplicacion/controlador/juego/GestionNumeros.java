@@ -15,13 +15,13 @@ import java.util.concurrent.ThreadLocalRandom;
  * Metodos relacionados con la generacion de numeros aleatorios que sean validos segun las reglas del juego.
  *  Usado Algoritmo de Fisher-Yates para la generacion de numeros completamente aleatorios sin repeticiones, dentro de una pool finita de numeros dada. (Ver enlaces).
  * @author Mario Codes Sánchez
- * @since 12/12/2016
+ * @since 20/12/2016
  * @see https://es.wikipedia.org/wiki/Algoritmo_Fisher-Yates#Tabla_paso_a_paso_.28implementaci.C3.B3n_Fisher-Yates.29
  * @see http://stackoverflow.com/questions/8116872/generate-random-numbers-in-array
  * @version 0.1 Soy imbecil, y se me ha ocurrido antes usar un algoritmo innecesario para un problema que no tenia, que sacar directamente un index aleatorio para acceder a una AL ordenada.
  *                  Me ha hecho gracia el invento, asi que ahi se queda.
  */
-public class GeneracionNumeros {
+public class GestionNumeros {
     
     /**
      * Le pasamos 3 ArrayList con los numeros validos y devuelve otra con los comunes a todos.
@@ -96,5 +96,18 @@ public class GeneracionNumeros {
         tablero.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].setNumerosDisponiblesColumna(numerosColumna);
 
         return numeroRandomValido;
+    }
+    
+    /**
+     * Ocultacion aleatoria del numero propio de la casilla.
+     * @param casilla Casilla que queremos ocultar.
+     * @deprecated Como ultima opcion, no deberia hacerlo asi sino ir ocultando hasta que tenga 2 soluciones posibles.
+     */
+    public static void ocultacionNumeros(Casilla casilla) {
+        Random random = new Random();
+        
+        float suerte = random.nextFloat();
+        
+        if(suerte <= 0.40f) casilla.setVisible(false); //40% de que se oculte.
     }
 }

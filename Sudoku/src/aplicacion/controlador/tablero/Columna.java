@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Representacion de una columna del tablero de juego.
  * @author Mario Codes Sánchez
- * @since 15/12/2016
+ * @since 20/12/2016
  */
 public class Columna {
     private final Casilla[] CASILLAS;
@@ -52,7 +52,7 @@ public class Columna {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         
-        for(Casilla cas: CASILLAS) {
+        for(Casilla cas: getCASILLAS()) {
             sb.append(cas);
             sb.append("\n");
         }
@@ -60,5 +60,12 @@ public class Columna {
         sb.append("\n");
         
         return sb.toString();
+    }
+
+    /**
+     * @return the CASILLAS
+     */
+    public Casilla[] getCASILLAS() {
+        return CASILLAS;
     }
 }
