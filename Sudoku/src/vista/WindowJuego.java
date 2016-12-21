@@ -466,10 +466,16 @@ public class WindowJuego extends javax.swing.JFrame {
 
         switch(resultado) {
             case 1: //Correcto.
-                asignacionBarrasYColoresSolucion(jTableJuego, Color.GREEN);
+                asignacionBarrasYColoresSolucion(jTableJuego, Color.GREEN); //Habra que hacer disable de toda la tabla para que ya no se pueda modificar y de los botones de menu necesarios.
+                JOptionPane.showMessageDialog(null, "¡Solucion Correcta!", "Sudoku Solucionado", JOptionPane.INFORMATION_MESSAGE);
                 break;
-            case 0: //Incorrecto.
+            case -1: //Incorrecto.
                 asignacionBarrasYColoresSolucion(jTableJuego, Color.RED);
+                JOptionPane.showMessageDialog(null, "Solucion Incorrecta.", "Sudoku no Solucionado", JOptionPane.INFORMATION_MESSAGE);
+                break;
+            case 0: //Incompleto.
+                asignacionBarrasYColoresSolucion(jTableJuego, Color.BLUE);
+                JOptionPane.showMessageDialog(null, "Tablero Incompleto.\n Comprueba que solo haya numeros y no existan casillas vacias.", "Error en el tablero", JOptionPane.INFORMATION_MESSAGE);
                 break;
             default:
                 System.out.println("default comprobarSolucionGrafico()");

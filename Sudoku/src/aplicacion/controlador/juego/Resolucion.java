@@ -47,11 +47,11 @@ public class Resolucion {
         try {
             for (int i = 0; i < tabla.getColumnCount(); i++) {
                 for (int j = 0; j < tabla.getRowCount(); j++) {
-                    tableroCompleto = comprobacionTableroSoloNumeros(Integer.toString((int) tabla.getValueAt(j, i)));
+                    comprobacionTableroSoloNumeros(Integer.toString((int) tabla.getValueAt(j, i)));
                 }
             }
         } catch(NullPointerException | ClassCastException ex) {
-            JOptionPane.showMessageDialog(null, "¡Atencion! Hay una Casilla vacia o no valida.");
+            tableroCompleto = false; //Aqui porque petara antes de poder asignar el booleano del resultado.
         }
         
         return tableroCompleto;
