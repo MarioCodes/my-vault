@@ -6,6 +6,7 @@
 package aplicacion.patrones;
 
 import aplicacion.controlador.juego.GestionNumeros;
+import aplicacion.controlador.juego.Resolucion;
 import aplicacion.controlador.tablero.Casilla;
 import aplicacion.controlador.tablero.Cuadrado;
 import aplicacion.controlador.tablero.Tablero;
@@ -14,7 +15,7 @@ import javax.swing.JTable;
 /**
  * Patron de disenio Facade. Sirve de intermediario entre vista y controlador del programa.
  * @author Mario Codes Sánchez
- * @since 20/12/2016
+ * @since 21/12/2016
  */
 public class Facade {
     /**
@@ -64,7 +65,7 @@ public class Facade {
         
         for(Cuadrado cuadrado : cuadrados) {
             for(Casilla casilla : cuadrado.getCASILLAS()) {
-                GestionNumeros.ocultacionNumeros(casilla);
+                GestionNumeros.ocultacionNumerosRandom(casilla);
             }
         }
     }
@@ -86,5 +87,72 @@ public class Facade {
         }catch(ArrayIndexOutOfBoundsException ex) {
             System.out.println("Valores fuera de rango.");
         }
+    }
+    
+    /**
+     * Ocultacion de una casilla en si misma. En este punto ya se ha hecho la asignacion aleatoria.
+     * Pasamos una casilla y la tabla.
+     * Ocultamos un numero, hacemos fuerza bruta y vemos si es irresoluble. Si lo es, damos marcha atras y deshacemos lo hecho.
+     * @param table tabla normal de juego.
+     * @param casilla Casilla que queremos ocultar.
+     * fixme: esto habria que moverlo a la clase que corresponda, no deberia estar aqui.
+     */
+    private void ocultarCasilla(JTable table, Casilla casilla) {
+        int backupNum = casilla.getNumeroPropio(); //Si da error habra que recuperarlo.
+        int resultado;
+        
+        casilla.setVisible(false);
+        casilla.setNumeroPropio(0);
+        
+        table.setValueAt("", casilla.getNUMERO_FILA(), casilla.getNUMERO_COLUMNA());
+        resultado = Resolucion.checkOcultacionNumeros();
+        
+        if(resultado == -1) { //Si es irresoluble, damos marcha atras.
+            casilla.setVisible(true);
+            casilla.setNumeroPropio(backupNum);
+            table.setValueAt(backupNum, casilla.getNUMERO_FILA(), casilla.getNUMERO_COLUMNA());
+        }
+    }
+    
+    /**
+     * Ocultacion de casillas del tablero de juego. Cada casilla tiene un tanto por ciento de ocultarse.
+     * @param tabla Tabla de la que queremos ocultar las casillas.
+     */
+    public void ocultarNumerosTablero(JTable tabla) {
+        Cuadrado[] cuadrados = Singleton.getTableroSingleton().getCUADRADOS();
+        
+        for(Cuadrado cuadrado : cuadrados) {
+            for(Casilla casilla : cuadrado.getCASILLAS()) {
+                if(GestionNumeros.ocultacionNumerosRand()) {
+                    ocultarCasilla(tabla, casilla);
+                }
+            }
+        }
+    }
+    
+    /**
+     * Comprobamos la solucion introducida en el tablero grafico, si esta correcto se entra a comprobar los numeros.
+     * @param tablaNormal Tablero a chequear.
+     * @param tablaTrampas Tablero de trampas.
+     */
+    public void comprobarSolucionTablero(JTable tablaNormal, JTable tablaTrampas) {
+        if(Resolucion.comprobarTableroLleno(tablaNormal)) {
+            if(Resolucion.comprobarResolucionTableroGrafico(tablaNormal, tablaTrampas)) {
+                System.out.println("RESUELTO.");
+                //todo: tablero resuelto correctamente. Hacer los disables necesarios y poner 'barras graficas' en verde.
+            } else {
+                System.out.println("NO RESUELTO.");
+                //todo: tablero no resuelto correctamente. Barras graficas en rojo.
+            }
+        }
+    }
+    
+    /**
+     * Copiado del tablero trampas al tablero normal para testeo.
+     * @param tablaNormal Tablero al que se copiara.
+     * @param tablaTrampas Tablero desde el cual se copiara.
+     */
+    public void copiarTableroTrampasAlNormal(JTable tablaNormal, JTable tablaTrampas) {
+        Resolucion.copiarTableroTrampasAlNormal(tablaNormal, tablaTrampas);
     }
 }

@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  * todo: acordarme de añadir al final de todo hints y demas para cada boton.
  * Ventana principal del programa.
  * @author Mario Codes Sánchez
- * @since 20/12/2016
+ * @since 21/12/2016
  */
 public class WindowJuego extends javax.swing.JFrame {
 
@@ -92,14 +92,16 @@ public class WindowJuego extends javax.swing.JFrame {
         jPanelSolventar = new javax.swing.JPanel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuOpciones = new javax.swing.JMenu();
+        jMenuItemAcercaDe = new javax.swing.JMenuItem();
         jMenuItemSalir = new javax.swing.JMenuItem();
         jMenuJuego = new javax.swing.JMenu();
-        jMenuItemActivarTrampas = new javax.swing.JMenuItem();
-        jMenuItemComprobar = new javax.swing.JMenuItem();
+        jMenuItemComprobarSolucion = new javax.swing.JMenuItem();
+        jMenuItemSolventarSudoku = new javax.swing.JMenuItem();
         jMenuTesteo = new javax.swing.JMenu();
+        jMenuItemActivarTrampas = new javax.swing.JMenuItem();
         jMenuItemTesteoTablero = new javax.swing.JMenuItem();
+        jMenuItemCopiarTableroTrampas = new javax.swing.JMenuItem();
         jMenuItemOcultarCasilla = new javax.swing.JMenuItem();
-        jMenuAcercaDe = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -240,6 +242,9 @@ public class WindowJuego extends javax.swing.JFrame {
 
         jMenuOpciones.setText("File");
 
+        jMenuItemAcercaDe.setText("Acerca De...");
+        jMenuOpciones.add(jMenuItemAcercaDe);
+
         jMenuItemSalir.setText("Salir");
         jMenuItemSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -252,27 +257,36 @@ public class WindowJuego extends javax.swing.JFrame {
 
         jMenuJuego.setText("Juego");
 
-        jMenuItemActivarTrampas.setText("Activar Trampas");
+        jMenuItemComprobarSolucion.setText("Comprobar Solucion");
+        jMenuItemComprobarSolucion.setEnabled(false);
+        jMenuItemComprobarSolucion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemComprobarSolucionActionPerformed(evt);
+            }
+        });
+        jMenuJuego.add(jMenuItemComprobarSolucion);
+
+        jMenuItemSolventarSudoku.setText("Solventar Sudoku Actual");
+        jMenuItemSolventarSudoku.setEnabled(false);
+        jMenuItemSolventarSudoku.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemSolventarSudokuActionPerformed(evt);
+            }
+        });
+        jMenuJuego.add(jMenuItemSolventarSudoku);
+
+        jMenuBar.add(jMenuJuego);
+
+        jMenuTesteo.setText("Testeo");
+
+        jMenuItemActivarTrampas.setText("Activar Tablero Trampas");
         jMenuItemActivarTrampas.setEnabled(false);
         jMenuItemActivarTrampas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemActivarTrampasActionPerformed(evt);
             }
         });
-        jMenuJuego.add(jMenuItemActivarTrampas);
-
-        jMenuItemComprobar.setText("Solventar Sudoku Actual");
-        jMenuItemComprobar.setEnabled(false);
-        jMenuItemComprobar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemComprobarActionPerformed(evt);
-            }
-        });
-        jMenuJuego.add(jMenuItemComprobar);
-
-        jMenuBar.add(jMenuJuego);
-
-        jMenuTesteo.setText("Testeo");
+        jMenuTesteo.add(jMenuItemActivarTrampas);
 
         jMenuItemTesteoTablero.setText("Print Tablero");
         jMenuItemTesteoTablero.setEnabled(false);
@@ -283,7 +297,16 @@ public class WindowJuego extends javax.swing.JFrame {
         });
         jMenuTesteo.add(jMenuItemTesteoTablero);
 
-        jMenuItemOcultarCasilla.setText("Ocultar Casilla");
+        jMenuItemCopiarTableroTrampas.setText("Copiar Tablero Trampas a Normal");
+        jMenuItemCopiarTableroTrampas.setEnabled(false);
+        jMenuItemCopiarTableroTrampas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCopiarTableroTrampasActionPerformed(evt);
+            }
+        });
+        jMenuTesteo.add(jMenuItemCopiarTableroTrampas);
+
+        jMenuItemOcultarCasilla.setText("Ocultar Casilla Especifica");
         jMenuItemOcultarCasilla.setEnabled(false);
         jMenuItemOcultarCasilla.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -293,9 +316,6 @@ public class WindowJuego extends javax.swing.JFrame {
         jMenuTesteo.add(jMenuItemOcultarCasilla);
 
         jMenuBar.add(jMenuTesteo);
-
-        jMenuAcercaDe.setText("Acerca De...");
-        jMenuBar.add(jMenuAcercaDe);
 
         setJMenuBar(jMenuBar);
 
@@ -318,16 +338,18 @@ public class WindowJuego extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemSalirActionPerformed
        
     private void jButtonJugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonJugarActionPerformed
-//        Singleton.getFacadeSingleton().ocultacionNumerosAleatorios();
         Singleton.getFacadeSingleton().generacionTablero(this.jTableJuego, false);
         Singleton.getFacadeSingleton().generacionTablero(this.jTableTrampas, true);
+        Singleton.getFacadeSingleton().ocultarNumerosTablero(jTableJuego);
         this.jTabbedPanePrincipal.setEnabledAt(1, true);
+        this.jMenuItemCopiarTableroTrampas.setEnabled(true);
+        this.jMenuItemComprobarSolucion.setEnabled(true);
         this.jTabbedPanePrincipal.setSelectedIndex(1);
         this.jButtonJugar.setEnabled(false);
         this.jButtonRecomenzar.setEnabled(true);
         this.jMenuItemTesteoTablero.setEnabled(true);
         this.jMenuItemActivarTrampas.setEnabled(true);
-        this.jMenuItemComprobar.setEnabled(true);
+//        this.jMenuItemSolventarSudoku.setEnabled(true);
         this.jMenuItemOcultarCasilla.setEnabled(true);
     }//GEN-LAST:event_jButtonJugarActionPerformed
 
@@ -339,7 +361,6 @@ public class WindowJuego extends javax.swing.JFrame {
         int confirmacion = JOptionPane.showConfirmDialog(this, "Se perdera el juego actual y se comenzara uno nuevo. ¿Seguro?", "Confirmacion", JOptionPane.YES_NO_OPTION);
         if(confirmacion == 0) {
             this.jButtonJugarActionPerformed(evt);
-
         }
     }//GEN-LAST:event_jButtonRecomenzarActionPerformed
 
@@ -347,29 +368,57 @@ public class WindowJuego extends javax.swing.JFrame {
         System.out.println(Singleton.getTableroSingleton());
     }//GEN-LAST:event_jMenuItemTesteoTableroActionPerformed
 
-    private void jMenuItemComprobarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemComprobarActionPerformed
-        Resolucion.solucionFuerzaBruta();
-    }//GEN-LAST:event_jMenuItemComprobarActionPerformed
+    private void jMenuItemSolventarSudokuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSolventarSudokuActionPerformed
+        Resolucion.solucionFuerzaBruta(this.jTableJuego);
+    }//GEN-LAST:event_jMenuItemSolventarSudokuActionPerformed
 
-    private void jMenuItemOcultarCasillaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOcultarCasillaActionPerformed
+    /**
+     * Scanner para pedir Integer.
+     * @param output Output que se mostrarara al user.
+     * @return Integer metido por el usuario.
+     */
+    private int askInteger(String output) {
         Scanner scanner;
-        int fila = -1, casilla = -1;
+        int number = -1;
         
-        System.out.println("Ocultar Casilla.");
-        while(fila == -1 || casilla == -1) {
-            scanner = new Scanner(System.in);
+        do {
             try {
-                System.out.print("\tNumero de fila: ");
-                fila = scanner.nextInt();
-                System.out.print("\tNumero de casilla SEGUN FILA: ");
-                casilla = scanner.nextInt();
+                scanner = new Scanner(System.in);
+                System.out.print(output);
+                number = scanner.nextInt();
             }catch(InputMismatchException ex) {
                 System.out.println("Dato no valido.");
             }
-        }
+        }while(number == -1);
+        
+        return number;
+    }
+    
+    /**
+     * Preguntamos por 2 coordenadas (0-8).
+     */
+    private void ocultarCasillaEspecifica() {
+        int fila, casilla;
+        
+        System.out.println("Ocultar Casilla. Coordenadas (0-8)");
+        
+        fila = askInteger("\tNumero de fila: ");
+        casilla = askInteger("\tNumero de casillas segun LA FILA: ");
         
         Singleton.getFacadeSingleton().ocultarCasilla(jTableJuego, fila, casilla);
+    }
+    
+    private void jMenuItemOcultarCasillaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOcultarCasillaActionPerformed
+        ocultarCasillaEspecifica();
     }//GEN-LAST:event_jMenuItemOcultarCasillaActionPerformed
+
+    private void jMenuItemComprobarSolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemComprobarSolucionActionPerformed
+        Singleton.getFacadeSingleton().comprobarSolucionTablero(jTableJuego, jTableTrampas);
+    }//GEN-LAST:event_jMenuItemComprobarSolucionActionPerformed
+
+    private void jMenuItemCopiarTableroTrampasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCopiarTableroTrampasActionPerformed
+        Singleton.getFacadeSingleton().copiarTableroTrampasAlNormal(jTableJuego, jTableTrampas);
+    }//GEN-LAST:event_jMenuItemCopiarTableroTrampasActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -377,12 +426,14 @@ public class WindowJuego extends javax.swing.JFrame {
     private javax.swing.JButton jButtonRecomenzar;
     private javax.swing.JButton jButtonSolventar;
     private javax.swing.JLabel jLabelTitulo;
-    private javax.swing.JMenu jMenuAcercaDe;
     private javax.swing.JMenuBar jMenuBar;
+    private javax.swing.JMenuItem jMenuItemAcercaDe;
     private javax.swing.JMenuItem jMenuItemActivarTrampas;
-    private javax.swing.JMenuItem jMenuItemComprobar;
+    private javax.swing.JMenuItem jMenuItemComprobarSolucion;
+    private javax.swing.JMenuItem jMenuItemCopiarTableroTrampas;
     private javax.swing.JMenuItem jMenuItemOcultarCasilla;
     private javax.swing.JMenuItem jMenuItemSalir;
+    private javax.swing.JMenuItem jMenuItemSolventarSudoku;
     private javax.swing.JMenuItem jMenuItemTesteoTablero;
     private javax.swing.JMenu jMenuJuego;
     private javax.swing.JMenu jMenuOpciones;

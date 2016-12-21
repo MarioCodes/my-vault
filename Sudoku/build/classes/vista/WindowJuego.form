@@ -9,6 +9,11 @@
             <Property name="text" type="java.lang.String" value="File"/>
           </Properties>
           <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemAcercaDe">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Acerca De..."/>
+              </Properties>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemSalir">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Salir"/>
@@ -24,22 +29,22 @@
             <Property name="text" type="java.lang.String" value="Juego"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemActivarTrampas">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemComprobarSolucion">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Activar Trampas"/>
+                <Property name="text" type="java.lang.String" value="Comprobar Solucion"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemActivarTrampasActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemComprobarSolucionActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemComprobar">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemSolventarSudoku">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Solventar Sudoku Actual"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemComprobarActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemSolventarSudokuActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -49,6 +54,15 @@
             <Property name="text" type="java.lang.String" value="Testeo"/>
           </Properties>
           <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemActivarTrampas">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Activar Tablero Trampas"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemActivarTrampasActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemTesteoTablero">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Print Tablero"/>
@@ -58,9 +72,18 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemTesteoTableroActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemCopiarTableroTrampas">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Copiar Tablero Trampas a Normal"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemCopiarTableroTrampasActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemOcultarCasilla">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Ocultar Casilla"/>
+                <Property name="text" type="java.lang.String" value="Ocultar Casilla Especifica"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
@@ -68,11 +91,6 @@
               </Events>
             </MenuItem>
           </SubComponents>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenuAcercaDe">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Acerca De..."/>
-          </Properties>
         </Menu>
       </SubComponents>
     </Menu>

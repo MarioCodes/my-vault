@@ -15,13 +15,15 @@ import java.util.concurrent.ThreadLocalRandom;
  * Metodos relacionados con la generacion de numeros aleatorios que sean validos segun las reglas del juego.
  *  Usado Algoritmo de Fisher-Yates para la generacion de numeros completamente aleatorios sin repeticiones, dentro de una pool finita de numeros dada. (Ver enlaces).
  * @author Mario Codes Sánchez
- * @since 20/12/2016
+ * @since 21/12/2016
  * @see https://es.wikipedia.org/wiki/Algoritmo_Fisher-Yates#Tabla_paso_a_paso_.28implementaci.C3.B3n_Fisher-Yates.29
  * @see http://stackoverflow.com/questions/8116872/generate-random-numbers-in-array
  * @version 0.1 Soy imbecil, y se me ha ocurrido antes usar un algoritmo innecesario para un problema que no tenia, que sacar directamente un index aleatorio para acceder a una AL ordenada.
- *                  Me ha hecho gracia el invento, asi que ahi se queda.
+ *                  Me ha hecho gracia el invento y me puede ser util tener una implementacion en un futuro. Afectara algo al rendimiento ahi que se queda.
  */
 public class GestionNumeros {
+    private static final float PORCENTAJE_OCULTACION_CASILLA = 0.35f; /* 35%. Modificar para ocultar mas o menos casillas en nuestro Sudoku. 
+                                                                        Segun teorias matematicas, un Sudoku con menos de 17 casillas visibles es imposible que disponga de una unica solucion.*/
     
     /**
      * Le pasamos 3 ArrayList con los numeros validos y devuelve otra con los comunes a todos.
@@ -68,6 +70,7 @@ public class GestionNumeros {
      * @param tablero Tablero de donde obtener los Cuadrados, Filas y Columnas.
      * @param casilla Casilla para saber que Cuadrados, Filas y Columnas obtener.
      * @return entero aleatorio valido entre todos.
+     * fixme: revisar y partir en mas metodos si puedo.
      */
     public static int generacionNumeroCasilla(Tablero tablero, Casilla casilla) {
         int numeroRandomValido = -1;
@@ -102,12 +105,25 @@ public class GestionNumeros {
      * Ocultacion aleatoria del numero propio de la casilla.
      * @param casilla Casilla que queremos ocultar.
      * @deprecated Como ultima opcion, no deberia hacerlo asi sino ir ocultando hasta que tenga 2 soluciones posibles.
+     * todo: borrar o modificar, no deberia utilizarla tal como esta ahora.
      */
-    public static void ocultacionNumeros(Casilla casilla) {
+    public static void ocultacionNumerosRandom(Casilla casilla) {
         Random random = new Random();
         
         float suerte = random.nextFloat();
         
         if(suerte <= 0.40f) casilla.setVisible(false); //40% de que se oculte.
+    }
+    
+    /**
+     * Obtencion de booleano para ocultar una casilla, un % de las veces que queramos.
+     * @return booleano aleatorio.
+     */
+    public static boolean ocultacionNumerosRand() {
+        Random random = new Random();
+        
+        float suerte = random.nextFloat();
+        
+        return (suerte <= PORCENTAJE_OCULTACION_CASILLA);
     }
 }
