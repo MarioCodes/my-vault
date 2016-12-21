@@ -134,17 +134,13 @@ public class Facade {
      * Comprobamos la solucion introducida en el tablero grafico, si esta correcto se entra a comprobar los numeros.
      * @param tablaNormal Tablero a chequear.
      * @param tablaTrampas Tablero de trampas.
+     * @return Integer con el resultado. 1 correcto, 0 no correcto.
      */
-    public void comprobarSolucionTablero(JTable tablaNormal, JTable tablaTrampas) {
+    public int comprobarSolucionTablero(JTable tablaNormal, JTable tablaTrampas) {
         if(Resolucion.comprobarTableroLleno(tablaNormal)) {
-            if(Resolucion.comprobarResolucionTableroGrafico(tablaNormal, tablaTrampas)) {
-                System.out.println("RESUELTO.");
-                //todo: tablero resuelto correctamente. Hacer los disables necesarios y poner 'barras graficas' en verde.
-            } else {
-                System.out.println("NO RESUELTO.");
-                //todo: tablero no resuelto correctamente. Barras graficas en rojo.
-            }
-        }
+            if(Resolucion.comprobarResolucionTableroGrafico(tablaNormal, tablaTrampas)) return 1;
+            else return 0;
+        } else return -1;
     }
     
     /**

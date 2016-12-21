@@ -23,7 +23,11 @@ import javax.swing.table.DefaultTableCellRenderer;
  * @since 21/12/2016
  */
 public class WindowJuego extends javax.swing.JFrame {
-
+    private LineaGraficaCuadrado lineaSolucionNorte;
+    private LineaGraficaCuadrado lineaSolucionSur;
+    private LineaGraficaCuadrado lineaSolucionEste;
+    private LineaGraficaCuadrado lineaSolucionOeste;
+    
     /**
      * Creates new form MainWindow
      */
@@ -35,8 +39,8 @@ public class WindowJuego extends javax.swing.JFrame {
         this.setVisible(true);
         this.setResizable(false);
         
-        creacionLineasTablero(this.jTableJuego);
-        creacionLineasTablero(this.jTableTrampas);
+        creacionLineasInternasFijasTablero(this.jTableJuego);
+        creacionLineasInternasFijasTablero(this.jTableTrampas);
         
         centrarTextoCells();
     }
@@ -60,11 +64,11 @@ public class WindowJuego extends javax.swing.JFrame {
     /**
      * Metemos a mano las lineas adicionales del tablero.
      */
-    private void creacionLineasTablero(JTable jTable) {
-        int[][] parametrosLineasGraficas = new int[][] {{130, 0, 5, 400}, //Mapeado a mano, si se modifica la pantalla por cualquier cosa, habra que remapear.
-                                                            {259, 0, 5, 400}, 
-                                                            {0, 120, 400, 5},
-                                                            {0, 242, 400, 5}};
+    private void creacionLineasInternasFijasTablero(JTable jTable) {
+        int[][] parametrosLineasGraficas = new int[][] {{130, 4, 5, 355}, //Mapeado a mano al pixel de precision. Hay que ajustarlo bien ya que si no se solapan con las lineas de color de resultado.
+                                                            {259, 4, 5, 355}, 
+                                                            {4, 120, 387, 5},
+                                                            {4, 242, 387, 5}};
         
         jTable.add(new LineaGraficaCuadrado(parametrosLineasGraficas[0][0], parametrosLineasGraficas[0][1], parametrosLineasGraficas[0][2], parametrosLineasGraficas[0][3]));
         jTable.add(new LineaGraficaCuadrado(parametrosLineasGraficas[1][0], parametrosLineasGraficas[1][1], parametrosLineasGraficas[1][2], parametrosLineasGraficas[1][3]));
@@ -412,8 +416,69 @@ public class WindowJuego extends javax.swing.JFrame {
         ocultarCasillaEspecifica();
     }//GEN-LAST:event_jMenuItemOcultarCasillaActionPerformed
 
+    /**
+     * Eliminacion de las lineas existentes. Si no las elimino y creo, no se cambiar el nivel de capa para poner unas encima de otras.
+     * @param tabla Tabla donde se encuentran.
+     */
+    private void eliminacionLineasAnteriores(JTable tabla) {
+        if(this.lineaSolucionNorte != null) {
+            tabla.remove(lineaSolucionNorte);
+            tabla.remove(lineaSolucionSur);
+            tabla.remove(lineaSolucionEste);
+            tabla.remove(lineaSolucionOeste);
+        }
+    }
+    
+    /**
+     * Creacion y asignacion de las lineas de colores segun el resultado de la comprobacion.
+     *  Verde: Solucionado.
+     *  Rojo: No correcto.
+     * todo: que al recomenzar una nueva partida desaparezcan o sean negras para que no se vean.
+     * @param tabla tabla donde se colocaran las barras graficas.
+     * @param color color del que seran las barras.
+     */
+    private void asignacionBarrasYColoresSolucion(JTable tabla, Color color) {
+        int[][] parametrosLineasGraficas = new int[][] {{0, 0, 5, 400}, //Ejes x, y, ancho, alto. //Mapeado a mano, si se modifica la pantalla por cualquier cosa, habra que remapear.
+                                                            {0, 0, 400, 5},
+                                                            {390, 0, 5, 400},
+                                                            {0, 358, 400, 5}};
+        
+        eliminacionLineasAnteriores(tabla);
+        
+        lineaSolucionNorte = new LineaGraficaCuadrado(color, parametrosLineasGraficas[0][0], parametrosLineasGraficas[0][1], parametrosLineasGraficas[0][2], parametrosLineasGraficas[0][3]);
+        lineaSolucionSur = new LineaGraficaCuadrado(color, parametrosLineasGraficas[1][0], parametrosLineasGraficas[1][1], parametrosLineasGraficas[1][2], parametrosLineasGraficas[1][3]);
+        lineaSolucionEste = new LineaGraficaCuadrado(color, parametrosLineasGraficas[2][0], parametrosLineasGraficas[2][1], parametrosLineasGraficas[2][2], parametrosLineasGraficas[2][3]);
+        lineaSolucionOeste = new LineaGraficaCuadrado(color, parametrosLineasGraficas[3][0], parametrosLineasGraficas[3][1], parametrosLineasGraficas[3][2], parametrosLineasGraficas[3][3]);
+                
+        tabla.add(lineaSolucionNorte);
+        tabla.add(lineaSolucionSur);
+        tabla.add(lineaSolucionEste);
+        tabla.add(lineaSolucionOeste);
+        
+        tabla.repaint();
+    }
+    
+    /**
+     * Gestion del apartado grafico con la solucion.
+     */
+    private void comprobarSolucionGrafico() {
+        int resultado = Singleton.getFacadeSingleton().comprobarSolucionTablero(jTableJuego, jTableTrampas);
+
+        switch(resultado) {
+            case 1: //Correcto.
+                asignacionBarrasYColoresSolucion(jTableJuego, Color.GREEN);
+                break;
+            case 0: //Incorrecto.
+                asignacionBarrasYColoresSolucion(jTableJuego, Color.RED);
+                break;
+            default:
+                System.out.println("default comprobarSolucionGrafico()");
+                break;
+        }
+    }
+    
     private void jMenuItemComprobarSolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemComprobarSolucionActionPerformed
-        Singleton.getFacadeSingleton().comprobarSolucionTablero(jTableJuego, jTableTrampas);
+        comprobarSolucionGrafico();
     }//GEN-LAST:event_jMenuItemComprobarSolucionActionPerformed
 
     private void jMenuItemCopiarTableroTrampasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCopiarTableroTrampasActionPerformed
@@ -458,6 +523,19 @@ public class WindowJuego extends javax.swing.JFrame {
          */
         public LineaGraficaCuadrado(int ejeX, int ejeY, int ancho, int alto) {
             setBackground(Color.black);
+            this.setBounds(ejeX, ejeY, ancho, alto);
+        }
+        
+        /**
+         * Constructor para crearla con color custom.
+         * @param color Color que le asignamos a la barra.
+         * @param ejeX Coordenadas del eje x.
+         * @param ejeY Coordenadas del eje y.
+         * @param ancho Ancho que ocupara la linea.
+         * @param alto Alto de la linea.
+         */
+        public LineaGraficaCuadrado(Color color, int ejeX, int ejeY, int ancho, int alto) {
+            setBackground(color);
             this.setBounds(ejeX, ejeY, ancho, alto);
         }
     }
