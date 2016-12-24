@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  * todo: acordarme de añadir al final de todo hints y demas para cada boton.
  * Ventana principal del programa.
  * @author Mario Codes Sánchez
- * @since 21/12/2016
+ * @since 24/12/2016
  */
 public class WindowJuego extends javax.swing.JFrame {
     private LineaGraficaCuadrado lineaSolucionNorte;
@@ -56,7 +56,7 @@ public class WindowJuego extends javax.swing.JFrame {
             this.jTableTrampas.getColumnModel().getColumn(i).setCellRenderer( centerRenderer );
         }
         
-        jTabbedPanePrincipal.setEnabledAt(1, false); //Para que la de juego ni la de trampas se puedan seleccionar salvo cuando se haya creado el juego..
+        jTabbedPanePrincipal.setEnabledAt(1, false); //Para que la de juego ni la de trampas se puedan seleccionar salvo cuando se haya creado el juego.
         jTabbedPanePrincipal.setEnabledAt(2, false); 
         jTabbedPanePrincipal.setEnabledAt(3, false); 
     }
@@ -341,7 +341,10 @@ public class WindowJuego extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jMenuItemSalirActionPerformed
        
-    private void jButtonJugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonJugarActionPerformed
+    /**
+     * Ini de todo lo necesario para comenzar un juego.
+     */
+    private void iniJuego() {
         Singleton.getFacadeSingleton().generacionTablero(this.jTableJuego, false);
         Singleton.getFacadeSingleton().generacionTablero(this.jTableTrampas, true);
         Singleton.getFacadeSingleton().ocultarNumerosTablero(jTableJuego);
@@ -355,6 +358,10 @@ public class WindowJuego extends javax.swing.JFrame {
         this.jMenuItemActivarTrampas.setEnabled(true);
 //        this.jMenuItemSolventarSudoku.setEnabled(true);
         this.jMenuItemOcultarCasilla.setEnabled(true);
+    }
+    
+    private void jButtonJugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonJugarActionPerformed
+        iniJuego();
     }//GEN-LAST:event_jButtonJugarActionPerformed
 
     private void jMenuItemActivarTrampasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemActivarTrampasActionPerformed

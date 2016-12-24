@@ -15,7 +15,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * Metodos relacionados con la generacion de numeros aleatorios que sean validos segun las reglas del juego.
  *  Usado Algoritmo de Fisher-Yates para la generacion de numeros completamente aleatorios sin repeticiones, dentro de una pool finita de numeros dada. (Ver enlaces).
  * @author Mario Codes Sánchez
- * @since 21/12/2016
+ * @since 24/12/2016
  * @see https://es.wikipedia.org/wiki/Algoritmo_Fisher-Yates#Tabla_paso_a_paso_.28implementaci.C3.B3n_Fisher-Yates.29
  * @see http://stackoverflow.com/questions/8116872/generate-random-numbers-in-array
  * @version 0.1 Soy imbecil, y se me ha ocurrido antes usar un algoritmo innecesario para un problema que no tenia, que sacar directamente un index aleatorio para acceder a una AL ordenada.
@@ -69,8 +69,7 @@ public class GestionNumeros {
      *  este de cada ArrayList para que no aparezca como un futuro valido.
      * @param tablero Tablero de donde obtener los Cuadrados, Filas y Columnas.
      * @param casilla Casilla para saber que Cuadrados, Filas y Columnas obtener.
-     * @return entero aleatorio valido entre todos.
-     * fixme: revisar y partir en mas metodos si puedo.
+     * @return Entero aleatorio valido entre todos. -1 error (punto muerto de generacion del tablero).
      */
     public static int generacionNumeroCasilla(Tablero tablero, Casilla casilla) {
         int numeroRandomValido = -1;

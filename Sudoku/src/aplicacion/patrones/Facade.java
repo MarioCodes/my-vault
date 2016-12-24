@@ -49,7 +49,7 @@ public class Facade {
     /**
      * Generacion / obtencion del tablero mediante Singleton Pattern.
      * @param tabla JTable para rellenar con los numeros.
-     * @param mostrarTodos mostrar todas las casillas (version JTable Trampas).
+     * @param mostrarTodos mostrar todas las casillas (para version JTable Trampas).
      */
     public void generacionTablero(JTable tabla, boolean mostrarTodos) {
         Singleton.getTableroSingleton();
