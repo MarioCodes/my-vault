@@ -8,6 +8,8 @@ package vista;
 import aplicacion.controlador.juego.Resolucion;
 import aplicacion.patrones.Singleton;
 import java.awt.Color;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -25,9 +27,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 public class WindowJuego extends javax.swing.JFrame {
     private LineaGraficaCuadrado[] lineasGraficasExternas = new LineaGraficaCuadrado[4];
     private LineaGraficaCuadrado[] lineasGraficasInternas = new LineaGraficaCuadrado[4];
-    
-    private LineaGraficaCuadrado lineaSolucionNorte, lineaSolucionSur, lineaSolucionEste, lineaSolucionOeste; //Lineas graficas (ver Inner Class). Tienen que ser miembro para poder hacer referencia a ellas para quitarlas / ponerlas.
-    
     
     /**
      * Creates new form MainWindow
@@ -107,10 +106,9 @@ public class WindowJuego extends javax.swing.JFrame {
      * @param tabla Tabla donde se encuentran.
      */
     private void eliminarLineasExternasTablero(JTable tabla) {
-        eliminarLineaTablero(tabla, lineaSolucionNorte);
-        eliminarLineaTablero(tabla, lineaSolucionSur);
-        eliminarLineaTablero(tabla, lineaSolucionEste);
-        eliminarLineaTablero(tabla, lineaSolucionOeste);
+        for(LineaGraficaCuadrado linea: lineasGraficasExternas) {
+            eliminarLineaTablero(tabla, linea);
+        }
     }
     
     /**
@@ -136,10 +134,10 @@ public class WindowJuego extends javax.swing.JFrame {
                                                             {390, 0, 5, 400},
                                                             {0, 358, 400, 5}};
         
-        tabla.add(lineaSolucionNorte = new LineaGraficaCuadrado(color, parametrosLineasGraficas[0][0], parametrosLineasGraficas[0][1], parametrosLineasGraficas[0][2], parametrosLineasGraficas[0][3]));
-        tabla.add(lineaSolucionSur = new LineaGraficaCuadrado(color, parametrosLineasGraficas[1][0], parametrosLineasGraficas[1][1], parametrosLineasGraficas[1][2], parametrosLineasGraficas[1][3]));
-        tabla.add(lineaSolucionEste = new LineaGraficaCuadrado(color, parametrosLineasGraficas[2][0], parametrosLineasGraficas[2][1], parametrosLineasGraficas[2][2], parametrosLineasGraficas[2][3]));
-        tabla.add(lineaSolucionOeste = new LineaGraficaCuadrado(color, parametrosLineasGraficas[3][0], parametrosLineasGraficas[3][1], parametrosLineasGraficas[3][2], parametrosLineasGraficas[3][3]));
+        tabla.add(lineasGraficasExternas[0] = new LineaGraficaCuadrado(color, parametrosLineasGraficas[0][0], parametrosLineasGraficas[0][1], parametrosLineasGraficas[0][2], parametrosLineasGraficas[0][3]));
+        tabla.add(lineasGraficasExternas[1] = new LineaGraficaCuadrado(color, parametrosLineasGraficas[1][0], parametrosLineasGraficas[1][1], parametrosLineasGraficas[1][2], parametrosLineasGraficas[1][3]));
+        tabla.add(lineasGraficasExternas[2] = new LineaGraficaCuadrado(color, parametrosLineasGraficas[2][0], parametrosLineasGraficas[2][1], parametrosLineasGraficas[2][2], parametrosLineasGraficas[2][3]));
+        tabla.add(lineasGraficasExternas[3] = new LineaGraficaCuadrado(color, parametrosLineasGraficas[3][0], parametrosLineasGraficas[3][1], parametrosLineasGraficas[3][2], parametrosLineasGraficas[3][3]));
     }
     
     /**
@@ -154,7 +152,7 @@ public class WindowJuego extends javax.swing.JFrame {
         eliminarLineasCompletasTablero(tabla);
         creacionLineasExternasTablero(color, tabla);
         creacionLineasInternasTablero(color, tabla);
-        tabla.repaint();
+        tabla.repaint(); //Necesario para que se muestren los cambios.
     }
     
     /**
@@ -163,6 +161,95 @@ public class WindowJuego extends javax.swing.JFrame {
      */
     private void creacionLineasCompletasTablero(JTable tabla) {
         creacionLineasCompletasTablero(Color.BLACK, tabla);
+    }
+    
+    /**
+     * Gestion del apartado grafico con la solucion.
+     */
+    private void comprobarSolucionGrafico() {
+        int resultado = Singleton.getFacadeSingleton().comprobarSolucionTablero(jTableJuego, jTableTrampas);
+
+        switch(resultado) {
+            case 1: //Correcto.
+                creacionLineasCompletasTablero(Color.GREEN, jTableJuego);
+                JOptionPane.showMessageDialog(null, "¡Sudoku Solucionado Correctamente!", "Sudoku Solucionado", JOptionPane.INFORMATION_MESSAGE);
+                break;
+            case -1: //Incorrecto.
+                creacionLineasCompletasTablero(Color.RED, jTableJuego);
+                JOptionPane.showMessageDialog(null, "Solucion Incorrecta.", "Sudoku no Solucionado", JOptionPane.INFORMATION_MESSAGE);
+                break;
+            case 0: //Incompleto.
+                creacionLineasCompletasTablero(Color.BLUE, jTableJuego);
+                JOptionPane.showMessageDialog(null, "Tablero Incompleto.\n Comprueba que solo haya numeros y no existan casillas vacias.", "Error en el tablero", JOptionPane.INFORMATION_MESSAGE);
+                break;
+            default:
+                creacionLineasCompletasTablero(Color.MAGENTA, jTableJuego); //Identificativo, no tendria que poder llegar aqui.
+                System.out.println("default comprobarSolucionGrafico()");
+                break;
+        }
+    }
+    
+    /**
+     * Scanner para pedir Integer.
+     * @param output Output que se mostrarara al user.
+     * @return Integer metido por el usuario.
+     */
+    private int askInteger(String output) {
+        Scanner scanner;
+        int number = -1;
+        do {
+            try {
+                scanner = new Scanner(System.in);
+                System.out.print(output);
+                number = scanner.nextInt();
+            } catch (InputMismatchException ex) {
+                System.out.println("Dato no valido.");
+            }
+        } while (number == -1);
+        return number;
+    }
+    
+    /**
+     * Ocultamos una casilla, tanto su representacion grafica de la tabla como su .isVisible().
+     * Se hace mediante 2 coordenadas (0-8).
+     */
+    private void ocultarCasillaEspecifica() {
+        int fila, casilla;
+        
+        System.out.println("Ocultar Casilla. Coordenadas (0-8)");
+        
+        fila = askInteger("\tNumero de fila: ");
+        casilla = askInteger("\tNumero de casillas segun LA FILA: ");
+        
+        Singleton.getFacadeSingleton().ocultarCasillaEspecificaTesteo(jTableJuego, fila, casilla);
+    }
+    
+    /**
+     * Recopilacion de todos los enableds necesarios al comenzar un juego.
+     */
+    private void setEnabledsIniJuego() {
+        this.jTabbedPanePrincipal.setEnabledAt(2, false);
+        this.jTabbedPanePrincipal.setEnabledAt(1, true);
+        this.jMenuItemCopiarTableroTrampas.setEnabled(true);
+        this.jMenuItemComprobarSolucion.setEnabled(true);
+        this.jTabbedPanePrincipal.setSelectedIndex(1);
+        this.jButtonJugar.setEnabled(false);
+        this.jButtonPartidaNueva.setEnabled(true);
+        this.jMenuItemTesteoTablero.setEnabled(true);
+        this.jMenuItemActivarTrampas.setEnabled(true);
+        this.jMenuItemOcultarCasilla.setEnabled(true);
+    }
+    
+    /**
+     * Ini de todo lo necesario para comenzar un juego.
+     * Esta puesto tal para que con rellamar a este metodo al crear partida nueva, funcione correctamente y se resetee todo lo que debe.
+     */
+    private void iniJuego() {
+        Singleton.getFacadeSingleton().generacionTablero(this.jTableJuego, false);
+        Singleton.getFacadeSingleton().generacionTablero(this.jTableTrampas, true);
+        Singleton.getFacadeSingleton().ocultarNumerosTablero(jTableJuego);
+        creacionLineasCompletasTablero(jTableJuego);
+        setEnabledsIniJuego();
     }
     
     /**
@@ -430,34 +517,6 @@ public class WindowJuego extends javax.swing.JFrame {
     private void jMenuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalirActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jMenuItemSalirActionPerformed
-       
-    /**
-     * Recopilacion de todos los enableds necesarios al comenzar un juego.
-     */
-    private void setEnabledsIniJuego() {
-        this.jTabbedPanePrincipal.setEnabledAt(2, false);
-        this.jTabbedPanePrincipal.setEnabledAt(1, true);
-        this.jMenuItemCopiarTableroTrampas.setEnabled(true);
-        this.jMenuItemComprobarSolucion.setEnabled(true);
-        this.jTabbedPanePrincipal.setSelectedIndex(1);
-        this.jButtonJugar.setEnabled(false);
-        this.jButtonPartidaNueva.setEnabled(true);
-        this.jMenuItemTesteoTablero.setEnabled(true);
-        this.jMenuItemActivarTrampas.setEnabled(true);
-        this.jMenuItemOcultarCasilla.setEnabled(true);
-    }
-    
-    /**
-     * Ini de todo lo necesario para comenzar un juego.
-     * Esta puesto tal para que con rellamar a este metodo al crear partida nueva, funcione correctamente y se resetee todo lo que debe.
-     */
-    private void iniJuego() {
-        Singleton.getFacadeSingleton().generacionTablero(this.jTableJuego, false);
-        Singleton.getFacadeSingleton().generacionTablero(this.jTableTrampas, true);
-        Singleton.getFacadeSingleton().ocultarNumerosTablero(jTableJuego);
-        creacionLineasCompletasTablero(jTableJuego);
-        setEnabledsIniJuego();
-    }
     
     private void jButtonJugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonJugarActionPerformed
         iniJuego();
@@ -482,51 +541,10 @@ public class WindowJuego extends javax.swing.JFrame {
     private void jMenuItemSolventarSudokuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSolventarSudokuActionPerformed
         Resolucion.solucionFuerzaBruta(this.jTableJuego);
     }//GEN-LAST:event_jMenuItemSolventarSudokuActionPerformed
-
-    
-    /**
-     * Preguntamos por 2 coordenadas (0-8).
-     */
-    private void ocultarCasillaEspecifica() {
-        int fila, casilla;
-        
-        System.out.println("Ocultar Casilla. Coordenadas (0-8)");
-        
-        fila = GestionGrafica.askInteger("\tNumero de fila: ");
-        casilla = GestionGrafica.askInteger("\tNumero de casillas segun LA FILA: ");
-        
-        Singleton.getFacadeSingleton().ocultarCasilla(jTableJuego, fila, casilla);
-    }
-    
+  
     private void jMenuItemOcultarCasillaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOcultarCasillaActionPerformed
         new Thread(() -> ocultarCasillaEspecifica()).start(); //Para que no se quede la GUI colgada esperando.
     }//GEN-LAST:event_jMenuItemOcultarCasillaActionPerformed
-    
-    /**
-     * Gestion del apartado grafico con la solucion.
-     */
-    private void comprobarSolucionGrafico() {
-        int resultado = Singleton.getFacadeSingleton().comprobarSolucionTablero(jTableJuego, jTableTrampas);
-
-        switch(resultado) {
-            case 1: //Correcto.
-                creacionLineasCompletasTablero(Color.GREEN, jTableJuego);
-                JOptionPane.showMessageDialog(null, "¡Sudoku Solucionado Correctamente!", "Sudoku Solucionado", JOptionPane.INFORMATION_MESSAGE);
-                break;
-            case -1: //Incorrecto.
-                creacionLineasCompletasTablero(Color.RED, jTableJuego);
-                JOptionPane.showMessageDialog(null, "Solucion Incorrecta.", "Sudoku no Solucionado", JOptionPane.INFORMATION_MESSAGE);
-                break;
-            case 0: //Incompleto.
-                creacionLineasCompletasTablero(Color.BLUE, jTableJuego);
-                JOptionPane.showMessageDialog(null, "Tablero Incompleto.\n Comprueba que solo haya numeros y no existan casillas vacias.", "Error en el tablero", JOptionPane.INFORMATION_MESSAGE);
-                break;
-            default:
-                creacionLineasCompletasTablero(Color.MAGENTA, jTableJuego); //Identificativo, no tendria que poder llegar aqui.
-                System.out.println("default comprobarSolucionGrafico()");
-                break;
-        }
-    }
     
     private void jMenuItemComprobarSolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemComprobarSolucionActionPerformed
         comprobarSolucionGrafico();

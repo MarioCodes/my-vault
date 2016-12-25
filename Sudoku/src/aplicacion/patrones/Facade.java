@@ -56,27 +56,13 @@ public class Facade {
         rellenoTablaConNumeros(tabla, mostrarTodos);
     }
     
-//    /**
-//     * Ocultacion de casillas para hacer el juego, 5 casillas por cuadrado.
-//     * fixme: cambiarlo y arreglarlo.
-//     */
-//    public void ocultacionNumerosAleatorios() {
-//        Cuadrado[] cuadrados = Singleton.getTableroSingleton().getCUADRADOS();
-//        
-//        for(Cuadrado cuadrado : cuadrados) {
-//            for(Casilla casilla : cuadrado.getCASILLAS()) {
-//                GestionNumeros.ocultacionNumerosRandom(casilla);
-//            }
-//        }
-//    }
-    
     /**
      * Oculta una casilla suelta tanto en la matriz de casillas como en el tablero de forma grafica.
      * @param tabla Tabla de la cual queremos ocultar. Sera la de juego.
      * @param row Fila donde se encuentra la casilla.
      * @param numeroCasillaFila Numero de casilla dentro de la fila.
      */
-    public void ocultarCasilla(JTable tabla, int row, int numeroCasillaFila) {
+    public void ocultarCasillaEspecificaTesteo(JTable tabla, int row, int numeroCasillaFila) {
         try {
             Tablero tablero = Singleton.getTableroSingleton();
             tablero.getFILAS()[row].getCASILLAS()[numeroCasillaFila].setVisible(false);
@@ -96,7 +82,7 @@ public class Facade {
      * @param casilla Casilla que queremos ocultar.
      * fixme: esto habria que moverlo a la clase que corresponda, no deberia estar aqui.
      */
-    private void ocultarCasilla(JTable table, Casilla casilla) {
+    private void ocultarCasillaGeneracionTablero(JTable table, Casilla casilla) {
         int backupNum = casilla.getNumeroPropio(); //Si da error habra que recuperarlo.
         int resultado;
         
@@ -123,7 +109,7 @@ public class Facade {
         for(Cuadrado cuadrado : cuadrados) {
             for(Casilla casilla : cuadrado.getCASILLAS()) {
                 if(GestionNumeros.ocultacionNumerosRand()) {
-                    ocultarCasilla(tabla, casilla);
+                    ocultarCasillaGeneracionTablero(tabla, casilla);
                 }
             }
         }
