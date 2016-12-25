@@ -37,8 +37,7 @@ public class WindowJuego extends javax.swing.JFrame {
         this.setVisible(true);
         this.setResizable(false);
         
-//        creacionLineasInternasTablero(Color.BLACK, this.jTableJuego);
-        creacionLineasInternasTablero(Color.BLACK, this.jTableTrampas);
+        creacionLineasInternasTablero(Color.BLACK, this.jTableTrampas); //Estas las dejo aqui porque se quedan fijas. No las cambiare.
         centrarTextoCells();
     }
 
@@ -81,21 +80,16 @@ public class WindowJuego extends javax.swing.JFrame {
     /**
      * Metemos a mano las lineas adicionales del tablero.
      */
-    private void creacionLineasInternasTablero(Color color, JTable jTable) {
+    private void creacionLineasInternasTablero(Color color, JTable tabla) {
         int[][] parametrosLineasGraficasInternas = new int[][] {{130, 4, 5, 355}, //Mapeado a mano al pixel de precision. Hay que ajustarlo bien ya que si no se solapan con las lineas de color de resultado.
                                                             {259, 4, 5, 355}, 
                                                             {4, 120, 387, 5},
                                                             {4, 242, 387, 5}};
-        eliminarLineasInternasTablero(jTable);
-        lineaCuadradoVertical1 = new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[0][0], parametrosLineasGraficasInternas[0][1], parametrosLineasGraficasInternas[0][2], parametrosLineasGraficasInternas[0][3]);
-        lineaCuadradoVertical2 = new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[1][0], parametrosLineasGraficasInternas[1][1], parametrosLineasGraficasInternas[1][2], parametrosLineasGraficasInternas[1][3]);
-        lineaCuadradoHorizontal1 = new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[2][0], parametrosLineasGraficasInternas[2][1], parametrosLineasGraficasInternas[2][2], parametrosLineasGraficasInternas[2][3]);
-        lineaCuadradoHorizontal2 = new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[3][0], parametrosLineasGraficasInternas[3][1], parametrosLineasGraficasInternas[3][2], parametrosLineasGraficasInternas[3][3]);
-        
-        jTable.add(lineaCuadradoVertical1);
-        jTable.add(lineaCuadradoVertical2);
-        jTable.add(lineaCuadradoHorizontal1);
-        jTable.add(lineaCuadradoHorizontal2);
+//        eliminarLineasInternasTablero(tabla);
+        tabla.add(lineaCuadradoVertical1 = new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[0][0], parametrosLineasGraficasInternas[0][1], parametrosLineasGraficasInternas[0][2], parametrosLineasGraficasInternas[0][3]));
+        tabla.add(lineaCuadradoVertical2 = new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[1][0], parametrosLineasGraficasInternas[1][1], parametrosLineasGraficasInternas[1][2], parametrosLineasGraficasInternas[1][3]));
+        tabla.add(lineaCuadradoHorizontal1 = new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[2][0], parametrosLineasGraficasInternas[2][1], parametrosLineasGraficasInternas[2][2], parametrosLineasGraficasInternas[2][3]));
+        tabla.add(lineaCuadradoHorizontal2 = new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[3][0], parametrosLineasGraficasInternas[3][1], parametrosLineasGraficasInternas[3][2], parametrosLineasGraficasInternas[3][3]));
     }
     
     
@@ -111,6 +105,15 @@ public class WindowJuego extends javax.swing.JFrame {
     }
     
     /**
+     * Eliminamos todas las lineas existentes que hemos metido y asignado previamente para poder meter nuevas.
+     * @param tabla Tabla de la cual eliminar las lineas.
+     */
+    private void eliminarLineasCompletasTablero(JTable tabla) {
+        eliminarLineasExternasTablero(tabla);
+        eliminarLineasInternasTablero(tabla);
+    }
+    
+    /**
      * Creacion y asignacion de las lineas de colores segun el resultado de la comprobacion.
      *  Verde: Solucionado.
      *  Rojo: No correcto.
@@ -118,24 +121,34 @@ public class WindowJuego extends javax.swing.JFrame {
      * @param tabla tabla donde se colocaran las barras graficas.
      * @param color color del que seran las barras.
      */
-    private void creacionLineasExternasTablero(JTable tabla, Color color) {
+    private void creacionLineasExternasTablero(Color color, JTable tabla) {
         int[][] parametrosLineasGraficas = new int[][] {{0, 0, 5, 400}, //Ejes x, y, ancho, alto. //Mapeado a mano, si se modifica la pantalla por cualquier cosa, habra que remapear.
                                                             {0, 0, 400, 5},
                                                             {390, 0, 5, 400},
                                                             {0, 358, 400, 5}};
         
-        eliminarLineasExternasTablero(tabla);
+//        eliminarLineasExternasTablero(tabla);
         
-        lineaSolucionNorte = new LineaGraficaCuadrado(color, parametrosLineasGraficas[0][0], parametrosLineasGraficas[0][1], parametrosLineasGraficas[0][2], parametrosLineasGraficas[0][3]);
-        lineaSolucionSur = new LineaGraficaCuadrado(color, parametrosLineasGraficas[1][0], parametrosLineasGraficas[1][1], parametrosLineasGraficas[1][2], parametrosLineasGraficas[1][3]);
-        lineaSolucionEste = new LineaGraficaCuadrado(color, parametrosLineasGraficas[2][0], parametrosLineasGraficas[2][1], parametrosLineasGraficas[2][2], parametrosLineasGraficas[2][3]);
-        lineaSolucionOeste = new LineaGraficaCuadrado(color, parametrosLineasGraficas[3][0], parametrosLineasGraficas[3][1], parametrosLineasGraficas[3][2], parametrosLineasGraficas[3][3]);
-                
-        tabla.add(lineaSolucionNorte);
-        tabla.add(lineaSolucionSur);
-        tabla.add(lineaSolucionEste);
-        tabla.add(lineaSolucionOeste);
+        tabla.add(lineaSolucionNorte = new LineaGraficaCuadrado(color, parametrosLineasGraficas[0][0], parametrosLineasGraficas[0][1], parametrosLineasGraficas[0][2], parametrosLineasGraficas[0][3]));
+        tabla.add(lineaSolucionSur = new LineaGraficaCuadrado(color, parametrosLineasGraficas[1][0], parametrosLineasGraficas[1][1], parametrosLineasGraficas[1][2], parametrosLineasGraficas[1][3]));
+        tabla.add(lineaSolucionEste = new LineaGraficaCuadrado(color, parametrosLineasGraficas[2][0], parametrosLineasGraficas[2][1], parametrosLineasGraficas[2][2], parametrosLineasGraficas[2][3]));
+        tabla.add(lineaSolucionOeste = new LineaGraficaCuadrado(color, parametrosLineasGraficas[3][0], parametrosLineasGraficas[3][1], parametrosLineasGraficas[3][2], parametrosLineasGraficas[3][3]));
         
+//        tabla.repaint();
+    }
+    
+    /**
+     * Agrupamiento de todas las operaciones necesarias para crear todas las lineas necesarias del tablero o 'cambiar' su color.
+     *  Comprueba si existen lineas previas, si las hay se borran.
+     *  Creamos nuevas lineas con el nuevo color indicado.
+     *  Hacemos un tabla.repaint() para que se muestren los cambios.
+     * @param color Nuevo color del que queremos las nuevas lineas.
+     * @param tabla Tabla sobre la que queremos operar.
+     */
+    private void creacionLineasCompletasTablero(Color color, JTable tabla) {
+        eliminarLineasCompletasTablero(tabla);
+        creacionLineasExternasTablero(color, tabla);
+        creacionLineasInternasTablero(color, tabla);
         tabla.repaint();
     }
     
@@ -413,8 +426,9 @@ public class WindowJuego extends javax.swing.JFrame {
         Singleton.getFacadeSingleton().generacionTablero(this.jTableJuego, false);
         Singleton.getFacadeSingleton().generacionTablero(this.jTableTrampas, true);
         Singleton.getFacadeSingleton().ocultarNumerosTablero(jTableJuego);
-        creacionLineasInternasTablero(Color.BLACK, jTableJuego);
-        creacionLineasExternasTablero(jTableJuego, Color.BLACK);
+        creacionLineasCompletasTablero(Color.BLACK, jTableJuego);
+//        creacionLineasInternasTablero(Color.BLACK, jTableJuego);
+//        creacionLineasExternasTablero(Color.BLACK, jTableJuego);
         this.jTabbedPanePrincipal.setEnabledAt(2, false);
         this.jTabbedPanePrincipal.setEnabledAt(1, true);
         this.jMenuItemCopiarTableroTrampas.setEnabled(true);
@@ -488,7 +502,7 @@ public class WindowJuego extends javax.swing.JFrame {
     }
     
     private void jMenuItemOcultarCasillaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOcultarCasillaActionPerformed
-        new Thread( () -> ocultarCasillaEspecifica()).start(); //Para que no se quede la GUI colgada esperando.
+        new Thread(() -> ocultarCasillaEspecifica()).start(); //Para que no se quede la GUI colgada esperando.
     }//GEN-LAST:event_jMenuItemOcultarCasillaActionPerformed
     
     /**
@@ -499,18 +513,21 @@ public class WindowJuego extends javax.swing.JFrame {
 
         switch(resultado) {
             case 1: //Correcto.
-                creacionLineasInternasTablero(Color.GREEN, jTableJuego);
-                creacionLineasExternasTablero(jTableJuego, Color.GREEN); //Habra que hacer disable de toda la tabla para que ya no se pueda modificar y de los botones de menu necesarios.
+                creacionLineasCompletasTablero(Color.GREEN, jTableJuego);
+//                creacionLineasInternasTablero(Color.GREEN, jTableJuego);
+//                creacionLineasExternasTablero(Color.GREEN, jTableJuego); //Habra que hacer disable de toda la tabla para que ya no se pueda modificar y de los botones de menu necesarios.
                 JOptionPane.showMessageDialog(null, "¡Sudoku Solucionado Correctamente!", "Sudoku Solucionado", JOptionPane.INFORMATION_MESSAGE);
                 break;
             case -1: //Incorrecto.
-                creacionLineasInternasTablero(Color.RED, jTableJuego);
-                creacionLineasExternasTablero(jTableJuego, Color.RED);
+                creacionLineasCompletasTablero(Color.RED, jTableJuego);
+//                creacionLineasInternasTablero(Color.RED, jTableJuego);
+//                creacionLineasExternasTablero(Color.RED, jTableJuego);
                 JOptionPane.showMessageDialog(null, "Solucion Incorrecta.", "Sudoku no Solucionado", JOptionPane.INFORMATION_MESSAGE);
                 break;
             case 0: //Incompleto.
-                creacionLineasInternasTablero(Color.BLUE, jTableJuego);
-                creacionLineasExternasTablero(jTableJuego, Color.BLUE);
+                creacionLineasCompletasTablero(Color.BLUE, jTableJuego);
+//                creacionLineasInternasTablero(Color.BLUE, jTableJuego);
+//                creacionLineasExternasTablero(Color.BLUE, jTableJuego);
                 JOptionPane.showMessageDialog(null, "Tablero Incompleto.\n Comprueba que solo haya numeros y no existan casillas vacias.", "Error en el tablero", JOptionPane.INFORMATION_MESSAGE);
                 break;
             default:
