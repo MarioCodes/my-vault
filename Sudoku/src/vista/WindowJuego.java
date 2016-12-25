@@ -8,7 +8,6 @@ package vista;
 import aplicacion.controlador.juego.Resolucion;
 import aplicacion.patrones.Singleton;
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import javax.swing.JLabel;
@@ -38,7 +37,7 @@ public class WindowJuego extends javax.swing.JFrame {
         this.setVisible(true);
         this.setResizable(false);
         
-        creacionLineasInternasTablero(Color.BLACK, this.jTableJuego);
+//        creacionLineasInternasTablero(Color.BLACK, this.jTableJuego);
         creacionLineasInternasTablero(Color.BLACK, this.jTableTrampas);
         centrarTextoCells();
     }
@@ -88,10 +87,15 @@ public class WindowJuego extends javax.swing.JFrame {
                                                             {4, 120, 387, 5},
                                                             {4, 242, 387, 5}};
         eliminarLineasInternasTablero(jTable);
-        jTable.add(new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[0][0], parametrosLineasGraficasInternas[0][1], parametrosLineasGraficasInternas[0][2], parametrosLineasGraficasInternas[0][3]));
-        jTable.add(new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[1][0], parametrosLineasGraficasInternas[1][1], parametrosLineasGraficasInternas[1][2], parametrosLineasGraficasInternas[1][3]));
-        jTable.add(new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[2][0], parametrosLineasGraficasInternas[2][1], parametrosLineasGraficasInternas[2][2], parametrosLineasGraficasInternas[2][3]));
-        jTable.add(new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[3][0], parametrosLineasGraficasInternas[3][1], parametrosLineasGraficasInternas[3][2], parametrosLineasGraficasInternas[3][3]));
+        lineaCuadradoVertical1 = new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[0][0], parametrosLineasGraficasInternas[0][1], parametrosLineasGraficasInternas[0][2], parametrosLineasGraficasInternas[0][3]);
+        lineaCuadradoVertical2 = new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[1][0], parametrosLineasGraficasInternas[1][1], parametrosLineasGraficasInternas[1][2], parametrosLineasGraficasInternas[1][3]);
+        lineaCuadradoHorizontal1 = new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[2][0], parametrosLineasGraficasInternas[2][1], parametrosLineasGraficasInternas[2][2], parametrosLineasGraficasInternas[2][3]);
+        lineaCuadradoHorizontal2 = new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[3][0], parametrosLineasGraficasInternas[3][1], parametrosLineasGraficasInternas[3][2], parametrosLineasGraficasInternas[3][3]);
+        
+        jTable.add(lineaCuadradoVertical1);
+        jTable.add(lineaCuadradoVertical2);
+        jTable.add(lineaCuadradoHorizontal1);
+        jTable.add(lineaCuadradoHorizontal2);
     }
     
     
@@ -114,7 +118,7 @@ public class WindowJuego extends javax.swing.JFrame {
      * @param tabla tabla donde se colocaran las barras graficas.
      * @param color color del que seran las barras.
      */
-    private void asignacionBarrasYColoresSolucion(JTable tabla, Color color) {
+    private void creacionLineasExternasTablero(JTable tabla, Color color) {
         int[][] parametrosLineasGraficas = new int[][] {{0, 0, 5, 400}, //Ejes x, y, ancho, alto. //Mapeado a mano, si se modifica la pantalla por cualquier cosa, habra que remapear.
                                                             {0, 0, 400, 5},
                                                             {390, 0, 5, 400},
@@ -409,7 +413,8 @@ public class WindowJuego extends javax.swing.JFrame {
         Singleton.getFacadeSingleton().generacionTablero(this.jTableJuego, false);
         Singleton.getFacadeSingleton().generacionTablero(this.jTableTrampas, true);
         Singleton.getFacadeSingleton().ocultarNumerosTablero(jTableJuego);
-        asignacionBarrasYColoresSolucion(jTableJuego, Color.BLACK);
+        creacionLineasInternasTablero(Color.BLACK, jTableJuego);
+        creacionLineasExternasTablero(jTableJuego, Color.BLACK);
         this.jTabbedPanePrincipal.setEnabledAt(2, false);
         this.jTabbedPanePrincipal.setEnabledAt(1, true);
         this.jMenuItemCopiarTableroTrampas.setEnabled(true);
@@ -494,15 +499,18 @@ public class WindowJuego extends javax.swing.JFrame {
 
         switch(resultado) {
             case 1: //Correcto.
-                asignacionBarrasYColoresSolucion(jTableJuego, Color.GREEN); //Habra que hacer disable de toda la tabla para que ya no se pueda modificar y de los botones de menu necesarios.
+                creacionLineasInternasTablero(Color.GREEN, jTableJuego);
+                creacionLineasExternasTablero(jTableJuego, Color.GREEN); //Habra que hacer disable de toda la tabla para que ya no se pueda modificar y de los botones de menu necesarios.
                 JOptionPane.showMessageDialog(null, "¡Sudoku Solucionado Correctamente!", "Sudoku Solucionado", JOptionPane.INFORMATION_MESSAGE);
                 break;
             case -1: //Incorrecto.
-                asignacionBarrasYColoresSolucion(jTableJuego, Color.RED);
+                creacionLineasInternasTablero(Color.RED, jTableJuego);
+                creacionLineasExternasTablero(jTableJuego, Color.RED);
                 JOptionPane.showMessageDialog(null, "Solucion Incorrecta.", "Sudoku no Solucionado", JOptionPane.INFORMATION_MESSAGE);
                 break;
             case 0: //Incompleto.
-                asignacionBarrasYColoresSolucion(jTableJuego, Color.BLUE);
+                creacionLineasInternasTablero(Color.BLUE, jTableJuego);
+                creacionLineasExternasTablero(jTableJuego, Color.BLUE);
                 JOptionPane.showMessageDialog(null, "Tablero Incompleto.\n Comprueba que solo haya numeros y no existan casillas vacias.", "Error en el tablero", JOptionPane.INFORMATION_MESSAGE);
                 break;
             default:
