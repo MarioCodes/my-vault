@@ -8,6 +8,7 @@ package vista;
 import aplicacion.controlador.juego.Resolucion;
 import aplicacion.patrones.Singleton;
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import javax.swing.JLabel;
@@ -20,13 +21,11 @@ import javax.swing.table.DefaultTableCellRenderer;
  * todo: acordarme de añadir al final de todo hints y demas para cada boton.
  * Ventana principal del programa.
  * @author Mario Codes Sánchez
- * @since 24/12/2016
+ * @since 25/12/2016
  */
 public class WindowJuego extends javax.swing.JFrame {
-    private LineaGraficaCuadrado lineaSolucionNorte;
-    private LineaGraficaCuadrado lineaSolucionSur;
-    private LineaGraficaCuadrado lineaSolucionEste;
-    private LineaGraficaCuadrado lineaSolucionOeste;
+    private LineaGraficaCuadrado lineaSolucionNorte, lineaSolucionSur, lineaSolucionEste, lineaSolucionOeste; //Lineas graficas (ver Inner Class). Tienen que ser miembro para poder hacer referencia a ellas para quitarlas / ponerlas.
+    private LineaGraficaCuadrado lineaCuadradoHorizontal1, lineaCuadradoHorizontal2, lineaCuadradoVertical1, lineaCuadradoVertical2; //Marcan la separacion de cada cuadrado. No las meto en Coleccion porque no quiero instanciarlas aun.
     
     /**
      * Creates new form MainWindow
@@ -39,9 +38,8 @@ public class WindowJuego extends javax.swing.JFrame {
         this.setVisible(true);
         this.setResizable(false);
         
-        creacionLineasInternasFijasTablero(this.jTableJuego);
-        creacionLineasInternasFijasTablero(this.jTableTrampas);
-        
+        creacionLineasInternasTablero(Color.BLACK, this.jTableJuego);
+        creacionLineasInternasTablero(Color.BLACK, this.jTableTrampas);
         centrarTextoCells();
     }
 
@@ -62,18 +60,79 @@ public class WindowJuego extends javax.swing.JFrame {
     }
     
     /**
+     * Eliminamos una linea grafica de un tablero para poder sobreescribir. Si no las quito antes de poner otra, da conflicto.
+     * @param tabla Tabla de la cual queremos eliminar la linea.
+     * @param linea Linea la cual queremos quitar.
+     */
+    private void eliminarLineaTablero(JTable tabla, LineaGraficaCuadrado linea) {
+        if(linea != null) tabla.remove(linea);
+    }
+    
+    /**
+     * Borramos las lineas internas si ya existian.
+     * @param tabla Tabla de la cual eliminar las lineas internas.
+     */
+    private void eliminarLineasInternasTablero(JTable tabla) {
+        eliminarLineaTablero(tabla, lineaCuadradoHorizontal1);
+        eliminarLineaTablero(tabla, lineaCuadradoHorizontal2);
+        eliminarLineaTablero(tabla, lineaCuadradoVertical1);
+        eliminarLineaTablero(tabla, lineaCuadradoVertical2);
+    }
+    
+    /**
      * Metemos a mano las lineas adicionales del tablero.
      */
-    private void creacionLineasInternasFijasTablero(JTable jTable) {
-        int[][] parametrosLineasGraficas = new int[][] {{130, 4, 5, 355}, //Mapeado a mano al pixel de precision. Hay que ajustarlo bien ya que si no se solapan con las lineas de color de resultado.
+    private void creacionLineasInternasTablero(Color color, JTable jTable) {
+        int[][] parametrosLineasGraficasInternas = new int[][] {{130, 4, 5, 355}, //Mapeado a mano al pixel de precision. Hay que ajustarlo bien ya que si no se solapan con las lineas de color de resultado.
                                                             {259, 4, 5, 355}, 
                                                             {4, 120, 387, 5},
                                                             {4, 242, 387, 5}};
+        eliminarLineasInternasTablero(jTable);
+        jTable.add(new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[0][0], parametrosLineasGraficasInternas[0][1], parametrosLineasGraficasInternas[0][2], parametrosLineasGraficasInternas[0][3]));
+        jTable.add(new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[1][0], parametrosLineasGraficasInternas[1][1], parametrosLineasGraficasInternas[1][2], parametrosLineasGraficasInternas[1][3]));
+        jTable.add(new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[2][0], parametrosLineasGraficasInternas[2][1], parametrosLineasGraficasInternas[2][2], parametrosLineasGraficasInternas[2][3]));
+        jTable.add(new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[3][0], parametrosLineasGraficasInternas[3][1], parametrosLineasGraficasInternas[3][2], parametrosLineasGraficasInternas[3][3]));
+    }
+    
+    
+    /**
+     * Eliminacion de las lineas existentes. Si no las elimino y creo, no se cambiar el nivel de capa para poner unas encima de otras.
+     * @param tabla Tabla donde se encuentran.
+     */
+    private void eliminarLineasExternasTablero(JTable tabla) {
+        eliminarLineaTablero(tabla, lineaSolucionNorte);
+        eliminarLineaTablero(tabla, lineaSolucionSur);
+        eliminarLineaTablero(tabla, lineaSolucionEste);
+        eliminarLineaTablero(tabla, lineaSolucionOeste);
+    }
+    
+    /**
+     * Creacion y asignacion de las lineas de colores segun el resultado de la comprobacion.
+     *  Verde: Solucionado.
+     *  Rojo: No correcto.
+     * todo: que al recomenzar una nueva partida desaparezcan o sean negras para que no se vean.
+     * @param tabla tabla donde se colocaran las barras graficas.
+     * @param color color del que seran las barras.
+     */
+    private void asignacionBarrasYColoresSolucion(JTable tabla, Color color) {
+        int[][] parametrosLineasGraficas = new int[][] {{0, 0, 5, 400}, //Ejes x, y, ancho, alto. //Mapeado a mano, si se modifica la pantalla por cualquier cosa, habra que remapear.
+                                                            {0, 0, 400, 5},
+                                                            {390, 0, 5, 400},
+                                                            {0, 358, 400, 5}};
         
-        jTable.add(new LineaGraficaCuadrado(parametrosLineasGraficas[0][0], parametrosLineasGraficas[0][1], parametrosLineasGraficas[0][2], parametrosLineasGraficas[0][3]));
-        jTable.add(new LineaGraficaCuadrado(parametrosLineasGraficas[1][0], parametrosLineasGraficas[1][1], parametrosLineasGraficas[1][2], parametrosLineasGraficas[1][3]));
-        jTable.add(new LineaGraficaCuadrado(parametrosLineasGraficas[2][0], parametrosLineasGraficas[2][1], parametrosLineasGraficas[2][2], parametrosLineasGraficas[2][3]));
-        jTable.add(new LineaGraficaCuadrado(parametrosLineasGraficas[3][0], parametrosLineasGraficas[3][1], parametrosLineasGraficas[3][2], parametrosLineasGraficas[3][3]));
+        eliminarLineasExternasTablero(tabla);
+        
+        lineaSolucionNorte = new LineaGraficaCuadrado(color, parametrosLineasGraficas[0][0], parametrosLineasGraficas[0][1], parametrosLineasGraficas[0][2], parametrosLineasGraficas[0][3]);
+        lineaSolucionSur = new LineaGraficaCuadrado(color, parametrosLineasGraficas[1][0], parametrosLineasGraficas[1][1], parametrosLineasGraficas[1][2], parametrosLineasGraficas[1][3]);
+        lineaSolucionEste = new LineaGraficaCuadrado(color, parametrosLineasGraficas[2][0], parametrosLineasGraficas[2][1], parametrosLineasGraficas[2][2], parametrosLineasGraficas[2][3]);
+        lineaSolucionOeste = new LineaGraficaCuadrado(color, parametrosLineasGraficas[3][0], parametrosLineasGraficas[3][1], parametrosLineasGraficas[3][2], parametrosLineasGraficas[3][3]);
+                
+        tabla.add(lineaSolucionNorte);
+        tabla.add(lineaSolucionSur);
+        tabla.add(lineaSolucionEste);
+        tabla.add(lineaSolucionOeste);
+        
+        tabla.repaint();
     }
     
     /**
@@ -89,7 +148,7 @@ public class WindowJuego extends javax.swing.JFrame {
         jPanelMenuOpcionesJuego = new javax.swing.JPanel();
         jButtonJugar = new javax.swing.JButton();
         jLabelTitulo = new javax.swing.JLabel();
-        jButtonRecomenzar = new javax.swing.JButton();
+        jButtonPartidaNueva = new javax.swing.JButton();
         jButtonSolventar = new javax.swing.JButton();
         jTableJuego = new javax.swing.JTable();
         jTableTrampas = new javax.swing.JTable();
@@ -121,11 +180,11 @@ public class WindowJuego extends javax.swing.JFrame {
         jLabelTitulo.setFont(new java.awt.Font("sansserif", 0, 36)); // NOI18N
         jLabelTitulo.setText("Sudoku");
 
-        jButtonRecomenzar.setText("Recomenzar Partida");
-        jButtonRecomenzar.setEnabled(false);
-        jButtonRecomenzar.addActionListener(new java.awt.event.ActionListener() {
+        jButtonPartidaNueva.setText("Partida Nueva");
+        jButtonPartidaNueva.setEnabled(false);
+        jButtonPartidaNueva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonRecomenzarActionPerformed(evt);
+                jButtonPartidaNuevaActionPerformed(evt);
             }
         });
 
@@ -144,7 +203,7 @@ public class WindowJuego extends javax.swing.JFrame {
                     .addGroup(jPanelMenuOpcionesJuegoLayout.createSequentialGroup()
                         .addGap(71, 71, 71)
                         .addGroup(jPanelMenuOpcionesJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonRecomenzar, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonPartidaNueva, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButtonJugar, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButtonSolventar, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(74, Short.MAX_VALUE))
@@ -157,7 +216,7 @@ public class WindowJuego extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonJugar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonRecomenzar)
+                .addComponent(jButtonPartidaNueva)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonSolventar)
                 .addContainerGap(206, Short.MAX_VALUE))
@@ -344,20 +403,22 @@ public class WindowJuego extends javax.swing.JFrame {
        
     /**
      * Ini de todo lo necesario para comenzar un juego.
+     * Esta puesto tal para que con rellamar a este metodo al crear partida nueva, funcione correctamente y se resetee todo lo que debe.
      */
     private void iniJuego() {
         Singleton.getFacadeSingleton().generacionTablero(this.jTableJuego, false);
         Singleton.getFacadeSingleton().generacionTablero(this.jTableTrampas, true);
         Singleton.getFacadeSingleton().ocultarNumerosTablero(jTableJuego);
+        asignacionBarrasYColoresSolucion(jTableJuego, Color.BLACK);
+        this.jTabbedPanePrincipal.setEnabledAt(2, false);
         this.jTabbedPanePrincipal.setEnabledAt(1, true);
         this.jMenuItemCopiarTableroTrampas.setEnabled(true);
         this.jMenuItemComprobarSolucion.setEnabled(true);
         this.jTabbedPanePrincipal.setSelectedIndex(1);
         this.jButtonJugar.setEnabled(false);
-        this.jButtonRecomenzar.setEnabled(true);
+        this.jButtonPartidaNueva.setEnabled(true);
         this.jMenuItemTesteoTablero.setEnabled(true);
         this.jMenuItemActivarTrampas.setEnabled(true);
-//        this.jMenuItemSolventarSudoku.setEnabled(true);
         this.jMenuItemOcultarCasilla.setEnabled(true);
     }
     
@@ -369,12 +430,13 @@ public class WindowJuego extends javax.swing.JFrame {
         this.jTabbedPanePrincipal.setEnabledAt(2, true);
     }//GEN-LAST:event_jMenuItemActivarTrampasActionPerformed
 
-    private void jButtonRecomenzarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRecomenzarActionPerformed
+    private void jButtonPartidaNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPartidaNuevaActionPerformed
         int confirmacion = JOptionPane.showConfirmDialog(this, "Se perdera el juego actual y se comenzara uno nuevo. ¿Seguro?", "Confirmacion", JOptionPane.YES_NO_OPTION);
         if(confirmacion == 0) {
-            this.jButtonJugarActionPerformed(evt);
+            Singleton.getTableroNuevoSingleton();
+            iniJuego();
         }
-    }//GEN-LAST:event_jButtonRecomenzarActionPerformed
+    }//GEN-LAST:event_jButtonPartidaNuevaActionPerformed
 
     private void jMenuItemTesteoTableroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemTesteoTableroActionPerformed
         System.out.println(Singleton.getTableroSingleton());
@@ -421,50 +483,8 @@ public class WindowJuego extends javax.swing.JFrame {
     }
     
     private void jMenuItemOcultarCasillaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOcultarCasillaActionPerformed
-        ocultarCasillaEspecifica();
+        new Thread( () -> ocultarCasillaEspecifica()).start(); //Para que no se quede la GUI colgada esperando.
     }//GEN-LAST:event_jMenuItemOcultarCasillaActionPerformed
-
-    /**
-     * Eliminacion de las lineas existentes. Si no las elimino y creo, no se cambiar el nivel de capa para poner unas encima de otras.
-     * @param tabla Tabla donde se encuentran.
-     */
-    private void eliminacionLineasAnteriores(JTable tabla) {
-        if(this.lineaSolucionNorte != null) {
-            tabla.remove(lineaSolucionNorte);
-            tabla.remove(lineaSolucionSur);
-            tabla.remove(lineaSolucionEste);
-            tabla.remove(lineaSolucionOeste);
-        }
-    }
-    
-    /**
-     * Creacion y asignacion de las lineas de colores segun el resultado de la comprobacion.
-     *  Verde: Solucionado.
-     *  Rojo: No correcto.
-     * todo: que al recomenzar una nueva partida desaparezcan o sean negras para que no se vean.
-     * @param tabla tabla donde se colocaran las barras graficas.
-     * @param color color del que seran las barras.
-     */
-    private void asignacionBarrasYColoresSolucion(JTable tabla, Color color) {
-        int[][] parametrosLineasGraficas = new int[][] {{0, 0, 5, 400}, //Ejes x, y, ancho, alto. //Mapeado a mano, si se modifica la pantalla por cualquier cosa, habra que remapear.
-                                                            {0, 0, 400, 5},
-                                                            {390, 0, 5, 400},
-                                                            {0, 358, 400, 5}};
-        
-        eliminacionLineasAnteriores(tabla);
-        
-        lineaSolucionNorte = new LineaGraficaCuadrado(color, parametrosLineasGraficas[0][0], parametrosLineasGraficas[0][1], parametrosLineasGraficas[0][2], parametrosLineasGraficas[0][3]);
-        lineaSolucionSur = new LineaGraficaCuadrado(color, parametrosLineasGraficas[1][0], parametrosLineasGraficas[1][1], parametrosLineasGraficas[1][2], parametrosLineasGraficas[1][3]);
-        lineaSolucionEste = new LineaGraficaCuadrado(color, parametrosLineasGraficas[2][0], parametrosLineasGraficas[2][1], parametrosLineasGraficas[2][2], parametrosLineasGraficas[2][3]);
-        lineaSolucionOeste = new LineaGraficaCuadrado(color, parametrosLineasGraficas[3][0], parametrosLineasGraficas[3][1], parametrosLineasGraficas[3][2], parametrosLineasGraficas[3][3]);
-                
-        tabla.add(lineaSolucionNorte);
-        tabla.add(lineaSolucionSur);
-        tabla.add(lineaSolucionEste);
-        tabla.add(lineaSolucionOeste);
-        
-        tabla.repaint();
-    }
     
     /**
      * Gestion del apartado grafico con la solucion.
@@ -475,7 +495,7 @@ public class WindowJuego extends javax.swing.JFrame {
         switch(resultado) {
             case 1: //Correcto.
                 asignacionBarrasYColoresSolucion(jTableJuego, Color.GREEN); //Habra que hacer disable de toda la tabla para que ya no se pueda modificar y de los botones de menu necesarios.
-                JOptionPane.showMessageDialog(null, "¡Solucion Correcta!", "Sudoku Solucionado", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "¡Sudoku Solucionado Correctamente!", "Sudoku Solucionado", JOptionPane.INFORMATION_MESSAGE);
                 break;
             case -1: //Incorrecto.
                 asignacionBarrasYColoresSolucion(jTableJuego, Color.RED);
@@ -502,7 +522,7 @@ public class WindowJuego extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonJugar;
-    private javax.swing.JButton jButtonRecomenzar;
+    private javax.swing.JButton jButtonPartidaNueva;
     private javax.swing.JButton jButtonSolventar;
     private javax.swing.JLabel jLabelTitulo;
     private javax.swing.JMenuBar jMenuBar;

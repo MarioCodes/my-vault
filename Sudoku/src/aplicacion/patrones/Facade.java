@@ -15,7 +15,7 @@ import javax.swing.JTable;
 /**
  * Patron de disenio Facade. Sirve de intermediario entre vista y controlador del programa.
  * @author Mario Codes Sánchez
- * @since 21/12/2016
+ * @since 25/12/2016
  */
 public class Facade {
     /**
@@ -56,23 +56,22 @@ public class Facade {
         rellenoTablaConNumeros(tabla, mostrarTodos);
     }
     
-    /**
-     * Ocultacion de casillas para hacer el juego, 5 casillas por cuadrado.
-     * fixme: cambiarlo y arreglarlo.
-     */
-    public void ocultacionNumerosAleatorios() {
-        Cuadrado[] cuadrados = Singleton.getTableroSingleton().getCUADRADOS();
-        
-        for(Cuadrado cuadrado : cuadrados) {
-            for(Casilla casilla : cuadrado.getCASILLAS()) {
-                GestionNumeros.ocultacionNumerosRandom(casilla);
-            }
-        }
-    }
+//    /**
+//     * Ocultacion de casillas para hacer el juego, 5 casillas por cuadrado.
+//     * fixme: cambiarlo y arreglarlo.
+//     */
+//    public void ocultacionNumerosAleatorios() {
+//        Cuadrado[] cuadrados = Singleton.getTableroSingleton().getCUADRADOS();
+//        
+//        for(Cuadrado cuadrado : cuadrados) {
+//            for(Casilla casilla : cuadrado.getCASILLAS()) {
+//                GestionNumeros.ocultacionNumerosRandom(casilla);
+//            }
+//        }
+//    }
     
     /**
      * Oculta una casilla suelta tanto en la matriz de casillas como en el tablero de forma grafica.
-     * todo: hacerlo en un hilo aparte, asi no se quedara colgado el programa.
      * @param tabla Tabla de la cual queremos ocultar. Sera la de juego.
      * @param row Fila donde se encuentra la casilla.
      * @param numeroCasillaFila Numero de casilla dentro de la fila.

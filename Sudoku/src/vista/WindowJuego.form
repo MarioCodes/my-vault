@@ -158,7 +158,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jButtonRecomenzar" alignment="0" min="-2" pref="240" max="-2" attributes="0"/>
+                                  <Component id="jButtonPartidaNueva" alignment="0" min="-2" pref="240" max="-2" attributes="0"/>
                                   <Component id="jButtonJugar" min="-2" pref="240" max="-2" attributes="0"/>
                                   <Component id="jButtonSolventar" alignment="0" min="-2" pref="240" max="-2" attributes="0"/>
                               </Group>
@@ -176,7 +176,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jButtonJugar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButtonRecomenzar" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonPartidaNueva" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jButtonSolventar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="206" max="32767" attributes="0"/>
@@ -201,13 +201,13 @@
                 <Property name="text" type="java.lang.String" value="Sudoku"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonRecomenzar">
+            <Component class="javax.swing.JButton" name="jButtonPartidaNueva">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Recomenzar Partida"/>
+                <Property name="text" type="java.lang.String" value="Partida Nueva"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonRecomenzarActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonPartidaNuevaActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButtonSolventar">

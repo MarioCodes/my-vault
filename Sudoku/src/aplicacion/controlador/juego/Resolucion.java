@@ -10,19 +10,17 @@ import aplicacion.controlador.tablero.Tablero;
 import aplicacion.patrones.Singleton;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 /**
  * Clase estatica. Metodos para la resolucion del Sudoku.
  * @author Mario Codes Sánchez
- * @since 21/12/2016
+ * @since 25/12/2016
  * @version 0.2 Con la resolucion del tablero de juego normal.
  * @see https://en.wikipedia.org/wiki/Sudoku_solving_algorithms
  */
 public class Resolucion {
     private static final Tablero TABLERO = Singleton.getTableroSingleton();
-//    private static int[][][] numerosComprobados = new int[9][9][1]; //[Cuadrado][Casilla][valor]. //Representacion de valores de toda la tabla. //fixme: borrar si al final no lo necesito.
     
     /**
      * Comprobacion mediante expresion regular que no se meta nada que no se deba y que no haya nada vacio.
@@ -126,7 +124,6 @@ public class Resolucion {
                     int numeroDevuelto = checkCasilla(casillaActual);
                     if(numeroDevuelto != -1) {
                         casillaActual.setNumeroPropio(numeroDevuelto);
-//                        numerosComprobados[indexCuadrado][indexCasilla][0] = numeroDevuelto;
                         tabla.setValueAt(numeroDevuelto, casillaActual.getNUMERO_FILA(), casillaActual.getNUMERO_COLUMNA());
                     } else return -1;
                 }
@@ -138,8 +135,7 @@ public class Resolucion {
     /**
      * Check al ocultar numeros para saber si hay +1 solucion posible o podemos seguir ocultando.
      * @return 0 salida normal. -1 salida error.
-     * fixme: si sale bien todo esto, mover a la clase que corresponda.
-     * fixme: revisar bien, copia del metodo solucionFuerzaBruta
+     * fixme: Mas adelante, sustituir por el metodo que haga de resolucion.
      */
     public static int checkOcultacionNumeros() {
         for (int indexCuadrado = 0; indexCuadrado < TABLERO.getCUADRADOS().length; indexCuadrado++) { //Para cada cuadrado.
