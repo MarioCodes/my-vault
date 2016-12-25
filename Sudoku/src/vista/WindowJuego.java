@@ -8,8 +8,6 @@ package vista;
 import aplicacion.controlador.juego.Resolucion;
 import aplicacion.patrones.Singleton;
 import java.awt.Color;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -17,8 +15,10 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 /**
- * todo: acordarme de añadir al final de todo hints y demas para cada boton.
- * Ventana principal del programa.
+ * todo: acordarme de añadir al final de todo hints y demas para cada boton. Ademas algun background e icon.
+ * Ventana principal del programa. 
+ * La Inner Class es muy parecida al metodo que utilice en los Filosofos para representar los circulos. La putada de todo esto es
+ *  que las coordenadas a utilizar las tengo que mapear a mano.
  * @author Mario Codes Sánchez
  * @since 25/12/2016
  */
@@ -37,7 +37,7 @@ public class WindowJuego extends javax.swing.JFrame {
         this.setVisible(true);
         this.setResizable(false);
         
-        creacionLineasInternasTablero(Color.BLACK, this.jTableTrampas); //Estas las dejo aqui porque se quedan fijas. No las cambiare.
+        creacionLineasCompletasTablero(jTableTrampas); //Esta la meto directamente en el constructor porque seran fijas. No las mareare..
         centrarTextoCells();
     }
 
@@ -85,7 +85,7 @@ public class WindowJuego extends javax.swing.JFrame {
                                                             {259, 4, 5, 355}, 
                                                             {4, 120, 387, 5},
                                                             {4, 242, 387, 5}};
-//        eliminarLineasInternasTablero(tabla);
+        
         tabla.add(lineaCuadradoVertical1 = new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[0][0], parametrosLineasGraficasInternas[0][1], parametrosLineasGraficasInternas[0][2], parametrosLineasGraficasInternas[0][3]));
         tabla.add(lineaCuadradoVertical2 = new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[1][0], parametrosLineasGraficasInternas[1][1], parametrosLineasGraficasInternas[1][2], parametrosLineasGraficasInternas[1][3]));
         tabla.add(lineaCuadradoHorizontal1 = new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[2][0], parametrosLineasGraficasInternas[2][1], parametrosLineasGraficasInternas[2][2], parametrosLineasGraficasInternas[2][3]));
@@ -127,14 +127,10 @@ public class WindowJuego extends javax.swing.JFrame {
                                                             {390, 0, 5, 400},
                                                             {0, 358, 400, 5}};
         
-//        eliminarLineasExternasTablero(tabla);
-        
         tabla.add(lineaSolucionNorte = new LineaGraficaCuadrado(color, parametrosLineasGraficas[0][0], parametrosLineasGraficas[0][1], parametrosLineasGraficas[0][2], parametrosLineasGraficas[0][3]));
         tabla.add(lineaSolucionSur = new LineaGraficaCuadrado(color, parametrosLineasGraficas[1][0], parametrosLineasGraficas[1][1], parametrosLineasGraficas[1][2], parametrosLineasGraficas[1][3]));
         tabla.add(lineaSolucionEste = new LineaGraficaCuadrado(color, parametrosLineasGraficas[2][0], parametrosLineasGraficas[2][1], parametrosLineasGraficas[2][2], parametrosLineasGraficas[2][3]));
         tabla.add(lineaSolucionOeste = new LineaGraficaCuadrado(color, parametrosLineasGraficas[3][0], parametrosLineasGraficas[3][1], parametrosLineasGraficas[3][2], parametrosLineasGraficas[3][3]));
-        
-//        tabla.repaint();
     }
     
     /**
@@ -150,6 +146,14 @@ public class WindowJuego extends javax.swing.JFrame {
         creacionLineasExternasTablero(color, tabla);
         creacionLineasInternasTablero(color, tabla);
         tabla.repaint();
+    }
+    
+    /**
+     * Version a utilizar la primera vez que se crea el juego o cada vez que se empieza uno nuevo.
+     * @param tabla Tabla sobre la que operar.
+     */
+    private void creacionLineasCompletasTablero(JTable tabla) {
+        creacionLineasCompletasTablero(Color.BLACK, tabla);
     }
     
     /**
@@ -419,16 +423,9 @@ public class WindowJuego extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemSalirActionPerformed
        
     /**
-     * Ini de todo lo necesario para comenzar un juego.
-     * Esta puesto tal para que con rellamar a este metodo al crear partida nueva, funcione correctamente y se resetee todo lo que debe.
+     * Recopilacion de todos los enableds necesarios al comenzar un juego.
      */
-    private void iniJuego() {
-        Singleton.getFacadeSingleton().generacionTablero(this.jTableJuego, false);
-        Singleton.getFacadeSingleton().generacionTablero(this.jTableTrampas, true);
-        Singleton.getFacadeSingleton().ocultarNumerosTablero(jTableJuego);
-        creacionLineasCompletasTablero(Color.BLACK, jTableJuego);
-//        creacionLineasInternasTablero(Color.BLACK, jTableJuego);
-//        creacionLineasExternasTablero(Color.BLACK, jTableJuego);
+    private void setEnabledsIniJuego() {
         this.jTabbedPanePrincipal.setEnabledAt(2, false);
         this.jTabbedPanePrincipal.setEnabledAt(1, true);
         this.jMenuItemCopiarTableroTrampas.setEnabled(true);
@@ -439,6 +436,18 @@ public class WindowJuego extends javax.swing.JFrame {
         this.jMenuItemTesteoTablero.setEnabled(true);
         this.jMenuItemActivarTrampas.setEnabled(true);
         this.jMenuItemOcultarCasilla.setEnabled(true);
+    }
+    
+    /**
+     * Ini de todo lo necesario para comenzar un juego.
+     * Esta puesto tal para que con rellamar a este metodo al crear partida nueva, funcione correctamente y se resetee todo lo que debe.
+     */
+    private void iniJuego() {
+        Singleton.getFacadeSingleton().generacionTablero(this.jTableJuego, false);
+        Singleton.getFacadeSingleton().generacionTablero(this.jTableTrampas, true);
+        Singleton.getFacadeSingleton().ocultarNumerosTablero(jTableJuego);
+        creacionLineasCompletasTablero(jTableJuego);
+        setEnabledsIniJuego();
     }
     
     private void jButtonJugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonJugarActionPerformed
@@ -465,27 +474,6 @@ public class WindowJuego extends javax.swing.JFrame {
         Resolucion.solucionFuerzaBruta(this.jTableJuego);
     }//GEN-LAST:event_jMenuItemSolventarSudokuActionPerformed
 
-    /**
-     * Scanner para pedir Integer.
-     * @param output Output que se mostrarara al user.
-     * @return Integer metido por el usuario.
-     */
-    private int askInteger(String output) {
-        Scanner scanner;
-        int number = -1;
-        
-        do {
-            try {
-                scanner = new Scanner(System.in);
-                System.out.print(output);
-                number = scanner.nextInt();
-            }catch(InputMismatchException ex) {
-                System.out.println("Dato no valido.");
-            }
-        }while(number == -1);
-        
-        return number;
-    }
     
     /**
      * Preguntamos por 2 coordenadas (0-8).
@@ -495,8 +483,8 @@ public class WindowJuego extends javax.swing.JFrame {
         
         System.out.println("Ocultar Casilla. Coordenadas (0-8)");
         
-        fila = askInteger("\tNumero de fila: ");
-        casilla = askInteger("\tNumero de casillas segun LA FILA: ");
+        fila = GestionGrafica.askInteger("\tNumero de fila: ");
+        casilla = GestionGrafica.askInteger("\tNumero de casillas segun LA FILA: ");
         
         Singleton.getFacadeSingleton().ocultarCasilla(jTableJuego, fila, casilla);
     }
@@ -514,23 +502,18 @@ public class WindowJuego extends javax.swing.JFrame {
         switch(resultado) {
             case 1: //Correcto.
                 creacionLineasCompletasTablero(Color.GREEN, jTableJuego);
-//                creacionLineasInternasTablero(Color.GREEN, jTableJuego);
-//                creacionLineasExternasTablero(Color.GREEN, jTableJuego); //Habra que hacer disable de toda la tabla para que ya no se pueda modificar y de los botones de menu necesarios.
                 JOptionPane.showMessageDialog(null, "¡Sudoku Solucionado Correctamente!", "Sudoku Solucionado", JOptionPane.INFORMATION_MESSAGE);
                 break;
             case -1: //Incorrecto.
                 creacionLineasCompletasTablero(Color.RED, jTableJuego);
-//                creacionLineasInternasTablero(Color.RED, jTableJuego);
-//                creacionLineasExternasTablero(Color.RED, jTableJuego);
                 JOptionPane.showMessageDialog(null, "Solucion Incorrecta.", "Sudoku no Solucionado", JOptionPane.INFORMATION_MESSAGE);
                 break;
             case 0: //Incompleto.
                 creacionLineasCompletasTablero(Color.BLUE, jTableJuego);
-//                creacionLineasInternasTablero(Color.BLUE, jTableJuego);
-//                creacionLineasExternasTablero(Color.BLUE, jTableJuego);
                 JOptionPane.showMessageDialog(null, "Tablero Incompleto.\n Comprueba que solo haya numeros y no existan casillas vacias.", "Error en el tablero", JOptionPane.INFORMATION_MESSAGE);
                 break;
             default:
+                creacionLineasCompletasTablero(Color.MAGENTA, jTableJuego); //Identificativo, no tendria que poder llegar aqui.
                 System.out.println("default comprobarSolucionGrafico()");
                 break;
         }
@@ -570,7 +553,12 @@ public class WindowJuego extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     
     /**
-     * Inner Class hecha unicamente para la representacion de las lineas graficas.
+     * Inner Class hecha unicamente para la representacion de las lineas graficas que utilizare en el tablero.
+     * Leyenda:
+     *  Negra - Estado inicial.
+     *  Azul - Tablero incompleto (tiene casillas vacias).
+     *  Rojo - Tablero completo pero solucion no valida.
+     *  Verde - Tablero resuelto. Habra que hacer disables oportunos.
      */
     private class LineaGraficaCuadrado extends JPanel {        
         /**
