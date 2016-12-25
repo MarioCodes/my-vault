@@ -194,6 +194,7 @@ public class WindowJuego extends javax.swing.JFrame {
         jTableJuego.setMinimumSize(new java.awt.Dimension(135, 333));
         jTableJuego.setPreferredSize(new java.awt.Dimension(400, 390));
         jTableJuego.setRowHeight(41);
+        jTableJuego.setRowSelectionAllowed(false);
         jTableJuego.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTabbedPanePrincipal.addTab("Juego", jTableJuego);
 
