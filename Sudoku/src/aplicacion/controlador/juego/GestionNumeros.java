@@ -100,20 +100,6 @@ public class GestionNumeros {
         return numeroRandomValido;
     }
     
-//    /**
-//     * Ocultacion aleatoria del numero propio de la casilla.
-//     * @param casilla Casilla que queremos ocultar.
-//     * @deprecated Como ultima opcion, no deberia hacerlo asi sino ir ocultando hasta que tenga 2 soluciones posibles.
-//     * todo: borrar o modificar, no deberia utilizarla tal como esta ahora.
-//     */
-//    public static void ocultacionNumerosRandom(Casilla casilla) {
-//        Random random = new Random();
-//        
-//        float suerte = random.nextFloat();
-//        
-//        if(suerte <= 0.40f) casilla.setVisible(false); //40% de que se oculte.
-//    }
-    
     /**
      * Obtencion de booleano para ocultar una casilla, un % de las veces que queramos.
      * @return booleano aleatorio.

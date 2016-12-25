@@ -80,7 +80,6 @@ public class Facade {
      * Ocultamos un numero, hacemos fuerza bruta y vemos si es irresoluble. Si lo es, damos marcha atras y deshacemos lo hecho.
      * @param table tabla normal de juego.
      * @param casilla Casilla que queremos ocultar.
-     * fixme: esto habria que moverlo a la clase que corresponda, no deberia estar aqui.
      */
     private void ocultarCasillaGeneracionTablero(JTable table, Casilla casilla) {
         int backupNum = casilla.getNumeroPropio(); //Si da error habra que recuperarlo.

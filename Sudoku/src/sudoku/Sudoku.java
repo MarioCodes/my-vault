@@ -18,11 +18,8 @@ import vista.WindowJuego;
 public class Sudoku {
 
     /**
-     * todo: hacer que el tablero trampas no este añadido directamente desde un principio, si no que se añada graficamente a mano al hacer click en el boton para ello.
      * todo: cambiar el color de las celdas fijas a gris. Se deberia diferenciar de las modificables.
-     * todo: que al cliquear una celda, haga un highlight de su fila y columna enteros.
      * todo: que los numeros fijos visibles no sean editables.
-     * todo: implementar 'ayuda'. Que no solvente el Sudoku entero, sino solo parte.
      * @param args the command line arguments
      */
     public static void main(String[] args) {

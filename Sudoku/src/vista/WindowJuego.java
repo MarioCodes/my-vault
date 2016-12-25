@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 /**
  * todo: acordarme de añadir al final de todo hints y demas para cada boton. Ademas algun background e icon.
  * Ventana principal del programa. 
- * La Inner Class es muy parecida al metodo que utilice en los Filosofos para representar los circulos. La putada de todo esto es
+ * La Inner Class es muy parecida a lo que utilice en los Filosofos para representar los circulos. La putada de esto es
  *  que las coordenadas a utilizar las tengo que mapear a mano.
  * @author Mario Codes Sánchez
  * @since 25/12/2016
@@ -50,7 +50,6 @@ public class WindowJuego extends javax.swing.JFrame {
     private void disablePestaniasIniciales() {
         jTabbedPanePrincipal.setEnabledAt(1, false);
         jTabbedPanePrincipal.setEnabledAt(2, false); 
-        jTabbedPanePrincipal.setEnabledAt(3, false); 
     }
     
     /**
@@ -124,7 +123,6 @@ public class WindowJuego extends javax.swing.JFrame {
      * Creacion y asignacion de las lineas de colores segun el resultado de la comprobacion.
      *  Verde: Solucionado.
      *  Rojo: No correcto.
-     * todo: que al recomenzar una nueva partida desaparezcan o sean negras para que no se vean.
      * @param tabla tabla donde se colocaran las barras graficas.
      * @param color color del que seran las barras.
      */
@@ -172,6 +170,7 @@ public class WindowJuego extends javax.swing.JFrame {
         switch(resultado) {
             case 1: //Correcto.
                 creacionLineasCompletasTablero(Color.GREEN, jTableJuego);
+                disablesJuegoGanado();
                 JOptionPane.showMessageDialog(null, "¡Sudoku Solucionado Correctamente!", "Sudoku Solucionado", JOptionPane.INFORMATION_MESSAGE);
                 break;
             case -1: //Incorrecto.
@@ -241,8 +240,8 @@ public class WindowJuego extends javax.swing.JFrame {
     }
     
     /**
-     * Ini de todo lo necesario para comenzar un juego.
-     * Esta puesto tal para que con rellamar a este metodo al crear partida nueva, funcione correctamente y se resetee todo lo que debe.
+     * Ini de lo necesario para comenzar un juego.
+     * Esta puesto tal para que con rellamarlo al crear partida nueva, funcione correctamente y se resetee lo que debe.
      */
     private void iniJuego() {
         Singleton.getFacadeSingleton().generacionTablero(this.jTableJuego, false);
@@ -250,6 +249,13 @@ public class WindowJuego extends javax.swing.JFrame {
         Singleton.getFacadeSingleton().ocultarNumerosTablero(jTableJuego);
         creacionLineasCompletasTablero(jTableJuego);
         setEnabledsIniJuego();
+    }
+    
+    /**
+     * Recopilacion de disables necesarios para cuando se gana un juego de manera correcta.
+     */
+    private void disablesJuegoGanado() {
+        this.jMenuItemComprobarSolucion.setEnabled(false);
     }
     
     /**
@@ -269,10 +275,8 @@ public class WindowJuego extends javax.swing.JFrame {
         jButtonSolventar = new javax.swing.JButton();
         jTableJuego = new javax.swing.JTable();
         jTableTrampas = new javax.swing.JTable();
-        jPanelSolventar = new javax.swing.JPanel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuOpciones = new javax.swing.JMenu();
-        jMenuItemAcercaDe = new javax.swing.JMenuItem();
         jMenuItemSalir = new javax.swing.JMenuItem();
         jMenuJuego = new javax.swing.JMenu();
         jMenuItemComprobarSolucion = new javax.swing.JMenuItem();
@@ -408,23 +412,7 @@ public class WindowJuego extends javax.swing.JFrame {
         jTableTrampas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTabbedPanePrincipal.addTab("Trampas", jTableTrampas);
 
-        javax.swing.GroupLayout jPanelSolventarLayout = new javax.swing.GroupLayout(jPanelSolventar);
-        jPanelSolventar.setLayout(jPanelSolventarLayout);
-        jPanelSolventarLayout.setHorizontalGroup(
-            jPanelSolventarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 385, Short.MAX_VALUE)
-        );
-        jPanelSolventarLayout.setVerticalGroup(
-            jPanelSolventarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 351, Short.MAX_VALUE)
-        );
-
-        jTabbedPanePrincipal.addTab("Solventar", jPanelSolventar);
-
         jMenuOpciones.setText("File");
-
-        jMenuItemAcercaDe.setText("Acerca De...");
-        jMenuOpciones.add(jMenuItemAcercaDe);
 
         jMenuItemSalir.setText("Salir");
         jMenuItemSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -561,7 +549,6 @@ public class WindowJuego extends javax.swing.JFrame {
     private javax.swing.JButton jButtonSolventar;
     private javax.swing.JLabel jLabelTitulo;
     private javax.swing.JMenuBar jMenuBar;
-    private javax.swing.JMenuItem jMenuItemAcercaDe;
     private javax.swing.JMenuItem jMenuItemActivarTrampas;
     private javax.swing.JMenuItem jMenuItemComprobarSolucion;
     private javax.swing.JMenuItem jMenuItemCopiarTableroTrampas;
@@ -573,7 +560,6 @@ public class WindowJuego extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuOpciones;
     private javax.swing.JMenu jMenuTesteo;
     private javax.swing.JPanel jPanelMenuOpcionesJuego;
-    private javax.swing.JPanel jPanelSolventar;
     private javax.swing.JTabbedPane jTabbedPanePrincipal;
     private javax.swing.JTable jTableJuego;
     private javax.swing.JTable jTableTrampas;
