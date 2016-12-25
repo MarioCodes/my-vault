@@ -23,8 +23,11 @@ import javax.swing.table.DefaultTableCellRenderer;
  * @since 25/12/2016
  */
 public class WindowJuego extends javax.swing.JFrame {
+    private LineaGraficaCuadrado[] lineasGraficasExternas = new LineaGraficaCuadrado[4];
+    private LineaGraficaCuadrado[] lineasGraficasInternas = new LineaGraficaCuadrado[4];
+    
     private LineaGraficaCuadrado lineaSolucionNorte, lineaSolucionSur, lineaSolucionEste, lineaSolucionOeste; //Lineas graficas (ver Inner Class). Tienen que ser miembro para poder hacer referencia a ellas para quitarlas / ponerlas.
-    private LineaGraficaCuadrado lineaCuadradoHorizontal1, lineaCuadradoHorizontal2, lineaCuadradoVertical1, lineaCuadradoVertical2; //Marcan la separacion de cada cuadrado. No las meto en Coleccion porque no quiero instanciarlas aun.
+    
     
     /**
      * Creates new form MainWindow
@@ -39,8 +42,18 @@ public class WindowJuego extends javax.swing.JFrame {
         
         creacionLineasCompletasTablero(jTableTrampas); //Esta la meto directamente en el constructor porque seran fijas. No las mareare..
         centrarTextoCells();
+        disablePestaniasIniciales();
     }
 
+    /**
+     * Para que la de juego ni la de trampas se puedan seleccionar salvo cuando se haya creado el juego.
+     */
+    private void disablePestaniasIniciales() {
+        jTabbedPanePrincipal.setEnabledAt(1, false);
+        jTabbedPanePrincipal.setEnabledAt(2, false); 
+        jTabbedPanePrincipal.setEnabledAt(3, false); 
+    }
+    
     /**
      * Centrado de las labels de las cells.
      */
@@ -48,17 +61,14 @@ public class WindowJuego extends javax.swing.JFrame {
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment( JLabel.CENTER );
         for (int i = 0; i < this.jTableTrampas.getColumnCount(); i++) {
-            this.jTableJuego.getColumnModel().getColumn(i).setCellRenderer( centerRenderer );
-            this.jTableTrampas.getColumnModel().getColumn(i).setCellRenderer( centerRenderer );
+            this.jTableJuego.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            this.jTableTrampas.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
-        
-        jTabbedPanePrincipal.setEnabledAt(1, false); //Para que la de juego ni la de trampas se puedan seleccionar salvo cuando se haya creado el juego.
-        jTabbedPanePrincipal.setEnabledAt(2, false); 
-        jTabbedPanePrincipal.setEnabledAt(3, false); 
     }
     
     /**
-     * Eliminamos una linea grafica de un tablero para poder sobreescribir. Si no las quito antes de poner otra, da conflicto.
+     * Eliminamos una linea grafica de un tablero para poder sobreescribirla, SOLO si esta existe. 
+     *  Si no las quito antes de poner otra, da conflicto. Y como no tengo ganas de ponerme a trabajar en plan capas, prefiero esto.
      * @param tabla Tabla de la cual queremos eliminar la linea.
      * @param linea Linea la cual queremos quitar.
      */
@@ -71,10 +81,9 @@ public class WindowJuego extends javax.swing.JFrame {
      * @param tabla Tabla de la cual eliminar las lineas internas.
      */
     private void eliminarLineasInternasTablero(JTable tabla) {
-        eliminarLineaTablero(tabla, lineaCuadradoHorizontal1);
-        eliminarLineaTablero(tabla, lineaCuadradoHorizontal2);
-        eliminarLineaTablero(tabla, lineaCuadradoVertical1);
-        eliminarLineaTablero(tabla, lineaCuadradoVertical2);
+        for(LineaGraficaCuadrado linea: lineasGraficasInternas) {
+            eliminarLineaTablero(tabla, linea);
+        }
     }
     
     /**
@@ -86,10 +95,10 @@ public class WindowJuego extends javax.swing.JFrame {
                                                             {4, 120, 387, 5},
                                                             {4, 242, 387, 5}};
         
-        tabla.add(lineaCuadradoVertical1 = new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[0][0], parametrosLineasGraficasInternas[0][1], parametrosLineasGraficasInternas[0][2], parametrosLineasGraficasInternas[0][3]));
-        tabla.add(lineaCuadradoVertical2 = new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[1][0], parametrosLineasGraficasInternas[1][1], parametrosLineasGraficasInternas[1][2], parametrosLineasGraficasInternas[1][3]));
-        tabla.add(lineaCuadradoHorizontal1 = new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[2][0], parametrosLineasGraficasInternas[2][1], parametrosLineasGraficasInternas[2][2], parametrosLineasGraficasInternas[2][3]));
-        tabla.add(lineaCuadradoHorizontal2 = new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[3][0], parametrosLineasGraficasInternas[3][1], parametrosLineasGraficasInternas[3][2], parametrosLineasGraficasInternas[3][3]));
+        tabla.add(lineasGraficasInternas[0] = new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[0][0], parametrosLineasGraficasInternas[0][1], parametrosLineasGraficasInternas[0][2], parametrosLineasGraficasInternas[0][3]));
+        tabla.add(lineasGraficasInternas[1] = new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[1][0], parametrosLineasGraficasInternas[1][1], parametrosLineasGraficasInternas[1][2], parametrosLineasGraficasInternas[1][3]));
+        tabla.add(lineasGraficasInternas[2] = new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[2][0], parametrosLineasGraficasInternas[2][1], parametrosLineasGraficasInternas[2][2], parametrosLineasGraficasInternas[2][3]));
+        tabla.add(lineasGraficasInternas[3] = new LineaGraficaCuadrado(color, parametrosLineasGraficasInternas[3][0], parametrosLineasGraficasInternas[3][1], parametrosLineasGraficasInternas[3][2], parametrosLineasGraficasInternas[3][3]));
     }
     
     
