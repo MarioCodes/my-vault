@@ -22,7 +22,7 @@ import java.util.concurrent.ThreadLocalRandom;
  *                  Me ha hecho gracia el invento y me puede ser util tener una implementacion en un futuro. Afectara algo al rendimiento ahi que se queda.
  */
 public class GestionNumeros {
-    private static final float PORCENTAJE_OCULTACION_CASILLA = 0.35f; /* 35%. Modificar para ocultar mas o menos casillas en nuestro Sudoku. 
+    private static final float PORCENTAJE_OCULTACION_CASILLA = 0.40f; /* 40%. Modificar para ocultar mas o menos casillas en nuestro Sudoku. 
                                                                         Segun teorias matematicas, un Sudoku con menos de 17 casillas visibles es imposible que disponga de una unica solucion.*/
     
     /**

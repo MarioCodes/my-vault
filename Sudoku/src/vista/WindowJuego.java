@@ -45,12 +45,50 @@ public class WindowJuego extends javax.swing.JFrame {
         
         iniTablaPrincipalJuego();
         creacionLineasCompletasTablero(jTableTrampas); //Esta la meto directamente en el constructor porque seran fijas. No las mareare..
-        centrarTextoCellsTabla(jTableJuego);
+//        centrarTextoCellsTabla(jTableJuego);
         centrarTextoCellsTabla(jTableTrampas);
         centrarTextoCellsTabla(jTableJuegoCustom);
         disablePestaniasIniciales();
     }
 
+    /**
+     * Set del mode de la tabla principal. Lo copio de la que tenia hecha y creada antes por Swing. No tocar a menos que sea necesario.
+     *  Hago Override de isCellEditable() para hacer que las celdas que se consideran fijas, no se puedan modificar.
+     * @param tablaPrincipal Tabla a la que le ponemos su mode.
+     */
+    private void setModeTablaPrincipalJuego(JTable tablaPrincipal) {
+        tablaPrincipal.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "", "", "", "", "", "", "", "", ""
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+            
+            @Override
+            public boolean isCellEditable(int row, int column) { //Esto es lo unico que he aniadido al Mode creado por Swing.
+                Tablero tablero = Singleton.getTableroSingleton();
+                return !tablero.getFILAS()[row].getCASILLAS()[column].isVisible();
+            }
+        });
+    }
+    
     /**
      * Inicializacion de la tabla principal sobre la que se jugara.
      * Lo tengo que hacer a mano ya que necesito hacer un override de 'prepareRenderer'. De esta forma puedo capturar celdas sueltas
@@ -58,20 +96,24 @@ public class WindowJuego extends javax.swing.JFrame {
      */
     private void iniTablaPrincipalJuego() {
         Tablero tablero = Singleton.getTableroSingleton();
-        jTableJuegoCustom = new JTable(jTableJuego.getModel()) {
+        jTableJuegoCustom = new JTable() { //jTableJuego.getModel()
           @Override
           public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
               Component component = super.prepareRenderer(renderer, row, col);
               Boolean isVisible = tablero.getFILAS()[row].getCASILLAS()[col].isVisible();
               
               if(isVisible) component.setForeground(Color.GRAY);
-              else component.setBackground(Color.white);
+              else component.setForeground(Color.BLACK);
               
+                
+//                component.setFocusable(isVisible);
+//              component.setEnabled(isVisible);
               
               return component;
-          }  
+          }
         };
         
+        setModeTablaPrincipalJuego(jTableJuegoCustom);
         jTableJuegoCustom.setFont(new java.awt.Font("Tahoma", 1, 12));
         jTableJuegoCustom.setRowHeight(41);
         jTableJuegoCustom.setRowSelectionAllowed(false);
@@ -83,8 +125,8 @@ public class WindowJuego extends javax.swing.JFrame {
      * Para que la de juego ni la de trampas se puedan seleccionar salvo cuando se haya creado el juego.
      */
     private void disablePestaniasIniciales() {
-        jTabbedPanePrincipal.setEnabledAt(1, false);
-        jTabbedPanePrincipal.setEnabledAt(2, false); 
+//        jTabbedPanePrincipal.setEnabledAt(1, false);
+//        jTabbedPanePrincipal.setEnabledAt(2, false); 
     }
     
     /**
@@ -279,10 +321,10 @@ public class WindowJuego extends javax.swing.JFrame {
      * Esta puesto tal para que con rellamarlo al crear partida nueva, funcione correctamente y se resetee lo que debe.
      */
     private void iniJuego() {
-        Singleton.getFacadeSingleton().generacionTablero(this.jTableJuego, false);
+        Singleton.getFacadeSingleton().generacionTablero(this.jTableJuegoCustom, false);
         Singleton.getFacadeSingleton().generacionTablero(this.jTableTrampas, true);
-        Singleton.getFacadeSingleton().ocultarNumerosTablero(jTableJuego);
-        creacionLineasCompletasTablero(jTableJuego);
+        Singleton.getFacadeSingleton().ocultarNumerosTablero(jTableJuegoCustom);
+        creacionLineasCompletasTablero(jTableJuegoCustom);
         setEnabledsIniJuego();
     }
     
