@@ -21,9 +21,9 @@ import javax.swing.table.TableCellRenderer;
 
 /**
  * todo: acordarme de añadir al final de todo hints y demas para cada boton. Ademas algun background e icon.
- * Ventana principal del programa. 
+ * Ventana principal y unica del programa. 
  * La Inner Class es muy parecida a lo que utilice en los Filosofos para representar los circulos. La putada de esto es
- *  que las coordenadas a utilizar las tengo que mapear a mano.
+ *  que las coordenadas a utilizar las tengo que mapear a mano por lo que la ventana no puede ser 'resizable'.
  * @author Mario Codes Sánchez
  * @since 26/12/2016
  */
@@ -43,10 +43,7 @@ public class WindowJuego extends javax.swing.JFrame {
         this.setVisible(true);
         this.setResizable(false);
         
-        iniTablaPrincipalJuego();
-        creacionLineasCompletasTablero(jTableTrampas); //Esta la meto directamente en el constructor porque seran fijas. No las mareare..
-        centrarTextoCellsTabla(jTableTrampas);
-        centrarTextoCellsTabla(jTableJuegoCustom);
+        iniTablaPrincipalJuego(); //Es necesario que este aqui, ya que como es una jTable que hago a mano, solo aparecera como pestania cuando se aniada. Si no al comienzo no apareceria hasta darle al boton.
         disablePestaniasIniciales();
     }
 
@@ -89,12 +86,21 @@ public class WindowJuego extends javax.swing.JFrame {
     }
     
     /**
+     * Comprobamos si la tabla ya existe, si lo hace la eliminamos.
+     * @param tabla Tabla que queremos eliminar del tabbedPane.
+     */
+    private void removeTablaPrincipalJuego(JTable tabla) {
+       if(tabla != null) jTabbedPanePrincipal.remove(tabla);
+    }
+    
+    /**
      * Inicializacion de la tabla principal sobre la que se jugara.
      * Lo tengo que hacer a mano ya que necesito hacer un override de 'prepareRenderer'. De esta forma puedo capturar celdas sueltas
      *  y hacer cambios a las que contengan numeros fijos desde el principio respecto a las que se van cambiando.
      */
     private void iniTablaPrincipalJuego() {
         Tablero tablero = Singleton.getTableroSingleton();
+        removeTablaPrincipalJuego(jTableJuegoCustom);
         jTableJuegoCustom = new JTable() { //jTableJuego.getModel()
           @Override
           public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
@@ -316,6 +322,10 @@ public class WindowJuego extends javax.swing.JFrame {
      * Esta puesto tal para que con rellamarlo al crear partida nueva, funcione correctamente y se resetee lo que debe.
      */
     private void iniJuego() {
+        creacionLineasCompletasTablero(jTableTrampas); //Esta la meto directamente en el constructor porque seran fijas. No las mareare..
+        centrarTextoCellsTabla(jTableTrampas);
+        centrarTextoCellsTabla(jTableJuegoCustom);
+        
         Singleton.getFacadeSingleton().generacionTablero(this.jTableJuegoCustom, false);
         Singleton.getFacadeSingleton().generacionTablero(this.jTableTrampas, true);
         Singleton.getFacadeSingleton().ocultarNumerosTablero(jTableJuegoCustom);
@@ -556,6 +566,7 @@ public class WindowJuego extends javax.swing.JFrame {
         int confirmacion = JOptionPane.showConfirmDialog(this, "Se perdera el juego actual y se comenzara uno nuevo. ¿Seguro?", "Confirmacion", JOptionPane.YES_NO_OPTION);
         if(confirmacion == 0) {
             Singleton.getTableroNuevoSingleton();
+            iniTablaPrincipalJuego();
             iniJuego();
         }
     }//GEN-LAST:event_jButtonPartidaNuevaActionPerformed

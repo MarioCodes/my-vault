@@ -10,9 +10,8 @@ import vista.WindowJuego;
 /**
  * Solucion al problema del Sudoku. (3er intento Y DEFINITIVO!).
  * @author Mario Codes Sánchez
- * @since 25/12/2016
- * @version 0.4.1 Dejada aparte la solventacion por fuerza bruta, voy a terminar el juego normal primero y ya me pondre con eso.
- *                  Al terminar el juego normal, deberia hacer limpieza y arreglo de codigo antes de pasar a resolucion.
+ * @since 26/12/2016
+ * @version 0.4.2 Haciendo algo de limpieza de codigo.
  * @see http://www.sudokuoftheday.com/techniques/
  */
 public class Sudoku {
