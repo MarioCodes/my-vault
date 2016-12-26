@@ -5,7 +5,7 @@
  */
 package vista;
 
-import aplicacion.controlador.juego.Resolucion;
+import aplicacion.controlador.juego.Checks;
 import aplicacion.controlador.tablero.Tablero;
 import aplicacion.patrones.Singleton;
 import java.awt.Color;
@@ -577,7 +577,7 @@ public class WindowJuego extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemTesteoTableroActionPerformed
 
     private void jMenuItemSolventarSudokuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSolventarSudokuActionPerformed
-        Resolucion.solucionFuerzaBruta(this.jTableJuegoCustom);
+        Checks.solucionFuerzaBruta(this.jTableJuegoCustom);
     }//GEN-LAST:event_jMenuItemSolventarSudokuActionPerformed
   
     private void jMenuItemOcultarCasillaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOcultarCasillaActionPerformed

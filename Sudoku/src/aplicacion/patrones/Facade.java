@@ -6,10 +6,12 @@
 package aplicacion.patrones;
 
 import aplicacion.controlador.juego.GestionNumeros;
-import aplicacion.controlador.juego.Resolucion;
+import aplicacion.controlador.juego.Checks;
 import aplicacion.controlador.tablero.Casilla;
 import aplicacion.controlador.tablero.Cuadrado;
 import aplicacion.controlador.tablero.Tablero;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JTable;
 
 /**
@@ -18,6 +20,7 @@ import javax.swing.JTable;
  * @since 25/12/2016
  */
 public class Facade {
+
     /**
      * Relleno de un 'cuadrado' de la tabla, con los valores de las casillas de su homologo Cuadrado.
      *  Son necesarios los datos de la primera columna y fila propia de cada cuadrado, para ir rellenando a partir de alli. Antes los pasaba como parametro, pero estos datos los contiene
@@ -89,7 +92,7 @@ public class Facade {
         casilla.setNumeroPropio(0);
         
         table.setValueAt("", casilla.getNUMERO_FILA(), casilla.getNUMERO_COLUMNA());
-        resultado = Resolucion.checkOcultacionNumeros();
+        resultado = Checks.checkOcultacionNumeros();
         
         if(resultado == -1) { //Si es irresoluble, damos marcha atras.
             casilla.setCasillaFija(true);
@@ -121,8 +124,8 @@ public class Facade {
      * @return Integer con el resultado. 1 correcto, 0 incompleto, -1 no correcto.
      */
     public int comprobarSolucionTablero(JTable tablaNormal, JTable tablaTrampas) {
-        if(!Resolucion.comprobarTableroLleno(tablaNormal)) return 0;
-        if(Resolucion.comprobarResolucionTableroGrafico(tablaNormal, tablaTrampas)) return 1;
+        if(!Checks.comprobarTableroLleno(tablaNormal)) return 0;
+        if(Checks.comprobarResolucionTableroGrafico(tablaNormal, tablaTrampas)) return 1;
         else return -1;
     }
     
@@ -132,6 +135,6 @@ public class Facade {
      * @param tablaTrampas Tablero desde el cual se copiara.
      */
     public void copiarTableroTrampasAlNormal(JTable tablaNormal, JTable tablaTrampas) {
-        Resolucion.copiarTableroTrampasAlNormal(tablaNormal, tablaTrampas);
+        Checks.copiarTableroTrampasAlNormal(tablaNormal, tablaTrampas);
     }
 }
