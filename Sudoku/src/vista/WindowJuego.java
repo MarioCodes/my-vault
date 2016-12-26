@@ -485,7 +485,6 @@ public class WindowJuego extends javax.swing.JFrame {
         jMenuJuego.add(jMenuItemComprobarSolucion);
 
         jMenuItemSolventarSudoku.setText("Solventar Sudoku Actual");
-        jMenuItemSolventarSudoku.setEnabled(false);
         jMenuItemSolventarSudoku.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemSolventarSudokuActionPerformed(evt);
@@ -577,7 +576,8 @@ public class WindowJuego extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemTesteoTableroActionPerformed
 
     private void jMenuItemSolventarSudokuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSolventarSudokuActionPerformed
-        Checks.solucionFuerzaBruta(this.jTableJuegoCustom);
+//        Checks.solucionFuerzaBruta(this.jTableJuegoCustom);
+        Singleton.getFacade().solucionFuerzaBruta(jTableJuegoCustom); //fixme: mas adelante habra que cambiar esto por el tablero correcto.
     }//GEN-LAST:event_jMenuItemSolventarSudokuActionPerformed
   
     private void jMenuItemOcultarCasillaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOcultarCasillaActionPerformed

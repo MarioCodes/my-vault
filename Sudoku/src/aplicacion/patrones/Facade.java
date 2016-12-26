@@ -7,6 +7,7 @@ package aplicacion.patrones;
 
 import aplicacion.controlador.juego.GestionNumeros;
 import aplicacion.controlador.juego.Checks;
+import aplicacion.controlador.juego.Resolucion;
 import aplicacion.controlador.tablero.Casilla;
 import aplicacion.controlador.tablero.Cuadrado;
 import aplicacion.controlador.tablero.Tablero;
@@ -50,7 +51,7 @@ public class Facade {
     }
     
     /**
-     * Generacion / obtencion del tablero mediante Singleton Pattern.
+     * Generacion / obtencion del tablero.
      * @param tabla JTable para rellenar con los numeros.
      * @param mostrarTodos mostrar todas las casillas (para version JTable Trampas).
      */
@@ -136,5 +137,14 @@ public class Facade {
      */
     public void copiarTableroTrampasAlNormal(JTable tablaNormal, JTable tablaTrampas) {
         Checks.copiarTableroTrampasAlNormal(tablaNormal, tablaTrampas);
+    }
+    
+    private void generarTableroConTablaGrafica(JTable tabla) {
+        Resolucion resolucion = new Resolucion(tabla);
+        resolucion.generacionTablero();
+    }
+    
+    public void solucionFuerzaBruta(JTable tabla) {
+        generarTableroConTablaGrafica(tabla);
     }
 }

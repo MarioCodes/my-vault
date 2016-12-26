@@ -15,7 +15,7 @@ import aplicacion.controlador.juego.GestionNumeros;
  * @since 20/12/2016
  */
 public class Tablero {
-    private final Cuadrado[] CUADRADOS = new Cuadrado[9];
+    private final Cuadrado[] CUADRADOS;
     private final Fila[] FILAS = new Fila[9];
     private final Columna[] COLUMNAS = new Columna[9];
     
@@ -23,6 +23,17 @@ public class Tablero {
      * Constructor para inicializar el Tablero de juego. El se encargara de inicializar lo que sea necesario.
      */
     public Tablero() {
+        this.CUADRADOS = new Cuadrado[9];
+        preparacionTablero();
+    }
+    
+    /**
+     * Constructor para resolver un Sudoku cualquiera que se meta.
+     * @param cuadrados Cuadrados con sus casillas que hemos obtenido de la tabla correspondiente.
+     * fixme: mirar que funciona y no hace conflicto por ningun sitio, no lo he mirado ni testeado.
+     */
+    public Tablero(Cuadrado[] cuadrados) {
+        this.CUADRADOS = cuadrados;
         preparacionTablero();
     }
     
@@ -30,24 +41,28 @@ public class Tablero {
      * Pasos necesarios para que el tablero este listo.
      */
     private void preparacionTablero() {
-        iniElementosNecesarios();
+        inicializacionCuadrados(CUADRADOS);
         rellenoFilas();
         rellenoColumnas();
     }
     
     /**
-     * Inicializacion de los Cuadrados, Filas y Columnas. 
+     * Inicializacion de los Cuadrados con sus datos correspondientes en el caso de que estos esten a null (esto depende del constructor que se use).
+     * Lo hago publico por que lo necesito a la hora de crear el tablero para resolucion, asi no duplico codigo.
+     * @param cuadrados Inicializa el array de Cuadrado que se le pasa.
      */
-    private void iniElementosNecesarios() {
-                                //numCuadrado, numFila, numColumna.
-        for (int i = 0, indiceFila = 0, indiceColumna = 0; i < CUADRADOS.length; i++) {
-            CUADRADOS[i] = new Cuadrado(i, indiceFila, indiceColumna);
-            
-            if((i+1)%3 == 0) {
-                indiceFila += 3;
-                indiceColumna = 0;
-            } else {
-                indiceColumna += 3;
+    public static void inicializacionCuadrados(Cuadrado[] cuadrados) {
+        if(cuadrados[0] == null) {
+                                    //numCuadrado, numFila, numColumna.
+            for (int i = 0, indiceFila = 0, indiceColumna = 0; i < cuadrados.length; i++) {
+                cuadrados[i] = new Cuadrado(i, indiceFila, indiceColumna);
+
+                if((i+1)%3 == 0) {
+                    indiceFila += 3;
+                    indiceColumna = 0;
+                } else {
+                    indiceColumna += 3;
+                }
             }
         }
     }
