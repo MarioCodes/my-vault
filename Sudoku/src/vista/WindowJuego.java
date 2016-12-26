@@ -6,8 +6,10 @@
 package vista;
 
 import aplicacion.controlador.juego.Resolucion;
+import aplicacion.controlador.tablero.Tablero;
 import aplicacion.patrones.Singleton;
 import java.awt.Color;
+import java.awt.Component;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import javax.swing.JLabel;
@@ -15,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 
 /**
  * todo: acordarme de añadir al final de todo hints y demas para cada boton. Ademas algun background e icon.
@@ -25,6 +28,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  * @since 25/12/2016
  */
 public class WindowJuego extends javax.swing.JFrame {
+    JTable jTableJuego2;
     private LineaGraficaCuadrado[] lineasGraficasExternas = new LineaGraficaCuadrado[4];
     private LineaGraficaCuadrado[] lineasGraficasInternas = new LineaGraficaCuadrado[4];
     
@@ -39,11 +43,41 @@ public class WindowJuego extends javax.swing.JFrame {
         this.setVisible(true);
         this.setResizable(false);
         
+        iniTablaPrincipalJuego();
         creacionLineasCompletasTablero(jTableTrampas); //Esta la meto directamente en el constructor porque seran fijas. No las mareare..
-        centrarTextoCells();
+        centrarTextoCellsTabla(jTableJuego);
+        centrarTextoCellsTabla(jTableTrampas);
+        centrarTextoCellsTabla(jTableJuego2);
         disablePestaniasIniciales();
     }
 
+    /**
+     * Inicializacion de la tabla principal sobre la que se jugara.
+     * Lo tengo que hacer a mano ya que necesito hacer un override de 'prepareRenderer'. De esta forma puedo capturar celdas sueltas
+     *  y hacer cambios a las que contengan numeros fijos desde el principio respecto a las que se van cambiando.
+     */
+    private void iniTablaPrincipalJuego() {
+        Tablero tablero = Singleton.getTableroSingleton();
+        jTableJuego2 = new JTable(jTableJuego.getModel()) {
+          @Override
+          public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
+              Component component = super.prepareRenderer(renderer, row, col);
+              Boolean isVisible = tablero.getFILAS()[row].getCASILLAS()[col].isVisible();
+              
+              if(isVisible) component.setForeground(Color.GRAY);
+              else component.setBackground(Color.white);
+              
+              
+              return component;
+          }  
+        };
+        
+        jTableJuego2.setFont(new java.awt.Font("Tahoma", 1, 12));
+        jTableJuego2.setRowHeight(41);
+        jTableJuego2.setRowSelectionAllowed(false);
+        jTabbedPanePrincipal.add(jTableJuego2);
+    }
+    
     /**
      * Para que la de juego ni la de trampas se puedan seleccionar salvo cuando se haya creado el juego.
      */
@@ -53,14 +87,14 @@ public class WindowJuego extends javax.swing.JFrame {
     }
     
     /**
-     * Centrado de las labels de las cells.
+     * Centrado de todas las labels de la tabla que se pasa como parametro.
+     * @param tabla Tabla de la cual queremos centrar sus labels.
      */
-    private void centrarTextoCells() {
+    private void centrarTextoCellsTabla(JTable tabla) {
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
-        for (int i = 0; i < this.jTableTrampas.getColumnCount(); i++) {
-            this.jTableJuego.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-            this.jTableTrampas.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
     }
     
