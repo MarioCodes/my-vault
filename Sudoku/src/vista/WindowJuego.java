@@ -25,7 +25,7 @@ import javax.swing.table.TableCellRenderer;
  * La Inner Class es muy parecida a lo que utilice en los Filosofos para representar los circulos. La putada de esto es
  *  que las coordenadas a utilizar las tengo que mapear a mano.
  * @author Mario Codes Sánchez
- * @since 25/12/2016
+ * @since 26/12/2016
  */
 public class WindowJuego extends javax.swing.JFrame {
     JTable jTableJuegoCustom;
@@ -45,7 +45,6 @@ public class WindowJuego extends javax.swing.JFrame {
         
         iniTablaPrincipalJuego();
         creacionLineasCompletasTablero(jTableTrampas); //Esta la meto directamente en el constructor porque seran fijas. No las mareare..
-//        centrarTextoCellsTabla(jTableJuego);
         centrarTextoCellsTabla(jTableTrampas);
         centrarTextoCellsTabla(jTableJuegoCustom);
         disablePestaniasIniciales();
@@ -83,7 +82,7 @@ public class WindowJuego extends javax.swing.JFrame {
             
             @Override
             public boolean isCellEditable(int row, int column) { //Esto es lo unico que he aniadido al Mode creado por Swing.
-                Tablero tablero = Singleton.getTableroSingleton();
+                Tablero tablero = Singleton.getTableroSingleton(); //Se encarga de filtrar si cada celda debe ser editable de manera individual.
                 return !tablero.getFILAS()[row].getCASILLAS()[column].isVisible();
             }
         });
@@ -105,10 +104,6 @@ public class WindowJuego extends javax.swing.JFrame {
               if(isVisible) component.setForeground(Color.GRAY);
               else component.setForeground(Color.BLACK);
               
-                
-//                component.setFocusable(isVisible);
-//              component.setEnabled(isVisible);
-              
               return component;
           }
         };
@@ -125,8 +120,8 @@ public class WindowJuego extends javax.swing.JFrame {
      * Para que la de juego ni la de trampas se puedan seleccionar salvo cuando se haya creado el juego.
      */
     private void disablePestaniasIniciales() {
-//        jTabbedPanePrincipal.setEnabledAt(1, false);
-//        jTabbedPanePrincipal.setEnabledAt(2, false); 
+        jTabbedPanePrincipal.setEnabledAt(1, false);
+        jTabbedPanePrincipal.setEnabledAt(2, false); 
     }
     
     /**
