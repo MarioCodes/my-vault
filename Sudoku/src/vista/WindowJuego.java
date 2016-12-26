@@ -113,7 +113,7 @@ public class WindowJuego extends javax.swing.JFrame {
         jTableJuegoCustom.setRowHeight(41);
         jTableJuegoCustom.setRowSelectionAllowed(false);
         jTableJuegoCustom.setName("Juego Custom");
-        jTabbedPanePrincipal.add(jTableJuegoCustom);
+        jTabbedPanePrincipal.add(jTableJuegoCustom, 1);
     }
     
     /**
@@ -160,8 +160,8 @@ public class WindowJuego extends javax.swing.JFrame {
      * Metemos a mano las lineas adicionales del tablero.
      */
     private void creacionLineasInternasTablero(Color color, JTable tabla) {
-        int[][] parametrosLineasGraficasInternas = new int[][] {{130, 4, 5, 355}, //Mapeado a mano al pixel de precision. Hay que ajustarlo bien ya que si no se solapan con las lineas de color de resultado.
-                                                            {259, 4, 5, 355}, 
+        int[][] parametrosLineasGraficasInternas = new int[][] {{130, 4, 5, 358}, //Mapeado a mano al pixel de precision. Hay que ajustarlo bien ya que si no se solapan con las lineas de color de resultado.
+                                                            {259, 4, 5, 358}, 
                                                             {4, 120, 387, 5},
                                                             {4, 242, 387, 5}};
         
@@ -202,7 +202,7 @@ public class WindowJuego extends javax.swing.JFrame {
         int[][] parametrosLineasGraficas = new int[][] {{0, 0, 5, 400}, //Ejes x, y, ancho, alto. //Mapeado a mano, si se modifica la pantalla por cualquier cosa, habra que remapear.
                                                             {0, 0, 400, 5},
                                                             {390, 0, 5, 400},
-                                                            {0, 358, 400, 5}};
+                                                            {0, 361, 400, 5}};
         
         tabla.add(lineasGraficasExternas[0] = new LineaGraficaCuadrado(color, parametrosLineasGraficas[0][0], parametrosLineasGraficas[0][1], parametrosLineasGraficas[0][2], parametrosLineasGraficas[0][3]));
         tabla.add(lineasGraficasExternas[1] = new LineaGraficaCuadrado(color, parametrosLineasGraficas[1][0], parametrosLineasGraficas[1][1], parametrosLineasGraficas[1][2], parametrosLineasGraficas[1][3]));
@@ -237,24 +237,24 @@ public class WindowJuego extends javax.swing.JFrame {
      * Gestion del apartado grafico con la solucion.
      */
     private void comprobarSolucionGrafico() {
-        int resultado = Singleton.getFacadeSingleton().comprobarSolucionTablero(jTableJuego, jTableTrampas);
+        int resultado = Singleton.getFacadeSingleton().comprobarSolucionTablero(jTableJuegoCustom, jTableTrampas);
 
         switch(resultado) {
             case 1: //Correcto.
-                creacionLineasCompletasTablero(Color.GREEN, jTableJuego);
+                creacionLineasCompletasTablero(Color.GREEN, jTableJuegoCustom);
                 disablesJuegoGanado();
                 JOptionPane.showMessageDialog(null, "¡Sudoku Solucionado Correctamente!", "Sudoku Solucionado", JOptionPane.INFORMATION_MESSAGE);
                 break;
             case -1: //Incorrecto.
-                creacionLineasCompletasTablero(Color.RED, jTableJuego);
+                creacionLineasCompletasTablero(Color.RED, jTableJuegoCustom);
                 JOptionPane.showMessageDialog(null, "Solucion Incorrecta.", "Sudoku no Solucionado", JOptionPane.INFORMATION_MESSAGE);
                 break;
             case 0: //Incompleto.
-                creacionLineasCompletasTablero(Color.BLUE, jTableJuego);
+                creacionLineasCompletasTablero(Color.BLUE, jTableJuegoCustom);
                 JOptionPane.showMessageDialog(null, "Tablero Incompleto.\n Comprueba que solo haya numeros y no existan casillas vacias.", "Error en el tablero", JOptionPane.INFORMATION_MESSAGE);
                 break;
             default:
-                creacionLineasCompletasTablero(Color.MAGENTA, jTableJuego); //Identificativo, no tendria que poder llegar aqui.
+                creacionLineasCompletasTablero(Color.MAGENTA, jTableJuegoCustom); //Identificativo, no tendria que poder llegar aqui.
                 System.out.println("default comprobarSolucionGrafico()");
                 break;
         }
@@ -292,7 +292,7 @@ public class WindowJuego extends javax.swing.JFrame {
         fila = askInteger("\tNumero de fila: ");
         casilla = askInteger("\tNumero de casillas segun LA FILA: ");
         
-        Singleton.getFacadeSingleton().ocultarCasillaEspecificaTesteo(jTableJuego, fila, casilla);
+        Singleton.getFacadeSingleton().ocultarCasillaEspecificaTesteo(jTableJuegoCustom, fila, casilla);
     }
     
     /**
@@ -345,7 +345,6 @@ public class WindowJuego extends javax.swing.JFrame {
         jLabelTitulo = new javax.swing.JLabel();
         jButtonPartidaNueva = new javax.swing.JButton();
         jButtonSolventar = new javax.swing.JButton();
-        jTableJuego = new javax.swing.JTable();
         jTableTrampas = new javax.swing.JTable();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuOpciones = new javax.swing.JMenu();
@@ -416,39 +415,6 @@ public class WindowJuego extends javax.swing.JFrame {
         );
 
         jTabbedPanePrincipal.addTab("Menu Principal", jPanelMenuOpcionesJuego);
-
-        jTableJuego.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
-        jTableJuego.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jTableJuego.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "", "", "", "", "", "", "", "", ""
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jTableJuego.setMinimumSize(new java.awt.Dimension(135, 333));
-        jTableJuego.setPreferredSize(new java.awt.Dimension(400, 390));
-        jTableJuego.setRowHeight(41);
-        jTableJuego.setRowSelectionAllowed(false);
-        jTableJuego.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTabbedPanePrincipal.addTab("Juego", jTableJuego);
 
         jTableTrampas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
         jTableTrampas.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -599,7 +565,7 @@ public class WindowJuego extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemTesteoTableroActionPerformed
 
     private void jMenuItemSolventarSudokuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSolventarSudokuActionPerformed
-        Resolucion.solucionFuerzaBruta(this.jTableJuego);
+        Resolucion.solucionFuerzaBruta(this.jTableJuegoCustom);
     }//GEN-LAST:event_jMenuItemSolventarSudokuActionPerformed
   
     private void jMenuItemOcultarCasillaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOcultarCasillaActionPerformed
@@ -611,7 +577,7 @@ public class WindowJuego extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemComprobarSolucionActionPerformed
 
     private void jMenuItemCopiarTableroTrampasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCopiarTableroTrampasActionPerformed
-        Singleton.getFacadeSingleton().copiarTableroTrampasAlNormal(jTableJuego, jTableTrampas);
+        Singleton.getFacadeSingleton().copiarTableroTrampasAlNormal(jTableJuegoCustom, jTableTrampas);
     }//GEN-LAST:event_jMenuItemCopiarTableroTrampasActionPerformed
 
     
@@ -633,7 +599,6 @@ public class WindowJuego extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuTesteo;
     private javax.swing.JPanel jPanelMenuOpcionesJuego;
     private javax.swing.JTabbedPane jTabbedPanePrincipal;
-    private javax.swing.JTable jTableJuego;
     private javax.swing.JTable jTableTrampas;
     // End of variables declaration//GEN-END:variables
     
