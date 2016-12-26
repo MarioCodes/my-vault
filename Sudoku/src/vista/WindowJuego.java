@@ -28,7 +28,7 @@ import javax.swing.table.TableCellRenderer;
  * @since 25/12/2016
  */
 public class WindowJuego extends javax.swing.JFrame {
-    JTable jTableJuego2;
+    JTable jTableJuegoCustom;
     private LineaGraficaCuadrado[] lineasGraficasExternas = new LineaGraficaCuadrado[4];
     private LineaGraficaCuadrado[] lineasGraficasInternas = new LineaGraficaCuadrado[4];
     
@@ -47,7 +47,7 @@ public class WindowJuego extends javax.swing.JFrame {
         creacionLineasCompletasTablero(jTableTrampas); //Esta la meto directamente en el constructor porque seran fijas. No las mareare..
         centrarTextoCellsTabla(jTableJuego);
         centrarTextoCellsTabla(jTableTrampas);
-        centrarTextoCellsTabla(jTableJuego2);
+        centrarTextoCellsTabla(jTableJuegoCustom);
         disablePestaniasIniciales();
     }
 
@@ -58,7 +58,7 @@ public class WindowJuego extends javax.swing.JFrame {
      */
     private void iniTablaPrincipalJuego() {
         Tablero tablero = Singleton.getTableroSingleton();
-        jTableJuego2 = new JTable(jTableJuego.getModel()) {
+        jTableJuegoCustom = new JTable(jTableJuego.getModel()) {
           @Override
           public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
               Component component = super.prepareRenderer(renderer, row, col);
@@ -72,10 +72,11 @@ public class WindowJuego extends javax.swing.JFrame {
           }  
         };
         
-        jTableJuego2.setFont(new java.awt.Font("Tahoma", 1, 12));
-        jTableJuego2.setRowHeight(41);
-        jTableJuego2.setRowSelectionAllowed(false);
-        jTabbedPanePrincipal.add(jTableJuego2);
+        jTableJuegoCustom.setFont(new java.awt.Font("Tahoma", 1, 12));
+        jTableJuegoCustom.setRowHeight(41);
+        jTableJuegoCustom.setRowSelectionAllowed(false);
+        jTableJuegoCustom.setName("Juego Custom");
+        jTabbedPanePrincipal.add(jTableJuegoCustom);
     }
     
     /**
