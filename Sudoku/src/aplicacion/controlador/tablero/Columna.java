@@ -9,8 +9,10 @@ import java.util.ArrayList;
 
 /**
  * Representacion de una columna del tablero de juego.
+ * Dispone de sus propias Casillas y de una AL de Integers que corresponden con los numeros libres que estan por asignar en 
+ *  esta columna.
  * @author Mario Codes Sánchez
- * @since 20/12/2016
+ * @since 26/12/2016
  */
 public class Columna {
     private final Casilla[] CASILLAS;

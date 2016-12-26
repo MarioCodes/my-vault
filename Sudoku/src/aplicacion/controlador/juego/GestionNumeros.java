@@ -19,7 +19,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @see https://es.wikipedia.org/wiki/Algoritmo_Fisher-Yates#Tabla_paso_a_paso_.28implementaci.C3.B3n_Fisher-Yates.29
  * @see http://stackoverflow.com/questions/8116872/generate-random-numbers-in-array
  * @version 0.1 Soy imbecil, y se me ha ocurrido antes usar un algoritmo innecesario para un problema que no tenia, que sacar directamente un index aleatorio para acceder a una AL ordenada.
- *                  Me ha hecho gracia el invento y me puede ser util tener una implementacion en un futuro. Afectara algo al rendimiento ahi que se queda.
+ *                  Me ha hecho gracia el invento y me puede ser util tener una implementacion en un futuro. Afectara un poco al rendimiento pero se queda.
  */
 public class GestionNumeros {
     private static final float PORCENTAJE_OCULTACION_CASILLA = 0.40f; /* 40%. Modificar para ocultar mas o menos casillas en nuestro Sudoku. 

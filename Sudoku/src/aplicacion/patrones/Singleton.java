@@ -20,7 +20,7 @@ public class Singleton {
      * Generacion del tablero una unica vez. A partir de entonces iremos pasando siempre ese tablero por el programa.
      * @return Tablero generado correctamente.
      */
-    public static Tablero getTableroSingleton() {
+    public static Tablero getTableroActual() {
         Tablero tablero = (Tablero) INSTANCIAS.get("Tablero");
         if(tablero == null) {
             boolean generacionCorrecta = false;
@@ -40,16 +40,16 @@ public class Singleton {
      * Generacion de un tablero nuevo para comenzar una nueva partida.
      * @return Nuevo tablero generado correctamente.
      */
-    public static Tablero getTableroNuevoSingleton() {
+    public static Tablero generacionTableroNuevo() {
         INSTANCIAS.remove("Tablero");
-        return getTableroSingleton();
+        return getTableroActual();
     }
     
     /**
      * Generacion del Facade una sola vez.
      * @return Facade instanciado.
      */
-    public static Facade getFacadeSingleton() {
+    public static Facade getFacade() {
         Facade facade = (Facade) INSTANCIAS.get("Facade");
         
         if(facade == null) {

@@ -26,6 +26,7 @@ import javax.swing.table.TableCellRenderer;
  *  que las coordenadas a utilizar las tengo que mapear a mano por lo que la ventana no puede ser 'resizable'.
  * @author Mario Codes Sánchez
  * @since 26/12/2016
+ * @version 0.2 Quitada la tabla principal de juego generada por Swing y creado una a mano. Necesario para poder hacer override de los renderer.
  */
 public class WindowJuego extends javax.swing.JFrame {
     JTable jTableJuegoCustom;
@@ -79,8 +80,8 @@ public class WindowJuego extends javax.swing.JFrame {
             
             @Override
             public boolean isCellEditable(int row, int column) { //Esto es lo unico que he aniadido al Mode creado por Swing.
-                Tablero tablero = Singleton.getTableroSingleton(); //Se encarga de filtrar si cada celda debe ser editable de manera individual.
-                return !tablero.getFILAS()[row].getCASILLAS()[column].isVisible();
+                Tablero tablero = Singleton.getTableroActual(); //Se encarga de filtrar si cada celda debe ser editable de manera individual.
+                return !tablero.getFILAS()[row].getCASILLAS()[column].isCasillaFija();
             }
         });
     }
@@ -99,13 +100,13 @@ public class WindowJuego extends javax.swing.JFrame {
      *  y hacer cambios a las que contengan numeros fijos desde el principio respecto a las que se van cambiando.
      */
     private void iniTablaPrincipalJuego() {
-        Tablero tablero = Singleton.getTableroSingleton();
+        Tablero tablero = Singleton.getTableroActual();
         removeTablaPrincipalJuego(jTableJuegoCustom);
         jTableJuegoCustom = new JTable() { //jTableJuego.getModel()
           @Override
           public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
               Component component = super.prepareRenderer(renderer, row, col);
-              Boolean isVisible = tablero.getFILAS()[row].getCASILLAS()[col].isVisible();
+              Boolean isVisible = tablero.getFILAS()[row].getCASILLAS()[col].isCasillaFija();
               
               if(isVisible) component.setForeground(Color.GRAY);
               else component.setForeground(Color.BLACK);
@@ -243,7 +244,7 @@ public class WindowJuego extends javax.swing.JFrame {
      * Gestion del apartado grafico con la solucion.
      */
     private void comprobarSolucionGrafico() {
-        int resultado = Singleton.getFacadeSingleton().comprobarSolucionTablero(jTableJuegoCustom, jTableTrampas);
+        int resultado = Singleton.getFacade().comprobarSolucionTablero(jTableJuegoCustom, jTableTrampas);
 
         switch(resultado) {
             case 1: //Correcto.
@@ -298,7 +299,7 @@ public class WindowJuego extends javax.swing.JFrame {
         fila = askInteger("\tNumero de fila: ");
         casilla = askInteger("\tNumero de casillas segun LA FILA: ");
         
-        Singleton.getFacadeSingleton().ocultarCasillaEspecificaTesteo(jTableJuegoCustom, fila, casilla);
+        Singleton.getFacade().ocultarCasillaEspecificaTesteo(jTableJuegoCustom, fila, casilla);
     }
     
     /**
@@ -326,9 +327,9 @@ public class WindowJuego extends javax.swing.JFrame {
         centrarTextoCellsTabla(jTableTrampas);
         centrarTextoCellsTabla(jTableJuegoCustom);
         
-        Singleton.getFacadeSingleton().generacionTablero(this.jTableJuegoCustom, false);
-        Singleton.getFacadeSingleton().generacionTablero(this.jTableTrampas, true);
-        Singleton.getFacadeSingleton().ocultarNumerosTablero(jTableJuegoCustom);
+        Singleton.getFacade().generacionTablero(this.jTableJuegoCustom, false);
+        Singleton.getFacade().generacionTablero(this.jTableTrampas, true);
+        Singleton.getFacade().ocultarNumerosTablero(jTableJuegoCustom);
         creacionLineasCompletasTablero(jTableJuegoCustom);
         setEnabledsIniJuego();
     }
@@ -565,14 +566,14 @@ public class WindowJuego extends javax.swing.JFrame {
     private void jButtonPartidaNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPartidaNuevaActionPerformed
         int confirmacion = JOptionPane.showConfirmDialog(this, "Se perdera el juego actual y se comenzara uno nuevo. ¿Seguro?", "Confirmacion", JOptionPane.YES_NO_OPTION);
         if(confirmacion == 0) {
-            Singleton.getTableroNuevoSingleton();
+            Singleton.generacionTableroNuevo();
             iniTablaPrincipalJuego();
             iniJuego();
         }
     }//GEN-LAST:event_jButtonPartidaNuevaActionPerformed
 
     private void jMenuItemTesteoTableroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemTesteoTableroActionPerformed
-        System.out.println(Singleton.getTableroSingleton());
+        System.out.println(Singleton.getTableroActual());
     }//GEN-LAST:event_jMenuItemTesteoTableroActionPerformed
 
     private void jMenuItemSolventarSudokuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSolventarSudokuActionPerformed
@@ -588,7 +589,7 @@ public class WindowJuego extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemComprobarSolucionActionPerformed
 
     private void jMenuItemCopiarTableroTrampasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCopiarTableroTrampasActionPerformed
-        Singleton.getFacadeSingleton().copiarTableroTrampasAlNormal(jTableJuegoCustom, jTableTrampas);
+        Singleton.getFacade().copiarTableroTrampasAlNormal(jTableJuegoCustom, jTableTrampas);
     }//GEN-LAST:event_jMenuItemCopiarTableroTrampasActionPerformed
 
     

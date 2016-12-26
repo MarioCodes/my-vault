@@ -28,9 +28,9 @@ public class Facade {
      */
     private void rellenoCuadradoGrafico(Cuadrado[] cuadrados, JTable tabla, int numeroCuadrado, boolean mostrarTodos) {
         for (int indiceCasilla = 0, indiceColumna = cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_COLUMNA(); indiceCasilla < 3; indiceColumna++, indiceCasilla++) { //Una fila de un cuadrado.
-            if(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla].isVisible() || mostrarTodos) tabla.setValueAt(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla].getNumeroPropio(), cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA(), indiceColumna); //Valor, row, columna.
-            if(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+3].isVisible() || mostrarTodos)tabla.setValueAt(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+3].getNumeroPropio(), cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA()+1, indiceColumna); //Valor, row, columna.
-            if(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+6].isVisible() || mostrarTodos)tabla.setValueAt(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+6].getNumeroPropio(), cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA()+2, indiceColumna); //Valor, row, columna.
+            if(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla].isCasillaFija() || mostrarTodos) tabla.setValueAt(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla].getNumeroPropio(), cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA(), indiceColumna); //Valor, row, columna.
+            if(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+3].isCasillaFija() || mostrarTodos)tabla.setValueAt(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+3].getNumeroPropio(), cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA()+1, indiceColumna); //Valor, row, columna.
+            if(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+6].isCasillaFija() || mostrarTodos)tabla.setValueAt(cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+6].getNumeroPropio(), cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA()+2, indiceColumna); //Valor, row, columna.
         }
     }
     
@@ -40,7 +40,7 @@ public class Facade {
      * @param mostrarTodos mostrar todas las casillas (usado en la version de trampas).
      */
     private void rellenoTablaConNumeros(JTable tabla, boolean mostrarTodos) {
-        Cuadrado[] cuadrados = Singleton.getTableroSingleton().getCUADRADOS();
+        Cuadrado[] cuadrados = Singleton.getTableroActual().getCUADRADOS();
         for(int i = 0; i < cuadrados.length; i++) {
             rellenoCuadradoGrafico(cuadrados, tabla, i, mostrarTodos);
         }
@@ -52,7 +52,7 @@ public class Facade {
      * @param mostrarTodos mostrar todas las casillas (para version JTable Trampas).
      */
     public void generacionTablero(JTable tabla, boolean mostrarTodos) {
-        Singleton.getTableroSingleton();
+        Singleton.getTableroActual();
         rellenoTablaConNumeros(tabla, mostrarTodos);
     }
     
@@ -64,8 +64,8 @@ public class Facade {
      */
     public void ocultarCasillaEspecificaTesteo(JTable tabla, int row, int numeroCasillaFila) {
         try {
-            Tablero tablero = Singleton.getTableroSingleton();
-            tablero.getFILAS()[row].getCASILLAS()[numeroCasillaFila].setVisible(false);
+            Tablero tablero = Singleton.getTableroActual();
+            tablero.getFILAS()[row].getCASILLAS()[numeroCasillaFila].setCasillaFija(false);
             tablero.getFILAS()[row].getCASILLAS()[numeroCasillaFila].setNumeroPropio(0);
             tabla.setValueAt("", row, tablero.getFILAS()[row].getCASILLAS()[numeroCasillaFila].getNUMERO_COLUMNA()); //Necesito el numero de columna pero lo puedo sacar de la propia casilla.
             System.out.println("Casilla Ocultada.");
@@ -85,14 +85,14 @@ public class Facade {
         int backupNum = casilla.getNumeroPropio(); //Si da error habra que recuperarlo.
         int resultado;
         
-        casilla.setVisible(false);
+        casilla.setCasillaFija(false);
         casilla.setNumeroPropio(0);
         
         table.setValueAt("", casilla.getNUMERO_FILA(), casilla.getNUMERO_COLUMNA());
         resultado = Resolucion.checkOcultacionNumeros();
         
         if(resultado == -1) { //Si es irresoluble, damos marcha atras.
-            casilla.setVisible(true);
+            casilla.setCasillaFija(true);
             casilla.setNumeroPropio(backupNum);
             table.setValueAt(backupNum, casilla.getNUMERO_FILA(), casilla.getNUMERO_COLUMNA());
         }
@@ -103,7 +103,7 @@ public class Facade {
      * @param tabla Tabla de la que queremos ocultar las casillas.
      */
     public void ocultarNumerosTablero(JTable tabla) {
-        Cuadrado[] cuadrados = Singleton.getTableroSingleton().getCUADRADOS();
+        Cuadrado[] cuadrados = Singleton.getTableroActual().getCUADRADOS();
         
         for(Cuadrado cuadrado : cuadrados) {
             for(Casilla casilla : cuadrado.getCASILLAS()) {

@@ -15,10 +15,10 @@ public class Casilla {
     private final int NUMERO_CUADRADO;
     private final int NUMERO_FILA;
     private final int NUMERO_COLUMNA;
-    private boolean visible;
+    private boolean casillaFija;
     
     /**
-     * Constructor a utilizar en la version final.
+     * Constructor final a utilizar. Empieza con los numeros a 0 y se asigna a cada Casilla despues.
      * @param numero_cuadrado Numero del cuadrado segun el plano, al que pertenece esta casilla.
      * @param numero_fila Numero de la fila.
      * @param numero_columna Numero de la columna.
@@ -28,12 +28,14 @@ public class Casilla {
         this.NUMERO_CUADRADO = numero_cuadrado;
         this.NUMERO_FILA = numero_fila;
         this.NUMERO_COLUMNA = numero_columna;
-        this.visible = true;
+        this.casillaFija = true;
     }
     
     @Override
     public String toString() {
-        return "" +this.numeroPropio;
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.numeroPropio);
+        return sb.toString();
     }
 
     /**
@@ -58,10 +60,10 @@ public class Casilla {
     }
 
     /**
-     * @param visible the visible to set
+     * @param casillaFija the casillaFija to set
      */
-    public void setVisible(boolean visible) {
-        this.visible = visible;
+    public void setCasillaFija(boolean casillaFija) {
+        this.casillaFija = casillaFija;
     }
 
     /**
@@ -79,9 +81,9 @@ public class Casilla {
     }
 
     /**
-     * @return the visible
+     * @return the casillaFija
      */
-    public boolean isVisible() {
-        return visible;
+    public boolean isCasillaFija() {
+        return casillaFija;
     }
 }

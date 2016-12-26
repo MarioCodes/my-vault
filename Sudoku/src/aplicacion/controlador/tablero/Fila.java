@@ -8,7 +8,7 @@ package aplicacion.controlador.tablero;
 import java.util.ArrayList;
 
 /**
- * Fila del tablero.
+ * Fila del tablero. Analoga a Columna.
  * @author Mario Codes Sánchez
  * @since 15/12/2016
  */

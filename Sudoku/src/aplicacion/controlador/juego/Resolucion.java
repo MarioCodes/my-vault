@@ -20,7 +20,7 @@ import javax.swing.JTable;
  * @see https://en.wikipedia.org/wiki/Sudoku_solving_algorithms
  */
 public class Resolucion {
-    private static final Tablero TABLERO = Singleton.getTableroSingleton();
+    private static final Tablero TABLERO = Singleton.getTableroActual();
     
     /**
      * Comprobacion mediante expresion regular que no se meta nada que no se deba y que no haya nada vacio.
@@ -120,7 +120,7 @@ public class Resolucion {
         for (int indexCuadrado = 0; indexCuadrado < TABLERO.getCUADRADOS().length; indexCuadrado++) { //Para cada cuadrado.
             for (int indexCasilla = 0; indexCasilla < TABLERO.getCUADRADOS()[indexCuadrado].getCASILLAS().length; indexCasilla++) { //Para cada casilla de cada cuadrado.
                 Casilla casillaActual = TABLERO.getCUADRADOS()[indexCuadrado].getCASILLAS()[indexCasilla];
-                if(!casillaActual.isVisible()) {
+                if(!casillaActual.isCasillaFija()) {
                     int numeroDevuelto = checkCasilla(casillaActual);
                     if(numeroDevuelto != -1) {
                         casillaActual.setNumeroPropio(numeroDevuelto);
@@ -141,7 +141,7 @@ public class Resolucion {
         for (int indexCuadrado = 0; indexCuadrado < TABLERO.getCUADRADOS().length; indexCuadrado++) { //Para cada cuadrado.
             for (int indexCasilla = 0; indexCasilla < TABLERO.getCUADRADOS()[indexCuadrado].getCASILLAS().length; indexCasilla++) { //Para cada casilla de cada cuadrado.
                 Casilla casillaActual = TABLERO.getCUADRADOS()[indexCuadrado].getCASILLAS()[indexCasilla];
-                if(!casillaActual.isVisible()) {
+                if(!casillaActual.isCasillaFija()) {
                     int numeroDevuelto = checkCasilla(casillaActual);
                     if(numeroDevuelto == -1) {
                         return numeroDevuelto;

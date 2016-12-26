@@ -8,7 +8,8 @@ package aplicacion.controlador.tablero;
 import aplicacion.controlador.juego.GestionNumeros;
 
 /**
- * Tablero de juego. Es el conjunto de Cuadrados, Filas y Columnas, cada uno con sus casillas correspondientes.
+ * Tablero de juego. Es el conjunto de Cuadrados, Filas y Columnas, cada uno con sus Casillas correspondientes y sus propias
+ *  listas de numeros disponibles.
  *  Para ver como funciona el reparto de numeros propio de cuadrados, filas y columnas, ver la representacion en Paint anexada.
  * @author Mario Codes Sánchez
  * @since 20/12/2016
