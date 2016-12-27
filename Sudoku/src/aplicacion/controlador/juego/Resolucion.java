@@ -10,6 +10,7 @@ import aplicacion.controlador.tablero.Cuadrado;
 import aplicacion.controlador.tablero.Fila;
 import aplicacion.controlador.tablero.Tablero;
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.swing.JTable;
 
 /**
@@ -56,6 +57,25 @@ public class Resolucion {
     }
     
     /**
+     * Quitamos un numero de la ArrayList. Al ser AL de Integers estoy teniendo problemas para quitarlos de forma correcta, ya
+     *      que los toma por el index del que quiero borrar. Deberian haber sido AL de Strings. Fallo mio.
+     * @param lista
+     * @param numero 
+     */
+    private void quitarNumero(ArrayList<Integer> lista, int numero) {
+        Iterator it = lista.iterator();
+        boolean numeroQuitado = false;
+        
+        while(it.hasNext() && !numeroQuitado) {
+            int numeroLocal = (int) it.next();
+            if(numero == numeroLocal) {
+                numeroQuitado = true;
+                it.remove();
+            }
+        }
+    }
+    
+    /**
      * Quitamos los numeros disponibles de las ArrayLists, de los numeros que ya se han puesto a mano.
      * @param tablero Tablero del cual quitamos los numeros ya puestos.
      */
@@ -63,9 +83,13 @@ public class Resolucion {
         for(Fila fila: tablero.getFILAS()) {
             for(Casilla cas: fila.getCASILLAS()) {
                 if(cas.getNumeroPropio() != 0) {
-                    tablero.getCUADRADOS()[cas.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado().remove((Object) cas.getNumeroPropio());
-                    tablero.getFILAS()[cas.getNUMERO_FILA()].getNumerosDisponiblesFila().remove((Object) cas.getNUMERO_FILA());
-                    tablero.getCOLUMNAS()[cas.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna().remove((Object) cas.getNUMERO_COLUMNA());
+                    quitarNumero(tablero.getCUADRADOS()[cas.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado(), cas.getNumeroPropio());
+                    quitarNumero(tablero.getFILAS()[cas.getNUMERO_FILA()].getNumerosDisponiblesFila(), cas.getNumeroPropio());
+                    quitarNumero(tablero.getCOLUMNAS()[cas.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna(), cas.getNumeroPropio());
+                    
+//                    tablero.getCUADRADOS()[cas.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado().remove((Object) cas.getNumeroPropio());
+//                    tablero.getFILAS()[cas.getNUMERO_FILA()].getNumerosDisponiblesFila().remove((Object) cas.getNumeroPropio());
+//                    tablero.getCOLUMNAS()[cas.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna().remove((Object) cas.getNumeroPropio());
                 }
             }
         }
@@ -87,7 +111,14 @@ public class Resolucion {
     }
     
     private boolean checkNumeroContraArrayList(int numeroAProbar, ArrayList<Integer> lista) {
-        return lista.contains(numeroAProbar);
+        Iterator it = lista.iterator();
+        
+        while(it.hasNext()) {
+            int numero = (int) it.next();
+            if(numeroAProbar == numero) return true;
+        }
+        
+        return false;
     }
     
     /**
@@ -105,14 +136,14 @@ public class Resolucion {
         ArrayList<Integer> numerosDisponiblesColumna = tablero.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna();
         
         numeroIsOK = checkNumeroContraArrayList(numeroAProbar, numerosDisponiblesCuadrado);
-        if(numeroIsOK) checkNumeroContraArrayList(numeroAProbar, numerosDisponiblesFila);
-        if(numeroIsOK) checkNumeroContraArrayList(numeroAProbar, numerosDisponiblesColumna);
+        if(numeroIsOK) numeroIsOK = checkNumeroContraArrayList(numeroAProbar, numerosDisponiblesFila);
+        if(numeroIsOK) numeroIsOK = checkNumeroContraArrayList(numeroAProbar, numerosDisponiblesColumna);
         
         return numeroIsOK;
     }
     
     public void resolucionBacktrack() {
-        Tablero tablero = this.tablero;
+        System.out.println(tablero);
         
         for (int indiceY = 0, i; indiceY < 9; indiceY++) {
             for (int indiceX = 0; indiceX < 9; indiceX++) {
@@ -125,13 +156,16 @@ public class Resolucion {
                     
                     tabla.setValueAt(i, indiceX, indiceY);
                     casilla.setNumeroPropio(i);
-                    tablero.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado().remove((Object) i);
-                    tablero.getFILAS()[casilla.getNUMERO_FILA()].getNumerosDisponiblesFila().remove((Object) i);
-                    tablero.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna().remove((Object) i);
+                    
+                    quitarNumero(tablero.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado(), i);
+                    quitarNumero(tablero.getFILAS()[casilla.getNUMERO_FILA()].getNumerosDisponiblesFila(), i);
+                    quitarNumero(tablero.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna(), i);
+                    
+//                    tablero.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado().remove((Object) i);
+//                    tablero.getFILAS()[casilla.getNUMERO_FILA()].getNumerosDisponiblesFila().remove((Object) i);
+//                    tablero.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna().remove((Object) i);
                 }
             }
         }
-        
-        System.out.println(tablero);
     }
 }
