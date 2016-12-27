@@ -5,7 +5,6 @@
  */
 package vista;
 
-import aplicacion.controlador.juego.Checks;
 import aplicacion.controlador.tablero.Tablero;
 import aplicacion.patrones.Singleton;
 import java.awt.Color;
@@ -29,7 +28,7 @@ import javax.swing.table.TableCellRenderer;
  * @version 0.2 Quitada la tabla principal de juego generada por Swing y creado una a mano. Necesario para poder hacer override de los renderer.
  */
 public class WindowJuego extends javax.swing.JFrame {
-    JTable jTableJuegoCustom;
+    JTable jTableJuegoCustom, jTableResolucion;
     private LineaGraficaCuadrado[] lineasGraficasExternas = new LineaGraficaCuadrado[4];
     private LineaGraficaCuadrado[] lineasGraficasInternas = new LineaGraficaCuadrado[4];
     
@@ -392,7 +391,11 @@ public class WindowJuego extends javax.swing.JFrame {
         });
 
         jButtonSolventar.setText("Solucionar Sudoku 'Custom'");
-        jButtonSolventar.setEnabled(false);
+        jButtonSolventar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSolventarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelMenuOpcionesJuegoLayout = new javax.swing.GroupLayout(jPanelMenuOpcionesJuego);
         jPanelMenuOpcionesJuego.setLayout(jPanelMenuOpcionesJuegoLayout);
@@ -576,7 +579,6 @@ public class WindowJuego extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemTesteoTableroActionPerformed
 
     private void jMenuItemSolventarSudokuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSolventarSudokuActionPerformed
-//        Checks.solucionFuerzaBruta(this.jTableJuegoCustom);
         Singleton.getFacade().solucionFuerzaBruta(jTableJuegoCustom); //fixme: mas adelante habra que cambiar esto por el tablero correcto.
     }//GEN-LAST:event_jMenuItemSolventarSudokuActionPerformed
   
@@ -591,6 +593,10 @@ public class WindowJuego extends javax.swing.JFrame {
     private void jMenuItemCopiarTableroTrampasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCopiarTableroTrampasActionPerformed
         Singleton.getFacade().copiarTableroTrampasAlNormal(jTableJuegoCustom, jTableTrampas);
     }//GEN-LAST:event_jMenuItemCopiarTableroTrampasActionPerformed
+
+    private void jButtonSolventarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSolventarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonSolventarActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

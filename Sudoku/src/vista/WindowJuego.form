@@ -207,8 +207,10 @@
             <Component class="javax.swing.JButton" name="jButtonSolventar">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Solucionar Sudoku &apos;Custom&apos;"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSolventarActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
