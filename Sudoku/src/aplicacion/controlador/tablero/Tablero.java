@@ -30,7 +30,6 @@ public class Tablero {
     /**
      * Constructor para resolver un Sudoku cualquiera que se meta.
      * @param cuadrados Cuadrados con sus casillas que hemos obtenido de la tabla correspondiente.
-     * fixme: mirar que funciona y no hace conflicto por ningun sitio, no lo he mirado ni testeado.
      */
     public Tablero(Cuadrado[] cuadrados) {
         this.CUADRADOS = cuadrados;

@@ -10,7 +10,7 @@ import vista.WindowJuego;
 /**
  * Solucion al problema del Sudoku. (3er intento Y DEFINITIVO!).
  * @author Mario Codes Sánchez
- * @since 26/12/2016
+ * @since 27/12/2016
  * @version 0.5.1 A por los metodos de resolucion por 'Backtrack'. Metido los contenidos de la tabla grafica en un tablero.
  *                  Lo siguiente es generar un tablero propio y obtenerlos de alli. Poner opcion para copiar el de juego.
  * @see http://www.sudokuoftheday.com/techniques/
