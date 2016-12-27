@@ -75,13 +75,15 @@ public class Checks {
      * @param tablaNormal Tablero al que se copiara.
      * @param tablaTrampas Tablero desde el cual se copiara.
      */
-    public static void copiarTableroTrampasAlNormal(JTable tablaNormal, JTable tablaTrampas) {
+    public static void copiarTableros(JTable tablaNormal, JTable tablaTrampas) {
         int valorCasilla;
         
         for (int indexColumns = 0; indexColumns < tablaTrampas.getColumnCount(); indexColumns++) {
             for (int indexRows = 0; indexRows < tablaTrampas.getRowCount(); indexRows++) {
-                valorCasilla = (int) tablaTrampas.getValueAt(indexRows, indexColumns);
-                tablaNormal.setValueAt(valorCasilla, indexRows, indexColumns);
+                try { //Necesario para cuando se encuentre con una casilla en blanco y no le pueda hacer cast.
+                    valorCasilla = (int) tablaTrampas.getValueAt(indexRows, indexColumns);
+                    tablaNormal.setValueAt(valorCasilla, indexRows, indexColumns);
+                }catch(ClassCastException ex) {}
             }
         }
     }

@@ -5,6 +5,7 @@
  */
 package aplicacion.patrones;
 
+import aplicacion.controlador.juego.Resolucion;
 import aplicacion.controlador.tablero.Tablero;
 import java.util.HashMap;
 

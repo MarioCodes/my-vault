@@ -36,6 +36,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemSolventarSudoku">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Solventar Sudoku Actual"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemSolventarSudokuActionPerformed"/>
@@ -73,6 +74,15 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemCopiarTableroTrampasActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemCopiarTableroNormalAResolver">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Copiar Tablero Normal a Resolver"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemCopiarTableroNormalAResolverActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemOcultarCasilla">

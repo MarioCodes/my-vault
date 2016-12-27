@@ -23,12 +23,13 @@ import javax.swing.table.TableCellRenderer;
  * Ventana principal y unica del programa. 
  * La Inner Class es muy parecida a lo que utilice en los Filosofos para representar los circulos. La putada de esto es
  *  que las coordenadas a utilizar las tengo que mapear a mano por lo que la ventana no puede ser 'resizable'.
+ * Estoy teniendo conflictos con las tablas y las lineas graficas si lo hago de forma grafica por Swing, por eso las aniado a mano.
  * @author Mario Codes Sánchez
  * @since 26/12/2016
  * @version 0.2 Quitada la tabla principal de juego generada por Swing y creado una a mano. Necesario para poder hacer override de los renderer.
  */
 public class WindowJuego extends javax.swing.JFrame {
-    JTable jTableJuegoCustom, jTableResolucion;
+    JTable jTableJuegoCustom, jTableResolver; //Esta la inicializo mas adelante haciendo override de un par de metodos.
     private LineaGraficaCuadrado[] lineasGraficasExternas = new LineaGraficaCuadrado[4];
     private LineaGraficaCuadrado[] lineasGraficasInternas = new LineaGraficaCuadrado[4];
     
@@ -44,6 +45,7 @@ public class WindowJuego extends javax.swing.JFrame {
         this.setResizable(false);
         
         iniTablaPrincipalJuego(); //Es necesario que este aqui, ya que como es una jTable que hago a mano, solo aparecera como pestania cuando se aniada. Si no al comienzo no apareceria hasta darle al boton.
+        iniTablaResolver();
         disablePestaniasIniciales();
     }
 
@@ -94,6 +96,31 @@ public class WindowJuego extends javax.swing.JFrame {
     }
     
     /**
+     * Inicializacion de la tabla para Resolver.
+     */
+    private void iniTablaResolver() {
+        removeTablaPrincipalJuego(jTableResolver);
+        jTableResolver = new JTable();
+        
+        setModeTablaPrincipalJuego(jTableResolver);
+        jTableResolver.setFont(new java.awt.Font("Tahoma", 1, 12));
+        jTableResolver.setRowHeight(41);
+        jTableResolver.setRowSelectionAllowed(false);
+        jTableResolver.setName("Resolucion");
+        jTabbedPanePrincipal.add(jTableResolver, 3);
+    }
+    
+    /**
+     * Prepara las lineas de la tabla para resolver un Sudoku.
+     * Antes hacia la inicializacion aqui, pero como necesito que se haga al principio para que la pestania este disponible, la
+     *  hago en el constructor.
+     */
+    private void preparacionTablaResolver() {
+        creacionLineasCompletasTablero(jTableResolver);
+        centrarTextoCellsTabla(jTableResolver);
+    }
+    
+    /**
      * Inicializacion de la tabla principal sobre la que se jugara.
      * Lo tengo que hacer a mano ya que necesito hacer un override de 'prepareRenderer'. De esta forma puedo capturar celdas sueltas
      *  y hacer cambios a las que contengan numeros fijos desde el principio respecto a las que se van cambiando.
@@ -101,7 +128,7 @@ public class WindowJuego extends javax.swing.JFrame {
     private void iniTablaPrincipalJuego() {
         Tablero tablero = Singleton.getTableroActual();
         removeTablaPrincipalJuego(jTableJuegoCustom);
-        jTableJuegoCustom = new JTable() { //jTableJuego.getModel()
+        jTableJuegoCustom = new JTable() {
           @Override
           public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
               Component component = super.prepareRenderer(renderer, row, col);
@@ -128,6 +155,7 @@ public class WindowJuego extends javax.swing.JFrame {
     private void disablePestaniasIniciales() {
         jTabbedPanePrincipal.setEnabledAt(1, false);
         jTabbedPanePrincipal.setEnabledAt(2, false); 
+        jTabbedPanePrincipal.setEnabledAt(3, false); 
     }
     
     /**
@@ -315,6 +343,7 @@ public class WindowJuego extends javax.swing.JFrame {
         this.jMenuItemTesteoTablero.setEnabled(true);
         this.jMenuItemActivarTrampas.setEnabled(true);
         this.jMenuItemOcultarCasilla.setEnabled(true);
+        this.jMenuItemCopiarTableroNormalAResolver.setEnabled(true);
     }
     
     /**
@@ -366,6 +395,7 @@ public class WindowJuego extends javax.swing.JFrame {
         jMenuItemActivarTrampas = new javax.swing.JMenuItem();
         jMenuItemTesteoTablero = new javax.swing.JMenuItem();
         jMenuItemCopiarTableroTrampas = new javax.swing.JMenuItem();
+        jMenuItemCopiarTableroNormalAResolver = new javax.swing.JMenuItem();
         jMenuItemOcultarCasilla = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -488,6 +518,7 @@ public class WindowJuego extends javax.swing.JFrame {
         jMenuJuego.add(jMenuItemComprobarSolucion);
 
         jMenuItemSolventarSudoku.setText("Solventar Sudoku Actual");
+        jMenuItemSolventarSudoku.setEnabled(false);
         jMenuItemSolventarSudoku.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemSolventarSudokuActionPerformed(evt);
@@ -525,6 +556,15 @@ public class WindowJuego extends javax.swing.JFrame {
             }
         });
         jMenuTesteo.add(jMenuItemCopiarTableroTrampas);
+
+        jMenuItemCopiarTableroNormalAResolver.setText("Copiar Tablero Normal a Resolver");
+        jMenuItemCopiarTableroNormalAResolver.setEnabled(false);
+        jMenuItemCopiarTableroNormalAResolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCopiarTableroNormalAResolverActionPerformed(evt);
+            }
+        });
+        jMenuTesteo.add(jMenuItemCopiarTableroNormalAResolver);
 
         jMenuItemOcultarCasilla.setText("Ocultar Casilla Especifica");
         jMenuItemOcultarCasilla.setEnabled(false);
@@ -579,7 +619,7 @@ public class WindowJuego extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemTesteoTableroActionPerformed
 
     private void jMenuItemSolventarSudokuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSolventarSudokuActionPerformed
-        Singleton.getFacade().solucionFuerzaBruta(jTableJuegoCustom); //fixme: mas adelante habra que cambiar esto por el tablero correcto.
+        Singleton.getFacade().solucionBacktrack(jTableResolver);
     }//GEN-LAST:event_jMenuItemSolventarSudokuActionPerformed
   
     private void jMenuItemOcultarCasillaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOcultarCasillaActionPerformed
@@ -591,12 +631,20 @@ public class WindowJuego extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemComprobarSolucionActionPerformed
 
     private void jMenuItemCopiarTableroTrampasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCopiarTableroTrampasActionPerformed
-        Singleton.getFacade().copiarTableroTrampasAlNormal(jTableJuegoCustom, jTableTrampas);
+        Singleton.getFacade().copiarTableros(jTableJuegoCustom, jTableTrampas);
     }//GEN-LAST:event_jMenuItemCopiarTableroTrampasActionPerformed
 
     private void jButtonSolventarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSolventarActionPerformed
-        // TODO add your handling code here:
+        preparacionTablaResolver();
+        jTabbedPanePrincipal.setEnabledAt(3, true);
+        jTabbedPanePrincipal.setSelectedIndex(3);
+        jButtonSolventar.setEnabled(false);
+        jMenuItemSolventarSudoku.setEnabled(true);
     }//GEN-LAST:event_jButtonSolventarActionPerformed
+
+    private void jMenuItemCopiarTableroNormalAResolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCopiarTableroNormalAResolverActionPerformed
+        Singleton.getFacade().copiarTableros(jTableResolver, jTableJuegoCustom);
+    }//GEN-LAST:event_jMenuItemCopiarTableroNormalAResolverActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -607,6 +655,7 @@ public class WindowJuego extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItemActivarTrampas;
     private javax.swing.JMenuItem jMenuItemComprobarSolucion;
+    private javax.swing.JMenuItem jMenuItemCopiarTableroNormalAResolver;
     private javax.swing.JMenuItem jMenuItemCopiarTableroTrampas;
     private javax.swing.JMenuItem jMenuItemOcultarCasilla;
     private javax.swing.JMenuItem jMenuItemSalir;

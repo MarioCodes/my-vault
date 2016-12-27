@@ -135,16 +135,16 @@ public class Facade {
      * @param tablaNormal Tablero al que se copiara.
      * @param tablaTrampas Tablero desde el cual se copiara.
      */
-    public void copiarTableroTrampasAlNormal(JTable tablaNormal, JTable tablaTrampas) {
-        Checks.copiarTableroTrampasAlNormal(tablaNormal, tablaTrampas);
+    public void copiarTableros(JTable tablaNormal, JTable tablaTrampas) {
+        Checks.copiarTableros(tablaNormal, tablaTrampas);
     }
     
-    private void generarTableroConTablaGrafica(JTable tabla) {
-        Resolucion resolucion = new Resolucion(tabla);
-        resolucion.generacionTablero();
-    }
-    
-    public void solucionFuerzaBruta(JTable tabla) {
-        generarTableroConTablaGrafica(tabla);
+    /**
+     * Resolucion de un tablero mediante fuerza bruta con el metodo 'Backtrack'.
+     * @param tabla 
+     */
+    public void solucionBacktrack(JTable tabla) {
+        Resolucion resolucion = new Resolucion();
+        resolucion.generacionTablero(tabla);
     }
 }

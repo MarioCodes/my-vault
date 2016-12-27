@@ -17,15 +17,6 @@ import javax.swing.JTable;
  */
 public class Resolucion {
     private Tablero tablero;
-    private final JTable TABLA; //Tabla grafica de la cual obtenemos los valores del sudoku.
-    
-    /**
-     * Constructor normal a utilizar en un principio.
-     * @param tabla Tabla de la cual obtenemos los valores.
-     */
-    public Resolucion(JTable tabla) {
-        this.TABLA = tabla;
-    }
 
     /**
      * Relleno de Cuadrado[] con los valores de la tabla de su homologo Cuadrado.
@@ -37,15 +28,15 @@ public class Resolucion {
         for (int indiceCasilla = 0, indiceColumna = cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_COLUMNA(); indiceCasilla < 3; indiceColumna++, indiceCasilla++) { //Una fila de un cuadrado.
             try { //fixme: intentar arreglar esta chapuza, si lo pongo en tries separados funciona. Si no, al saltar la excepcion en la linea que sea, salta y las otras 2 ni siquiera se comprueban. Arreglarlo. Segmentarlo en mas metodos(?).
                 cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla].setNumeroPropio(Integer.parseInt(tabla.getValueAt(cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA(), indiceColumna).toString()));
-            }catch(NumberFormatException ex) {}
+            }catch(NumberFormatException | NullPointerException ex) {}
             
             try {
                 cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+3].setNumeroPropio(Integer.parseInt(tabla.getValueAt(cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA()+1, indiceColumna).toString()));
-            }catch(NumberFormatException ex) {}
+            }catch(NumberFormatException | NullPointerException ex) {}
             
             try {
                 cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+6].setNumeroPropio(Integer.parseInt(tabla.getValueAt(cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA()+2, indiceColumna).toString()));
-            }catch(NumberFormatException ex) {} //Esto saltara en las casillas que se encuentren vacias, es completamente normal.
+            }catch(NumberFormatException | NullPointerException ex) {} //Esto saltara en las casillas que se encuentren vacias, es completamente normal.
         }
     }
     
@@ -64,11 +55,12 @@ public class Resolucion {
      * Almacenamiento de los valores de una tabla grafica en forma de nuevo tablero.
      * Es muy muy parecido al metodo que hay en Tablero para rellenar una tabla con el contenido de las casillas, pero aqui
      *  interesa rellenas las casillas con el contenido de la tabla.
+     * @param tabla Tabla con la cual obtenemos el tablero.
      */
-    public void generacionTablero() {
+    public void generacionTablero(JTable tabla) {
         Cuadrado[] cuadrados = new Cuadrado[9];
         Tablero.inicializacionCuadrados(cuadrados);
-        rellenoTablaConNumeros(TABLA, cuadrados);
+        rellenoTablaConNumeros(tabla, cuadrados);
         
         this.tablero = new Tablero(cuadrados);
     }
