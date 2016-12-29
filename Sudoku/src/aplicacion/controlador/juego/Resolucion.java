@@ -152,95 +152,126 @@ public class Resolucion {
      * @param indiceX
      * @param indiceY 
      */
-    private void casillaRecursiva(Tablero tablero, int valorCasillaAnterior, int indiceX, int indiceY) {
-        while(indiceY < 9) { //Punto claro para cuando deban de parar todas las casillas.
-            if(indiceX == 9) {
-                indiceX = 0;
-                indiceY++;
-            }
-            Casilla casilla = tablero.getCOLUMNAS()[indiceY].getCASILLAS()[indiceX];
-            
-            try {
-                if(casilla.getNumeroPropio() == 0) {
-                    boolean numeroAsignado = false;
-                    for (int i = 1; i < 9 && !numeroAsignado;) {
-                        while(!checkNumeroCasillaValido(tablero, casilla, i)) {
-                            i++;
-                        }
+    private boolean casillaRecursiva(Tablero tablero, int indiceX, int indiceY) throws StackOverflowError{
+        if(!casillasLeft(tablero)) return true; //Sudoku solucionado.
 
-                        numeroAsignado = true;
-                        tabla.setValueAt(i, indiceX, indiceY);
+        if(indiceX == 9) {
+            indiceX = 0;
+            indiceY++;
+        }
+
+        if(indiceX == -1) {
+            indiceX = 9;
+            indiceY--;
+        }
+        
+        Casilla casilla = tablero.getFILAS()[indiceX].getCASILLAS()[indiceY];
+
+        try {
+            if(casilla.getNumeroPropio() == 0) {
+                for (int i = 1; i < 10; i++) {
+                    if(checkNumeroCasillaValido(tablero, casilla, i)) {
                         casilla.setNumeroPropio(i);
+                        tabla.setValueAt(i, indiceX, indiceY);
 
                         quitarNumero(tablero.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado(), i);
                         quitarNumero(tablero.getFILAS()[casilla.getNUMERO_FILA()].getNumerosDisponiblesFila(), i);
                         quitarNumero(tablero.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna(), i);
+
+                        if(casillaRecursiva(tablero, indiceX++, indiceY)) return true;
+                        else {
+                            tabla.setValueAt("", indiceX--, indiceY);
+                            casilla.setNumeroPropio(0);
+                            
+                            tablero.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado().add(i);
+                            tablero.getFILAS()[casilla.getNUMERO_FILA()].getNumerosDisponiblesFila().add(i);
+                            tablero.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna().add(i);
+                        }
                     }
-
-                    casillaRecursiva(tablero, valorCasillaAnterior, indiceX++, indiceY);
-                } else {
-                    casillaRecursiva(tablero, casilla.getNumeroPropio(), indiceX++, indiceY);
                 }
-            }catch(Exception ex) { //Custom exception para cuando deba dar marcha atras.
-//                    valorCasillaAnterior++;
-                System.out.println("punto muerto.");
+            } else {
+                if (casillaRecursiva(tablero, indiceX++, indiceY)) return true;
             }
-        }
-        
-        System.out.println("SUUUU");
-    }
-    
-    private void operacionCasilla(int indiceX, int indiceY, int[][][] coordenadas) throws Exception {
-        int i = 1;
-        Casilla casilla = tablero.getCOLUMNAS()[indiceY].getCASILLAS()[indiceX];
-        if(casilla.getNumeroPropio() == 0) {
-            while(!checkNumeroCasillaValido(tablero, casilla, i)) {
-                i++;
-            }
-
-            coordenadas[indiceX][indiceY][0] = i;
-
-            tabla.setValueAt(i, indiceX, indiceY);
-            casilla.setNumeroPropio(i);
-
-            quitarNumero(tablero.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado(), i);
-            quitarNumero(tablero.getFILAS()[casilla.getNUMERO_FILA()].getNumerosDisponiblesFila(), i);
-            quitarNumero(tablero.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna(), i);
-        } else {
-            coordenadas[indiceX][indiceY][0] = -1;
-        }
-    }
-    
-    private void valoresAsignados(int indiceX, int indiceY, int[][][] coordenadas) throws Exception {
-        for (; indiceY < 9; indiceY++) {
-            for (; indiceX < 9; indiceX++) {
-                 operacionCasilla(indiceX, indiceY, coordenadas);
-            }
-        }
-    }
-    
-    private void iniCoordenadas(int[][][] coordenadas) {
-        for(int[][] array2D: coordenadas) {
-            for(int[] array: array2D) {
-                for(int numero: array) {
-                    numero = -1;
-                }
-            }
-        }
-    }
-    
-    public void resolucionBacktrack() {
-//        casillaRecursiva(tablero, 0, 0, 0);
-//        System.out.println(tablero);
-        int[][][] coordenadas = new int[9][9][9]; //EjeX, EjeY, Valores posibles descartados.
-        iniCoordenadas(coordenadas);
-        
-        int indiceX = 0, indiceY = 0;
-        
-        try {
-            valoresAsignados(indiceX, indiceY, coordenadas);
         }catch(Exception ex) {
-            System.out.println("Punto muerto.");
+            System.out.println("punto muerto");
+            return false;
+        }
+        
+        return false;
+//            if(casilla.getNumeroPropio() == 0) {
+//                boolean numeroAsignado = false;
+//                for (int i = 1; i < 9 && !numeroAsignado;) {
+//                    while(!checkNumeroCasillaValido(tablero, casilla, i)) {
+//                        i++;
+//                    }
+//
+//                    numeroAsignado = true;
+//                    tabla.setValueAt(i, indiceX, indiceY);
+//                    casilla.setNumeroPropio(i);
+//
+//                    quitarNumero(tablero.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado(), i);
+//                    quitarNumero(tablero.getFILAS()[casilla.getNUMERO_FILA()].getNumerosDisponiblesFila(), i);
+//                    quitarNumero(tablero.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna(), i);
+//                }
+//            }
+//        }
+    }
+    
+//    private void operacionCasilla(int indiceX, int indiceY) throws Exception {
+//        int i = 1;
+//        Casilla casilla = tablero.getCOLUMNAS()[indiceY].getCASILLAS()[indiceX];
+//        if(casilla.getNumeroPropio() == 0) {
+//            while(!checkNumeroCasillaValido(tablero, casilla, i)) {
+//                i++;
+//            }
+//
+//            tabla.setValueAt(i, indiceX, indiceY);
+//            casilla.setNumeroPropio(i);
+//
+//            quitarNumero(tablero.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado(), i);
+//            quitarNumero(tablero.getFILAS()[casilla.getNUMERO_FILA()].getNumerosDisponiblesFila(), i);
+//            quitarNumero(tablero.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna(), i);
+//        }
+//    }
+//    
+//    private void valoresAsignados(int indiceX, int indiceY) throws Exception {
+//        for (; indiceY < 9; indiceY++) {
+//            for (; indiceX < 9; indiceX++) {
+//                 operacionCasilla(indiceX, indiceY);
+//            }
+//        }
+//    }
+//    
+//    public void resolucionBacktrack() {
+//        int indiceX = 0, indiceY = 0;
+//        
+//        try {
+//            valoresAsignados(indiceX, indiceY);
+//        }catch(Exception ex) {
+//            System.out.println("Punto muerto.");
+//        }
+//    }
+    
+    /**
+     * Comprueba si hay mas casillas por rellenar.
+     * @param tabla Tabla de la cual comprobamos todas las casillas.
+     * @return True si quedan casillas por asignar.
+     */
+    private boolean casillasLeft(Tablero tablero) {
+        for(Cuadrado cuadrado: tablero.getCUADRADOS()) {
+            for(Casilla casilla: cuadrado.getCASILLAS()) {
+                if(casilla.getNumeroPropio() == 0) return true; //Casilla sin asignar encontrada.
+            }
+        }
+        
+        return false; //Tablero completo.
+    }
+    
+    public void resolucionSudoku() {
+        try {
+            casillaRecursiva(tablero, 0, 0);
+        }catch(StackOverflowError ex) {
+            System.out.println("Stack Overflow");
         }
     }
 }

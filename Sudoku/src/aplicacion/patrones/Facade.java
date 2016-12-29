@@ -146,6 +146,7 @@ public class Facade {
     public void solucionBacktrack(JTable tabla) {
         Resolucion resolucion = new Resolucion();
         resolucion.generacionTablero(tabla);
-        resolucion.resolucionBacktrack();
+//        resolucion.resolucionBacktrack();
+        resolucion.resolucionSudoku();
     }
 }
