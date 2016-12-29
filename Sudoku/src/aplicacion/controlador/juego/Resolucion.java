@@ -128,7 +128,7 @@ public class Resolucion {
      * @param numeroAProbar
      * @return 
      */
-    private boolean checkNumeroCasillaValido(Tablero tablero, Casilla casilla, int numeroAProbar) {
+    private boolean checkNumeroCasillaValido(Tablero tablero, Casilla casilla, int numeroAProbar) throws Exception{
         boolean numeroIsOK;
         
         ArrayList<Integer> numerosDisponiblesCuadrado = tablero.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado();
@@ -139,33 +139,108 @@ public class Resolucion {
         if(numeroIsOK) numeroIsOK = checkNumeroContraArrayList(numeroAProbar, numerosDisponiblesFila);
         if(numeroIsOK) numeroIsOK = checkNumeroContraArrayList(numeroAProbar, numerosDisponiblesColumna);
         
+        if(!numeroIsOK && numeroAProbar == 8) throw new Exception(); //Punto muerto, aqui debo dar marcha atras a la recursividad.
+        
         return numeroIsOK;
     }
     
-    public void resolucionBacktrack() {
-        System.out.println(tablero);
-        
-        for (int indiceY = 0, i; indiceY < 9; indiceY++) {
-            for (int indiceX = 0; indiceX < 9; indiceX++) {
-                i = 0;
-                Casilla casilla = tablero.getCOLUMNAS()[indiceY].getCASILLAS()[indiceX];
+    /**
+     * Recursividad para llamado y resolucion, esto va a ser un follon.
+     * @param tablero
+     * @param valorCasillaPropia
+     * @param valorCasillaAnterior
+     * @param indiceX
+     * @param indiceY 
+     */
+    private void casillaRecursiva(Tablero tablero, int valorCasillaAnterior, int indiceX, int indiceY) {
+        while(indiceY < 9) { //Punto claro para cuando deban de parar todas las casillas.
+            if(indiceX == 9) {
+                indiceX = 0;
+                indiceY++;
+            }
+            Casilla casilla = tablero.getCOLUMNAS()[indiceY].getCASILLAS()[indiceX];
+            
+            try {
                 if(casilla.getNumeroPropio() == 0) {
-                    while(!checkNumeroCasillaValido(tablero, casilla, i)) {
-                        i++;
+                    boolean numeroAsignado = false;
+                    for (int i = 1; i < 9 && !numeroAsignado;) {
+                        while(!checkNumeroCasillaValido(tablero, casilla, i)) {
+                            i++;
+                        }
+
+                        numeroAsignado = true;
+                        tabla.setValueAt(i, indiceX, indiceY);
+                        casilla.setNumeroPropio(i);
+
+                        quitarNumero(tablero.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado(), i);
+                        quitarNumero(tablero.getFILAS()[casilla.getNUMERO_FILA()].getNumerosDisponiblesFila(), i);
+                        quitarNumero(tablero.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna(), i);
                     }
-                    
-                    tabla.setValueAt(i, indiceX, indiceY);
-                    casilla.setNumeroPropio(i);
-                    
-                    quitarNumero(tablero.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado(), i);
-                    quitarNumero(tablero.getFILAS()[casilla.getNUMERO_FILA()].getNumerosDisponiblesFila(), i);
-                    quitarNumero(tablero.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna(), i);
-                    
-//                    tablero.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado().remove((Object) i);
-//                    tablero.getFILAS()[casilla.getNUMERO_FILA()].getNumerosDisponiblesFila().remove((Object) i);
-//                    tablero.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna().remove((Object) i);
+
+                    casillaRecursiva(tablero, valorCasillaAnterior, indiceX++, indiceY);
+                } else {
+                    casillaRecursiva(tablero, casilla.getNumeroPropio(), indiceX++, indiceY);
+                }
+            }catch(Exception ex) { //Custom exception para cuando deba dar marcha atras.
+//                    valorCasillaAnterior++;
+                System.out.println("punto muerto.");
+            }
+        }
+        
+        System.out.println("SUUUU");
+    }
+    
+    private void operacionCasilla(int indiceX, int indiceY, int[][][] coordenadas) throws Exception {
+        int i = 1;
+        Casilla casilla = tablero.getCOLUMNAS()[indiceY].getCASILLAS()[indiceX];
+        if(casilla.getNumeroPropio() == 0) {
+            while(!checkNumeroCasillaValido(tablero, casilla, i)) {
+                i++;
+            }
+
+            coordenadas[indiceX][indiceY][0] = i;
+
+            tabla.setValueAt(i, indiceX, indiceY);
+            casilla.setNumeroPropio(i);
+
+            quitarNumero(tablero.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado(), i);
+            quitarNumero(tablero.getFILAS()[casilla.getNUMERO_FILA()].getNumerosDisponiblesFila(), i);
+            quitarNumero(tablero.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna(), i);
+        } else {
+            coordenadas[indiceX][indiceY][0] = -1;
+        }
+    }
+    
+    private void valoresAsignados(int indiceX, int indiceY, int[][][] coordenadas) throws Exception {
+        for (; indiceY < 9; indiceY++) {
+            for (; indiceX < 9; indiceX++) {
+                 operacionCasilla(indiceX, indiceY, coordenadas);
+            }
+        }
+    }
+    
+    private void iniCoordenadas(int[][][] coordenadas) {
+        for(int[][] array2D: coordenadas) {
+            for(int[] array: array2D) {
+                for(int numero: array) {
+                    numero = -1;
                 }
             }
+        }
+    }
+    
+    public void resolucionBacktrack() {
+//        casillaRecursiva(tablero, 0, 0, 0);
+//        System.out.println(tablero);
+        int[][][] coordenadas = new int[9][9][9]; //EjeX, EjeY, Valores posibles descartados.
+        iniCoordenadas(coordenadas);
+        
+        int indiceX = 0, indiceY = 0;
+        
+        try {
+            valoresAsignados(indiceX, indiceY, coordenadas);
+        }catch(Exception ex) {
+            System.out.println("Punto muerto.");
         }
     }
 }
