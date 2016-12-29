@@ -70,6 +70,7 @@ public class GestionNumeros {
      * @param tablero Tablero de donde obtener los Cuadrados, Filas y Columnas.
      * @param casilla Casilla para saber que Cuadrados, Filas y Columnas obtener.
      * @return Entero aleatorio valido entre todos. -1 error (punto muerto de generacion del tablero).
+     * fixme: partir esto en mas si puedo.
      */
     public static int generacionNumeroCasilla(Tablero tablero, Casilla casilla) {
         int numeroRandomValido = -1;
@@ -86,11 +87,9 @@ public class GestionNumeros {
         //Cogemos el primero, que siempre sera uno aleatorio nuevo.
         if(numerosComunesValidos.size() > 0) numeroRandomValido = numerosComunesValidos.get(0);
         
-        try { //fixme: Arreglar la chapuza esta. Vale que funciona, pero no se puede quedar asi en la version final ni de coña. Mirar porque revienta.
-            numerosCuadrado.remove(numerosCuadrado.indexOf(numeroRandomValido));
-            numerosFila.remove(numerosFila.indexOf(numeroRandomValido));
-            numerosColumna.remove(numerosColumna.indexOf(numeroRandomValido));
-        } catch(ArrayIndexOutOfBoundsException ex) {}
+        numerosCuadrado.remove((Object) numeroRandomValido);
+        numerosFila.remove((Object) numeroRandomValido);
+        numerosColumna.remove((Object) numeroRandomValido);
         
         //Y hacemos un set de los numeros validos sin el que hemos usado.
         tablero.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].setNumerosDisponiblesCuadrado(numerosCuadrado);
