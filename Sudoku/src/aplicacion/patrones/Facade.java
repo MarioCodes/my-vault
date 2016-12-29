@@ -11,9 +11,8 @@ import aplicacion.controlador.juego.Resolucion;
 import aplicacion.controlador.tablero.Casilla;
 import aplicacion.controlador.tablero.Cuadrado;
 import aplicacion.controlador.tablero.Tablero;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.JTable;
+import vista.WindowJuego;
 
 /**
  * Patron de disenio Facade. Sirve de intermediario entre vista y controlador del programa.
@@ -136,16 +135,17 @@ public class Facade {
      * @param tablaTrampas Tablero desde el cual se copiara.
      */
     public void copiarTableros(JTable tablaNormal, JTable tablaTrampas) {
-        Checks.copiarTableros(tablaNormal, tablaTrampas);
+        WindowJuego.copiarTableros(tablaNormal, tablaTrampas);
     }
     
     /**
      * Resolucion de un tablero mediante fuerza bruta con el metodo 'Backtrack'.
      * @param tabla 
+     * @param tablero 
+     * @return  
      */
     public boolean solucionBacktrack(JTable tabla) {
-        Resolucion resolucion = new Resolucion();
-        resolucion.generacionTablero(tabla);
+        Resolucion resolucion = new Resolucion(tabla);
         return resolucion.resolucionBacktrack();
     }
     

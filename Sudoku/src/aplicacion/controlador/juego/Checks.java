@@ -15,7 +15,7 @@ import javax.swing.JTable;
 /**
  * Clase estatica. Recopilacion de comprobaciones y checks necesarios, ademas de los metodos para testing que he ido necesitando.
  * @author Mario Codes Sánchez
- * @since 26/12/2016
+ * @since 29/12/2016
  * todo: cuando la Resolucion este completa, mover o quitar de aqui los metodos que no peguen.
  */
 public class Checks {
@@ -56,6 +56,7 @@ public class Checks {
      * @param tablaNormal Tablero normal de input de user.
      * @param tablaTrampas Tablero contra el que se compara.
      * @return El tablero normal es igual al de trampas.
+     * todo: hacer el mismo check que hago con la resolucion automatica, no comprobar el tablero normal con el de trampas.
      */
     public static boolean comprobarResolucionTableroGrafico(JTable tablaNormal, JTable tablaTrampas) {
         boolean tableroSolucionado = true;
@@ -68,26 +69,7 @@ public class Checks {
         
         return tableroSolucionado;
     }
-    
-    /**
-     * Copiado del contenido del tablero de trampas al tablero normal de juego.
-     * Para hacer pruebas al querer comprobar si el otro tablero esta lleno, con datos bien introducidos o no.
-     * @param tablaNormal Tablero al que se copiara.
-     * @param tablaTrampas Tablero desde el cual se copiara.
-     */
-    public static void copiarTableros(JTable tablaNormal, JTable tablaTrampas) {
-        int valorCasilla;
         
-        for (int indexColumns = 0; indexColumns < tablaTrampas.getColumnCount(); indexColumns++) {
-            for (int indexRows = 0; indexRows < tablaTrampas.getRowCount(); indexRows++) {
-                try { //Necesario para cuando se encuentre con una casilla en blanco y no le pueda hacer cast.
-                    valorCasilla = (int) tablaTrampas.getValueAt(indexRows, indexColumns);
-                    tablaNormal.setValueAt(valorCasilla, indexRows, indexColumns);
-                }catch(ClassCastException ex) {}
-            }
-        }
-    }
-    
     /**
      * Para cada casilla prueba y comprueba cada numero.
      * @param casillaActual Casilla a comprobar.
