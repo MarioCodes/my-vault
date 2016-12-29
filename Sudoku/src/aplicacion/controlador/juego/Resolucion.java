@@ -20,6 +20,7 @@ import javax.swing.JTable;
  * @see https://en.wikipedia.org/wiki/Sudoku_solving_algorithms
  */
 public class Resolucion {
+    private int indiceX, indiceY;
     private JTable tabla;
     private Tablero tablero; //Tablero el cual se encontrara parcialmente completado y tendre que encontrar la solucion al resto.
 
@@ -86,10 +87,6 @@ public class Resolucion {
                     quitarNumero(tablero.getCUADRADOS()[cas.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado(), cas.getNumeroPropio());
                     quitarNumero(tablero.getFILAS()[cas.getNUMERO_FILA()].getNumerosDisponiblesFila(), cas.getNumeroPropio());
                     quitarNumero(tablero.getCOLUMNAS()[cas.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna(), cas.getNumeroPropio());
-                    
-//                    tablero.getCUADRADOS()[cas.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado().remove((Object) cas.getNumeroPropio());
-//                    tablero.getFILAS()[cas.getNUMERO_FILA()].getNumerosDisponiblesFila().remove((Object) cas.getNumeroPropio());
-//                    tablero.getCOLUMNAS()[cas.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna().remove((Object) cas.getNumeroPropio());
                 }
             }
         }
@@ -142,30 +139,86 @@ public class Resolucion {
         return numeroIsOK;
     }
     
-    public void resolucionBacktrack() {
-        System.out.println(tablero);
-        
-        for (int indiceY = 0, i; indiceY < 9; indiceY++) {
-            for (int indiceX = 0; indiceX < 9; indiceX++) {
-                i = 0;
-                Casilla casilla = tablero.getCOLUMNAS()[indiceY].getCASILLAS()[indiceX];
-                if(casilla.getNumeroPropio() == 0) {
-                    while(!checkNumeroCasillaValido(tablero, casilla, i)) {
-                        i++;
-                    }
-                    
-                    tabla.setValueAt(i, indiceX, indiceY);
-                    casilla.setNumeroPropio(i);
-                    
-                    quitarNumero(tablero.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado(), i);
-                    quitarNumero(tablero.getFILAS()[casilla.getNUMERO_FILA()].getNumerosDisponiblesFila(), i);
-                    quitarNumero(tablero.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna(), i);
-                    
-//                    tablero.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado().remove((Object) i);
-//                    tablero.getFILAS()[casilla.getNUMERO_FILA()].getNumerosDisponiblesFila().remove((Object) i);
-//                    tablero.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna().remove((Object) i);
+    /**
+     * Busca una casilla vacia, si la encuentra asigna las coordenadas y devuelve true.
+     * @param tablero
+     * @param indiceX
+     * @param indiceY
+     * @return True si hay una casilla vacia, false si el tablero esta completo.
+     */
+    private boolean casillaVacia(Tablero tablero) {
+        for (int ejeX = 0; ejeX < 9; ejeX++) {
+            for (int ejeY = 0; ejeY < 9; ejeY++) {
+                if(tablero.getFILAS()[ejeX].getCASILLAS()[ejeY].getNumeroPropio() == 0) {
+                    indiceX = ejeX;
+                    indiceY = ejeY;
+                    return true;
                 }
             }
         }
+        return false;
+    }
+    
+    /**
+     * Quitamos el numero que acabamos de asignar de las ArrayLists para que no se pueda volver a asignar.
+     * @param tablero
+     * @param numero 
+     */
+    private void quitarNumeroAsignadoArrayLists(Tablero tablero, Casilla casilla, int numero) {
+        tablero.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado().remove((Object) numero);
+        tablero.getFILAS()[casilla.getNUMERO_FILA()].getNumerosDisponiblesFila().remove((Object) numero);
+        tablero.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna().remove((Object) numero);
+    }
+    
+    private void ponerNumeroAsignadoArrayLists(Tablero tablero, Casilla casilla, int numero) {
+        tablero.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado().add(numero);
+        tablero.getFILAS()[casilla.getNUMERO_FILA()].getNumerosDisponiblesFila().add(numero);
+        tablero.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna().add(numero);
+    }
+    
+    private void manejoCoordenadas() {
+        if(indiceX == 9) {
+            indiceX = 0;
+            indiceY++;
+        }
+        
+        if(indiceX == -1) {
+            indiceX = 8;
+            indiceY--;
+        }
+    }
+    
+    private boolean solucionBacktrack(Tablero tablero) {
+        if(!casillaVacia(tablero)) return true; //Tablero resolucionado.
+        
+        manejoCoordenadas();
+        
+        Casilla casilla = tablero.getFILAS()[indiceX].getCASILLAS()[indiceY];
+        
+        for (int i = 1; i < 10; i++) {
+            if(checkNumeroCasillaValido(tablero, casilla, i)) {
+                tabla.setValueAt(i, indiceX, indiceY);
+                casilla.setNumeroPropio(i);
+                quitarNumeroAsignadoArrayLists(tablero, casilla, i);
+                
+                int indiceXLocal = indiceX, indiceYLocal = indiceY; //Save antes de sumar++ para poder rectificar;
+                indiceX++;
+                if(solucionBacktrack(tablero)) return true;
+                else {
+                    tabla.setValueAt("", indiceXLocal, indiceYLocal);
+                    casilla.setNumeroPropio(0);
+                    ponerNumeroAsignadoArrayLists(tablero, casilla, i);
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Resolucion del tablero propuesto mediante fuerza bruta por 'Backtrack'.
+     */
+    public void resolucionBacktrack() {
+        solucionBacktrack(tablero);
     }
 }
