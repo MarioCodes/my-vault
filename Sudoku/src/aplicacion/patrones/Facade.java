@@ -146,6 +146,7 @@ public class Facade {
     public boolean solucionBacktrack(JTable tabla) {
         Resolucion resolucion = new Resolucion();
         resolucion.generacionTablero(tabla);
+<<<<<<< HEAD
         return resolucion.resolucionBacktrack();
     }
     
@@ -155,5 +156,9 @@ public class Facade {
                 tabla.setValueAt("", indiceX, indiceY);
             }
         }
+=======
+//        resolucion.resolucionBacktrack();
+        resolucion.resolucionSudoku();
+>>>>>>> 6c1a7f71c60cdfaf51ceea838ff8348aec8ad21e
     }
 }
