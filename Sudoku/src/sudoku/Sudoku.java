@@ -8,15 +8,13 @@ package sudoku;
 import vista.WindowJuego;
 
 /**
- * Solucion al problema del Sudoku. (3er intento Y DEFINITIVO!).
+ * Solucion al problema del Sudoku.
  * @author Mario Codes Sánchez
- * @since 27/12/2016
- * @version 0.5.1 A por los metodos de resolucion por 'Backtrack'. Metido los contenidos de la tabla grafica en un tablero.
- *                  Lo siguiente es generar un tablero propio y obtenerlos de alli. Poner opcion para copiar el de juego.
+ * @since 29/12/2016
+ * @version 0.6 Resolucion automatica conseguida. Siguiente: pulir interfaz del programa.
  * @see http://www.sudokuoftheday.com/techniques/
  */
 public class Sudoku {
-
     /**
      * @param args the command line arguments
      */

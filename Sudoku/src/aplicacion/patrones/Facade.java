@@ -143,9 +143,17 @@ public class Facade {
      * Resolucion de un tablero mediante fuerza bruta con el metodo 'Backtrack'.
      * @param tabla 
      */
-    public void solucionBacktrack(JTable tabla) {
+    public boolean solucionBacktrack(JTable tabla) {
         Resolucion resolucion = new Resolucion();
         resolucion.generacionTablero(tabla);
-        resolucion.resolucionBacktrack();
+        return resolucion.resolucionBacktrack();
+    }
+    
+    public void borrarTablero(JTable tabla) {
+        for (int indiceX = 0; indiceX < 9; indiceX++) {
+            for (int indiceY = 0; indiceY < 9; indiceY++) {
+                tabla.setValueAt("", indiceX, indiceY);
+            }
+        }
     }
 }

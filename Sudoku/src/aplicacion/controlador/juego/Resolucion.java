@@ -6,11 +6,13 @@
 package aplicacion.controlador.juego;
 
 import aplicacion.controlador.tablero.Casilla;
+import aplicacion.controlador.tablero.Columna;
 import aplicacion.controlador.tablero.Cuadrado;
 import aplicacion.controlador.tablero.Fila;
 import aplicacion.controlador.tablero.Tablero;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 /**
@@ -170,25 +172,39 @@ public class Resolucion {
         tablero.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna().remove((Object) numero);
     }
     
+    /**
+     * Ponemos el numero indicado en todas las ArrayLists afectadas. Para cuando damos marcha atras.
+     * @param tablero
+     * @param casilla
+     * @param numero 
+     */
     private void ponerNumeroAsignadoArrayLists(Tablero tablero, Casilla casilla, int numero) {
         tablero.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado().add(numero);
         tablero.getFILAS()[casilla.getNUMERO_FILA()].getNumerosDisponiblesFila().add(numero);
         tablero.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna().add(numero);
     }
     
+    /**
+     * Escalada de las coordenadas.
+     */
     private void manejoCoordenadas() {
-        if(indiceX == 9) {
+        if(indiceX == 9) { //Salto de row cuando se llegue a columna 9. (daria out of bounds...).
             indiceX = 0;
             indiceY++;
         }
         
-        if(indiceX == -1) {
+        if(indiceX == -1) { //Salto de row por lo bajo si retrocedemos hasta un punto en que sea necesario volver a la anterior.
             indiceX = 8;
             indiceY--;
         }
     }
     
-    private boolean solucionBacktrack(Tablero tablero) {
+    /**
+     * Parte principal de la resolucion por fuerza bruta. Se llamara recursivamente a si misma hasta que este resolucionado el problema.
+     * @param tablero Tablero que queremos resolucionar.
+     * @return True cuando este resolucionado, false cuando deba dar marcha atras porque se ha llegado a punto muerto.
+     */
+    private boolean seccionBacktrackRecursiva(Tablero tablero) {
         if(!casillaVacia(tablero)) return true; //Tablero resolucionado.
         
         manejoCoordenadas();
@@ -203,11 +219,11 @@ public class Resolucion {
                 
                 int indiceXLocal = indiceX, indiceYLocal = indiceY; //Save antes de sumar++ para poder rectificar;
                 indiceX++;
-                if(solucionBacktrack(tablero)) return true;
+                if(seccionBacktrackRecursiva(tablero)) return true;
                 else {
-                    tabla.setValueAt("", indiceXLocal, indiceYLocal);
                     casilla.setNumeroPropio(0);
                     ponerNumeroAsignadoArrayLists(tablero, casilla, i);
+                    tabla.setValueAt("", indiceXLocal, indiceYLocal);
                 }
             }
         }
@@ -216,9 +232,105 @@ public class Resolucion {
     }
     
     /**
-     * Resolucion del tablero propuesto mediante fuerza bruta por 'Backtrack'.
+     * Hay algunos casos, en los que asigna el valor correcto en el tablero, a su casilla correspondiente, pero no lo asigna en la
+     *  tabla grafica, por lo que esta se queda vacia.
+     * Para estos casos hacemos una pasada final a la tabla y los que se encuentren asi los ponemos 'a mano'.
      */
-    public void resolucionBacktrack() {
-        solucionBacktrack(tablero);
+    private void pasadoTableroAGrafico() {
+        Casilla casilla;
+        for (int indiceX = 0; indiceX < 9; indiceX++) {
+            for (int indiceY = 0; indiceY < 9; indiceY++) {
+                try { //Los que hagan saltar esta excepcion, es porque se encuentran en blanco y son los que hay que pasar manualmente.
+                    Integer.parseInt((String) tabla.getValueAt(indiceX, indiceY));
+                }catch(ClassCastException | NumberFormatException ex) {
+                    casilla = tablero.getFILAS()[indiceX].getCASILLAS()[indiceY];
+                    tabla.setValueAt(casilla.getNumeroPropio(), indiceX, indiceY);
+                }
+            }
+        }
+    }
+    
+    /**
+     * Comprobamos que cada lista contenga los numeros 1-9. Si no contiene uno de estos, es porque hay algo repetido y la solucion
+     *      no es valida.
+     * @param lista
+     * @return True si la lista es correcta. False si hay un numero que falta.
+     */
+    private boolean comprobarLista(ArrayList<Integer> lista) {
+        Iterator it = lista.iterator();
+        boolean numeroContenido;
+        
+        while(it.hasNext()) {
+            numeroContenido = false;
+            for (int i = 1, numTmp = (int) it.next(); i < 10; i++) {
+                if(i == numTmp) numeroContenido = true;
+            }
+            if(!numeroContenido) return false;
+        }
+        
+        return true;
+    }
+    
+    private boolean chequeoCuadrados(Cuadrado[] cuadrados) {
+        ArrayList<Integer> numerosLeidos = null;
+        
+        for(Cuadrado cuadrado: cuadrados) {
+            for(Casilla casilla: cuadrado.getCASILLAS()) {
+                numerosLeidos = new ArrayList<>();
+                numerosLeidos.add(casilla.getNumeroPropio());
+            }
+            if(!comprobarLista(numerosLeidos)) {
+                System.out.println("Cuadrado malo: " +cuadrado.getCASILLAS()[0].getNUMERO_CUADRADO());
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private boolean chequeoFilas(Fila[] filas) {
+        ArrayList<Integer> numerosLeidos = null;
+        
+        for(Fila fila: filas) {
+            for(Casilla casilla: fila.getCASILLAS()) {
+                numerosLeidos = new ArrayList<>();
+                numerosLeidos.add(casilla.getNumeroPropio());
+            }
+            if(!comprobarLista(numerosLeidos)) {
+                System.out.println("Fila mala: " +fila.getCASILLAS()[0].getNUMERO_FILA());
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private boolean chequeoColumnas(Columna[] columnas) {
+        ArrayList<Integer> numerosLeidos = null;
+        
+        for(Columna columna: columnas) {
+            for(Casilla casilla: columna.getCASILLAS()) {
+                numerosLeidos = new ArrayList<>();
+                numerosLeidos.add(casilla.getNumeroPropio());
+            }
+            if(!comprobarLista(numerosLeidos)) {
+                System.out.println("Columna mala: " +columna.getCASILLAS()[0].getNUMERO_COLUMNA());
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private boolean chequeoResolucion(Tablero tablero) {
+        return (chequeoCuadrados(tablero.getCUADRADOS()) && chequeoFilas(tablero.getFILAS()) && chequeoColumnas(tablero.getCOLUMNAS()));
+    }
+    
+    /**
+     * Resolucion del tablero propuesto mediante fuerza bruta por 'Backtrack'.
+     * Comprobacion de esta resolucion.
+     * @return Devolucion del check realizado. True si el tablero realmente esta solucionado de manera buena.
+     */
+    public boolean resolucionBacktrack() {
+        seccionBacktrackRecursiva(tablero);
+        pasadoTableroAGrafico();
+        return chequeoResolucion(tablero);
     }
 }
