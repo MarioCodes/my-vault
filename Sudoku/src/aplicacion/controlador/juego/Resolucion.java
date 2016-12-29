@@ -127,7 +127,7 @@ public class Resolucion {
      * @param numeroAProbar
      * @return 
      */
-    private boolean checkNumeroCasillaValido(Tablero tablero, Casilla casilla, int numeroAProbar) throws Exception{
+    private boolean checkNumeroCasillaValido(Tablero tablero, Casilla casilla, int numeroAProbar) {
         boolean numeroIsOK;
         
         ArrayList<Integer> numerosDisponiblesCuadrado = tablero.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado();
@@ -138,13 +138,10 @@ public class Resolucion {
         if(numeroIsOK) numeroIsOK = checkNumeroContraArrayList(numeroAProbar, numerosDisponiblesFila);
         if(numeroIsOK) numeroIsOK = checkNumeroContraArrayList(numeroAProbar, numerosDisponiblesColumna);
         
-        if(!numeroIsOK && numeroAProbar == 8) throw new Exception(); //Punto muerto, aqui debo dar marcha atras a la recursividad.
-        
         return numeroIsOK;
     }
     
     /**
-<<<<<<< HEAD
      * Busca una casilla vacia, si la encuentra asigna las coordenadas y devuelve true.
      * @param tablero
      * @param indiceX
@@ -248,135 +245,8 @@ public class Resolucion {
                 }catch(ClassCastException | NumberFormatException ex) {
                     casilla = tablero.getFILAS()[indiceX].getCASILLAS()[indiceY];
                     tabla.setValueAt(casilla.getNumeroPropio(), indiceX, indiceY);
-=======
-     * Recursividad para llamado y resolucion, esto va a ser un follon.
-     * @param tablero
-     * @param valorCasillaPropia
-     * @param valorCasillaAnterior
-     * @param indiceX
-     * @param indiceY 
-     */
-    private boolean casillaRecursiva(Tablero tablero, int indiceX, int indiceY) throws StackOverflowError{
-        if(!casillasLeft(tablero)) return true; //Sudoku solucionado.
-
-        if(indiceX == 9) {
-            indiceX = 0;
-            indiceY++;
-        }
-
-        if(indiceX == -1) {
-            indiceX = 9;
-            indiceY--;
-        }
-        
-        Casilla casilla = tablero.getFILAS()[indiceX].getCASILLAS()[indiceY];
-
-        try {
-            if(casilla.getNumeroPropio() == 0) {
-                for (int i = 1; i < 10; i++) {
-                    if(checkNumeroCasillaValido(tablero, casilla, i)) {
-                        casilla.setNumeroPropio(i);
-                        tabla.setValueAt(i, indiceX, indiceY);
-
-                        quitarNumero(tablero.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado(), i);
-                        quitarNumero(tablero.getFILAS()[casilla.getNUMERO_FILA()].getNumerosDisponiblesFila(), i);
-                        quitarNumero(tablero.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna(), i);
-
-                        if(casillaRecursiva(tablero, indiceX++, indiceY)) return true;
-                        else {
-                            tabla.setValueAt("", indiceX--, indiceY);
-                            casilla.setNumeroPropio(0);
-                            
-                            tablero.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado().add(i);
-                            tablero.getFILAS()[casilla.getNUMERO_FILA()].getNumerosDisponiblesFila().add(i);
-                            tablero.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna().add(i);
-                        }
-                    }
->>>>>>> 6c1a7f71c60cdfaf51ceea838ff8348aec8ad21e
                 }
-            } else {
-                if (casillaRecursiva(tablero, indiceX++, indiceY)) return true;
             }
-        }catch(Exception ex) {
-            System.out.println("punto muerto");
-            return false;
-        }
-        
-        return false;
-//            if(casilla.getNumeroPropio() == 0) {
-//                boolean numeroAsignado = false;
-//                for (int i = 1; i < 9 && !numeroAsignado;) {
-//                    while(!checkNumeroCasillaValido(tablero, casilla, i)) {
-//                        i++;
-//                    }
-//
-//                    numeroAsignado = true;
-//                    tabla.setValueAt(i, indiceX, indiceY);
-//                    casilla.setNumeroPropio(i);
-//
-//                    quitarNumero(tablero.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado(), i);
-//                    quitarNumero(tablero.getFILAS()[casilla.getNUMERO_FILA()].getNumerosDisponiblesFila(), i);
-//                    quitarNumero(tablero.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna(), i);
-//                }
-//            }
-//        }
-    }
-    
-//    private void operacionCasilla(int indiceX, int indiceY) throws Exception {
-//        int i = 1;
-//        Casilla casilla = tablero.getCOLUMNAS()[indiceY].getCASILLAS()[indiceX];
-//        if(casilla.getNumeroPropio() == 0) {
-//            while(!checkNumeroCasillaValido(tablero, casilla, i)) {
-//                i++;
-//            }
-//
-//            tabla.setValueAt(i, indiceX, indiceY);
-//            casilla.setNumeroPropio(i);
-//
-//            quitarNumero(tablero.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado(), i);
-//            quitarNumero(tablero.getFILAS()[casilla.getNUMERO_FILA()].getNumerosDisponiblesFila(), i);
-//            quitarNumero(tablero.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna(), i);
-//        }
-//    }
-//    
-//    private void valoresAsignados(int indiceX, int indiceY) throws Exception {
-//        for (; indiceY < 9; indiceY++) {
-//            for (; indiceX < 9; indiceX++) {
-//                 operacionCasilla(indiceX, indiceY);
-//            }
-//        }
-//    }
-//    
-//    public void resolucionBacktrack() {
-//        int indiceX = 0, indiceY = 0;
-//        
-//        try {
-//            valoresAsignados(indiceX, indiceY);
-//        }catch(Exception ex) {
-//            System.out.println("Punto muerto.");
-//        }
-//    }
-    
-    /**
-     * Comprueba si hay mas casillas por rellenar.
-     * @param tabla Tabla de la cual comprobamos todas las casillas.
-     * @return True si quedan casillas por asignar.
-     */
-    private boolean casillasLeft(Tablero tablero) {
-        for(Cuadrado cuadrado: tablero.getCUADRADOS()) {
-            for(Casilla casilla: cuadrado.getCASILLAS()) {
-                if(casilla.getNumeroPropio() == 0) return true; //Casilla sin asignar encontrada.
-            }
-        }
-        
-        return false; //Tablero completo.
-    }
-    
-    public void resolucionSudoku() {
-        try {
-            casillaRecursiva(tablero, 0, 0);
-        }catch(StackOverflowError ex) {
-            System.out.println("Stack Overflow");
         }
     }
     
