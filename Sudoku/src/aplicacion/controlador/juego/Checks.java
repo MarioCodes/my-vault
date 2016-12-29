@@ -6,8 +6,13 @@
 package aplicacion.controlador.juego;
 
 import aplicacion.controlador.tablero.Casilla;
+import aplicacion.controlador.tablero.Columna;
+import aplicacion.controlador.tablero.Cuadrado;
+import aplicacion.controlador.tablero.Fila;
 import aplicacion.controlador.tablero.Tablero;
 import aplicacion.patrones.Singleton;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JTable;
@@ -19,8 +24,6 @@ import javax.swing.JTable;
  * todo: cuando la Resolucion este completa, mover o quitar de aqui los metodos que no peguen.
  */
 public class Checks {
-    private static final Tablero TABLERO = Singleton.getTableroActual(); 
-    
     /**
      * Comprobacion mediante expresion regular que no se meta nada que no se deba y que no haya nada vacio.
      * @param comprobacion Contenido de la casilla a comprobar.
@@ -75,14 +78,14 @@ public class Checks {
      * @param casillaActual Casilla a comprobar.
      * @return numero valido o -1 si no lo hay.
      */
-    private static int checkCasilla(Casilla casillaActual) {
+    private static int checkCasilla(Tablero tablero, Casilla casillaActual) {
         for (int numeroAProbar = 1; numeroAProbar < 10; numeroAProbar++) { //Comprobacion de los 9 numeros posibles de cada casilla de cada cuadrado.
             boolean numeroValido = true;
             
             for (int i = 0; numeroValido && i < 9; i++) { //Utilizo el primer comprobante para ahorrar tiempo de CPU, asi si no es valido, directamente pasa al siguiente.
-                if(TABLERO.getFILAS()[casillaActual.getNUMERO_FILA()].getCASILLAS()[i].getNumeroPropio() == numeroAProbar) numeroValido = false;
-                if(TABLERO.getCOLUMNAS()[casillaActual.getNUMERO_COLUMNA()].getCASILLAS()[i].getNumeroPropio() == numeroAProbar) numeroValido = false;
-                if(TABLERO.getCUADRADOS()[casillaActual.getNUMERO_CUADRADO()].getCASILLAS()[i].getNumeroPropio() == numeroAProbar) numeroValido = false;
+                if(tablero.getFILAS()[casillaActual.getNUMERO_FILA()].getCASILLAS()[i].getNumeroPropio() == numeroAProbar) numeroValido = false;
+                if(tablero.getCOLUMNAS()[casillaActual.getNUMERO_COLUMNA()].getCASILLAS()[i].getNumeroPropio() == numeroAProbar) numeroValido = false;
+                if(tablero.getCUADRADOS()[casillaActual.getNUMERO_CUADRADO()].getCASILLAS()[i].getNumeroPropio() == numeroAProbar) numeroValido = false;
             }
             
             if(numeroValido) return numeroAProbar;
@@ -91,39 +94,17 @@ public class Checks {
     }
     
     /**
-     * Intenta solucionar el Sudoku por fuerza bruta.
-     * Dejado para mas adelante, NO funciona. Resuelve hasta donde le sale, deberia volver atras y retomarlo con otros valores si no puede.
-     * @param tabla Tabla que queremos solucionar.
-     * @return 0 salida correcta. -1 salida error.
-     * @deprecated 
-     */
-    public static int solucionFuerzaBruta(JTable tabla) {
-        for (int indexCuadrado = 0; indexCuadrado < TABLERO.getCUADRADOS().length; indexCuadrado++) { //Para cada cuadrado.
-            for (int indexCasilla = 0; indexCasilla < TABLERO.getCUADRADOS()[indexCuadrado].getCASILLAS().length; indexCasilla++) { //Para cada casilla de cada cuadrado.
-                Casilla casillaActual = TABLERO.getCUADRADOS()[indexCuadrado].getCASILLAS()[indexCasilla];
-                if(!casillaActual.isCasillaFija()) {
-                    int numeroDevuelto = checkCasilla(casillaActual);
-                    if(numeroDevuelto != -1) {
-                        casillaActual.setNumeroPropio(numeroDevuelto);
-                        tabla.setValueAt(numeroDevuelto, casillaActual.getNUMERO_FILA(), casillaActual.getNUMERO_COLUMNA());
-                    } else return -1;
-                }
-            }
-        }
-        return 0;
-    }
-    
-    /**
      * Check al ocultar numeros para saber si hay +1 solucion posible o podemos seguir ocultando.
      * @return 0 salida normal. -1 salida error.
      * fixme: Mas adelante, sustituir por el metodo que haga de resolucion.
      */
     public static int checkOcultacionNumeros() {
-        for (int indexCuadrado = 0; indexCuadrado < TABLERO.getCUADRADOS().length; indexCuadrado++) { //Para cada cuadrado.
-            for (int indexCasilla = 0; indexCasilla < TABLERO.getCUADRADOS()[indexCuadrado].getCASILLAS().length; indexCasilla++) { //Para cada casilla de cada cuadrado.
-                Casilla casillaActual = TABLERO.getCUADRADOS()[indexCuadrado].getCASILLAS()[indexCasilla];
+        Tablero tablero = Singleton.getTableroActual();
+        for (int indexCuadrado = 0; indexCuadrado < tablero.getCUADRADOS().length; indexCuadrado++) { //Para cada cuadrado.
+            for (int indexCasilla = 0; indexCasilla < tablero.getCUADRADOS()[indexCuadrado].getCASILLAS().length; indexCasilla++) { //Para cada casilla de cada cuadrado.
+                Casilla casillaActual = tablero.getCUADRADOS()[indexCuadrado].getCASILLAS()[indexCasilla];
                 if(!casillaActual.isCasillaFija()) {
-                    int numeroDevuelto = checkCasilla(casillaActual);
+                    int numeroDevuelto = checkCasilla(tablero, casillaActual);
                     if(numeroDevuelto == -1) {
                         return numeroDevuelto;
                     }
@@ -131,5 +112,98 @@ public class Checks {
             }
         }
         return 0;
+    }
+
+    /**
+     * Comprobamos que cada lista contenga los numeros 1-9. Si no contiene uno de estos, es porque hay algo repetido y la solucion
+     *      no es valida.
+     * @param lista ArrayList que queremos comprobar que este sin duplicaciones.
+     * @return True si la lista es correcta. False si hay un numero que falta.
+     */
+    private static boolean comprobarLista(ArrayList<Integer> lista) {
+        Iterator it = lista.iterator();
+        boolean numeroContenido;
+        while (it.hasNext()) {
+            numeroContenido = false;
+            for (int i = 1, numTmp = (int) it.next(); i < 10; i++) {
+                if (i == numTmp) {
+                    numeroContenido = true;
+                }
+            }
+            if (!numeroContenido) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Comprobacion de los cuadrados del tablero. Que en ellos mismos no contengan numeros repetidos.
+     * @param cuadrados Cuadrados[] que queremos comprobar.
+     * @return True si estan resueltos correctamente.
+     */
+    private static boolean chequeoCuadrados(Cuadrado[] cuadrados) {
+        ArrayList<Integer> numerosLeidos = null;
+        for (Cuadrado cuadrado : cuadrados) {
+            for (Casilla casilla : cuadrado.getCASILLAS()) {
+                numerosLeidos = new ArrayList<>();
+                numerosLeidos.add(casilla.getNumeroPropio());
+            }
+            if (!comprobarLista(numerosLeidos)) {
+                System.out.println("Cuadrado malo: " + cuadrado.getCASILLAS()[0].getNUMERO_CUADRADO());
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Chequeo de las filas, que no contengan numeros repetidos entre ellas.
+     * @param filas Fila[] que queremos comprobar.
+     * @return True si no hay numero repetido.
+     */
+    private static boolean chequeoFilas(Fila[] filas) {
+        ArrayList<Integer> numerosLeidos = null;
+        for (Fila fila : filas) {
+            for (Casilla casilla : fila.getCASILLAS()) {
+                numerosLeidos = new ArrayList<>();
+                numerosLeidos.add(casilla.getNumeroPropio());
+            }
+            if (!comprobarLista(numerosLeidos)) {
+                System.out.println("Fila mala: " + fila.getCASILLAS()[0].getNUMERO_FILA());
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Comprobacion de las columnas, que no tengan numeros repetidos.
+     * @param columnas Columna[] a comprobar.
+     * @return True si no hay numeros repetidos.
+     */
+    private static boolean chequeoColumnas(Columna[] columnas) {
+        ArrayList<Integer> numerosLeidos = null;
+        for (Columna columna : columnas) {
+            for (Casilla casilla : columna.getCASILLAS()) {
+                numerosLeidos = new ArrayList<>();
+                numerosLeidos.add(casilla.getNumeroPropio());
+            }
+            if (!comprobarLista(numerosLeidos)) {
+                System.out.println("Columna mala: " + columna.getCASILLAS()[0].getNUMERO_COLUMNA());
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Comprobacion de las 3 anteriores.
+     * Check de que el conjunto de Cuadrados, filas y columnas esten bien resueltas.
+     * @param tablero Tablero a comprobar.
+     * @return True si el conjunto de las 3 posibilidades estan de forma correcta.
+     */
+    public static boolean chequeoResolucion(Tablero tablero) {
+        return chequeoCuadrados(tablero.getCUADRADOS()) && chequeoFilas(tablero.getFILAS()) && chequeoColumnas(tablero.getCOLUMNAS());
     }
 }

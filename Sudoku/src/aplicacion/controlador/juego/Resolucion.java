@@ -196,99 +196,6 @@ public class Resolucion {
         }
     }
     
-    /**
-     * Comprobamos que cada lista contenga los numeros 1-9. Si no contiene uno de estos, es porque hay algo repetido y la solucion
-     *      no es valida.
-     * @param lista ArrayList que queremos comprobar que este sin duplicaciones.
-     * @return True si la lista es correcta. False si hay un numero que falta.
-     */
-    private boolean comprobarLista(ArrayList<Integer> lista) {
-        Iterator it = lista.iterator();
-        boolean numeroContenido;
-        
-        while(it.hasNext()) {
-            numeroContenido = false;
-            for (int i = 1, numTmp = (int) it.next(); i < 10; i++) {
-                if(i == numTmp) numeroContenido = true;
-            }
-            if(!numeroContenido) return false;
-        }
-        
-        return true;
-    }
-    
-    /**
-     * Comprobacion de los cuadrados del tablero. Que en ellos mismos no contengan numeros repetidos.
-     * @param cuadrados Cuadrados[] que queremos comprobar.
-     * @return True si estan resueltos correctamente.
-     */
-    private boolean chequeoCuadrados(Cuadrado[] cuadrados) {
-        ArrayList<Integer> numerosLeidos = null;
-        
-        for(Cuadrado cuadrado: cuadrados) {
-            for(Casilla casilla: cuadrado.getCASILLAS()) {
-                numerosLeidos = new ArrayList<>();
-                numerosLeidos.add(casilla.getNumeroPropio());
-            }
-            if(!comprobarLista(numerosLeidos)) {
-                System.out.println("Cuadrado malo: " +cuadrado.getCASILLAS()[0].getNUMERO_CUADRADO());
-                return false;
-            }
-        }
-        return true;
-    }
-    
-    /**
-     * Chequeo de las filas, que no contengan numeros repetidos entre ellas.
-     * @param filas Fila[] que queremos comprobar.
-     * @return True si no hay numero repetido.
-     */
-    private boolean chequeoFilas(Fila[] filas) {
-        ArrayList<Integer> numerosLeidos = null;
-        
-        for(Fila fila: filas) {
-            for(Casilla casilla: fila.getCASILLAS()) {
-                numerosLeidos = new ArrayList<>();
-                numerosLeidos.add(casilla.getNumeroPropio());
-            }
-            if(!comprobarLista(numerosLeidos)) {
-                System.out.println("Fila mala: " +fila.getCASILLAS()[0].getNUMERO_FILA());
-                return false;
-            }
-        }
-        return true;
-    }
-    
-    /**
-     * Comprobacion de las columnas, que no tengan numeros repetidos.
-     * @param columnas Columna[] a comprobar.
-     * @return True si no hay numeros repetidos.
-     */
-    private boolean chequeoColumnas(Columna[] columnas) {
-        ArrayList<Integer> numerosLeidos = null;
-        
-        for(Columna columna: columnas) {
-            for(Casilla casilla: columna.getCASILLAS()) {
-                numerosLeidos = new ArrayList<>();
-                numerosLeidos.add(casilla.getNumeroPropio());
-            }
-            if(!comprobarLista(numerosLeidos)) {
-                System.out.println("Columna mala: " +columna.getCASILLAS()[0].getNUMERO_COLUMNA());
-                return false;
-            }
-        }
-        return true;
-    }
-    
-    /**
-     * Comprobacion de las 3 anteriores.
-     * Check de que el conjunto de Cuadrados, filas y columnas esten bien resueltas.
-     * @param tablero Tablero a comprobar.
-     * @return True si el conjunto de las 3 posibilidades estan de forma correcta.
-     */
-    private boolean chequeoResolucion(Tablero tablero) {
-        return (chequeoCuadrados(tablero.getCUADRADOS()) && chequeoFilas(tablero.getFILAS()) && chequeoColumnas(tablero.getCOLUMNAS()));
-    }
     
     /**
      * Resolucion del tablero que contiene esta clase mediante fuerza bruta ('Backtrack').
@@ -298,7 +205,7 @@ public class Resolucion {
     public boolean resolucionBacktrack() {
         seccionBacktrackRecursiva();
         pasadoTableroAGrafico();
-        return chequeoResolucion(TABLERO);
+        return Checks.chequeoResolucion(TABLERO);
     }
     
     /**
