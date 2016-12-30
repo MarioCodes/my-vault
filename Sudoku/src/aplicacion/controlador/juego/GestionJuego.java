@@ -6,10 +6,13 @@
 package aplicacion.controlador.juego;
 
 import aplicacion.controlador.tablero.Casilla;
+import aplicacion.controlador.tablero.Cuadrado;
 import aplicacion.controlador.tablero.Tablero;
+import aplicacion.patrones.Singleton;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+import javax.swing.JTable;
 
 /**
  * Metodos relacionados con la generacion de numeros aleatorios que sean validos segun las reglas del juego.
@@ -19,7 +22,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @see https://es.wikipedia.org/wiki/Algoritmo_Fisher-Yates#Tabla_paso_a_paso_.28implementaci.C3.B3n_Fisher-Yates.29
  * @version 0.1 Implementado algoritmo Fisher-Yates.
  */
-public class GestionNumeros {
+public class GestionJuego {
     private static final float PORCENTAJE_OCULTACION_CASILLA = 0.50f; /* 40%. Modificar para ocultar mas o menos casillas en nuestro Sudoku. 
                                                                         Segun teorias matematicas, un Sudoku con menos de 17 casillas visibles es imposible que disponga de una unica solucion.*/
     
@@ -115,11 +118,51 @@ public class GestionNumeros {
      * Obtencion de booleano para ocultar una casilla, un % de las veces que queramos.
      * @return booleano aleatorio.
      */
-    public static boolean ocultacionNumerosRand() {
+    private static boolean ocultacionNumerosRand() {
         Random random = new Random();
         
         float suerte = random.nextFloat();
         
         return (suerte <= PORCENTAJE_OCULTACION_CASILLA);
+    }
+    
+    /**
+     * Ocultacion de una casilla en si misma. En este punto ya se ha hecho la asignacion aleatoria.
+     * Pasamos una casilla y la tabla.
+     * Ocultamos un numero, hacemos fuerza bruta y vemos si es irresoluble. Si lo es, damos marcha atras y deshacemos lo hecho.
+     * @param table tabla normal de juego.
+     * @param casilla Casilla que queremos ocultar.
+     */
+    private static void ocultarCasillaGeneracionTablero(JTable table, Casilla casilla) {
+        int backupNum = casilla.getNumeroPropio(); //Si da error habra que recuperarlo.
+        int resultado;
+        
+        casilla.setCasillaFija(false);
+        casilla.setNumeroPropio(0);
+        
+        table.setValueAt("", casilla.getNUMERO_FILA(), casilla.getNUMERO_COLUMNA());
+        resultado = Checks.checkOcultacionNumeros();
+        
+        if(resultado == -1) { //Si es irresoluble, damos marcha atras.
+            casilla.setCasillaFija(true);
+            casilla.setNumeroPropio(backupNum);
+            table.setValueAt(backupNum, casilla.getNUMERO_FILA(), casilla.getNUMERO_COLUMNA());
+        }
+    }
+    
+    /**
+     * Ocultacion de casillas del tablero de juego. Cada casilla tiene un tanto por ciento de ocultarse.
+     * @param tabla Tabla de la que queremos ocultar las casillas.
+     */
+    public static void ocultarNumerosTablero(JTable tabla) {
+        Cuadrado[] cuadrados = Singleton.getTableroActual().getCUADRADOS();
+        
+        for(Cuadrado cuadrado : cuadrados) {
+            for(Casilla casilla : cuadrado.getCASILLAS()) {
+                if(ocultacionNumerosRand()) {
+                    ocultarCasillaGeneracionTablero(tabla, casilla);
+                }
+            }
+        }
     }
 }

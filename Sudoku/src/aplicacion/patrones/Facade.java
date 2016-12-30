@@ -5,11 +5,9 @@
  */
 package aplicacion.patrones;
 
-import aplicacion.controlador.juego.GestionNumeros;
+import aplicacion.controlador.juego.GestionJuego;
 import aplicacion.controlador.juego.Checks;
 import aplicacion.controlador.juego.ResolucionAuto;
-import aplicacion.controlador.tablero.Casilla;
-import aplicacion.controlador.tablero.Cuadrado;
 import aplicacion.controlador.tablero.Tablero;
 import javax.swing.JTable;
 import vista.GestionVista;
@@ -18,10 +16,9 @@ import vista.WindowJuego;
 /**
  * Patron de disenio Facade. Sirve de intermediario entre vista y controlador del programa.
  * @author Mario Codes Sánchez
- * @since 25/12/2016
+ * @since 30/12/2016
  */
 public class Facade {
-
     /**
      * Rellenamos una JTable con los datos de un Tablero.
      * @param tabla Tabla a rellenar.
@@ -42,64 +39,35 @@ public class Facade {
     }
     
     /**
-     * Ocultacion de una casilla en si misma. En este punto ya se ha hecho la asignacion aleatoria.
-     * Pasamos una casilla y la tabla.
-     * Ocultamos un numero, hacemos fuerza bruta y vemos si es irresoluble. Si lo es, damos marcha atras y deshacemos lo hecho.
-     * @param table tabla normal de juego.
-     * @param casilla Casilla que queremos ocultar.
-     */
-    private void ocultarCasillaGeneracionTablero(JTable table, Casilla casilla) {
-        int backupNum = casilla.getNumeroPropio(); //Si da error habra que recuperarlo.
-        int resultado;
-        
-        casilla.setCasillaFija(false);
-        casilla.setNumeroPropio(0);
-        
-        table.setValueAt("", casilla.getNUMERO_FILA(), casilla.getNUMERO_COLUMNA());
-        resultado = Checks.checkOcultacionNumeros();
-        
-        if(resultado == -1) { //Si es irresoluble, damos marcha atras.
-            casilla.setCasillaFija(true);
-            casilla.setNumeroPropio(backupNum);
-            table.setValueAt(backupNum, casilla.getNUMERO_FILA(), casilla.getNUMERO_COLUMNA());
-        }
-    }
-    
-    /**
-     * Ocultacion de casillas del tablero de juego. Cada casilla tiene un tanto por ciento de ocultarse.
-     * @param tabla Tabla de la que queremos ocultar las casillas.
+     * Ocultamos numeros al azar tanto de la tabla indicada como del tablero.
+     * @param tabla Tabla de la cual queremos ocultar numeros.
      */
     public void ocultarNumerosTablero(JTable tabla) {
-        Cuadrado[] cuadrados = Singleton.getTableroActual().getCUADRADOS();
-        
-        for(Cuadrado cuadrado : cuadrados) {
-            for(Casilla casilla : cuadrado.getCASILLAS()) {
-                if(GestionNumeros.ocultacionNumerosRand()) {
-                    ocultarCasillaGeneracionTablero(tabla, casilla);
-                }
-            }
-        }
+        GestionJuego.ocultarNumerosTablero(tabla);
     }
     
     /**
-     * Comprobamos la solucion introducida en el tablero grafico, si esta correcto se entra a comprobar los numeros.
-     * @param tablaNormal Tablero a chequear.
-     * @param tablaTrampas Tablero de trampas.
-     * @return Integer con el resultado. 1 correcto, 0 incompleto, -1 no correcto.
+     * Comprobamos el estado de resolucion de una JTable.
+     *  Se convierte en Tablero y se comprueba el estado de resolucion de este.
+     * @param tabla Tabla que queremos comprobar.
+     * @return 0 - tabla incompleta. -1 - solucion erronea. 1 - solucion correcta.
      */
-    public int comprobarSolucionTablero(JTable tablaNormal, JTable tablaTrampas) {
-        if(!Checks.comprobarTableroLleno(tablaNormal)) return 0;
-        if(Checks.comprobarResolucionTableroGrafico(tablaNormal, tablaTrampas)) return 1;
-        else return -1;
+    public int comprobarSolucionTablero(JTable tabla) {
+        Tablero tablero = Singleton.getFacade().conversionTablero(tabla);
+        int resultado = 0;
+        
+        if(Checks.comprobarTableroLleno(tabla)) resultado = Checks.chequeoResolucion(tablero) ? 1 : -1;
+        
+        return resultado;
     }
     
     /**
      * Copiado del tablero trampas al tablero normal para testeo.
-     * @param tablaNormal Tablero al que se copiara.
-     * @param tablaTrampas Tablero desde el cual se copiara.
+     * @param tabla1 Tablero al que se copiara.
+     * @param tabla2 Tablero desde el cual se copiara.
      */
-    public void copiarTableros(JTable tablaNormal, JTable tablaTrampas) {
-        WindowJuego.copiarTableros(tablaNormal, tablaTrampas);
+    public void copiarTableros(JTable tabla1, JTable tabla2) {
+        WindowJuego.copiarTableros(tabla1, tabla2);
     }
     
     /**

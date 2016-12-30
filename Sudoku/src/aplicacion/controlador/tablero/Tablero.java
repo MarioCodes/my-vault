@@ -5,7 +5,7 @@
  */
 package aplicacion.controlador.tablero;
 
-import aplicacion.controlador.juego.GestionNumeros;
+import aplicacion.controlador.juego.GestionJuego;
 import javax.swing.JTable;
 
 /**
@@ -76,7 +76,7 @@ public class Tablero {
         for (int i = 0; i < CUADRADOS.length; i++) {
             Casilla[] casillasCuadrado = CUADRADOS[i].getCASILLAS();
             for (int x = 0; x < casillasCuadrado.length; x++) {
-                int num = GestionNumeros.generacionNumeroCasilla(this, casillasCuadrado[x]);
+                int num = GestionJuego.generacionNumeroCasilla(this, casillasCuadrado[x]);
                 if(num == -1) return false; //Punto muerto.
                 casillasCuadrado[x].setNumeroPropio(num);
             }

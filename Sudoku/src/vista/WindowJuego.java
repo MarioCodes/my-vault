@@ -298,14 +298,9 @@ public class WindowJuego extends javax.swing.JFrame {
     /**
      * Gestion del apartado grafico segun el estado de la solucion.
      */
-    private void comprobarSolucionGrafico() {
-        Tablero tablero = Singleton.getFacade().conversionTablero(jTableJuegoCustom);
-        int resultado;
-        
-        if(Checks.comprobarTableroLleno(jTableJuegoCustom)) {
-            resultado = Checks.chequeoResolucion(tablero) ? 1 : -1;
-        } else resultado = 0; //Incompleto.
-            
+    private void comprobarSolucionJuegoPrincipal() {
+        int resultado = Singleton.getFacade().comprobarSolucionTablero(jTableJuegoCustom);
+        System.out.println(resultado);
         switch(resultado) {
             case 1: //Correcto.
                 creacionLineasCompletasTablero(Color.GREEN, jTableJuegoCustom);
@@ -712,7 +707,7 @@ public class WindowJuego extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemOcultarCasillaActionPerformed
     
     private void jMenuItemComprobarSolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemComprobarSolucionActionPerformed
-        comprobarSolucionGrafico();
+        comprobarSolucionJuegoPrincipal();
     }//GEN-LAST:event_jMenuItemComprobarSolucionActionPerformed
 
     private void jMenuItemCopiarTableroTrampasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCopiarTableroTrampasActionPerformed
