@@ -10,7 +10,7 @@ import aplicacion.patrones.Singleton;
 import javax.swing.JTable;
 
 /**
- * Clase donde intento recopilar todo el codigo relacionado con la gestion de la 'Vista' del programa para
+ * Clase donde intento recopilar el codigo relacionado con la gestion de la 'Vista' del programa para
  *      desaturar un poco 'WindowJuego'.
  * @author Mario Codes Sánchez
  * @since 30/12/2016
@@ -73,7 +73,7 @@ public class GestionVista {
     }
     
     /**
-     * Borramos todo el contenido de una JTable.
+     * Borramos el contenido de una JTable.
      * @param tabla Tabla la cual queremos borrar.
      */
     public void borrarTablero(JTable tabla) {

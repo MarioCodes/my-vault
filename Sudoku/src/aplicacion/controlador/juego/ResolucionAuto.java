@@ -153,7 +153,7 @@ public class ResolucionAuto {
     /**
      * Hay algunos casos, en los que asigna el valor correcto en el tablero, a su casilla correspondiente, pero no lo asigna en la
      *  tabla grafica, por lo que esta se queda vacia.
-     * Para estos casos hacemos una pasada final a la tabla cuando este todo resuelto, y los que se encuentren asi, los
+     * Para estos casos hacemos una pasada final a la tabla cuando este resuelto, y los que se encuentren asi, los
      *      ponemos 'a mano'.
      */
     private void repasoFinalTablero() {

@@ -25,7 +25,7 @@ import javax.swing.table.TableCellRenderer;
  *  que las coordenadas a utilizar las tengo que mapear a mano por lo que la ventana no puede ser 'resizable'.
  * Estoy teniendo conflictos con las tablas y las lineas graficas si lo hago de forma grafica por Swing, por eso las aniado a mano.
  * @author Mario Codes Sánchez
- * @since 26/12/2016
+ * @since 30/12/2016
  * @version 0.2 Quitada la tabla principal de juego generada por Swing y creado una a mano. Necesario para poder hacer override de los renderer.
  */
 public class WindowJuego extends javax.swing.JFrame {
@@ -95,6 +95,11 @@ public class WindowJuego extends javax.swing.JFrame {
        if(tabla != null) jTabbedPanePrincipal.remove(tabla);
     }
     
+    /**
+     * Set de un mode normal para la tabla de resolucion.
+     * No puedo usar el otro que tenia creado porque me hace algunas celdas ineditables.
+     * @param tabla Tabla a la cual asignarle el mode.
+     */
     private void setModeComunTalba(JTable tabla) {
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
