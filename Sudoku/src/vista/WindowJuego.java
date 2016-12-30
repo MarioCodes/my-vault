@@ -388,8 +388,8 @@ public class WindowJuego extends javax.swing.JFrame {
         centrarTextoCellsTabla(jTableTrampas);
         centrarTextoCellsTabla(jTableJuegoCustom);
         
-        Singleton.getFacade().generacionTablero(this.jTableJuegoCustom, false);
-        Singleton.getFacade().generacionTablero(this.jTableTrampas, true);
+        Singleton.getFacade().rellenoTablaConTablero(this.jTableJuegoCustom, false);
+        Singleton.getFacade().rellenoTablaConTablero(this.jTableTrampas, true);
         Singleton.getFacade().ocultarNumerosTablero(jTableJuegoCustom);
         creacionLineasCompletasTablero(jTableJuegoCustom);
         setEnabledsIniJuego();
