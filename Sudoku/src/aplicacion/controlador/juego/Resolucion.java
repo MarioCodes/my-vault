@@ -208,6 +208,11 @@ public class Resolucion {
         return Checks.chequeoResolucion(TABLERO);
     }
     
+    //fixme: cambiar adonde deba estar.
+    public static Tablero conversionTablero(JTable tabla) {
+        return creacionTablero.generacionTablero(tabla);
+    }
+    
     /**
      * Inner Static Class. La utilizo para mantener separado el codigo que crea un Tablero a traves de una jTable y el codigo de
      *      resolucion del Tablero en si mismo.

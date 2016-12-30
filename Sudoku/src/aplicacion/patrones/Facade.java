@@ -156,4 +156,8 @@ public class Facade {
             }
         }
     }
+    
+    public Tablero conversionTablero(JTable tabla) {
+        return Resolucion.conversionTablero(tabla);
+    }
 }

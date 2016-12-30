@@ -5,6 +5,7 @@
  */
 package vista;
 
+import aplicacion.controlador.juego.Checks;
 import aplicacion.controlador.tablero.Tablero;
 import aplicacion.patrones.Singleton;
 import java.awt.Color;
@@ -17,7 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableModel;
 
 /**
  * todo: acordarme de añadir al final de todo hints y demas para cada boton. Ademas algun background e icon.
@@ -296,11 +296,16 @@ public class WindowJuego extends javax.swing.JFrame {
     }
     
     /**
-     * Gestion del apartado grafico con la solucion.
+     * Gestion del apartado grafico segun el estado de la solucion.
      */
     private void comprobarSolucionGrafico() {
-        int resultado = Singleton.getFacade().comprobarSolucionTablero(jTableJuegoCustom, jTableTrampas);
-
+        Tablero tablero = Singleton.getFacade().conversionTablero(jTableJuegoCustom);
+        int resultado;
+        
+        if(Checks.comprobarTableroLleno(jTableJuegoCustom)) {
+            resultado = Checks.chequeoResolucion(tablero) ? 1 : -1;
+        } else resultado = 0; //Incompleto.
+            
         switch(resultado) {
             case 1: //Correcto.
                 creacionLineasCompletasTablero(Color.GREEN, jTableJuegoCustom);

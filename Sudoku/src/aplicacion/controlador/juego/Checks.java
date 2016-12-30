@@ -48,8 +48,8 @@ public class Checks {
                 }
             }
         } catch (NullPointerException | ClassCastException ex) {
-            return false; //Si hay alguna casilla vacia o que no cuadre, saltara la excepcion.
-        }
+            return false; //Si hay alguna casilla vacia o que no cuadre, saltara la excepcion. 
+       }
         return true;
     }
     
@@ -112,28 +112,21 @@ public class Checks {
         }
         return 0;
     }
-
+    
     /**
-     * Comprobamos que cada lista contenga los numeros 1-9. Si no contiene uno de estos, es porque hay algo repetido y la solucion
-     *      no es valida.
-     * @param lista ArrayList que queremos comprobar que este sin duplicaciones.
-     * @return True si la lista es correcta. False si hay un numero que falta.
+     * Creamos una lista con los numeros del 1 al 9 y comparamos la que queremos comprobar, con esta.
+     * @param lista Lista que queremos comprobar si contiene todos los numeros.
+     * @return True si es igual a la lista correcta.
+     * @version 0.2 Arreglada la comprobacion. Antes no lo hacia correctamente.
      */
     private static boolean comprobarLista(ArrayList<Integer> lista) {
-        Iterator it = lista.iterator();
-        boolean numeroContenido;
-        while (it.hasNext()) {
-            numeroContenido = false;
-            for (int i = 1, numTmp = (int) it.next(); i < 10; i++) {
-                if (i == numTmp) {
-                    numeroContenido = true;
-                }
+        ArrayList<Integer> listaNumerosCompleta = new ArrayList<Integer>() {{
+            for (int i = 1; i < 10; i++) {
+                add(i);
             }
-            if (!numeroContenido) {
-                return false;
-            }
-        }
-        return true;
+        }};
+        
+        return lista.containsAll(listaNumerosCompleta);
     }
     
     /**
@@ -144,8 +137,8 @@ public class Checks {
     private static boolean chequeoCuadrados(Cuadrado[] cuadrados) {
         ArrayList<Integer> numerosLeidos = null;
         for (Cuadrado cuadrado : cuadrados) {
+            numerosLeidos = new ArrayList<>();
             for (Casilla casilla : cuadrado.getCASILLAS()) {
-                numerosLeidos = new ArrayList<>();
                 numerosLeidos.add(casilla.getNumeroPropio());
             }
             if (!comprobarLista(numerosLeidos)) {
@@ -164,8 +157,8 @@ public class Checks {
     private static boolean chequeoFilas(Fila[] filas) {
         ArrayList<Integer> numerosLeidos = null;
         for (Fila fila : filas) {
+            numerosLeidos = new ArrayList<>();
             for (Casilla casilla : fila.getCASILLAS()) {
-                numerosLeidos = new ArrayList<>();
                 numerosLeidos.add(casilla.getNumeroPropio());
             }
             if (!comprobarLista(numerosLeidos)) {
@@ -184,8 +177,8 @@ public class Checks {
     private static boolean chequeoColumnas(Columna[] columnas) {
         ArrayList<Integer> numerosLeidos = null;
         for (Columna columna : columnas) {
+            numerosLeidos = new ArrayList<>();
             for (Casilla casilla : columna.getCASILLAS()) {
-                numerosLeidos = new ArrayList<>();
                 numerosLeidos.add(casilla.getNumeroPropio());
             }
             if (!comprobarLista(numerosLeidos)) {
