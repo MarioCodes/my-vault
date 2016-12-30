@@ -41,7 +41,6 @@ public class Checks {
      * @return True si esta correcto, ni paja ni casillas vacias.
      */
     public static boolean comprobarTableroLleno(JTable tabla) {
-        boolean tableroCompleto = true;
         try {
             for (int i = 0; i < tabla.getColumnCount(); i++) {
                 for (int j = 0; j < tabla.getRowCount(); j++) {
@@ -49,9 +48,9 @@ public class Checks {
                 }
             }
         } catch (NullPointerException | ClassCastException ex) {
-            tableroCompleto = false;
+            return false; //Si hay alguna casilla vacia o que no cuadre, saltara la excepcion.
         }
-        return tableroCompleto;
+        return true;
     }
     
     /**
