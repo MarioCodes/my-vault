@@ -71,4 +71,16 @@ public class GestionVista {
         Singleton.getTableroActual();
         rellenoTablaConNumeros(tabla, mostrarTodos);
     }
+    
+    /**
+     * Borramos todo el contenido de una JTable.
+     * @param tabla Tabla la cual queremos borrar.
+     */
+    public void borrarTablero(JTable tabla) {
+        for (int indiceX = 0; indiceX < tabla.getRowCount(); indiceX++) {
+            for (int indiceY = 0; indiceY < tabla.getColumnCount(); indiceY++) {
+                tabla.setValueAt("", indiceX, indiceY);
+            }
+        }
+    }
 }

@@ -71,24 +71,28 @@ public class Facade {
     }
     
     /**
-     * ResolucionAuto de un tablero mediante fuerza bruta con el metodo 'Backtrack'.
-     * @param tabla 
-     * @param tablero 
-     * @return  
+     * Resolucion de un tablero mediante fuerza bruta con el metodo 'Backtrack'.
+     * @param tabla JTable que queremos resolucionar.
+     * @return Estado de resolucion de la tabla, true si se ha conseguido resolucionar de manera correcta.
      */
     public boolean solucionBacktrack(JTable tabla) {
         ResolucionAuto resolucion = new ResolucionAuto(tabla);
         return resolucion.resolucionBacktrack();
     }
     
+    /**
+     * Borramos el contenido de una JTable.
+     * @param tabla Tabla la cual queremos borrar.
+     */
     public void borrarTablero(JTable tabla) {
-        for (int indiceX = 0; indiceX < 9; indiceX++) {
-            for (int indiceY = 0; indiceY < 9; indiceY++) {
-                tabla.setValueAt("", indiceX, indiceY);
-            }
-        }
+        new GestionVista().borrarTablero(tabla);
     }
     
+    /**
+     * Generacion de un Tablero a traves de una JTable.
+     * @param tabla JTable el cual queremos convertir.
+     * @return Tablero con los datos de esa JTable.
+     */
     public Tablero conversionTablero(JTable tabla) {
         return Tablero.generacionTablero(tabla);
     }
