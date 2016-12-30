@@ -198,4 +198,22 @@ public class Checks {
     public static boolean chequeoResolucion(Tablero tablero) {
         return chequeoCuadrados(tablero.getCUADRADOS()) && chequeoFilas(tablero.getFILAS()) && chequeoColumnas(tablero.getCOLUMNAS());
     }
+
+    /**
+     * Oculta una casilla suelta tanto en la matriz de casillas como en el tablero de forma grafica.
+     * @param tabla Tabla de la cual queremos ocultar. Sera la de juego.
+     * @param row Fila donde se encuentra la casilla.
+     * @param numeroCasillaFila Numero de casilla dentro de la fila.
+     */
+    public static void ocultarCasillaEspecificaTesteo(JTable tabla, int row, int numeroCasillaFila) {
+        try {
+            Tablero tablero = Singleton.getTableroActual();
+            tablero.getFILAS()[row].getCASILLAS()[numeroCasillaFila].setCasillaFija(false);
+            tablero.getFILAS()[row].getCASILLAS()[numeroCasillaFila].setNumeroPropio(0);
+            tabla.setValueAt("", row, tablero.getFILAS()[row].getCASILLAS()[numeroCasillaFila].getNUMERO_COLUMNA());
+            System.out.println("Casilla Ocultada.");
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            System.out.println("Valores fuera de rango.");
+        }
+    }
 }

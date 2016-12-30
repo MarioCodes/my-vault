@@ -359,7 +359,7 @@ public class WindowJuego extends javax.swing.JFrame {
         fila = askInteger("\tNumero de fila: ");
         casilla = askInteger("\tNumero de casillas segun LA FILA: ");
         
-        Singleton.getFacade().ocultarCasillaEspecificaTesteo(jTableJuegoCustom, fila, casilla);
+        Singleton.getFacade().ocultacionCasillaEspecifica(jTableJuegoCustom, fila, casilla);
     }
     
     /**
