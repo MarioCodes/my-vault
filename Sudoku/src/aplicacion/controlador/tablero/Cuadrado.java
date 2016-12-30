@@ -15,15 +15,9 @@ import java.util.ArrayList;
 public class Cuadrado {
     private final Casilla[] CASILLAS = new Casilla[9];
     private ArrayList<Integer> numerosDisponiblesCuadrado = new ArrayList<Integer>() {{
-        add(1);
-        add(2);
-        add(3);
-        add(4);
-        add(5);
-        add(6);
-        add(7);
-        add(8);
-        add(9);
+        for (int i = 1; i < 10; i++) {
+            add(i);
+        }
     }};
     
     /**

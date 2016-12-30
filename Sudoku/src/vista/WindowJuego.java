@@ -5,7 +5,6 @@
  */
 package vista;
 
-import aplicacion.controlador.juego.Checks;
 import aplicacion.controlador.tablero.Tablero;
 import aplicacion.patrones.Singleton;
 import java.awt.Color;

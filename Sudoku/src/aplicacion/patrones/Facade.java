@@ -11,7 +11,6 @@ import aplicacion.controlador.juego.ResolucionAuto;
 import aplicacion.controlador.tablero.Tablero;
 import javax.swing.JTable;
 import vista.GestionVista;
-import vista.WindowJuego;
 
 /**
  * Patron de disenio Facade. Sirve de intermediario entre vista y controlador del programa.

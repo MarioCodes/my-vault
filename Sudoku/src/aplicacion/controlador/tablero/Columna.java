@@ -17,15 +17,9 @@ import java.util.ArrayList;
 public class Columna {
     private final Casilla[] CASILLAS;
     private ArrayList<Integer> numerosDisponiblesColumna = new ArrayList<Integer>() {{
-        add(1);
-        add(2);
-        add(3);
-        add(4);
-        add(5);
-        add(6);
-        add(7);
-        add(8);
-        add(9);
+        for (int i = 1; i < 10; i++) {
+            add(i);
+        }
     }};
     
     /**
