@@ -67,7 +67,7 @@ public class Facade {
      * @param tabla2 Tablero desde el cual se copiara.
      */
     public void copiarTableros(JTable tabla1, JTable tabla2) {
-        WindowJuego.copiarTableros(tabla1, tabla2);
+        new GestionVista().copiarTableros(tabla1, tabla2);
     }
     
     /**

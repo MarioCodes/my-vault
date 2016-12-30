@@ -10,12 +10,30 @@ import aplicacion.patrones.Singleton;
 import javax.swing.JTable;
 
 /**
- * Clase donde intento recopilar todo el codigo relacionado con la parte 'Vista' del programa para
+ * Clase donde intento recopilar todo el codigo relacionado con la gestion de la 'Vista' del programa para
  *      desaturar un poco 'WindowJuego'.
  * @author Mario Codes Sánchez
  * @since 30/12/2016
  */
 public class GestionVista {
+    /**
+     * Copiado del contenido de una JTable a otra.
+     * Para hacer pruebas al querer comprobar si el otro tablero esta lleno, con datos bien introducidos o no.
+     * @param tabla1 Tablero al que se copiara.
+     * @param tabla2 Tablero desde el cual se copiara.
+     */
+    public void copiarTableros(JTable tabla1, JTable tabla2) {
+        int valorCasilla;
+        for (int indexColumns = 0; indexColumns < tabla2.getColumnCount(); indexColumns++) {
+            for (int indexRows = 0; indexRows < tabla2.getRowCount(); indexRows++) {
+                try {
+                    valorCasilla = (int) tabla2.getValueAt(indexRows, indexColumns);
+                    tabla1.setValueAt(valorCasilla, indexRows, indexColumns);
+                } catch (ClassCastException ex) {} //Para cuando haya casillas en blanco, no pete.
+            }
+        }
+    }
+    
     /**
      * Relleno de un 'cuadrado' de la tabla, con los valores de las casillas de su homologo Cuadrado.
      *  Son necesarios los datos de la primera columna y fila propia de cada cuadrado, para ir rellenando a partir de alli. Antes los pasaba como parametro, pero estos datos los contiene
