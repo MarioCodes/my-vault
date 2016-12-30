@@ -10,8 +10,8 @@ import vista.WindowJuego;
 /**
  * Solucion al problema del Sudoku.
  * @author Mario Codes Sánchez
- * @since 29/12/2016
- * @version 0.6 Resolucion automatica conseguida. Siguiente: pulir interfaz del programa.
+ * @since 30/12/2016
+ * @version 0.6.2 Haciendo limpieza de codigo.
  * @see http://www.sudokuoftheday.com/techniques/
  */
 public class Sudoku {

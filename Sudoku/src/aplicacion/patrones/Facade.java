@@ -7,7 +7,7 @@ package aplicacion.patrones;
 
 import aplicacion.controlador.juego.GestionNumeros;
 import aplicacion.controlador.juego.Checks;
-import aplicacion.controlador.juego.Resolucion;
+import aplicacion.controlador.juego.ResolucionAuto;
 import aplicacion.controlador.tablero.Casilla;
 import aplicacion.controlador.tablero.Cuadrado;
 import aplicacion.controlador.tablero.Tablero;
@@ -139,13 +139,13 @@ public class Facade {
     }
     
     /**
-     * Resolucion de un tablero mediante fuerza bruta con el metodo 'Backtrack'.
+     * ResolucionAuto de un tablero mediante fuerza bruta con el metodo 'Backtrack'.
      * @param tabla 
      * @param tablero 
      * @return  
      */
     public boolean solucionBacktrack(JTable tabla) {
-        Resolucion resolucion = new Resolucion(tabla);
+        ResolucionAuto resolucion = new ResolucionAuto(tabla);
         return resolucion.resolucionBacktrack();
     }
     
@@ -158,6 +158,6 @@ public class Facade {
     }
     
     public Tablero conversionTablero(JTable tabla) {
-        return Resolucion.conversionTablero(tabla);
+        return Tablero.generacionTablero(tabla);
     }
 }

@@ -6,23 +6,19 @@
 package aplicacion.controlador.juego;
 
 import aplicacion.controlador.tablero.Casilla;
-import aplicacion.controlador.tablero.Columna;
-import aplicacion.controlador.tablero.Cuadrado;
-import aplicacion.controlador.tablero.Fila;
 import aplicacion.controlador.tablero.Tablero;
 import java.util.ArrayList;
-import java.util.Iterator;
 import javax.swing.JTable;
 
 /**
- * Resolucion del Sudoku mediante fuerza bruta por metodo 'Backtrack' (ver link Anexo).
- * Yo le paso a esta clase una jTable parcialmente rellena y la transforma en un Tablero. El cual tengo que resolver.
+ * Resolucion automatica del Sudoku mediante fuerza bruta por metodo 'Backtrack' (ver link Anexo).
+ * Yo le paso a esta clase una jTable parcialmente rellena y la transforma en un Tablero. El cual resuelvo automaticamente.
  * Separo la parte de codigo que genera el Tablero a partir de la jTable en una Inner Class.
  * @author Mario Codes Sánchez
- * @since 29/12/2016
+ * @since 30/12/2016
  * @see https://en.wikipedia.org/wiki/Sudoku_solving_algorithms
  */
-public class Resolucion {
+public class ResolucionAuto {
     private int indiceX, indiceY;
     private final JTable TABLA;
     private final Tablero TABLERO; //Tablero el cual se encontrara parcialmente completado y tendre que encontrar la solucion al resto.
@@ -32,24 +28,9 @@ public class Resolucion {
      * Le paso una tabla grafica como parametro, y desde ella genero el tablero a utilizar.
      * @param tabla Tabla grafica la cual se rellenara.
      */
-    public Resolucion(JTable tabla) {
+    public ResolucionAuto(JTable tabla) {
         this.TABLA = tabla;
-        this.TABLERO = creacionTablero.generacionTablero(TABLA);
-        
-        creacionTablero.quitarNumerosYaPuestosDeListas(TABLERO);
-    }
-    
-    /**
-     * Comprobacion de un numero contra una ArrayList de Integers para ver si lo contiene.
-     * @param numeroAProbar Numero que queremos chequear.
-     * @param lista ArrayList a comprobar.
-     * @return True si la AL contiene el numero, false sino.
-     */
-    private boolean checkNumeroContraArrayList(int numeroAProbar, ArrayList<Integer> lista) {
-        for (int num : lista) {
-            if(numeroAProbar == num) return true;
-        }
-        return false;
+        this.TABLERO = Tablero.generacionTablero(TABLA);
     }
     
     /**
@@ -59,21 +40,15 @@ public class Resolucion {
      * @return True si el numero es valido contra las 3 listas de numeros (Cuadrado, Fila y Columna).
      */
     private boolean checkNumeroCasillaValido(Casilla casilla, int numeroAProbar) {
-        boolean numeroIsOK;
-        
         ArrayList<Integer> numerosDisponiblesCuadrado = TABLERO.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado();
         ArrayList<Integer> numerosDisponiblesFila = TABLERO.getFILAS()[casilla.getNUMERO_FILA()].getNumerosDisponiblesFila();
         ArrayList<Integer> numerosDisponiblesColumna = TABLERO.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna();
         
-        numeroIsOK = checkNumeroContraArrayList(numeroAProbar, numerosDisponiblesCuadrado);
-        if(numeroIsOK) numeroIsOK = checkNumeroContraArrayList(numeroAProbar, numerosDisponiblesFila);
-        if(numeroIsOK) numeroIsOK = checkNumeroContraArrayList(numeroAProbar, numerosDisponiblesColumna);
-        
-        return numeroIsOK;
+        return numerosDisponiblesCuadrado.contains((Object) numeroAProbar) && numerosDisponiblesFila.contains((Object) numeroAProbar) && numerosDisponiblesColumna.contains((Object) numeroAProbar);
     }
     
     /**
-     * Busca una casilla vacia, si la encuentra asigna las coordenadas a las variables miembro y devuelve true.
+     * Busca una casilla vacia en el Tablero, si la encuentra asigna las coordenadas a las variables miembro y devuelve true.
      * @return True si hay una casilla vacia, false si el tablero esta completo.
      */
     private boolean casillaVacia() {
@@ -165,7 +140,7 @@ public class Resolucion {
             if(checkNumeroCasillaValido(casilla, i)) { //Miramos si la casilla es valida.
                 asignacionNumeroACasilla(casilla, i); //Como lo es, hacemos cambios necesarios.
                 indiceX++;
-                //</primera parte de la recursividad>
+                //</primera parte recursividad>
                 
                 if(seccionBacktrackRecursiva()) return true; //Cuando ya no haya mas vacias, que vuelva atras.
                 else { //Si llega aqui es porque hemos encontrado un punto muerto, y hay que tirar marcha atras.
@@ -206,79 +181,5 @@ public class Resolucion {
         seccionBacktrackRecursiva();
         pasadoTableroAGrafico();
         return Checks.chequeoResolucion(TABLERO);
-    }
-    
-    //fixme: cambiar adonde deba estar.
-    public static Tablero conversionTablero(JTable tabla) {
-        return creacionTablero.generacionTablero(tabla);
-    }
-    
-    /**
-     * Inner Static Class. La utilizo para mantener separado el codigo que crea un Tablero a traves de una jTable y el codigo de
-     *      resolucion del Tablero en si mismo.
-     */
-    private static class creacionTablero {
-        /**
-        * Relleno de Cuadrado[] con los valores de la tabla de su homologo Cuadrado.
-        * @param cuadrados Cuadrados donde almaceno los datos de cada casilla.
-        * @param tabla Tabla grafica de donde sacamos los datos.
-        * @param numeroCuadrado Numero de cuadrado que toca rellenar en esta iteracion.
-        */
-       private static void rellenoCuadradoTablero(Cuadrado[] cuadrados, JTable tabla, int numeroCuadrado) {
-           for (int indiceCasilla = 0, indiceColumna = cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_COLUMNA(); indiceCasilla < 3; indiceColumna++, indiceCasilla++) { //Una fila de un cuadrado.
-               try { //fixme: intentar arreglar esta chapuza, si lo pongo en tries separados funciona. Si no, al saltar la excepcion en la linea que sea, salta y las otras 2 ni siquiera se comprueban. Arreglarlo. Segmentarlo en mas metodos(?).
-                   cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla].setNumeroPropio(Integer.parseInt(tabla.getValueAt(cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA(), indiceColumna).toString()));
-               }catch(NumberFormatException | NullPointerException ex) {}
-
-               try {
-                   cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+3].setNumeroPropio(Integer.parseInt(tabla.getValueAt(cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA()+1, indiceColumna).toString()));
-               }catch(NumberFormatException | NullPointerException ex) {}
-
-               try {
-                   cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+6].setNumeroPropio(Integer.parseInt(tabla.getValueAt(cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA()+2, indiceColumna).toString()));
-               }catch(NumberFormatException | NullPointerException ex) {} //Esto saltara en las casillas que se encuentren vacias, es completamente normal.
-           }
-       }
-
-       /**
-        * Rellenamos cada Casilla con su 'casilla' correspondiente de la tabla.
-        * @param tabla Tabla de la que sacamos los datos.
-        * @param cuadrados Cuadrado[] que rellenamos.
-        */
-       private static void rellenoTablaConNumeros(JTable tabla, Cuadrado[] cuadrados) {
-           for(int i = 0; i < cuadrados.length; i++) {
-               rellenoCuadradoTablero(cuadrados, tabla, i);
-           }
-       }
-
-       /**
-        * Quitamos los numeros disponibles de las ArrayLists, de los numeros que ya se han puesto a mano.
-        * Tengo que hacer un parse a (Object) ya que si no, toma el numero como si fuera el indice y no el objeto que quiero quitar.
-        * @param tablero Tablero del cual quitamos los numeros ya puestos.
-        */
-       private static void quitarNumerosYaPuestosDeListas(Tablero tablero) {
-           for(Fila fila: tablero.getFILAS()) {
-               for(Casilla cas: fila.getCASILLAS()) {
-                   if(cas.getNumeroPropio() != 0) {
-                       tablero.getCUADRADOS()[cas.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado().remove((Object) cas.getNumeroPropio());
-                       tablero.getFILAS()[cas.getNUMERO_FILA()].getNumerosDisponiblesFila().remove((Object) cas.getNumeroPropio());
-                       tablero.getCOLUMNAS()[cas.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna().remove((Object) cas.getNumeroPropio());
-                   }
-               }
-           }
-       }
-
-       /**
-        * Generacion de un tablero a traves de una tabla grafica. Utiliza la tabla que paso como parametro por el constructor.
-        * Es muy muy parecido al metodo que hay en Tablero para rellenar una tabla con el contenido de las casillas, pero aqui
-        *  interesa rellenas las casillas con el contenido de la tabla.
-        * @param tabla tabla grafica que quiero convertir en tablero.
-        */
-       private static Tablero generacionTablero(JTable tabla) {
-           Cuadrado[] cuadrados = new Cuadrado[9];
-           Tablero.inicializacionCuadrados(cuadrados);
-           rellenoTablaConNumeros(tabla, cuadrados);
-           return new Tablero(cuadrados);
-       }
     }
 }
