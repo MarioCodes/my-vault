@@ -13,7 +13,6 @@ import javax.swing.JTable;
 /**
  * Resolucion automatica del Sudoku mediante fuerza bruta por metodo 'Backtrack' (ver link Anexo).
  * Yo le paso a esta clase una jTable parcialmente rellena y la transforma en un Tablero. El cual resuelvo automaticamente.
- * Separo la parte de codigo que genera el Tablero a partir de la jTable en una Inner Class.
  * @author Mario Codes Sánchez
  * @since 30/12/2016
  * @see https://en.wikipedia.org/wiki/Sudoku_solving_algorithms
@@ -157,7 +156,7 @@ public class ResolucionAuto {
      * Para estos casos hacemos una pasada final a la tabla cuando este todo resuelto, y los que se encuentren asi, los
      *      ponemos 'a mano'.
      */
-    private void pasadoTableroAGrafico() {
+    private void repasoFinalTablero() {
         Casilla casilla;
         for (int ejeX = 0; ejeX < 9; ejeX++) {
             for (int ejeY = 0; ejeY < 9; ejeY++) {
@@ -179,7 +178,7 @@ public class ResolucionAuto {
      */
     public boolean resolucionBacktrack() {
         seccionBacktrackRecursiva();
-        pasadoTableroAGrafico();
+        repasoFinalTablero();
         return Checks.chequeoResolucion(TABLERO);
     }
 }

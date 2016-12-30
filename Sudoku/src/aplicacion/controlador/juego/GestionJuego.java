@@ -15,15 +15,16 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.JTable;
 
 /**
- * Metodos relacionados con la generacion de numeros aleatorios que sean validos segun las reglas del juego.
- *  Usado Algoritmo de Fisher-Yates para la generacion de numeros completamente aleatorios sin repeticiones, dentro de una pool finita de numeros dada. (Ver enlaces).
+ * Metodo relacionados con la gestion del Juego.
+ *  Desde la generacion de numeros aleatorios validos segun las reglas del juego, a la ocultacion de casillas.
+ *  Para la generacion de los numeros random, uso el Algoritmo de Fisher-Yates. Garantiza no repeticiones, dentro de una pool finita de numeros dada. (Ver enlace).
  * @author Mario Codes Sánchez
  * @since 30/12/2016
  * @see https://es.wikipedia.org/wiki/Algoritmo_Fisher-Yates#Tabla_paso_a_paso_.28implementaci.C3.B3n_Fisher-Yates.29
  * @version 0.1 Implementado algoritmo Fisher-Yates.
  */
 public class GestionJuego {
-    private static final float PORCENTAJE_OCULTACION_CASILLA = 0.50f; /* 40%. Modificar para ocultar mas o menos casillas en nuestro Sudoku. 
+    private static final float PORCENTAJE_OCULTACION_CASILLA = 0.50f; /* 50%. Modificar para ocultar mas o menos casillas en nuestro Sudoku. 
                                                                         Segun teorias matematicas, un Sudoku con menos de 17 casillas visibles es imposible que disponga de una unica solucion.*/
     
     /**
