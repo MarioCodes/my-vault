@@ -13,10 +13,13 @@ import javax.swing.JTable;
  *  listas de numeros disponibles.
  *  Para ver como funciona el reparto de numeros propio de cuadrados, filas y columnas, ver la representacion en Paint anexada.
  * Tambien contiene metodos estaticos para convertir una jTable en Tablero.
+ * Ademas parte de el se genera repartiendo el trabajo mediante hilos. No hace falta que implemente o herede Runnable / Thread
+ *      ya que lo hago mediante expresiones Lambda.
  * @author Mario Codes Sánchez
  * @since 30/12/2016
  */
 public class Tablero {
+    private boolean estadoGeneracionTablero = true; //Lo necesito para trabajar mediante hilos con Lambdas. Si al finalizar la generacion del tablero, es false; Se descartara y generara uno nuevo.
     private final Cuadrado[] CUADRADOS;
     private final Fila[] FILAS = new Fila[9];
     private final Columna[] COLUMNAS = new Columna[9];
@@ -69,20 +72,47 @@ public class Tablero {
     }
     
     /**
+     * Partido de la tarea en Hilos. Hecho para dividir la tarea en 3 partes.
+     * @param indicePrimerCuadrado Indice del primer cuadrado con el cual trabajar. 0/3/6.
+     */
+    private void asignacionNumeroCasillasHilos(int indicePrimerCuadrado) {
+        for (int indiceCuadrado = indicePrimerCuadrado; indiceCuadrado < indicePrimerCuadrado+3; indiceCuadrado++) {
+            Casilla[] casillasCuadrado = CUADRADOS[indiceCuadrado].getCASILLAS();
+            for(int indiceCasilla = 0; indiceCasilla < casillasCuadrado.length; indiceCasilla++) {
+                int num = GestionJuego.generacionNumeroCasilla(this, casillasCuadrado[indiceCasilla]);
+                if(num == -1) estadoGeneracionTablero = false;
+                casillasCuadrado[indiceCasilla].setNumeroPropio(num);
+            }
+        }
+    }
+    
+    /**
+     * Carga de trabajo principal. Por eso he separado esta en hilos.
      * Le asignamos a cada casilla su numero propio. Si se llega a un punto muerto, se recomenzara con otro tablero.
      * @return Booleano para chequear cuando se ha generado correctamente.
      */
     public boolean asignacionNumeroCasillas() {
-        for (int i = 0; i < CUADRADOS.length; i++) {
-            Casilla[] casillasCuadrado = CUADRADOS[i].getCASILLAS();
-            for (int x = 0; x < casillasCuadrado.length; x++) {
-                int num = GestionJuego.generacionNumeroCasilla(this, casillasCuadrado[x]);
-                if(num == -1) return false; //Punto muerto.
-                casillasCuadrado[x].setNumeroPropio(num);
-            }
-        }
+        Runnable task1 = () -> asignacionNumeroCasillasHilos(0); //Lambdas!
+        Runnable task2 = () -> asignacionNumeroCasillasHilos(3);
+        Runnable task3 = () -> asignacionNumeroCasillasHilos(6);
         
-        return true; //Generado correctamente.
+        Thread t1 = new Thread(task1);
+        Thread t2 = new Thread(task2);
+        Thread t3 = new Thread(task3);
+        
+        t1.start();
+        t2.start();
+        t3.start();        
+        
+        try {
+            t1.join();
+            t2.join();
+            t3.join();
+        }catch(InterruptedException ex) {
+            ex.printStackTrace();
+        }
+                
+        return estadoGeneracionTablero;
     }
     
     /**

@@ -15,8 +15,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.JTable;
 
 /**
- * Metodo relacionados con la gestion del Juego.
- *  Desde la generacion de numeros aleatorios validos segun las reglas del juego, a la ocultacion de casillas.
+ * Clase monitor. Los metodos relacionados con la generacion del Tablero estan 'synchronized'.
+ * Contiene metodos relacionados con la gestion del Juego. Generacion de numeros aleatorios validos y ocultacion de casillas.
  *  Para la generacion de los numeros random, uso el Algoritmo de Fisher-Yates. Garantiza no repeticiones, dentro de una pool finita de numeros dada. (Ver enlace).
  * @author Mario Codes Sánchez
  * @since 30/12/2016
@@ -34,7 +34,7 @@ public class GestionJuego {
      * @param numerosColumna Numeros validos de la columna.
      * @return ArrayList con los numeros validos comunes.
      */
-    private static ArrayList<Integer> filtradoConjuntoNumerosValidos(ArrayList<Integer> numerosCuadrado, ArrayList<Integer> numerosFila, ArrayList<Integer> numerosColumna) {
+    private synchronized static ArrayList<Integer> filtradoConjuntoNumerosValidos(ArrayList<Integer> numerosCuadrado, ArrayList<Integer> numerosFila, ArrayList<Integer> numerosColumna) {
         ArrayList<Integer> numerosComunesValidos = new ArrayList<>();
         
         for(int numeroCuadrado: numerosCuadrado) {
@@ -56,7 +56,7 @@ public class GestionJuego {
      *  Ver links del Javadoc de la clase antes de modificar.
      * @param numerosComunesValidos Pool de ints a marear.
      */
-    private static void shuffleRandomFisherYates(ArrayList<Integer> numerosComunesValidos) {
+    private synchronized static void shuffleRandomFisherYates(ArrayList<Integer> numerosComunesValidos) {
         Random rand = ThreadLocalRandom.current();
         for (int i = numerosComunesValidos.size() - 1; i > 0; i--) { //Ordena una lista de manera aleatoria sin repeticiones.
             int index = rand.nextInt(i+1);
@@ -75,7 +75,7 @@ public class GestionJuego {
      * @param numerosFila Lista de numeros validos para la fila.
      * @param numerosColumna Lista de numeros validos para la columna.
      */
-    private static void gestionArrayLists(Tablero tablero, Casilla casilla, int numeroRandomValido, ArrayList<Integer> numerosCuadrado, 
+    private synchronized static void gestionArrayLists(Tablero tablero, Casilla casilla, int numeroRandomValido, ArrayList<Integer> numerosCuadrado, 
         ArrayList<Integer> numerosFila, ArrayList<Integer> numerosColumna) 
     {
         numerosCuadrado.remove((Object) numeroRandomValido);
@@ -95,7 +95,7 @@ public class GestionJuego {
      * @param casilla Casilla para saber que Cuadrados, Filas y Columnas obtener.
      * @return Entero aleatorio valido entre todos. -1 error (punto muerto de generacion del tablero).
      */
-    public static int generacionNumeroCasilla(Tablero tablero, Casilla casilla) {
+    public synchronized static int generacionNumeroCasilla(Tablero tablero, Casilla casilla) {
         int numeroRandomValido = -1;
 
         //Obtenemos las ArrayLists con los numeros validos de Cuadrado, Fila y Columna.
