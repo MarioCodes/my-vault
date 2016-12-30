@@ -176,23 +176,19 @@ public class Tablero {
     
     /**
         * Relleno de Cuadrado[] con los valores de la tabla de su homologo Cuadrado.
+        * Arreglada la chapuza inicial que monte con los tries y catches.
         * @param cuadrados Cuadrados donde almaceno los datos de cada casilla.
         * @param tabla Tabla grafica de donde sacamos los datos.
         * @param numeroCuadrado Numero de cuadrado que toca rellenar en esta iteracion.
         */
        private static void rellenoCuadradoTablero(Cuadrado[] cuadrados, JTable tabla, int numeroCuadrado) {
-           for (int indiceCasilla = 0, indiceColumna = cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_COLUMNA(); indiceCasilla < 3; indiceColumna++, indiceCasilla++) { //Una fila de un cuadrado.
-               try { //fixme: intentar arreglar esta chapuza, si lo pongo en tries separados funciona. Si no, al saltar la excepcion en la linea que sea, salta y las otras 2 ni siquiera se comprueban. Arreglarlo. Segmentarlo en mas metodos(?).
-                   cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla].setNumeroPropio(Integer.parseInt(tabla.getValueAt(cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA(), indiceColumna).toString()));
-               }catch(NumberFormatException | NullPointerException ex) {}
-
-               try {
-                   cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+3].setNumeroPropio(Integer.parseInt(tabla.getValueAt(cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA()+1, indiceColumna).toString()));
-               }catch(NumberFormatException | NullPointerException ex) {}
-
-               try {
-                   cuadrados[numeroCuadrado].getCASILLAS()[indiceCasilla+6].setNumeroPropio(Integer.parseInt(tabla.getValueAt(cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA()+2, indiceColumna).toString()));
-               }catch(NumberFormatException | NullPointerException ex) {} //Esto saltara en las casillas que se encuentren vacias, es completamente normal.
+           for (int i = 0, indiceCasilla = 0, indiceColumna = cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_COLUMNA(); i < 3; indiceColumna++, indiceCasilla++, i++) { //Una fila de un cuadrado.
+               for (int x = 0, indiceCasillaLocal = indiceCasilla; x < 3; x++, indiceCasillaLocal += 3) {
+                    try {
+                        int indiceFila = cuadrados[numeroCuadrado].getCASILLAS()[0].getNUMERO_FILA()+x; //+0, +1, +2.
+                        cuadrados[numeroCuadrado].getCASILLAS()[indiceCasillaLocal].setNumeroPropio(Integer.parseInt(tabla.getValueAt(indiceFila, indiceColumna).toString()));
+                    }catch(NumberFormatException | NullPointerException ex) {} //Para que los casos donde haya una cell en blanco, no pete y siga adelante.
+                }
            }
        }
 
