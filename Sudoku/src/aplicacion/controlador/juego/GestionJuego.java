@@ -24,8 +24,8 @@ import javax.swing.JTable;
  * @version 0.1 Implementado algoritmo Fisher-Yates.
  */
 public class GestionJuego {
-    private static final float PORCENTAJE_OCULTACION_CASILLA = 0.50f; /* 50%. Modificar para ocultar mas o menos casillas en nuestro Sudoku. 
-                                                                        Segun teorias matematicas, un Sudoku con menos de 17 casillas visibles es imposible que disponga de una unica solucion.*/
+    private static final float PORCENTAJE_OCULTACION_CASILLA = 0.60f; /* 60%. Modificar para ocultar mas o menos casillas en nuestro Sudoku. Hay que tener en cuenta,
+                                                                                que este porcentaje es antes de hacer los checks. Por lo que el numero final sera algo menor.*/
     
     /**
      * Le pasamos 3 ArrayList con los numeros validos y devuelve otra con los comunes a todos.
@@ -136,15 +136,15 @@ public class GestionJuego {
      */
     private static void ocultarCasillaGeneracionTablero(JTable table, Casilla casilla) {
         int backupNum = casilla.getNumeroPropio(); //Si da error habra que recuperarlo.
-        int resultado;
+        int resultadoCheck;
         
         casilla.setCasillaFija(false);
         casilla.setNumeroPropio(0);
         
         table.setValueAt("", casilla.getNUMERO_FILA(), casilla.getNUMERO_COLUMNA());
-        resultado = Checks.checkOcultacionNumeros();
+        resultadoCheck = Checks.checkOcultacionNumeros();
         
-        if(resultado == -1) { //Si es irresoluble, damos marcha atras.
+        if(resultadoCheck == -1) { //Si es irresoluble, damos marcha atras.
             casilla.setCasillaFija(true);
             casilla.setNumeroPropio(backupNum);
             table.setValueAt(backupNum, casilla.getNUMERO_FILA(), casilla.getNUMERO_COLUMNA());

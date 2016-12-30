@@ -53,6 +53,7 @@ public class Checks {
         
     /**
      * Para cada casilla prueba y comprueba cada numero.
+     * @param tablero Tablero sobre el cual operamos.
      * @param casillaActual Casilla a comprobar.
      * @return numero valido o -1 si no lo hay.
      */
@@ -60,10 +61,10 @@ public class Checks {
         for (int numeroAProbar = 1; numeroAProbar < 10; numeroAProbar++) { //Comprobacion de los 9 numeros posibles de cada casilla de cada cuadrado.
             boolean numeroValido = true;
             
-            for (int i = 0; numeroValido && i < 9; i++) { //Utilizo el primer comprobante para ahorrar tiempo de CPU, asi si no es valido, directamente pasa al siguiente.
-                if(tablero.getFILAS()[casillaActual.getNUMERO_FILA()].getCASILLAS()[i].getNumeroPropio() == numeroAProbar) numeroValido = false;
-                if(tablero.getCOLUMNAS()[casillaActual.getNUMERO_COLUMNA()].getCASILLAS()[i].getNumeroPropio() == numeroAProbar) numeroValido = false;
-                if(tablero.getCUADRADOS()[casillaActual.getNUMERO_CUADRADO()].getCASILLAS()[i].getNumeroPropio() == numeroAProbar) numeroValido = false;
+            for (int indiceCasilla = 0; numeroValido && indiceCasilla < 9; indiceCasilla++) { //Utilizo el primer comprobante para ahorrar tiempo de CPU, asi si no es valido, directamente pasa al siguiente.
+                if(tablero.getFILAS()[casillaActual.getNUMERO_FILA()].getCASILLAS()[indiceCasilla].getNumeroPropio() == numeroAProbar) numeroValido = false;
+                if(tablero.getCOLUMNAS()[casillaActual.getNUMERO_COLUMNA()].getCASILLAS()[indiceCasilla].getNumeroPropio() == numeroAProbar) numeroValido = false;
+                if(tablero.getCUADRADOS()[casillaActual.getNUMERO_CUADRADO()].getCASILLAS()[indiceCasilla].getNumeroPropio() == numeroAProbar) numeroValido = false;
             }
             
             if(numeroValido) return numeroAProbar;
@@ -73,8 +74,8 @@ public class Checks {
     
     /**
      * Check al ocultar numeros para saber si hay +1 solucion posible o podemos seguir ocultando.
+     * Esto se suponia que era temporal, pero funciona y no se porque.
      * @return 0 salida normal. -1 salida error.
-     * fixme: Mas adelante, sustituir por el metodo que haga de resolucion.
      */
     public static int checkOcultacionNumeros() {
         Tablero tablero = Singleton.getTableroActual();

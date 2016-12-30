@@ -11,7 +11,7 @@ import vista.WindowJuego;
  * Solucion al problema del Sudoku.
  * @author Mario Codes Sánchez
  * @since 30/12/2016
- * @version 0.6.2 Haciendo limpieza de codigo.
+ * @version 0.7 Empezando a trabajar con hilos.
  * @see http://www.sudokuoftheday.com/techniques/
  */
 public class Sudoku {
