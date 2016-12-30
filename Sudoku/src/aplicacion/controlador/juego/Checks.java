@@ -12,7 +12,6 @@ import aplicacion.controlador.tablero.Fila;
 import aplicacion.controlador.tablero.Tablero;
 import aplicacion.patrones.Singleton;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JTable;
@@ -21,7 +20,6 @@ import javax.swing.JTable;
  * Clase estatica. Recopilacion de comprobaciones y checks necesarios, ademas de los metodos para testing que he ido necesitando.
  * @author Mario Codes Sánchez
  * @since 29/12/2016
- * todo: cuando la Resolucion este completa, mover o quitar de aqui los metodos que no peguen.
  */
 public class Checks {
     /**
@@ -51,25 +49,6 @@ public class Checks {
             return false; //Si hay alguna casilla vacia o que no cuadre, saltara la excepcion. 
        }
         return true;
-    }
-    
-    /**
-     * Comprobamos los numeros introducidos en el tablero grafico que pasamos como parametro. Este sera el tablero principal de juego.
-     * @param tablaNormal Tablero normal de input de user.
-     * @param tablaTrampas Tablero contra el que se compara.
-     * @return El tablero normal es igual al de trampas.
-     * todo: hacer el mismo check que hago con la resolucion automatica, no comprobar el tablero normal con el de trampas.
-     */
-    public static boolean comprobarResolucionTableroGrafico(JTable tablaNormal, JTable tablaTrampas) {
-        boolean tableroSolucionado = true;
-        
-        for (int indexRow = 0; indexRow < 9; indexRow++) {
-            for (int indexColumna = 0; indexColumna < 9; indexColumna++) {
-                if(tablaNormal.getValueAt(indexRow, indexColumna) != tablaTrampas.getValueAt(indexRow, indexColumna)) tableroSolucionado = false;
-            }
-        }
-        
-        return tableroSolucionado;
     }
         
     /**
