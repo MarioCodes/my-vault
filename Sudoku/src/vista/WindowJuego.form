@@ -7,16 +7,21 @@
         <Menu class="javax.swing.JMenu" name="jMenuOpciones">
           <Properties>
             <Property name="text" type="java.lang.String" value="File"/>
+            <Property name="toolTipText" type="java.lang.String" value="Menu del programa"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemAcercaDe">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Acerca de..."/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemAcercaDeActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemSalir">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Salir"/>
+                <Property name="toolTipText" type="java.lang.String" value="Cerrar el programa"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemSalirActionPerformed"/>
@@ -27,11 +32,13 @@
         <Menu class="javax.swing.JMenu" name="jMenuJuegoNormal">
           <Properties>
             <Property name="text" type="java.lang.String" value="Juego Normal"/>
+            <Property name="toolTipText" type="java.lang.String" value="Conjunto de opciones para el juego normal"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemActivarTrampas">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Activar Tablero Trampas"/>
+                <Property name="toolTipText" type="java.lang.String" value="Hacer visible el mismo tablero de juego pero solucionado"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
@@ -41,6 +48,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemComprobarSolucion">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Comprobar Solucion"/>
+                <Property name="toolTipText" type="java.lang.String" value="Comprobar si el Sudoku ha sido resuelto correctamente"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
@@ -52,11 +60,13 @@
         <Menu class="javax.swing.JMenu" name="jMenuResolucionAuto">
           <Properties>
             <Property name="text" type="java.lang.String" value="Resolucion Automatica"/>
+            <Property name="toolTipText" type="java.lang.String" value="Conjunto de opciones para la resollucion automatica"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemSolventarSudoku">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Resolucionar"/>
+                <Property name="toolTipText" type="java.lang.String" value="Solucionar el sudoku introducido a mano"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
@@ -66,6 +76,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemBorrarTableroAutomatico">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Borrar Tablero"/>
+                <Property name="toolTipText" type="java.lang.String" value="Vaciar todas las celdas del tablero"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
@@ -77,11 +88,13 @@
         <Menu class="javax.swing.JMenu" name="jMenuTesteo">
           <Properties>
             <Property name="text" type="java.lang.String" value="Ayuda Testeo"/>
+            <Property name="toolTipText" type="java.lang.String" value="Metodos creados para ayduarme durante el desarrollo"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemTesteoTablero">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Print Tablero"/>
+                <Property name="toolTipText" type="java.lang.String" value="Imprimir el contenido del tablero principal"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
@@ -91,6 +104,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemOcultarCasilla">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ocultar Casilla Especifica"/>
+                <Property name="toolTipText" type="java.lang.String" value="Hacer una casilla no visible en el tablero principal"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
@@ -102,6 +116,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemCopiarTableroTrampas">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Copiar Tablero Trampas a Normal"/>
+                <Property name="toolTipText" type="java.lang.String" value="Copiar el contenido del tablero de trampas al normal de juego"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
@@ -111,6 +126,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemCopiarTableroNormalAResolver">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Copiar Tablero Normal a Resolver"/>
+                <Property name="toolTipText" type="java.lang.String" value="Copiar el contenido actual del tablero normal a resolver"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
@@ -218,6 +234,7 @@
             <Component class="javax.swing.JButton" name="jButtonJugar">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Jugar Partida"/>
+                <Property name="toolTipText" type="java.lang.String" value="Inicio de una partida normal"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonJugarActionPerformed"/>
@@ -234,6 +251,7 @@
             <Component class="javax.swing.JButton" name="jButtonPartidaNueva">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Partida Nueva"/>
+                <Property name="toolTipText" type="java.lang.String" value="Reinicio de un juego nuevo"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
@@ -243,6 +261,7 @@
             <Component class="javax.swing.JButton" name="jButtonSolventar">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Resolucion Automatica"/>
+                <Property name="toolTipText" type="java.lang.String" value="Tablero para resolver un Sudoku de manera automatica"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSolventarActionPerformed"/>
@@ -251,6 +270,7 @@
             <Component class="javax.swing.JButton" name="jButtonCerrar">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Salir"/>
+                <Property name="toolTipText" type="java.lang.String" value="Cerrar el programa"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonCerrarActionPerformed"/>

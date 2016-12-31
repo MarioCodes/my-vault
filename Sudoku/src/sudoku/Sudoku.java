@@ -16,6 +16,7 @@ import vista.WindowJuego;
  */
 public class Sudoku {
     /**
+     * todo: aniadir icon para todas las ventanas.
      * @param args the command line arguments
      */
     public static void main(String[] args) {

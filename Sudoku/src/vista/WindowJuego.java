@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -440,6 +441,7 @@ public class WindowJuego extends javax.swing.JFrame {
         jTabbedPanePrincipal.setFont(new java.awt.Font("sansserif", 2, 12)); // NOI18N
 
         jButtonJugar.setText("Jugar Partida");
+        jButtonJugar.setToolTipText("Inicio de una partida normal");
         jButtonJugar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonJugarActionPerformed(evt);
@@ -450,6 +452,7 @@ public class WindowJuego extends javax.swing.JFrame {
         jLabelTitulo.setText("Sudoku");
 
         jButtonPartidaNueva.setText("Partida Nueva");
+        jButtonPartidaNueva.setToolTipText("Reinicio de un juego nuevo");
         jButtonPartidaNueva.setEnabled(false);
         jButtonPartidaNueva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -458,6 +461,7 @@ public class WindowJuego extends javax.swing.JFrame {
         });
 
         jButtonSolventar.setText("Resolucion Automatica");
+        jButtonSolventar.setToolTipText("Tablero para resolver un Sudoku de manera automatica");
         jButtonSolventar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSolventarActionPerformed(evt);
@@ -465,6 +469,7 @@ public class WindowJuego extends javax.swing.JFrame {
         });
 
         jButtonCerrar.setText("Salir");
+        jButtonCerrar.setToolTipText("Cerrar el programa");
         jButtonCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCerrarActionPerformed(evt);
@@ -542,11 +547,18 @@ public class WindowJuego extends javax.swing.JFrame {
         jTabbedPanePrincipal.addTab("Trampas", jTableTrampas);
 
         jMenuOpciones.setText("File");
+        jMenuOpciones.setToolTipText("Menu del programa");
 
         jMenuItemAcercaDe.setText("Acerca de...");
+        jMenuItemAcercaDe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemAcercaDeActionPerformed(evt);
+            }
+        });
         jMenuOpciones.add(jMenuItemAcercaDe);
 
         jMenuItemSalir.setText("Salir");
+        jMenuItemSalir.setToolTipText("Cerrar el programa");
         jMenuItemSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemSalirActionPerformed(evt);
@@ -557,8 +569,10 @@ public class WindowJuego extends javax.swing.JFrame {
         jMenuBar.add(jMenuOpciones);
 
         jMenuJuegoNormal.setText("Juego Normal");
+        jMenuJuegoNormal.setToolTipText("Conjunto de opciones para el juego normal");
 
         jMenuItemActivarTrampas.setText("Activar Tablero Trampas");
+        jMenuItemActivarTrampas.setToolTipText("Hacer visible el mismo tablero de juego pero solucionado");
         jMenuItemActivarTrampas.setEnabled(false);
         jMenuItemActivarTrampas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -568,6 +582,7 @@ public class WindowJuego extends javax.swing.JFrame {
         jMenuJuegoNormal.add(jMenuItemActivarTrampas);
 
         jMenuItemComprobarSolucion.setText("Comprobar Solucion");
+        jMenuItemComprobarSolucion.setToolTipText("Comprobar si el Sudoku ha sido resuelto correctamente");
         jMenuItemComprobarSolucion.setEnabled(false);
         jMenuItemComprobarSolucion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -579,8 +594,10 @@ public class WindowJuego extends javax.swing.JFrame {
         jMenuBar.add(jMenuJuegoNormal);
 
         jMenuResolucionAuto.setText("Resolucion Automatica");
+        jMenuResolucionAuto.setToolTipText("Conjunto de opciones para la resollucion automatica");
 
         jMenuItemSolventarSudoku.setText("Resolucionar");
+        jMenuItemSolventarSudoku.setToolTipText("Solucionar el sudoku introducido a mano");
         jMenuItemSolventarSudoku.setEnabled(false);
         jMenuItemSolventarSudoku.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -590,6 +607,7 @@ public class WindowJuego extends javax.swing.JFrame {
         jMenuResolucionAuto.add(jMenuItemSolventarSudoku);
 
         jMenuItemBorrarTableroAutomatico.setText("Borrar Tablero");
+        jMenuItemBorrarTableroAutomatico.setToolTipText("Vaciar todas las celdas del tablero");
         jMenuItemBorrarTableroAutomatico.setEnabled(false);
         jMenuItemBorrarTableroAutomatico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -601,8 +619,10 @@ public class WindowJuego extends javax.swing.JFrame {
         jMenuBar.add(jMenuResolucionAuto);
 
         jMenuTesteo.setText("Ayuda Testeo");
+        jMenuTesteo.setToolTipText("Metodos creados para ayduarme durante el desarrollo");
 
         jMenuItemTesteoTablero.setText("Print Tablero");
+        jMenuItemTesteoTablero.setToolTipText("Imprimir el contenido del tablero principal");
         jMenuItemTesteoTablero.setEnabled(false);
         jMenuItemTesteoTablero.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -612,6 +632,7 @@ public class WindowJuego extends javax.swing.JFrame {
         jMenuTesteo.add(jMenuItemTesteoTablero);
 
         jMenuItemOcultarCasilla.setText("Ocultar Casilla Especifica");
+        jMenuItemOcultarCasilla.setToolTipText("Hacer una casilla no visible en el tablero principal");
         jMenuItemOcultarCasilla.setEnabled(false);
         jMenuItemOcultarCasilla.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -622,6 +643,7 @@ public class WindowJuego extends javax.swing.JFrame {
         jMenuTesteo.add(jSeparator1);
 
         jMenuItemCopiarTableroTrampas.setText("Copiar Tablero Trampas a Normal");
+        jMenuItemCopiarTableroTrampas.setToolTipText("Copiar el contenido del tablero de trampas al normal de juego");
         jMenuItemCopiarTableroTrampas.setEnabled(false);
         jMenuItemCopiarTableroTrampas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -631,6 +653,7 @@ public class WindowJuego extends javax.swing.JFrame {
         jMenuTesteo.add(jMenuItemCopiarTableroTrampas);
 
         jMenuItemCopiarTableroNormalAResolver.setText("Copiar Tablero Normal a Resolver");
+        jMenuItemCopiarTableroNormalAResolver.setToolTipText("Copiar el contenido actual del tablero normal a resolver");
         jMenuItemCopiarTableroNormalAResolver.setEnabled(false);
         jMenuItemCopiarTableroNormalAResolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -720,6 +743,10 @@ public class WindowJuego extends javax.swing.JFrame {
     private void jMenuItemBorrarTableroAutomaticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemBorrarTableroAutomaticoActionPerformed
         Singleton.getFacade().borrarTablero(jTableResolver);
     }//GEN-LAST:event_jMenuItemBorrarTableroAutomaticoActionPerformed
+
+    private void jMenuItemAcercaDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAcercaDeActionPerformed
+        new AcercaDe();
+    }//GEN-LAST:event_jMenuItemAcercaDeActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
