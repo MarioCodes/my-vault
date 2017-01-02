@@ -9,6 +9,7 @@ import aplicacion.controlador.tablero.Tablero;
 import aplicacion.patrones.Singleton;
 import java.awt.Color;
 import java.awt.Component;
+import java.net.URL;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import javax.swing.ImageIcon;
@@ -30,7 +31,8 @@ import javax.swing.table.TableCellRenderer;
  * @version 0.2 Quitada la tabla principal de juego generada por Swing y creado una a mano. Necesario para poder hacer override de los renderer.
  */
 public class WindowJuego extends javax.swing.JFrame {
-    JTable jTableJuegoCustom, jTableResolver; //Esta la inicializo mas adelante haciendo override de un par de metodos.
+    private final URL ICONO_URL = getClass().getResource("../imagenes/icon.png");
+    private JTable jTableJuegoCustom, jTableResolver; //Esta la inicializo mas adelante haciendo override de un par de metodos.
     private LineaGraficaCuadrado[] lineasGraficasExternas = new LineaGraficaCuadrado[4];
     private LineaGraficaCuadrado[] lineasGraficasInternas = new LineaGraficaCuadrado[4];
     
@@ -45,11 +47,20 @@ public class WindowJuego extends javax.swing.JFrame {
         this.setVisible(true);
         this.setResizable(false);
         
+        setIcono();
         iniTablaPrincipalJuego(); //Es necesario que este aqui, ya que como es una jTable que hago a mano, solo aparecera como pestania cuando se aniada. Si no al comienzo no apareceria hasta darle al boton.
         iniTablaResolver();
         disablePestaniasIniciales();
     }
 
+    /**
+     * Set del icono de la ventana.
+     */
+    private void setIcono() {
+        ImageIcon icon = new ImageIcon(getIconoUrl());
+        this.setIconImage(icon.getImage());
+    }
+    
     /**
      * Set del mode de la tabla principal. Lo copio de la que tenia hecha y creada antes por Swing. No tocar a menos que sea necesario.
      *  Hago Override de isCellEditable() para hacer que las celdas que se consideran fijas, no se puedan modificar.
@@ -707,7 +718,7 @@ public class WindowJuego extends javax.swing.JFrame {
 
     private void jMenuItemSolventarSudokuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSolventarSudokuActionPerformed
         if(Singleton.getFacade().solucionBacktrack(jTableResolver)) JOptionPane.showMessageDialog(null, "Solucion Automatica comprobada.\nTablero resolucionado correctamente.");
-        else JOptionPane.showMessageDialog(null, "Problema con la solucion automatica.\nTablero incorrecto.");
+        else JOptionPane.showMessageDialog(null, "Problema con la solucion automatica.\nTablero irresoluble.");
     }//GEN-LAST:event_jMenuItemSolventarSudokuActionPerformed
   
     private void jMenuItemOcultarCasillaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOcultarCasillaActionPerformed
@@ -775,6 +786,13 @@ public class WindowJuego extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPanePrincipal;
     private javax.swing.JTable jTableTrampas;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @return the ICONO_URL
+     */
+    public URL getIconoUrl() {
+        return ICONO_URL;
+    }
     
     /**
      * Inner Class hecha unicamente para la representacion de las lineas graficas que utilizare en el tablero.

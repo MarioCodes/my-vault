@@ -5,13 +5,16 @@
  */
 package vista;
 
+import java.net.URL;
+import javax.swing.ImageIcon;
+
 /**
  * Informacion adicional sobre la aplicacion.
  * @author Mario Codes Sánchez
  * @since 31/12/2016
  */
 public class AcercaDe extends javax.swing.JFrame {
-
+    private final URL ICONO_URL = getClass().getResource("../imagenes/icon.png");
     /**
      * Creates new form AcercaDe
      */
@@ -25,6 +28,15 @@ public class AcercaDe extends javax.swing.JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        setIcono();
+    }
+    
+        /**
+     * Set del icono de la ventana.
+     */
+    private void setIcono() {
+        ImageIcon icon = new ImageIcon(ICONO_URL);
+        this.setIconImage(icon.getImage());
     }
     
     /**

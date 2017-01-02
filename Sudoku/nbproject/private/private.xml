@@ -6,10 +6,10 @@
             <file>file:/C:/Users/Usuario/Desktop/Programacion/ProyectosClase/Sudoku/src/aplicacion/controlador/tablero/Tablero.java</file>
             <file>file:/C:/Users/Usuario/Desktop/Programacion/ProyectosClase/Sudoku/src/sudoku/Sudoku.java</file>
             <file>file:/C:/Users/Usuario/Desktop/Programacion/ProyectosClase/Sudoku/src/vista/WindowJuego.java</file>
-            <file>file:/C:/Users/Usuario/Desktop/Programacion/ProyectosClase/Sudoku/src/aplicacion/controlador/juego/GestionNumeros.java</file>
+            <file>file:/C:/Users/Usuario/Desktop/Programacion/ProyectosClase/Sudoku/src/aplicacion/patrones/Singleton.java</file>
             <file>file:/C:/Users/Usuario/Desktop/Programacion/ProyectosClase/Sudoku/src/aplicacion/controlador/juego/Checks.java</file>
-            <file>file:/C:/Users/Usuario/Desktop/Programacion/ProyectosClase/Sudoku/src/aplicacion/controlador/juego/Resolucion.java</file>
-            <file>file:/C:/Users/Usuario/Desktop/Programacion/ProyectosClase/Sudoku/src/aplicacion/patrones/Facade.java</file>
+            <file>file:/C:/Users/Usuario/Desktop/Programacion/ProyectosClase/Sudoku/src/vista/AcercaDe.java</file>
+            <file>file:/C:/Users/Usuario/Desktop/Programacion/ProyectosClase/Sudoku/src/aplicacion/controlador/juego/ResolucionAuto.java</file>
         </group>
     </open-files>
 </project-private>
