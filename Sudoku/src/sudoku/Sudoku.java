@@ -8,10 +8,11 @@ package sudoku;
 import vista.WindowJuego;
 
 /**
+ * fixme: mejorar un poco este Javadoc.
  * Solucion al problema del Sudoku.
  * @author Mario Codes Sánchez
  * @since 30/12/2016
- * @version 0.7 Empezando a trabajar con hilos.
+ * @version 0.8 - Comenzando con el nuevo metodo de solucion 'Humana'.
  * @see http://www.sudokuoftheday.com/techniques/
  */
 public class Sudoku {

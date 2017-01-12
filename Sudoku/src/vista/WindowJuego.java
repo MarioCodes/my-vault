@@ -5,6 +5,7 @@
  */
 package vista;
 
+import aplicacion.controlador.juego.ResolucionHumana;
 import aplicacion.controlador.tablero.Tablero;
 import aplicacion.patrones.Singleton;
 import java.awt.Color;
@@ -22,6 +23,7 @@ import javax.swing.table.TableCellRenderer;
 
 /**
  * todo: acordarme de añadir al final de todo hints y demas para cada boton. Ademas algun background e icon.
+ * fixme: Arreglar los .enabled de los 2 botones de solucion automatica. Que solo pueda haber uno activo a la vez y que si se pulsa el otro se haga limpieza antes de poner sus datos/modificaciones.
  * Ventana principal y unica del programa. 
  * La Inner Class es muy parecida a lo que utilice en los Filosofos para representar los circulos. La putada de esto es
  *  que las coordenadas a utilizar las tengo que mapear a mano por lo que la ventana no puede ser 'resizable'.
@@ -425,6 +427,7 @@ public class WindowJuego extends javax.swing.JFrame {
     }
         
     /**
+     * fixme: si se llama desde resolucoin huamana, los disabled estan mal puestos. Colocar los que hagan falta.
      * Recopilacion de disables/enables necesarios al activar la opcion de resolucion por fuerza bruta.
      */
     private void gestionEnabledsFuerzaBruta() {
@@ -516,6 +519,11 @@ public class WindowJuego extends javax.swing.JFrame {
         jButtonSolventarHumana.setText("Resolución 'Humana'");
         jButtonSolventarHumana.setToolTipText("Técnica de Resolución por Técnicas 'Humanas'");
         jButtonSolventarHumana.setPreferredSize(new java.awt.Dimension(53, 23));
+        jButtonSolventarHumana.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSolventarHumanaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelMenuOpcionesJuegoLayout = new javax.swing.GroupLayout(jPanelMenuOpcionesJuego);
         jPanelMenuOpcionesJuego.setLayout(jPanelMenuOpcionesJuegoLayout);
@@ -737,8 +745,11 @@ public class WindowJuego extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonPartidaNuevaActionPerformed
 
     private void jMenuItemSolventarSudokuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSolventarSudokuActionPerformed
+        /* //fixme: descomentar y arreglar cuando acabe de implementar la resolucionHumana.
         if(Singleton.getFacade().solucionBacktrack(jTableResolver)) JOptionPane.showMessageDialog(null, "Solucion Automatica comprobada.\nTablero resolucionado correctamente.");
-        else JOptionPane.showMessageDialog(null, "Problema con la solucion automatica.\nTablero irresoluble.");
+        else JOptionPane.showMessageDialog(null, "Problema con la solucion automatica.\nTablero irresoluble."); 
+        */
+        new ResolucionHumana(jTableResolver).resolucionTecnicaHumana();
     }//GEN-LAST:event_jMenuItemSolventarSudokuActionPerformed
   
     private void jMenuItemOcultarCasillaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOcultarCasillaActionPerformed
@@ -773,6 +784,11 @@ public class WindowJuego extends javax.swing.JFrame {
     private void jMenuItemAcercaDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAcercaDeActionPerformed
         new AcercaDe();
     }//GEN-LAST:event_jMenuItemAcercaDeActionPerformed
+
+    private void jButtonSolventarHumanaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSolventarHumanaActionPerformed
+        preparacionTablaResolver();
+        gestionEnabledsFuerzaBruta();
+    }//GEN-LAST:event_jButtonSolventarHumanaActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
