@@ -5,6 +5,8 @@
  */
 package aplicacion.controlador.juego;
 
+import aplicacion.controlador.tablero.Casilla;
+import aplicacion.controlador.tablero.Columna;
 import aplicacion.controlador.tablero.Tablero;
 import java.util.ArrayList;
 import javax.swing.JTable;
@@ -17,6 +19,7 @@ import javax.swing.JTable;
  * @see http://www.sudokuoftheday.com/techniques/single-candidate/
  */
 public class ResolucionHumana {
+    private int indiceAL1, indiceAL2, indiceColumna, indiceCasilla;
     private final JTable TABLA;
     private final Tablero TABLERO;
     private final ArrayList<Integer>[][] NUMEROS_POSIBLES_CASILLA = new ArrayList[9][9]; //[EjeX][EjeY].add(numerosPosibles)
@@ -28,8 +31,6 @@ public class ResolucionHumana {
     public ResolucionHumana(JTable tabla) {
         this.TABLA = tabla;
         this.TABLERO = Tablero.generacionTablero(tabla);
-        
-        iniListaCasillasPosibles();
     }
     
     /**
@@ -44,16 +45,63 @@ public class ResolucionHumana {
     }
     
     /**
-     * Metemos los numeros posibles de cada Casilla en la ArrayList[][].
+     * Check para comprobar si el numero que queremos meter en la casilla es valido.
+     * @param casilla Casilla que queremos comprobar.
+     * @param numeroAProbar Numero que queremos meter.
+     * @return True si el numero es valido contra las 3 listas de numeros (Cuadrado, Fila y Columna).
+     */
+    private boolean checkNumeroCasillaValido(Casilla casilla, int numeroAProbar) {
+        ArrayList<Integer> numerosDisponiblesCuadrado = TABLERO.getCUADRADOS()[casilla.getNUMERO_CUADRADO()].getNumerosDisponiblesCuadrado();
+        ArrayList<Integer> numerosDisponiblesFila = TABLERO.getFILAS()[casilla.getNUMERO_FILA()].getNumerosDisponiblesFila();
+        ArrayList<Integer> numerosDisponiblesColumna = TABLERO.getCOLUMNAS()[casilla.getNUMERO_COLUMNA()].getNumerosDisponiblesColumna();
+        
+        return numerosDisponiblesCuadrado.contains((Object) numeroAProbar) && numerosDisponiblesFila.contains((Object) numeroAProbar) && numerosDisponiblesColumna.contains((Object) numeroAProbar);
+    }
+    
+    /**
+     * Metemos los numeros posibles de cada Casilla en la ArrayList[EjeX][EjeY].
      */
     private void almacenarNumerosPosibles() {
-//        TABLERO.getCOLUMNAS()[0].getCASILLAS()[0]
+        for (int indiceColumna = 0; indiceColumna < TABLERO.getCOLUMNAS().length; indiceColumna++) {
+            for (int indiceCasilla = 0; indiceCasilla < TABLERO.getCOLUMNAS()[indiceColumna].getCASILLAS().length; indiceCasilla++) {
+                for (int numAComprobar = 1; numAComprobar < 10; numAComprobar++) {
+                    Casilla casilla = TABLERO.getCOLUMNAS()[indiceColumna].getCASILLAS()[indiceCasilla];
+                    boolean numeroPuestoGraficamente = (TABLA.getValueAt(indiceColumna, indiceCasilla) != null);
+                    if(checkNumeroCasillaValido(casilla, numAComprobar) && !numeroPuestoGraficamente) NUMEROS_POSIBLES_CASILLA[indiceColumna][indiceCasilla].add(numAComprobar);
+                }
+            }
+        }
+    }
+    
+    /**
+     * Comprobacion de si el Tablero tiene algun numero que no este relleno.
+     * @param tablero tablero sobre el cual operamos.
+     * @return True si el tablero ya esta lleno.
+     */
+    private boolean checkTableroLleno() {
+        for (int indiceColumna = 0; indiceColumna < 9; indiceColumna++) {
+            for (int indiceCasilla = 0; indiceCasilla < 9; indiceCasilla++) {
+                if(TABLERO.getCOLUMNAS()[indiceColumna].getCASILLAS()[indiceCasilla].getNumeroPropio() == 0) return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Mecanismos de resolucion en si misma.
+     */
+    private void resolucion() {
+        while(!checkTableroLleno()) {
+            iniListaCasillasPosibles(); //Me interesa que se reseteen a 0 cada vez que llamamos al metodo de ejecucion para que esten vacias.
+            almacenarNumerosPosibles();
+        }
     }
     
     /**
      * Metodo de llamado para ejecutar la resolucion.
      */
     public void resolucionTecnicaHumana() {
-        almacenarNumerosPosibles();
+        resolucion();
     }
 }
