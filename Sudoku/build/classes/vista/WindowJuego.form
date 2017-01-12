@@ -35,16 +35,6 @@
             <Property name="toolTipText" type="java.lang.String" value="Conjunto de opciones para el juego normal"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemActivarTrampas">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Activar Tablero Trampas"/>
-                <Property name="toolTipText" type="java.lang.String" value="Hacer visible el mismo tablero de juego pero solucionado"/>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemActivarTrampasActionPerformed"/>
-              </Events>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemComprobarSolucion">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Comprobar Solucion"/>
@@ -85,21 +75,23 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenuTesteo">
+        <Menu class="javax.swing.JMenu" name="jMenuDebug">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Ayuda Testeo"/>
+            <Property name="text" type="java.lang.String" value="Debug"/>
             <Property name="toolTipText" type="java.lang.String" value="Metodos creados para ayduarme durante el desarrollo"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemTesteoTablero">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemActivarTrampas">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Print Tablero"/>
-                <Property name="toolTipText" type="java.lang.String" value="Imprimir el contenido del tablero principal"/>
+                <Property name="text" type="java.lang.String" value="Activar Tablero Trampas"/>
+                <Property name="toolTipText" type="java.lang.String" value="Hacer visible el mismo tablero de juego pero solucionado"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemTesteoTableroActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemActivarTrampasActionPerformed"/>
               </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemOcultarCasilla">
               <Properties>
