@@ -5,7 +5,11 @@
         <group>
             <file>file:/C:/Users/Alumno.EQUIPO-404/Desktop/gitTmp/Sudoku/src/aplicacion/controlador/juego/ResolucionBacktrack.java</file>
             <file>file:/C:/Users/Alumno.EQUIPO-404/Desktop/gitTmp/Sudoku/src/aplicacion/controlador/juego/ResolucionHumana.java</file>
+            <file>file:/C:/Users/Alumno.EQUIPO-404/Desktop/gitTmp/Sudoku/src/aplicacion/controlador/tablero/Casilla.java</file>
             <file>file:/C:/Users/Alumno.EQUIPO-404/Desktop/gitTmp/Sudoku/src/sudoku/Sudoku.java</file>
+            <file>file:/C:/Users/Alumno.EQUIPO-404/Desktop/gitTmp/Sudoku/src/aplicacion/controlador/tablero/Tablero.java</file>
+            <file>file:/C:/Users/Alumno.EQUIPO-404/Desktop/gitTmp/Sudoku/src/aplicacion/controlador/juego/Checks.java</file>
+            <file>file:/C:/Users/Alumno.EQUIPO-404/Desktop/gitTmp/Sudoku/src/vista/WindowJuego.java</file>
         </group>
     </open-files>
 </project-private>

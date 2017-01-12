@@ -6,7 +6,6 @@
 package aplicacion.controlador.juego;
 
 import aplicacion.controlador.tablero.Casilla;
-import aplicacion.controlador.tablero.Columna;
 import aplicacion.controlador.tablero.Tablero;
 import java.util.ArrayList;
 import javax.swing.JTable;
@@ -19,7 +18,7 @@ import javax.swing.JTable;
  * @see http://www.sudokuoftheday.com/techniques/single-candidate/
  */
 public class ResolucionHumana {
-    private int indiceAL1, indiceAL2, indiceColumna, indiceCasilla;
+    private int indiceFila, indiceColumna;
     private final JTable TABLA;
     private final Tablero TABLERO;
     private final ArrayList<Integer>[][] NUMEROS_POSIBLES_CASILLA = new ArrayList[9][9]; //[EjeX][EjeY].add(numerosPosibles)
@@ -31,6 +30,14 @@ public class ResolucionHumana {
     public ResolucionHumana(JTable tabla) {
         this.TABLA = tabla;
         this.TABLERO = Tablero.generacionTablero(tabla);
+    }
+    
+    /**
+     * Metodos para (re)inicializar las listas cada iteracion.
+     */
+    private void gestionListasNumeros() {
+        iniListaCasillasPosibles(); //Me interesa que se reseteen a 0 cada vez que llamamos al metodo de ejecucion para que esten vacias.
+        almacenarNumerosPosibles();
     }
     
     /**
@@ -79,23 +86,35 @@ public class ResolucionHumana {
      * @return True si el tablero ya esta lleno.
      */
     private boolean checkTableroLleno() {
-        for (int indiceColumna = 0; indiceColumna < 9; indiceColumna++) {
-            for (int indiceCasilla = 0; indiceCasilla < 9; indiceCasilla++) {
-                if(TABLERO.getCOLUMNAS()[indiceColumna].getCASILLAS()[indiceCasilla].getNumeroPropio() == 0) return false;
+        for (int indiceFila = 0; indiceFila < 9; indiceFila++) {
+            for (int indiceColumna = 0; indiceColumna < 9; indiceColumna++) {
+                if(TABLERO.getCasillasPorEjes(indiceFila, indiceColumna).getNumeroPropio() == 0) return false;
             }
         }
         
         return true;
     }
     
+    private Casilla getCasillaUnicaPosibilidad() {
+        for (int indiceFila = 0; indiceFila < 9; indiceFila++) {
+            for (int indiceColumna = 0; indiceColumna < 9; indiceColumna++) {
+                if(NUMEROS_POSIBLES_CASILLA[indiceFila][indiceColumna].size() == 1); return TABLERO.getCasillasPorEjes(indiceFila, indiceColumna);
+            }
+        }
+        
+        return null;
+    }
+    
     /**
      * Mecanismos de resolucion en si misma.
+     * todo: ME QUEDO AQUI.
      */
     private void resolucion() {
-        while(!checkTableroLleno()) {
-            iniListaCasillasPosibles(); //Me interesa que se reseteen a 0 cada vez que llamamos al metodo de ejecucion para que esten vacias.
-            almacenarNumerosPosibles();
-        }
+//        while(!checkTableroLleno()) {
+            gestionListasNumeros();
+            
+            
+//        }
     }
     
     /**

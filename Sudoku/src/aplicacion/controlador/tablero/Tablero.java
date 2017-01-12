@@ -177,13 +177,13 @@ public class Tablero {
     }
     
     /**
-     * Es la forma en la que accede la JTable a sus valores, lo necesito para no darle demasiadas vueltas a la conversion.
-     * @param ejeX Coordenadas del ejeX.
-     * @param ejeY Coordenadas del ejeY.
+     * Es la forma en la que accede la JTable a sus valores, lo necesito para no darle demasiadas vueltas a la conversion ni liarme demasiado.
+     * @param row Fila.
+     * @param columna Columna.
      * @return Casilla que se encuentra en esas coordenadas.
      */
-    public Casilla getCasillasPorEjes(int ejeX, int ejeY) {
-        return this.COLUMNAS[ejeX].getCASILLAS()[ejeY];
+    public Casilla getCasillasPorEjes(int row, int columna) {
+        return this.FILAS[row].getCASILLAS()[columna];
     }
     
     @Override
