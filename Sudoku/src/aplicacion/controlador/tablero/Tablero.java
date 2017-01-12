@@ -73,6 +73,7 @@ public class Tablero {
     
     /**
      * Partido de la tarea en Hilos. Hecho para dividir la tarea en 3 partes.
+     * Cada hilo se encargara de un juego de 3 Cuadrados.
      * @param indicePrimerCuadrado Indice del primer cuadrado con el cual trabajar. 0/3/6.
      */
     private void asignacionNumeroCasillasHilos(int indicePrimerCuadrado) {
