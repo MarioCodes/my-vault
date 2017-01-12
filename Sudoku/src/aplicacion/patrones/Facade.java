@@ -7,7 +7,7 @@ package aplicacion.patrones;
 
 import aplicacion.controlador.juego.GestionJuego;
 import aplicacion.controlador.juego.Checks;
-import aplicacion.controlador.juego.ResolucionAuto;
+import aplicacion.controlador.juego.ResolucionBacktrack;
 import aplicacion.controlador.tablero.Tablero;
 import javax.swing.JTable;
 import vista.GestionVista;
@@ -75,7 +75,7 @@ public class Facade {
      * @return Estado de resolucion de la tabla, true si se ha conseguido resolucionar de manera correcta.
      */
     public boolean solucionBacktrack(JTable tabla) {
-        ResolucionAuto resolucion = new ResolucionAuto(tabla);
+        ResolucionBacktrack resolucion = new ResolucionBacktrack(tabla);
         return resolucion.resolucionBacktrack();
     }
     

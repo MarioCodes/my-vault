@@ -398,7 +398,7 @@ public class WindowJuego extends javax.swing.JFrame {
         this.jMenuItemOcultarCasilla.setEnabled(true);
         this.jMenuDebug.setEnabled(true);
         this.jMenuJuegoNormal.setEnabled(true);
-        if(!jButtonSolventar.isEnabled()) jMenuItemCopiarTableroNormalAResolver.setEnabled(true); //Ha sido pulsado cuando !enabled.
+        if(!jButtonSolventarBacktrack.isEnabled()) jMenuItemCopiarTableroNormalAResolver.setEnabled(true); //Ha sido pulsado cuando !enabled.
     }
     
     /**
@@ -432,7 +432,7 @@ public class WindowJuego extends javax.swing.JFrame {
         jTabbedPanePrincipal.setSelectedIndex(3);
         if(!jButtonJugar.isEnabled()) jMenuItemCopiarTableroNormalAResolver.setEnabled(true);
         if(jMenuJuegoNormal.isEnabled()) jMenuDebug.setEnabled(true);
-        jButtonSolventar.setEnabled(false);
+        jButtonSolventarBacktrack.setEnabled(false);
         jMenuResolucionAuto.setEnabled(true);
         jMenuItemBorrarTableroAutomatico.setEnabled(true);
         jMenuItemSolventarSudoku.setEnabled(true);
@@ -452,8 +452,9 @@ public class WindowJuego extends javax.swing.JFrame {
         jButtonJugar = new javax.swing.JButton();
         jLabelTitulo = new javax.swing.JLabel();
         jButtonPartidaNueva = new javax.swing.JButton();
-        jButtonSolventar = new javax.swing.JButton();
+        jButtonSolventarBacktrack = new javax.swing.JButton();
         jButtonCerrar = new javax.swing.JButton();
+        jButtonSolventarHumana = new javax.swing.JButton();
         jTableTrampas = new javax.swing.JTable();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuOpciones = new javax.swing.JMenu();
@@ -496,11 +497,11 @@ public class WindowJuego extends javax.swing.JFrame {
             }
         });
 
-        jButtonSolventar.setText("Resolucion Automatica");
-        jButtonSolventar.setToolTipText("Tablero para resolver un Sudoku de manera automatica");
-        jButtonSolventar.addActionListener(new java.awt.event.ActionListener() {
+        jButtonSolventarBacktrack.setText("Resolucion Fuerza Bruta");
+        jButtonSolventarBacktrack.setToolTipText("Tablero para resolver un Sudoku de manera automatica");
+        jButtonSolventarBacktrack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSolventarActionPerformed(evt);
+                jButtonSolventarBacktrackActionPerformed(evt);
             }
         });
 
@@ -511,6 +512,10 @@ public class WindowJuego extends javax.swing.JFrame {
                 jButtonCerrarActionPerformed(evt);
             }
         });
+
+        jButtonSolventarHumana.setText("Resolución 'Humana'");
+        jButtonSolventarHumana.setToolTipText("Técnica de Resolución por Técnicas 'Humanas'");
+        jButtonSolventarHumana.setPreferredSize(new java.awt.Dimension(53, 23));
 
         javax.swing.GroupLayout jPanelMenuOpcionesJuegoLayout = new javax.swing.GroupLayout(jPanelMenuOpcionesJuego);
         jPanelMenuOpcionesJuego.setLayout(jPanelMenuOpcionesJuegoLayout);
@@ -523,11 +528,12 @@ public class WindowJuego extends javax.swing.JFrame {
                         .addComponent(jLabelTitulo))
                     .addGroup(jPanelMenuOpcionesJuegoLayout.createSequentialGroup()
                         .addGap(71, 71, 71)
-                        .addGroup(jPanelMenuOpcionesJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonPartidaNueva, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonJugar, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonSolventar, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanelMenuOpcionesJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonPartidaNueva, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                            .addComponent(jButtonJugar, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                            .addComponent(jButtonSolventarBacktrack, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                            .addComponent(jButtonCerrar, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                            .addComponent(jButtonSolventarHumana, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(74, Short.MAX_VALUE))
         );
         jPanelMenuOpcionesJuegoLayout.setVerticalGroup(
@@ -540,10 +546,12 @@ public class WindowJuego extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jButtonPartidaNueva)
                 .addGap(18, 18, 18)
-                .addComponent(jButtonSolventar)
+                .addComponent(jButtonSolventarBacktrack)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonSolventarHumana, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonCerrar)
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
 
         jTabbedPanePrincipal.addTab("Menu Principal", jPanelMenuOpcionesJuego);
@@ -745,10 +753,10 @@ public class WindowJuego extends javax.swing.JFrame {
         Singleton.getFacade().copiarTableros(jTableJuegoCustom, jTableTrampas);
     }//GEN-LAST:event_jMenuItemCopiarTableroTrampasActionPerformed
 
-    private void jButtonSolventarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSolventarActionPerformed
+    private void jButtonSolventarBacktrackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSolventarBacktrackActionPerformed
         preparacionTablaResolver();
         gestionEnabledsFuerzaBruta();
-    }//GEN-LAST:event_jButtonSolventarActionPerformed
+    }//GEN-LAST:event_jButtonSolventarBacktrackActionPerformed
 
     private void jMenuItemCopiarTableroNormalAResolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCopiarTableroNormalAResolverActionPerformed
         Singleton.getFacade().copiarTableros(jTableResolver, jTableJuegoCustom);
@@ -771,7 +779,8 @@ public class WindowJuego extends javax.swing.JFrame {
     private javax.swing.JButton jButtonCerrar;
     private javax.swing.JButton jButtonJugar;
     private javax.swing.JButton jButtonPartidaNueva;
-    private javax.swing.JButton jButtonSolventar;
+    private javax.swing.JButton jButtonSolventarBacktrack;
+    private javax.swing.JButton jButtonSolventarHumana;
     private javax.swing.JLabel jLabelTitulo;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenu jMenuDebug;

@@ -17,7 +17,7 @@ import javax.swing.JTable;
  * @since 30/12/2016
  * @see https://en.wikipedia.org/wiki/Sudoku_solving_algorithms
  */
-public class ResolucionAuto {
+public class ResolucionBacktrack {
     private int indiceX, indiceY;
     private final JTable TABLA;
     private final Tablero TABLERO; //Tablero el cual se encontrara parcialmente completado y tendre que encontrar la solucion al resto.
@@ -27,7 +27,7 @@ public class ResolucionAuto {
      * Le paso una tabla grafica como parametro, y desde ella genero el tablero a utilizar.
      * @param tabla Tabla grafica la cual se rellenara.
      */
-    public ResolucionAuto(JTable tabla) {
+    public ResolucionBacktrack(JTable tabla) {
         this.TABLA = tabla;
         this.TABLERO = Tablero.generacionTablero(TABLA);
     }
