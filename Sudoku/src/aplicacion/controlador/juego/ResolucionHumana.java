@@ -14,7 +14,7 @@ import javax.swing.JTable;
  * Resolucion del Sudoku mediante utilizacion de algoritmos de solucion 'Humanos'.
  *  Utilizado del metodo 'Single Candidate'. (Ver Link Anexo).
  * @author Mario Codes Sánchez
- * @since 12/01/2016
+ * @since 13/01/2016
  * @see http://www.sudokuoftheday.com/techniques/single-candidate/
  */
 public class ResolucionHumana {
@@ -95,6 +95,10 @@ public class ResolucionHumana {
         return true;
     }
     
+    /**
+     * Busca una Casilla que tenga un unico numero posible. Devuelve null si no hay (punto muerto).
+     * @return Casilla con numero unico. Null si no hay (punto muerto).
+     */
     private Casilla getCasillaUnicaPosibilidad() {
         for (int indiceFila = 0; indiceFila < 9; indiceFila++) {
             for (int indiceColumna = 0; indiceColumna < 9; indiceColumna++) {
@@ -107,14 +111,17 @@ public class ResolucionHumana {
     
     /**
      * Mecanismos de resolucion en si misma.
-     * todo: ME QUEDO AQUI.
      */
     private void resolucion() {
+        try {
 //        while(!checkTableroLleno()) {
             gestionListasNumeros();
             
             
 //        }
+        }catch(NullPointerException ex) {
+            System.out.println("shit."); //fixme: punto muerto, hacer cambios acordes.
+        }
     }
     
     /**
