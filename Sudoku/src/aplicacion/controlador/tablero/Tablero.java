@@ -186,6 +186,17 @@ public class Tablero {
         return this.FILAS[row].getCASILLAS()[columna];
     }
     
+    /**
+     * Forma de cambiar el numero propio de una Casilla accediendo a ella segun ejes.
+     * @param row Fila de la casilla.
+     * @param columna Columna de la casilla.
+     * @param numero Numero de la casilla a establecer.
+     */
+    public void setCasillaNumeroPropioPorEjes(int numero, int row, int columna) {
+        Casilla casilla = getCasillasPorEjes(row, columna);
+        casilla.setNumeroPropio(numero);
+    }
+    
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Diferentes partes del tablero para comprobar que todas ellas coinciden y cuadran: \nCuadrados: \n");

@@ -8,6 +8,7 @@ package aplicacion.controlador.juego;
 import aplicacion.controlador.tablero.Casilla;
 import aplicacion.controlador.tablero.Tablero;
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.swing.JTable;
 
 /**
@@ -69,12 +70,12 @@ public class ResolucionHumana {
      * Metemos los numeros posibles de cada Casilla en la ArrayList[EjeX][EjeY].
      */
     private void almacenarNumerosPosibles() {
-        for (int indiceColumna = 0; indiceColumna < TABLERO.getCOLUMNAS().length; indiceColumna++) {
-            for (int indiceCasilla = 0; indiceCasilla < TABLERO.getCOLUMNAS()[indiceColumna].getCASILLAS().length; indiceCasilla++) {
+        for (int indiceFila = 0; indiceFila < TABLERO.getCOLUMNAS().length; indiceFila++) {
+            for (int indiceColumna = 0; indiceColumna < TABLERO.getCOLUMNAS()[indiceFila].getCASILLAS().length; indiceColumna++) {
                 for (int numAComprobar = 1; numAComprobar < 10; numAComprobar++) {
-                    Casilla casilla = TABLERO.getCOLUMNAS()[indiceColumna].getCASILLAS()[indiceCasilla];
-                    boolean numeroPuestoGraficamente = (TABLA.getValueAt(indiceColumna, indiceCasilla) != null);
-                    if(checkNumeroCasillaValido(casilla, numAComprobar) && !numeroPuestoGraficamente) NUMEROS_POSIBLES_CASILLA[indiceColumna][indiceCasilla].add(numAComprobar);
+                    Casilla casilla = TABLERO.getCasillasPorEjes(indiceFila, indiceColumna);
+                    boolean numeroPuestoGraficamente = (TABLA.getValueAt(indiceFila, indiceColumna) != null);
+                    if(checkNumeroCasillaValido(casilla, numAComprobar) && !numeroPuestoGraficamente) NUMEROS_POSIBLES_CASILLA[indiceFila][indiceColumna].add(numAComprobar);
                 }
             }
         }
@@ -102,7 +103,11 @@ public class ResolucionHumana {
     private Casilla getCasillaUnicaPosibilidad() {
         for (int indiceFila = 0; indiceFila < 9; indiceFila++) {
             for (int indiceColumna = 0; indiceColumna < 9; indiceColumna++) {
-                if(NUMEROS_POSIBLES_CASILLA[indiceFila][indiceColumna].size() == 1); return TABLERO.getCasillasPorEjes(indiceFila, indiceColumna);
+                if(NUMEROS_POSIBLES_CASILLA[indiceFila][indiceColumna].size() == 1) {
+                    this.indiceFila = indiceFila;
+                    this.indiceColumna = indiceColumna;
+                    return TABLERO.getCasillasPorEjes(indiceFila, indiceColumna);
+                }
             }
         }
         
@@ -114,11 +119,14 @@ public class ResolucionHumana {
      */
     private void resolucion() {
         try {
-//        while(!checkTableroLleno()) {
-            gestionListasNumeros();
-            
-            
-//        }
+            while(!checkTableroLleno()) {
+                gestionListasNumeros();
+
+                Casilla casilla = getCasillaUnicaPosibilidad();
+                int numero = NUMEROS_POSIBLES_CASILLA[indiceFila][indiceColumna].get(0);
+                casilla.setNumeroPropio(numero);
+                TABLA.setValueAt(numero, indiceFila, indiceColumna);
+            }
         }catch(NullPointerException ex) {
             System.out.println("shit."); //fixme: punto muerto, hacer cambios acordes.
         }
