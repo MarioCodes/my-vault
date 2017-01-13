@@ -9,6 +9,8 @@ import aplicacion.controlador.tablero.Casilla;
 import aplicacion.controlador.tablero.Tablero;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTable;
 
 /**
@@ -110,7 +112,7 @@ public class ResolucionHumana {
                 }
             }
         }
-        
+
         return null;
     }
     
@@ -118,17 +120,16 @@ public class ResolucionHumana {
      * Mecanismos de resolucion en si misma.
      */
     private void resolucion() {
-        try {
-            while(!checkTableroLleno()) {
-                gestionListasNumeros();
+        gestionListasNumeros();
+        Casilla casilla = getCasillaUnicaPosibilidad();
+        
+        while(casilla != null) {
+            int numero = NUMEROS_POSIBLES_CASILLA[indiceFila][indiceColumna].get(0);
+            casilla.setNumeroPropio(numero);
+            TABLA.setValueAt(numero, indiceFila, indiceColumna);
 
-                Casilla casilla = getCasillaUnicaPosibilidad();
-                int numero = NUMEROS_POSIBLES_CASILLA[indiceFila][indiceColumna].get(0);
-                casilla.setNumeroPropio(numero);
-                TABLA.setValueAt(numero, indiceFila, indiceColumna);
-            }
-        }catch(NullPointerException ex) {
-            System.out.println("shit."); //fixme: punto muerto, hacer cambios acordes.
+            gestionListasNumeros();
+            casilla = getCasillaUnicaPosibilidad();
         }
     }
     
