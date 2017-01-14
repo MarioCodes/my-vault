@@ -39,16 +39,20 @@ public class Consumidor implements Runnable {
     public void run() {
         try {
             while(!matarConsumidores) {
-                Pila.getSEMAFORO_CONTROL_CONSUMIDORES().acquire(); //Consume 1 permiso del semaforo de consumidores para proceder. Si no hay, se queda esperando.
-                Pila.getSEMAFORO_MUTEX().acquire(); //Pillamos el permiso del mutex.
+                Pila.getSEMAFORO_CONTROL_CONSUMIDORES_CUSTOM().adquirir();
+//                Pila.getSEMAFORO_CONTROL_CONSUMIDORES().acquire(); //Consume 1 permiso del semaforo de consumidores para proceder. Si no hay, se queda esperando.
+                
+//                Pila.getSEMAFORO_MUTEX().acquire(); //Pillamos el permiso del mutex.
+                Pila.getSEMAFORO_MUTEX_CUSTOM().adquirir();
                 
                 //Parte Critica. Consumimos un valor, y restamos 1 al indice comun.
                 int primerIndiceNoNulo = obtenerPrimerIndiceNoNulo();
                 String valorConsumido = Pila.getPila()[primerIndiceNoNulo];
                 Pila.getPila()[primerIndiceNoNulo] = "null";
                 
-                Pila.getSEMAFORO_MUTEX().release();
-
+//                Pila.getSEMAFORO_MUTEX().release();
+                Pila.getSEMAFORO_MUTEX_CUSTOM().liberar();
+                
                 WindowEjecucion.jTextAreaOutputEjecucionConsumidores.append(NOMBRE_THREAD_CONSUMIDOR +" acaba de consumir valor: " +valorConsumido +"\n");
 //                Pila.getSemaforoControlProductores().release(); //Indicamos al semaforo de productores, que hay un hueco libre que rellenar.
                 Pila.getSemaforoControlProductoresCustom().liberar();

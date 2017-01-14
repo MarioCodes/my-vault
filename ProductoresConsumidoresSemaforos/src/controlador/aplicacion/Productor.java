@@ -62,12 +62,17 @@ public class Productor implements Runnable {
                 String claveProductor = CLAVE_PRODUCTOR;
 
                 //Parte Crítica.
-                Pila.getSEMAFORO_MUTEX().acquire(); //Adquiere permiso del mutex para ser el unico que ejecuta parte critica.
+//                Pila.getSEMAFORO_MUTEX().acquire(); //Adquiere permiso del mutex para ser el unico que ejecuta parte critica.
+                Pila.getSEMAFORO_MUTEX_CUSTOM().adquirir();
+                
                 Pila.getPila()[obtenerPrimerIndiceNulo()] = claveProductor; //Metemos el char actual en la cola y sumamos 1 al contador compartido.
-                Pila.getSEMAFORO_MUTEX().release(); //Y lo liberamos para que pueda cogerlo otro.
-
+                
+//                Pila.getSEMAFORO_MUTEX().release(); //Y lo liberamos para que pueda cogerlo otro.
+                Pila.getSEMAFORO_MUTEX_CUSTOM().liberar();
+                
                 WindowEjecucion.jTextAreaOutputEjecucionProductores.append(NOMBRE_THREAD_PRODUCTOR +" acaba de producir: " +claveProductor +"\n"); //Output del usuario en la ventana grafica.
-                Pila.getSEMAFORO_CONTROL_CONSUMIDORES().release(); //Y liberamos 1 permiso del otro semaforo para que un consumidor, pueda consumir.
+//                Pila.getSEMAFORO_CONTROL_CONSUMIDORES().release(); //Y liberamos 1 permiso del otro semaforo para que un consumidor, pueda consumir.
+                Pila.getSEMAFORO_CONTROL_CONSUMIDORES_CUSTOM().liberar();
                 
                 Thread.sleep(tiempoDormidoThreads); //Dormimos este Thread el tiempo indicado por ventana.
             }
