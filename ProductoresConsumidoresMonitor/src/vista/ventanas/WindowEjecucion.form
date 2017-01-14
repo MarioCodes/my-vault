@@ -83,7 +83,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="sansserif" size="18" style="3"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Ejecucion Programa - Monitores"/>
+        <Property name="text" type="java.lang.String" value="Ejecucion Programa - Monitores v1.1"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanelPila">

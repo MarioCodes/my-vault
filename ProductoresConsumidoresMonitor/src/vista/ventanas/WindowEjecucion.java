@@ -85,7 +85,7 @@ public class WindowEjecucion extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabelTituloVentana.setFont(new java.awt.Font("sansserif", 3, 18)); // NOI18N
-        jLabelTituloVentana.setText("Ejecucion Programa - Monitores");
+        jLabelTituloVentana.setText("Ejecucion Programa - Monitores v1.1");
 
         jPanelPila.setBorder(javax.swing.BorderFactory.createTitledBorder("Contenido Pila Actual"));
 
@@ -395,6 +395,8 @@ public class WindowEjecucion extends javax.swing.JFrame {
         this.jButtonMatarProductores.setEnabled(false);
         this.jButtonMatarConsumidores.setEnabled(false);
         this.jButtonComenzarTodos.setEnabled(true);
+        this.jButtonComenzarConsumidores.setEnabled(true);
+        this.jButtonComenzarProductores.setEnabled(true);
         
         Facade.pararEjecucionTodosHilos();
         JOptionPane.showMessageDialog(this, "Todos los hilos Parados");
@@ -427,6 +429,8 @@ public class WindowEjecucion extends javax.swing.JFrame {
         this.jButtonComenzarConsumidores.setEnabled(false);
         this.jButtonMatarConsumidores.setEnabled(true);
         if(this.jButtonMatarProductores.isEnabled()) this.jButtonPararPrograma.setEnabled(true);
+        if(!this.jButtonComenzarProductores.isEnabled()) this.jButtonComenzarTodos.setEnabled(false);
+        this.jButtonComenzarTodos.setEnabled(false);
         JOptionPane.showMessageDialog(this, "Consumidores reanudados");
     }//GEN-LAST:event_jButtonComenzarConsumidoresActionPerformed
 
@@ -435,6 +439,8 @@ public class WindowEjecucion extends javax.swing.JFrame {
         this.jButtonComenzarProductores.setEnabled(false);
         this.jButtonMatarProductores.setEnabled(true);
         if(this.jButtonMatarConsumidores.isEnabled()) this.jButtonPararPrograma.setEnabled(true);
+        if(!this.jButtonComenzarConsumidores.isEnabled()) this.jButtonComenzarTodos.setEnabled(false);
+        this.jButtonComenzarTodos.setEnabled(false);
         JOptionPane.showMessageDialog(this, "Productores reanudados");
     }//GEN-LAST:event_jButtonComenzarProductoresActionPerformed
 
