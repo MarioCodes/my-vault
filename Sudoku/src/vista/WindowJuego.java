@@ -37,6 +37,7 @@ public class WindowJuego extends javax.swing.JFrame {
     private JTable jTableJuegoCustom, jTableResolver; //Esta la inicializo mas adelante haciendo override de un par de metodos.
     private LineaGraficaCuadrado[] lineasGraficasExternas = new LineaGraficaCuadrado[4];
     private LineaGraficaCuadrado[] lineasGraficasInternas = new LineaGraficaCuadrado[4];
+    private String modoResolucion; //Para saber si se esta en resolucion humana o por fuerza bruta.
     
     /**
      * Creates new form MainWindow
@@ -401,6 +402,7 @@ public class WindowJuego extends javax.swing.JFrame {
         this.jMenuDebug.setEnabled(true);
         this.jMenuJuegoNormal.setEnabled(true);
         if(!jButtonSolventarBacktrack.isEnabled()) jMenuItemCopiarTableroNormalAResolver.setEnabled(true); //Ha sido pulsado cuando !enabled.
+        if(!jButtonSolventarHumana.isEnabled()) jMenuItemCopiarTableroNormalAResolver.setEnabled(true); //
     }
     
     /**
@@ -427,10 +429,10 @@ public class WindowJuego extends javax.swing.JFrame {
     }
         
     /**
-     * fixme: si se llama desde resolucoin huamana, los disabled estan mal puestos. Colocar los que hagan falta.
      * Recopilacion de disables/enables necesarios al activar la opcion de resolucion por fuerza bruta.
      */
     private void gestionEnabledsFuerzaBruta() {
+        this.modoResolucion = "Backtrack";
         jTabbedPanePrincipal.setEnabledAt(3, true);
         jTabbedPanePrincipal.setSelectedIndex(3);
         if(!jButtonJugar.isEnabled()) jMenuItemCopiarTableroNormalAResolver.setEnabled(true);
@@ -439,6 +441,89 @@ public class WindowJuego extends javax.swing.JFrame {
         jMenuResolucionAuto.setEnabled(true);
         jMenuItemBorrarTableroAutomatico.setEnabled(true);
         jMenuItemSolventarSudoku.setEnabled(true);
+        jMenuResolucionAuto.setText("Res. Fuerza Bruta");
+        this.jButtonSolventarHumana.setEnabled(true);
+    }
+    
+    /**
+     * Recopilacion de disables/enables necesarios al activar la opcion de resolucion por tecnicas humanas.
+     */
+    private void gestionEnabledsSolucionHumana() {
+        this.modoResolucion = "Humana";
+        jTabbedPanePrincipal.setEnabledAt(3, true);
+        jTabbedPanePrincipal.setSelectedIndex(3);
+        if(!jButtonJugar.isEnabled()) jMenuItemCopiarTableroNormalAResolver.setEnabled(true);
+        if(jMenuJuegoNormal.isEnabled()) jMenuDebug.setEnabled(true);
+        jButtonSolventarHumana.setEnabled(false);
+        jMenuResolucionAuto.setEnabled(true);
+        jMenuItemBorrarTableroAutomatico.setEnabled(true);
+        jMenuItemSolventarSudoku.setEnabled(true);
+        jButtonSolventarBacktrack.setEnabled(true);
+        jMenuResolucionAuto.setText("Res. Reglas 'Humanas'");
+    }
+    
+    /**
+     * Limpieza de la tabla para el caso de que sea no resoluble mediante fuerza bruta.
+     *  No se porque me salen todas las casillas vacias a 0.
+     */
+    private void limpiezaTablaIrresoluble() {
+        JTable tabla = this.jTableResolver;
+        
+        for (int row = 0; row < 9; row++) {
+            for (int column = 0; column < 9; column++) {
+                try {
+                    if((int) tabla.getValueAt(row, column) == 0) tabla.setValueAt(null, row, column);
+                }catch(ClassCastException ex) {} //Por si acaso pillara una celda sin valor, que no pete.
+            }
+        }
+    }
+    
+    /**
+     * Para distinguir entre cuando se esta intentando mediante fuerza bruta o tecnicas humanas.
+     * @return Estado de resolucion, True si se ha resuelto correctamente.
+     */
+    private boolean gestionModoResolucion() {
+        boolean resultado;
+        switch(this.modoResolucion) {
+            case "Humana":
+                resultado = Singleton.getFacade().solucionHumana(jTableResolver);
+                if(resultado) {
+                    JOptionPane.showMessageDialog(this, "Sudoku resuelto correctamente mediante tecnicas 'Humanas'.");
+                    return true;
+                } else { //No hago output de mensaje porque mostrare mas adelante un confirm.
+                    return false;
+                }
+            case "Backtrack":
+                resultado = Singleton.getFacade().solucionBacktrack(jTableResolver);
+                if(resultado) {
+                    JOptionPane.showMessageDialog(this, "Sudoku resuelto correctamente mediante Fuerza Bruta.");
+                    return true;
+                } else {
+                    limpiezaTablaIrresoluble();
+                    JOptionPane.showMessageDialog(this, "Sudoku no resoluble mediante Fuerza Bruta. \nComprobar que este bien generado.");
+                    return false;
+                }
+            default: //Por si acaso.
+                System.out.println("Estado no alcanzable en gestionModoResolucion()");
+                return Singleton.getFacade().solucionBacktrack(jTableResolver);
+        }
+    }
+    
+    /**
+     * Conjunto de metodos encargados de resolver el Sudoku de manera automatica.
+     */
+    private void resolucionAutomaticaSudoku() {
+        if(!gestionModoResolucion() && this.modoResolucion.matches("Humana")) {
+            int input = JOptionPane.showConfirmDialog(this, "Sudoku irresoluble mediante tecnicas Humanas.\n ¿Continuar mediante Fuerza Bruta?.");
+            
+            switch(input) {
+                case 0: //En caso de que 'Si', cambiamos el modo de solucion a fuerza bruta y volvemos a intentar resolver.
+                    this.modoResolucion = "Backtrack";
+                    this.jMenuResolucionAuto.setText("Res. Fuerza Bruta");
+                    resolucionAutomaticaSudoku();
+                    break;
+            }
+        }
     }
     
     /**
@@ -635,7 +720,7 @@ public class WindowJuego extends javax.swing.JFrame {
 
         jMenuBar.add(jMenuJuegoNormal);
 
-        jMenuResolucionAuto.setText("Resolucion Automatica");
+        jMenuResolucionAuto.setText("Resolucion");
         jMenuResolucionAuto.setToolTipText("Conjunto de opciones para la resollucion automatica");
 
         jMenuItemSolventarSudoku.setText("Resolucionar");
@@ -695,7 +780,7 @@ public class WindowJuego extends javax.swing.JFrame {
         });
         jMenuDebug.add(jMenuItemCopiarTableroTrampas);
 
-        jMenuItemCopiarTableroNormalAResolver.setText("Copiar Tablero Normal a Resolver");
+        jMenuItemCopiarTableroNormalAResolver.setText("Copiar Tablero Normal a Resolucion");
         jMenuItemCopiarTableroNormalAResolver.setToolTipText("Copiar el contenido actual del tablero normal a resolver");
         jMenuItemCopiarTableroNormalAResolver.setEnabled(false);
         jMenuItemCopiarTableroNormalAResolver.addActionListener(new java.awt.event.ActionListener() {
@@ -745,13 +830,7 @@ public class WindowJuego extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonPartidaNuevaActionPerformed
 
     private void jMenuItemSolventarSudokuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSolventarSudokuActionPerformed
-        /* //fixme: descomentar y arreglar cuando acabe de implementar la solucionHumana.
-        //fixme: hacer que si es irresoluble por tecnicas humanas, permitir terminar mediante fuerza bruta.
-        if(Singleton.getFacade().solucionBacktrack(jTableResolver)) JOptionPane.showMessageDialog(null, "Solucion Automatica comprobada.\nTablero resolucionado correctamente.");
-        else JOptionPane.showMessageDialog(null, "Problema con la solucion automatica.\nTablero irresoluble."); 
-        */
-        if(Singleton.getFacade().solucionHumana(jTableResolver)) JOptionPane.showMessageDialog(this, "Sudoku solucionado correctamente mediante tecnicas humanas.");
-        else JOptionPane.showMessageDialog(this, "Sudoku no solucionable mediante tecnicas humanas.");
+        resolucionAutomaticaSudoku();
     }//GEN-LAST:event_jMenuItemSolventarSudokuActionPerformed
   
     private void jMenuItemOcultarCasillaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOcultarCasillaActionPerformed
@@ -789,7 +868,7 @@ public class WindowJuego extends javax.swing.JFrame {
 
     private void jButtonSolventarHumanaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSolventarHumanaActionPerformed
         preparacionTablaResolver();
-        gestionEnabledsFuerzaBruta();
+        gestionEnabledsSolucionHumana();
     }//GEN-LAST:event_jButtonSolventarHumanaActionPerformed
 
     
