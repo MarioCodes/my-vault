@@ -66,18 +66,20 @@ public class Semaforo {
     }
 
     /**
-     * Incrementa el numero de permisos de este semaforo en 1.
+     * Incrementa el numero de permisos de este semaforo en 1 y despierta a todos para que comprueben si sus condiciones de bloqueo han cambiado.
      */
     public synchronized void liberar() {
         this.permisos++;
+        this.notifyAll();
     }
 
     /**
-     * Incrementa el numero de permisos de este semaforo en i.
+     * Incrementa el numero de permisos de este semaforo en i y despierta a todos para que comprueben si sus condiciones de bloqueo han cambiado.
      * @param permisos Numero de permisos que se aniaden al contador del Semaforo.
      */
     public synchronized void liberar(int permisos) {
         this.permisos += permisos;
+        this.notifyAll();
     }
     
     /**
