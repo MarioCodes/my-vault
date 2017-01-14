@@ -13,6 +13,7 @@ import javax.swing.text.DefaultCaret;
  * Ventana principal de ejecucion. Muestra al usuario lo que esta pasando en el programa.
  * @author Mario Codes Sánchez
  * @since 17/11/2016
+ * @version 1.1 - Mejorada la interfaz. Opciones de retomar hilos una vez parados.
  */
 public class WindowEjecucion extends javax.swing.JFrame {
     private int[] parametrosEjecucion;

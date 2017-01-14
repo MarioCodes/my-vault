@@ -12,7 +12,7 @@ import controlador.aplicacion.Productor;
 /**
  * Patron de diseño Façade. Clase Intermediaria entre Vista / Controlador del programa. Simplifica la interaccion entre la parte vista y la parte controlador.
  * @author Mario Codes Sánchez
- * @since 16/11/2016
+ * @since 14/01/2017
  */
 public class Facade {
     private static Monitor buffer;
