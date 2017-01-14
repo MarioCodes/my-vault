@@ -15,6 +15,8 @@ import controlador.aplicacion.Productor;
  * @since 16/11/2016
  */
 public class Facade {
+    private static Monitor buffer;
+    
     /**
      * Creacion, instanciacion y .start() de la cantidad de Threads indicada por GUI.
      * @param numeroProductores Numero de Productores a crear.
@@ -22,7 +24,6 @@ public class Facade {
      * @param maxPila Tamanio maximo que va a tener la pila comun.
      */
     private static void creacionYArranqueThreads(int numeroProductores, int numeroConsumidores, int maxPila) {
-        Monitor buffer;
         Thread threadMonitor = new Thread(buffer = new Monitor(maxPila));
         threadMonitor.start();
 
@@ -37,6 +38,38 @@ public class Facade {
             Thread threadConsumidor = new Thread(new Consumidor(buffer, "Consumidor" +i));
             threadConsumidor.start();
         }
+    }
+    
+    /**
+     * Vuelve a poner en marcha a los consumidores con nuevos hilos.
+     * @param numeroConsumidores Numero de consumidores que se pasa como parametro.
+     */
+    public static void recomenzarConsumidores(int numeroConsumidores) {
+        Consumidor.setMatarConsumidores(false);
+        for (int i = 1; i <= numeroConsumidores; i++) {
+            new Thread(new Consumidor(buffer, "Consumidor" +i)).start();
+        }
+    }
+    
+    /**
+     * Vuelve a poner en marcha a los productores en nuevos hilos.
+     * @param numeroProductores Numero de productores que se pasa como parametro.
+     */
+    public static void recomenzarProductores(int numeroProductores) {
+        Productor.setMatarProductores(false);
+        for (int i = 1; i <= numeroProductores; i++) {
+            new Thread(new Productor(buffer, "Productor" +i, "P" +i)).start();
+        }
+    }
+    
+    /**
+     * Volvemos a poner en marcha a productores y consumidores en nuevos hilos.
+     * @param numeroProductores Numero de Productores a crear.
+     * @param numeroConsumidores Numero de Consumidores a crear.
+     */
+    public static void recomenzarTodos(int numeroProductores, int numeroConsumidores) {
+        recomenzarProductores(numeroProductores);
+        recomenzarConsumidores(numeroConsumidores);
     }
     
     /**

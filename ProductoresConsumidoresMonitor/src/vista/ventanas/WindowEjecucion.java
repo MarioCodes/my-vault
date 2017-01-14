@@ -15,6 +15,8 @@ import javax.swing.text.DefaultCaret;
  * @since 17/11/2016
  */
 public class WindowEjecucion extends javax.swing.JFrame {
+    private int[] parametrosEjecucion;
+    
     /**
      * Creates new form WindowEjecucion
      * @param parametrosEjecucion Parametros introducidos por el usuario en la ventana anterior. Con ellos obtenemos las variables para pila, numeroThreads etc.
@@ -26,6 +28,7 @@ public class WindowEjecucion extends javax.swing.JFrame {
         this.setVisible(true);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
+        this.parametrosEjecucion = parametrosEjecucion;
         
         Facade.instanciacionYParametrosPilaProdCons(parametrosEjecucion);
         setLabelsIni(parametrosEjecucion);
@@ -75,6 +78,9 @@ public class WindowEjecucion extends javax.swing.JFrame {
         jButtonPararPrograma = new javax.swing.JButton();
         jButtonMatarConsumidores = new javax.swing.JButton();
         jButtonMatarProductores = new javax.swing.JButton();
+        jButtonComenzarConsumidores = new javax.swing.JButton();
+        jButtonComenzarProductores = new javax.swing.JButton();
+        jButtonComenzarTodos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -227,7 +233,7 @@ public class WindowEjecucion extends javax.swing.JFrame {
             jPanelConsumidoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelConsumidoresLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPaneConsumidores, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
+                .addComponent(jScrollPaneConsumidores, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanelConsumidoresLayout.setVerticalGroup(
@@ -272,27 +278,62 @@ public class WindowEjecucion extends javax.swing.JFrame {
             }
         });
 
+        jButtonComenzarConsumidores.setText("Recomenzar Consumidores");
+        jButtonComenzarConsumidores.setEnabled(false);
+        jButtonComenzarConsumidores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonComenzarConsumidoresActionPerformed(evt);
+            }
+        });
+
+        jButtonComenzarProductores.setText("Recomenzar Productores");
+        jButtonComenzarProductores.setEnabled(false);
+        jButtonComenzarProductores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonComenzarProductoresActionPerformed(evt);
+            }
+        });
+
+        jButtonComenzarTodos.setText("Recomenzar Todos");
+        jButtonComenzarTodos.setEnabled(false);
+        jButtonComenzarTodos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonComenzarTodosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelControlProgramaLayout = new javax.swing.GroupLayout(jPanelControlPrograma);
         jPanelControlPrograma.setLayout(jPanelControlProgramaLayout);
         jPanelControlProgramaLayout.setHorizontalGroup(
             jPanelControlProgramaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelControlProgramaLayout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(jPanelControlProgramaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButtonMatarProductores, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                    .addComponent(jButtonMatarConsumidores, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonPararPrograma, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelControlProgramaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonPararPrograma, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-                    .addComponent(jButtonMatarConsumidores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonMatarProductores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonComenzarConsumidores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonComenzarProductores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonComenzarTodos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelControlProgramaLayout.setVerticalGroup(
             jPanelControlProgramaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelControlProgramaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButtonPararPrograma, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelControlProgramaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonPararPrograma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonComenzarTodos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonMatarConsumidores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelControlProgramaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonComenzarConsumidores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonMatarConsumidores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonMatarProductores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelControlProgramaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonComenzarProductores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonMatarProductores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(12, 12, 12))
         );
 
@@ -311,16 +352,16 @@ public class WindowEjecucion extends javax.swing.JFrame {
                                 .addComponent(jPanelPila, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jPanelProductores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanelConsumidores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanelControlPrograma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanelConsumidores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanelControlPrograma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(400, 400, 400)
                         .addComponent(jButtonTerminar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(310, 310, 310)
                         .addComponent(jLabelTituloVentana)))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -353,6 +394,7 @@ public class WindowEjecucion extends javax.swing.JFrame {
         this.jButtonPararPrograma.setEnabled(false);
         this.jButtonMatarProductores.setEnabled(false);
         this.jButtonMatarConsumidores.setEnabled(false);
+        this.jButtonComenzarTodos.setEnabled(true);
         
         Facade.pararEjecucionTodosHilos();
         JOptionPane.showMessageDialog(this, "Todos los hilos Parados");
@@ -362,6 +404,8 @@ public class WindowEjecucion extends javax.swing.JFrame {
         //Parada de los consumidores y output al user.
         this.jButtonPararPrograma.setEnabled(false);
         this.jButtonMatarConsumidores.setEnabled(false);
+        this.jButtonComenzarConsumidores.setEnabled(true);
+        if(!this.jButtonMatarProductores.isEnabled()) this.jButtonComenzarTodos.setEnabled(true);
         
         Facade.pararConsumidores();
         JOptionPane.showMessageDialog(this, "Consumidores Parados");
@@ -371,12 +415,45 @@ public class WindowEjecucion extends javax.swing.JFrame {
         //Parada de los productores y output al user.
         this.jButtonPararPrograma.setEnabled(false);
         this.jButtonMatarProductores.setEnabled(false);
+        this.jButtonComenzarProductores.setEnabled(true);
+        if(!this.jButtonMatarConsumidores.isEnabled()) this.jButtonComenzarTodos.setEnabled(true);
         
         Facade.pararProductores();
         JOptionPane.showMessageDialog(this, "Productores Parados");
     }//GEN-LAST:event_jButtonMatarProductoresActionPerformed
 
+    private void jButtonComenzarConsumidoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonComenzarConsumidoresActionPerformed
+        Facade.recomenzarConsumidores(this.parametrosEjecucion[2]);
+        this.jButtonComenzarConsumidores.setEnabled(false);
+        this.jButtonMatarConsumidores.setEnabled(true);
+        if(this.jButtonMatarProductores.isEnabled()) this.jButtonPararPrograma.setEnabled(true);
+        JOptionPane.showMessageDialog(this, "Consumidores reanudados");
+    }//GEN-LAST:event_jButtonComenzarConsumidoresActionPerformed
+
+    private void jButtonComenzarProductoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonComenzarProductoresActionPerformed
+        Facade.recomenzarProductores(this.parametrosEjecucion[1]);
+        this.jButtonComenzarProductores.setEnabled(false);
+        this.jButtonMatarProductores.setEnabled(true);
+        if(this.jButtonMatarConsumidores.isEnabled()) this.jButtonPararPrograma.setEnabled(true);
+        JOptionPane.showMessageDialog(this, "Productores reanudados");
+    }//GEN-LAST:event_jButtonComenzarProductoresActionPerformed
+
+    private void jButtonComenzarTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonComenzarTodosActionPerformed
+        this.jButtonComenzarTodos.setEnabled(false);
+        this.jButtonPararPrograma.setEnabled(true);
+        this.jButtonMatarConsumidores.setEnabled(true);
+        this.jButtonMatarProductores.setEnabled(true);
+        this.jButtonComenzarConsumidores.setEnabled(false);
+        this.jButtonComenzarProductores.setEnabled(false);
+        
+        Facade.recomenzarTodos(this.parametrosEjecucion[1], this.parametrosEjecucion[2]);
+        JOptionPane.showMessageDialog(this, "Todos los hilos reanudados");
+    }//GEN-LAST:event_jButtonComenzarTodosActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonComenzarConsumidores;
+    private javax.swing.JButton jButtonComenzarProductores;
+    private javax.swing.JButton jButtonComenzarTodos;
     private javax.swing.JButton jButtonMatarConsumidores;
     private javax.swing.JButton jButtonMatarProductores;
     private javax.swing.JButton jButtonPararPrograma;

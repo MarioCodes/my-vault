@@ -36,9 +36,9 @@
                           <Component id="jPanelProductores" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jPanelConsumidores" min="-2" max="-2" attributes="0"/>
-                          <Component id="jPanelControlPrograma" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jPanelConsumidores" max="32767" attributes="0"/>
+                          <Component id="jPanelControlPrograma" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -50,7 +50,7 @@
                       <Component id="jLabelTituloVentana" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="31" max="32767" attributes="0"/>
+              <EmptySpace pref="24" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -348,7 +348,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPaneConsumidores" pref="389" max="32767" attributes="0"/>
+                  <Component id="jScrollPaneConsumidores" pref="396" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -398,12 +398,18 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="jButtonMatarProductores" pref="200" max="32767" attributes="0"/>
+                      <Component id="jButtonMatarConsumidores" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jButtonPararPrograma" alignment="0" max="32767" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jButtonPararPrograma" pref="170" max="32767" attributes="0"/>
-                      <Component id="jButtonMatarConsumidores" max="32767" attributes="0"/>
-                      <Component id="jButtonMatarProductores" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jButtonComenzarConsumidores" max="32767" attributes="0"/>
+                      <Component id="jButtonComenzarProductores" max="32767" attributes="0"/>
+                      <Component id="jButtonComenzarTodos" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -413,11 +419,20 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButtonPararPrograma" min="-2" pref="50" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="jButtonPararPrograma" max="32767" attributes="0"/>
+                      <Component id="jButtonComenzarTodos" max="32767" attributes="0"/>
+                  </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jButtonMatarConsumidores" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="jButtonComenzarConsumidores" max="32767" attributes="0"/>
+                      <Component id="jButtonMatarConsumidores" max="32767" attributes="0"/>
+                  </Group>
                   <EmptySpace max="32767" attributes="0"/>
-                  <Component id="jButtonMatarProductores" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="jButtonComenzarProductores" max="32767" attributes="0"/>
+                      <Component id="jButtonMatarProductores" max="32767" attributes="0"/>
+                  </Group>
                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -476,6 +491,33 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonMatarProductoresActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="jButtonComenzarConsumidores">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Recomenzar Consumidores"/>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonComenzarConsumidoresActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="jButtonComenzarProductores">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Recomenzar Productores"/>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonComenzarProductoresActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="jButtonComenzarTodos">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Recomenzar Todos"/>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonComenzarTodosActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
