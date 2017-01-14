@@ -8,6 +8,7 @@ package aplicacion.patrones;
 import aplicacion.controlador.juego.GestionJuego;
 import aplicacion.controlador.juego.Checks;
 import aplicacion.controlador.juego.ResolucionBacktrack;
+import aplicacion.controlador.juego.ResolucionHumana;
 import aplicacion.controlador.tablero.Tablero;
 import javax.swing.JTable;
 import vista.GestionVista;
@@ -94,5 +95,15 @@ public class Facade {
      */
     public Tablero conversionTablero(JTable tabla) {
         return Tablero.generacionTablero(tabla);
+    }
+    
+    /**
+     * Resolucion del tablero mediante tecnicas humanas.
+     * @param tabla Tabla la cual queremos resolver.
+     * @return True si se ha resuelto correctamente.
+     */
+    public boolean solucionHumana(JTable tabla) {
+        ResolucionHumana rh = new ResolucionHumana(tabla);
+        return rh.resolucionTecnicasHumana();
     }
 }

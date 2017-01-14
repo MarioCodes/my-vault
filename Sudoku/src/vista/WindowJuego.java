@@ -745,11 +745,13 @@ public class WindowJuego extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonPartidaNuevaActionPerformed
 
     private void jMenuItemSolventarSudokuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSolventarSudokuActionPerformed
-        /* //fixme: descomentar y arreglar cuando acabe de implementar la resolucionHumana.
+        /* //fixme: descomentar y arreglar cuando acabe de implementar la solucionHumana.
+        //fixme: hacer que si es irresoluble por tecnicas humanas, permitir terminar mediante fuerza bruta.
         if(Singleton.getFacade().solucionBacktrack(jTableResolver)) JOptionPane.showMessageDialog(null, "Solucion Automatica comprobada.\nTablero resolucionado correctamente.");
         else JOptionPane.showMessageDialog(null, "Problema con la solucion automatica.\nTablero irresoluble."); 
         */
-        new ResolucionHumana(jTableResolver).resolucionTecnicaHumana();
+        if(Singleton.getFacade().solucionHumana(jTableResolver)) JOptionPane.showMessageDialog(this, "Sudoku solucionado correctamente mediante tecnicas humanas.");
+        else JOptionPane.showMessageDialog(this, "Sudoku no solucionable mediante tecnicas humanas.");
     }//GEN-LAST:event_jMenuItemSolventarSudokuActionPerformed
   
     private void jMenuItemOcultarCasillaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOcultarCasillaActionPerformed

@@ -8,22 +8,20 @@ package aplicacion.controlador.juego;
 import aplicacion.controlador.tablero.Casilla;
 import aplicacion.controlador.tablero.Tablero;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 /**
  * Resolucion del Sudoku mediante utilizacion de algoritmos de solucion 'Humanos'.
  *  Utilizado del metodo 'Single Candidate'. (Ver Link Anexo).
  * @author Mario Codes Sánchez
- * @since 13/01/2016
+ * @since 14/01/2016
  * @see http://www.sudokuoftheday.com/techniques/single-candidate/
  */
 public class ResolucionHumana {
     private int indiceFila, indiceColumna;
     private final JTable TABLA;
-    private final Tablero TABLERO;
+    private Tablero TABLERO;
     private final ArrayList<Integer>[][] NUMEROS_POSIBLES_CASILLA = new ArrayList[9][9]; //[EjeX][EjeY].add(numerosPosibles)
     
     /**
@@ -99,44 +97,46 @@ public class ResolucionHumana {
     }
     
     /**
-     * Busca una Casilla que tenga un unico numero posible. Devuelve null si no hay (punto muerto).
-     * @return Casilla con numero unico. Null si no hay (punto muerto).
+     * Busca una Casilla que tenga un unico numero posible. Devuelve false si no hay (punto muerto).
      */
-    private Casilla getCasillaUnicaPosibilidad() {
+    private boolean getCasillaUnicaPosibilidad() {
         for (int indiceFila = 0; indiceFila < 9; indiceFila++) {
             for (int indiceColumna = 0; indiceColumna < 9; indiceColumna++) {
                 if(NUMEROS_POSIBLES_CASILLA[indiceFila][indiceColumna].size() == 1) {
                     this.indiceFila = indiceFila;
                     this.indiceColumna = indiceColumna;
-                    return TABLERO.getCasillasPorEjes(indiceFila, indiceColumna);
+                    return true;
                 }
             }
         }
 
-        return null;
+        return false;
     }
     
     /**
-     * Mecanismos de resolucion en si misma.
+     * Mecanismos de resolucion mediante Single Candidate.
      */
-    private void resolucion() {
+    private void resolucionSingleCandidate() {
         gestionListasNumeros();
-        Casilla casilla = getCasillaUnicaPosibilidad();
         
-        while(casilla != null) {
+        while(getCasillaUnicaPosibilidad()) {
+            Casilla casilla = TABLERO.getCasillasPorEjes(indiceFila, indiceColumna);
+            
             int numero = NUMEROS_POSIBLES_CASILLA[indiceFila][indiceColumna].get(0);
             casilla.setNumeroPropio(numero);
             TABLA.setValueAt(numero, indiceFila, indiceColumna);
-
-            gestionListasNumeros();
-            casilla = getCasillaUnicaPosibilidad();
+            
+            this.TABLERO = Tablero.generacionTablero(this.TABLA); //Actualizamos el tablero mediante la nueva Tabla modificada.
+            gestionListasNumeros(); //Para que se reseteen en cada iteracion.
         }
     }
     
     /**
      * Metodo de llamado para ejecutar la resolucion.
+     * @return True si el Tablero esta resuelto.
      */
-    public void resolucionTecnicaHumana() {
-        resolucion();
+    public boolean resolucionTecnicasHumana() {
+        resolucionSingleCandidate();
+        return checkTableroLleno();
     }
 }
