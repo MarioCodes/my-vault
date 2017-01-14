@@ -37,6 +37,38 @@ public class Facade {
     }
     
     /**
+     * Vuelve a poner en marcha a los consumidores con nuevos hilos.
+     * @param numeroConsumidores Numero de consumidores que se pasa como parametro.
+     */
+    public static void recomenzarConsumidores(int numeroConsumidores) {
+        Consumidor.setMatarConsumidores(false);
+        for (int i = 1; i <= numeroConsumidores; i++) {
+            new Thread(new Consumidor("Consumidor" +i)).start();
+        }
+    }
+    
+    /**
+     * Vuelve a poner en marcha a los productores en nuevos hilos.
+     * @param numeroProductores Numero de productores que se pasa como parametro.
+     */
+    public static void recomenzarProductores(int numeroProductores) {
+        Productor.setMatarProductores(false);
+        for (int i = 1; i <= numeroProductores; i++) {
+            new Thread(new Productor("Productor" +i, "P" +i)).start();
+        }
+    }
+    
+    /**
+     * Volvemos a poner en marcha a productores y consumidores en nuevos hilos.
+     * @param numeroProductores Numero de Productores a crear.
+     * @param numeroConsumidores Numero de Consumidores a crear.
+     */
+    public static void recomenzarTodos(int numeroProductores, int numeroConsumidores) {
+        recomenzarProductores(numeroProductores);
+        recomenzarConsumidores(numeroConsumidores);
+    }
+    
+    /**
      * Pasos necesarios antes de poder Crear los Threads y empezar con la ejecucion del programa.
      * @param intArrayParametros Parametros obtenidos de GUI. En ellos el usuario indica: tamanioMaxPila; numProductores y Consumidores; tiempo a dormir de estos.
      */
