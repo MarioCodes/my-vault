@@ -10,7 +10,9 @@ import vista.ventanas.MainWindow;
 /**
  * Solucion al problema Productor / Consumidor mediante la implementacion de semaforos.
  * @author Mario Codes Sánchez
- * @since 05/11/2016
+ * @since 14/01/2017
+ * @version 1.1 - Cambiados todos los Semaphores por Semaforos custom montados por mi mediante uso de Monitores.
+ *                  Solo he cambiado lo relacionado con los Semaforos, el resto de codigo es el mismo que en entregas anteriores.
  */
 public class ProductoresConsumidores {
     /**

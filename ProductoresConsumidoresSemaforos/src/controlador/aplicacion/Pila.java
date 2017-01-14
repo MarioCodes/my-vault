@@ -4,31 +4,24 @@
  * and open the template in the editor.
  */
 package controlador.aplicacion;
-
-import java.util.concurrent.Semaphore;
 import vista.ventanas.WindowEjecucion;
 
 /**
  * Pila comun donde los Productores almacenaran los valores y los Consumidores los consumiran.
  *  Es un thread en si misma para actualizar la informacion grafica de la ventana.
  * @author Mario Codes Sánchez
- * @since 17/11/2016
+ * @since 14/01/2017
+ * @version 1.1 Cambiados todos los Semaphore por mis Semaforo customizados.
  */
 public class Pila implements Runnable {
     private static String[] pila; //Cola comun donde vamos a almacenar los caracteres a Producir / Consumir.
     
-//    private static Semaphore semaforoControlProductores; //Controla que los productores no se pasen y desborden el Array. (Array[i] > Array.length).
-    private static Semaforo semaforoControlProductoresCustom;
-    
-//    private final static Semaphore SEMAFORO_CONTROL_CONSUMIDORES = new Semaphore(0); //Controla que los consumidores no consuman mas de lo que hay producido (El Array no llegue a -1).
-    private final static Semaforo SEMAFORO_CONTROL_CONSUMIDORES_CUSTOM = new Semaforo(0);
-    
-//    private final static Semaphore SEMAFORO_MUTEX = new Semaphore(1); //Semaforo mutuamente excluyente.
-    private final static Semaforo SEMAFORO_MUTEX_CUSTOM = new Semaforo(1);
+    private static Semaforo semaforoControlProductoresCustom; //Controla que los productores no se pasen y desborden el Array. (Array[i] > Array.length).
+    private final static Semaforo SEMAFORO_CONTROL_CONSUMIDORES_CUSTOM = new Semaforo(0); //Controla que los consumidores no consuman mas de lo que hay producido (El Array no llegue a -1).
+    private final static Semaforo SEMAFORO_MUTEX_CUSTOM = new Semaforo(1); //Semaforo mutuamente excluyente.
     
     public Pila(int tamanioMax) {
         rellenarPila(tamanioMax);
-//        semaforoControlProductores = new Semaphore(pila.length);
         semaforoControlProductoresCustom = new Semaforo(pila.length);
     }
     
@@ -76,13 +69,6 @@ public class Pila implements Runnable {
     public static String[] getPila() {
         return pila;
     }
-
-//    /**
-//     * @return the semaforoControlProductores
-//     */
-//    public static Semaphore getSemaforoControlProductores() {
-//        return semaforoControlProductores;
-//    }
     
     /**
      * @return the semaforoControlProductoresCustom
@@ -97,13 +83,6 @@ public class Pila implements Runnable {
     public static Semaforo getSEMAFORO_CONTROL_CONSUMIDORES_CUSTOM() {
         return SEMAFORO_CONTROL_CONSUMIDORES_CUSTOM;
     }
-    
-//    /**
-//     * @return the SEMAFORO_CONTROL_CONSUMIDORES
-//     */
-//    public static Semaphore getSEMAFORO_CONTROL_CONSUMIDORES() {
-//        return SEMAFORO_CONTROL_CONSUMIDORES;
-//    }
 
     /**
      * @return the SEMAFORO_MUTEX_CUSTOM
@@ -111,11 +90,4 @@ public class Pila implements Runnable {
     public static Semaforo getSEMAFORO_MUTEX_CUSTOM() {
         return SEMAFORO_MUTEX_CUSTOM;
     }
-    
-//    /**
-//     * @return the SEMAFORO_MUTEX
-//     */
-//    public static Semaphore getSEMAFORO_MUTEX() {
-//        return SEMAFORO_MUTEX;
-//    }
 }
