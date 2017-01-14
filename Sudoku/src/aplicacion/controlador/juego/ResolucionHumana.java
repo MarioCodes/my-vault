@@ -8,15 +8,15 @@ package aplicacion.controlador.juego;
 import aplicacion.controlador.tablero.Casilla;
 import aplicacion.controlador.tablero.Tablero;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 /**
- * Resolucion del Sudoku mediante utilizacion de algoritmos de solucion 'Humanos'.
- *  Utilizado del metodo 'Single Candidate'. (Ver Link Anexo).
+ * Resolucion del Sudoku mediante utilizacion de algoritmos de solucion 'Humanos'. Hay que tener en cuenta que segun que reglas que se implementen, va a ser bastante menos potente que
+ *      la resolucion por fuerza bruta.
+ * Utilizacion del metodo 'Single Candidate'. (Ver Link Anexo).
  * @author Mario Codes Sánchez
  * @since 14/01/2016
- * @see http://www.sudokuoftheday.com/techniques/single-candidate/
+ * @see http://www.sudokuoftheday.com/techniques
  */
 public class ResolucionHumana {
     private int indiceFila, indiceColumna;

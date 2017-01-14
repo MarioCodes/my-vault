@@ -22,8 +22,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 /**
- * todo: acordarme de añadir al final de todo hints y demas para cada boton. Ademas algun background e icon.
- * fixme: Arreglar los .enabled de los 2 botones de solucion automatica. Que solo pueda haber uno activo a la vez y que si se pulsa el otro se haga limpieza antes de poner sus datos/modificaciones.
  * Ventana principal y unica del programa. 
  * La Inner Class es muy parecida a lo que utilice en los Filosofos para representar los circulos. La putada de esto es
  *  que las coordenadas a utilizar las tengo que mapear a mano por lo que la ventana no puede ser 'resizable'.
