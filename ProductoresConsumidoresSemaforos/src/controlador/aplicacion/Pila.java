@@ -17,13 +17,16 @@ import vista.ventanas.WindowEjecucion;
 public class Pila implements Runnable {
     private static String[] pila; //Cola comun donde vamos a almacenar los caracteres a Producir / Consumir.
     
-    private static Semaphore semaforoControlProductores; //Controla que los productores no se pasen y desborden el Array. (Array[i] > Array.length).
+//    private static Semaphore semaforoControlProductores; //Controla que los productores no se pasen y desborden el Array. (Array[i] > Array.length).
+    private static Semaforo semaforoControlProductoresCustom;
+    
     private final static Semaphore SEMAFORO_CONTROL_CONSUMIDORES = new Semaphore(0); //Controla que los consumidores no consuman mas de lo que hay producido (El Array no llegue a -1).
     private final static Semaphore SEMAFORO_MUTEX = new Semaphore(1); //Semaforo mutuamente excluyente.
-    
+
     public Pila(int tamanioMax) {
         rellenarPila(tamanioMax);
-        semaforoControlProductores = new Semaphore(pila.length);
+//        semaforoControlProductores = new Semaphore(pila.length);
+        semaforoControlProductoresCustom = new Semaforo(pila.length);
     }
     
     /**
@@ -71,11 +74,18 @@ public class Pila implements Runnable {
         return pila;
     }
 
+//    /**
+//     * @return the semaforoControlProductores
+//     */
+//    public static Semaphore getSemaforoControlProductores() {
+//        return semaforoControlProductores;
+//    }
+    
     /**
-     * @return the semaforoControlProductores
+     * @return the semaforoControlProductoresCustom
      */
-    public static Semaphore getSemaforoControlProductores() {
-        return semaforoControlProductores;
+    public static Semaforo getSemaforoControlProductoresCustom() {
+        return semaforoControlProductoresCustom;
     }
     
     /**

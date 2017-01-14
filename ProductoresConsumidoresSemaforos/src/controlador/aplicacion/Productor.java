@@ -56,7 +56,9 @@ public class Productor implements Runnable {
     public void run() {
         try {
             while(!matarProductores) {
-                Pila.getSemaforoControlProductores().acquire(); //Adquiere un permiso del semaforo para poder producir.
+//                Pila.getSemaforoControlProductores().acquire(); //Adquiere un permiso del semaforo para poder producir.
+                Pila.getSemaforoControlProductoresCustom().adquirir();
+                
                 String claveProductor = CLAVE_PRODUCTOR;
 
                 //Parte Crítica.

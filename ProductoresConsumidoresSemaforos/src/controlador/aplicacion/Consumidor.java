@@ -50,7 +50,8 @@ public class Consumidor implements Runnable {
                 Pila.getSEMAFORO_MUTEX().release();
 
                 WindowEjecucion.jTextAreaOutputEjecucionConsumidores.append(NOMBRE_THREAD_CONSUMIDOR +" acaba de consumir valor: " +valorConsumido +"\n");
-                Pila.getSemaforoControlProductores().release(); //Indicamos al semaforo de productores, que hay un hueco libre que rellenar.
+//                Pila.getSemaforoControlProductores().release(); //Indicamos al semaforo de productores, que hay un hueco libre que rellenar.
+                Pila.getSemaforoControlProductoresCustom().liberar();
                 
                 Thread.sleep(tiempoDormidoThreads);
             }
