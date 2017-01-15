@@ -15,7 +15,7 @@ import javax.swing.JTable;
  *      la resolucion por fuerza bruta.
  * Utilizacion del metodo 'Single Candidate'. (Ver Link Anexo).
  * @author Mario Codes Sánchez
- * @since 14/01/2016
+ * @since 15/01/2016
  * @see http://www.sudokuoftheday.com/techniques
  */
 public class ResolucionHumana {

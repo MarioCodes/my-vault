@@ -15,7 +15,7 @@ import vista.WindowJuego;
  *      - Tecnicas 'Humanas': Busca una solucion valida mediante tecnicas de solucion que estan orientadas a Humanos.
  * @author Mario Codes Sánchez
  * @since 30/12/2016
- * @version 0.8.1 - Acabado con la resolucion 'Humana'.
+ * @version 0.8.2 - Implementando hilos en la resolucion Humana.
  * @see http://www.sudokuoftheday.com/techniques/
  */
 public class Sudoku {
