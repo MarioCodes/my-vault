@@ -6,6 +6,7 @@
 package cliente_ftp;
 
 import controlador.Cliente;
+import vista.MainWindow;
 
 /**
  * Implementacion al proyecto de creacion de un Cliente-Servidor FTP - Parte Cliente.
@@ -18,7 +19,8 @@ public class Cliente_FTP {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new Cliente().ejecucion();
+        //new Cliente().ejecucion();
+        new MainWindow();
     }
     
 }
