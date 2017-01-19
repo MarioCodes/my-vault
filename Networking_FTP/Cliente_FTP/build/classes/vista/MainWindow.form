@@ -131,8 +131,10 @@
         <Component class="javax.swing.JButton" name="jButtonConectar">
           <Properties>
             <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;i&gt;Conectar&lt;/i&gt;&lt;/html&gt;"/>
-            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonConectarActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

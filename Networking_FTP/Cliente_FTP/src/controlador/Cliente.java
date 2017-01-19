@@ -23,8 +23,18 @@ import java.net.Socket;
  */
 public class Cliente {
     private static final int BUFFER_LENGTH = 16384;
-    private static final int PUERTO = 8142;
-    private static final String SERVER_IP = "127.0.0.1";
+    private final int PUERTO;
+    private final String SERVER_IP;
+    
+    /**
+     * Constructor a utilizar por defecto.
+     * @param serverIP IP del Servidor a conectarse.
+     * @param puerto Puerto del Server para la conexion.
+     */
+    public Cliente(String serverIP, int puerto) {
+        this.SERVER_IP = serverIP;
+        this.PUERTO = puerto;
+    }
     
     /**
      * Metodo para el envio de un fichero al server.

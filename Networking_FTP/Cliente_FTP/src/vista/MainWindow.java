@@ -5,6 +5,7 @@
  */
 package vista;
 
+import cliente_ftp.Facade;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -90,7 +91,11 @@ public class MainWindow extends javax.swing.JFrame {
         jTextFieldInputPuerto.setText("8142");
 
         jButtonConectar.setText("<html><i>Conectar</i></html>");
-        jButtonConectar.setEnabled(false);
+        jButtonConectar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonConectarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelParametrosLayout = new javax.swing.GroupLayout(jPanelParametros);
         jPanelParametros.setLayout(jPanelParametrosLayout);
@@ -218,6 +223,11 @@ public class MainWindow extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConectarActionPerformed
+        Runnable runnable = () -> Facade.abrirConexionCliente(this.jTextFieldInputURL.getText(), Integer.parseInt(this.jTextFieldInputPuerto.getText()));
+        new Thread(runnable).start(); //Para que no se quede colgada la GUI.
+    }//GEN-LAST:event_jButtonConectarActionPerformed
 
     /**
      * @param args the command line arguments
