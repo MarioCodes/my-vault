@@ -27,39 +27,11 @@ public class Cliente {
     private static final String SERVER_IP = "127.0.0.1";
     
     /**
-     * Envia el nombre al Server y devuelve el saludo personalizado de este.
-     * @param bw BufferedWriter usado para enviar el nombre.
-     * @param br BufferedReader usado para recibir el saludo personalizado.
-     * @throws IOException Capturada en el metodo donde se invoca.
-     * @deprecated 
-     */
-    private void ejecucionString(BufferedWriter bw, BufferedReader br) throws IOException {
-        //Envio de datos.
-            char[] bEnvia = "Mario".toCharArray();
-            bw.write(bEnvia);
-            bw.flush();
-
-            //Y recibimos la respuesta.
-            char[] bRecibe = new char[BUFFER_LENGTH];
-            StringBuffer sb = new StringBuffer();
-
-            int n;
-            while((n = br.read(bRecibe)) == BUFFER_LENGTH) {
-                sb.append(bRecibe);
-            }
-
-            sb.append(bRecibe, 0, n);
-
-            System.out.println(sb);
-    }
-    
-    /**
      * Metodo para el envio de un fichero al server.
      */
     private void envioFichero(Socket socket) throws IOException {
         File file = new File("ficheros/fichero.txt");
-        long length = file.length();
-        byte[] bytes = new byte[16384];
+        byte[] bytes = new byte[BUFFER_LENGTH];
         
         InputStream in = new FileInputStream(file);
         OutputStream out = socket.getOutputStream();
@@ -88,7 +60,7 @@ public class Cliente {
             bw = new BufferedWriter(new PrintWriter(socket.getOutputStream()));
             br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            //ejecucionString(bw, br);
+            //Envio y medida del tiempo tardado.
             long inicio = System.currentTimeMillis();
             envioFichero(socket);
             System.out.println("Tiempo de Ejecucion: " +(System.currentTimeMillis()-inicio));
