@@ -5,14 +5,10 @@
  */
 package controlador;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -51,8 +47,6 @@ public class Servidor {
      */
     static class Tarea extends Thread {
         private Socket socket = null;
-        //private BufferedReader br = null; //todo: mirar si existe diferencia entre BufferedReader / InputStream.
-        //private BufferedWriter bw = null;
         
         private InputStream in = null;
         private OutputStream out = null;
