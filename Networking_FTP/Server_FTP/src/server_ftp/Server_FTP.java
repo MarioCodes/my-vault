@@ -8,7 +8,7 @@ package server_ftp;
 import controlador.Servidor;
 
 /**
- * Implementacion al proyecto de creacion de un servidor FTP - Parte Server.
+ * Implementacion al proyecto de creacion de un Cliente-Servidor FTP - Parte Server.
  * @author Mario Codes Sánchez
  * @since 19/01/2017
  */
