@@ -28,6 +28,8 @@ public class Cliente {
     
     /**
      * Metodo para el envio de un fichero al server.
+     * @param socket Socket usado en la conexion.
+     * @throws IOException. Capturada en el llamado.
      */
     private void envioFichero(Socket socket) throws IOException {
         File file = new File("ficheros/fichero.txt");
