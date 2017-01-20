@@ -1,3 +1,3 @@
 # ProyectosClaseDAM
 
-Utilizado como repositorio temporal para control de versiones, mientras desarrollo los proyectos de clase de 2º de DAM.
+Utilizado como repositorio temporal para control de versiones, de los proyectos en estado de desarrollo para Servicios y Procesos diurnos.
