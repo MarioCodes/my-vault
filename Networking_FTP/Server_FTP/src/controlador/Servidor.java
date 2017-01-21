@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import javax.naming.OperationNotSupportedException;
 
 /**
  * Recopilacion de la implementacion logica del Server.
@@ -20,7 +21,7 @@ import java.net.Socket;
  */
 public class Servidor {
     private static final int BUFFER_LENGTH = 16384; //Tamaño del buffer que se enviara de golpe.
-    private static final int PUERTO = 8142;
+    private static final int PUERTO = 8142; //fixme: el servidor debera dejar elegir el puerto por el cual se conecta.
     
     private static Socket socket = null;    
     private static InputStream in = null;
@@ -32,15 +33,15 @@ public class Servidor {
      */
     private static void recibirFichero() {
         try {
-            in = socket.getInputStream();
             out = new FileOutputStream("ficheros/fichero.txt"); //todo: mas adelante debera ser variable. No hardcodeado.
 
             byte[] bytes = new byte[BUFFER_LENGTH];
-
+            
             int count;
             while((count = in.read(bytes)) > 0) {
                 out.write(bytes, 0, count);
             }
+            
         }catch(IOException ex) {
             ex.printStackTrace();
         }finally {
@@ -51,6 +52,29 @@ public class Servidor {
             }catch(IOException ex) {
                 ex.printStackTrace();
             }
+        }
+    }
+    
+    /**
+     * Recoge y lee el primer byte de los datos entrantes. Este es el que indica la accion a realizar.
+     */
+    private static void gestionAcciones() {
+        try {
+            in = socket.getInputStream();
+            byte opcion = (byte) in.read();
+
+            switch(opcion) {
+                case 1: //Recibir fichero.
+                    recibirFichero();
+                    break;
+                case 2: //Envio de fichero.
+                    break;
+                default:
+                    System.out.println("SHIT.");
+                    break;
+            }
+        }catch(IOException ex) {
+            ex.printStackTrace();
         }
     }
     
@@ -66,7 +90,7 @@ public class Servidor {
                 socket = serverSocket.accept(); /* El ServerSocket me da el Socket.
                                                         Bloquea el programa en esta linea y solo avanza cuando un cliente se conecta.*/
 
-                new Thread(() -> recibirFichero()).start(); //Comienzo de la faena en un Hilo aparte.
+                new Thread(() -> gestionAcciones()).start(); //Comienzo de la faena en un Hilo aparte.
             }
         }catch(IOException ex) {
             ex.printStackTrace();

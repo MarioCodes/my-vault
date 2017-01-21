@@ -48,6 +48,8 @@ public class Cliente {
         InputStream in = new FileInputStream(file);
         OutputStream out = socket.getOutputStream();
         
+        out.write(1);
+        
         int count;
         while((count = in.read(bytes)) > 0) {
             out.write(bytes, 0, count);
