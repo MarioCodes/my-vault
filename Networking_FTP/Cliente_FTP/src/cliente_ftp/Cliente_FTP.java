@@ -19,8 +19,8 @@ public class Cliente_FTP {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //new Cliente().ejecucion();
-        new MainWindow();
+        new Cliente("127.0.0.1", 8142).ejecucion();
+//        new MainWindow();
     }
     
 }
