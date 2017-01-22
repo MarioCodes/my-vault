@@ -6,6 +6,7 @@
 package cliente_ftp;
 
 import controlador.Cliente;
+import controlador.FileBrowser;
 import vista.MainWindow;
 
 /**
@@ -19,8 +20,9 @@ public class Cliente_FTP {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new Cliente("127.0.0.1", 8142).ejecucion();
+//        new Cliente("127.0.0.1", 8142).ejecucion();
 //        new MainWindow();
+        new FileBrowser().run();
     }
     
 }

@@ -5,6 +5,7 @@
  */
 package server_ftp;
 
+import controlador.FileBrowser;
 import controlador.Servidor;
 
 /**
@@ -18,7 +19,9 @@ public class Server_FTP {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Servidor.ejecucion();
+//        Servidor.ejecucion();
+        FileBrowser fb = new FileBrowser();
+        fb.run();
     }
     
 }
