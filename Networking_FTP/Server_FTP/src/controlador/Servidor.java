@@ -11,7 +11,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import javax.naming.OperationNotSupportedException;
 
 /**
  * Recopilacion de la implementacion logica del Server.
@@ -36,6 +35,20 @@ public class Servidor {
             out = new FileOutputStream("ficheros/fichero.txt"); //todo: mas adelante debera ser variable. No hardcodeado.
 
             byte[] bytes = new byte[BUFFER_LENGTH];
+            
+            int nameLength = in.read(); //Tamaño del nombre.
+            System.out.println(nameLength);
+            
+            StringBuffer sb = new StringBuffer();
+            
+            for (int i = 0; i < nameLength; i++) {
+                byte bit = (byte) in.read();
+                sb.append((char) bit);
+            }
+            
+            System.out.println(sb.toString());
+            
+            //System.out.println(in.read(l));
             
             int count;
             while((count = in.read(bytes)) > 0) {

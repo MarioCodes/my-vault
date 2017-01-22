@@ -7,6 +7,7 @@ package controlador;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -47,14 +48,20 @@ public class Cliente {
         
         InputStream in = new FileInputStream(file);
         OutputStream out = socket.getOutputStream();
+        DataOutputStream dout = new DataOutputStream(out);
         
-        out.write(1);
+        dout.write(1);
+        
+        byte[] bytess = "nombre".getBytes();
+        dout.write(bytess.length);
+        dout.write(bytess);
         
         int count;
         while((count = in.read(bytes)) > 0) {
-            out.write(bytes, 0, count);
+            dout.write(bytes, 0, count);
         }
         
+        dout.close();
         out.close();
         in.close();
         socket.close();
