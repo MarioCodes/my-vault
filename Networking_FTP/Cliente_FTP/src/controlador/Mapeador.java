@@ -6,13 +6,9 @@
 package controlador;
 
 import java.io.File;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeModel;
-import vista.MainWindow;
 
 /**
  * Clase encargada de hacer el mapeo de ficheros / directorios y transformarlo al JTree.
@@ -28,26 +24,15 @@ public class Mapeador {
      * Metodo Base para el funcionamiento. Con llamar a este ya funciona.
      */
     public JTree mapear() {
-        JFrame frame = new JFrame("File Browser: ");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
         File fileRoot = new File("root/");
         root = new DefaultMutableTreeNode(new FileNode(fileRoot));
         treeModel = new DefaultTreeModel(root);
         
         tree = new JTree(treeModel);
         tree.setShowsRootHandles(true);
-        JScrollPane scrollPane = new JScrollPane(tree);
-        
-        frame.add(scrollPane);
-        frame.setLocationByPlatform(true);
-        frame.setSize(640, 480);
-        frame.setVisible(false);
-        
         new CreateChildNodes(fileRoot, root).createChildrenStart();
         
         return tree;
-//        MainWindow.setjTreeModel(tree.getModel());
     }
     
     //todo: mirar que hace y crear Javadoc. Idem para la inner de abajo.
