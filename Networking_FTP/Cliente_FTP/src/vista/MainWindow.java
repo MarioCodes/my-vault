@@ -8,8 +8,6 @@ package vista;
 import cliente_ftp.Facade;
 import controlador.Mapeador;
 import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeModel;
 
 /**
  * todo: Crear(?) un mapeador en el server. Que a una orden se mapee a si mismo y mande el Model o el Tree al cliente para que muestre la info.
@@ -18,41 +16,24 @@ import javax.swing.tree.TreeModel;
  * @since 19/01/2017
  */
 public class MainWindow extends javax.swing.JFrame {
-    private JTree treeTmp;
-    
     /**
      * Creates new form MainWindow
      */
     public MainWindow() {
-        generarTreeModel(); //Hay que generarlo antes que el resto de componentes, para que pueda copiar su model.
         initComponents();
         
         this.setTitle("Cliente FTP");
         this.setVisible(true);
         this.setLocationRelativeTo(null);
-        
-        cambioPropiedadesTreeFinal();
     }
-
+    
     /**
-     * Generacion de un Tree propio customizado, para que el Tree puesto graficamente copie a este.
+     * Mapeo del cliente y servidor y set de los arboles de directorios.
      */
-    private void generarTreeModel() {
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");
-        DefaultMutableTreeNode vegetables = new DefaultMutableTreeNode("Vegetables");
-        DefaultMutableTreeNode lechuga = new DefaultMutableTreeNode("Lechuga");
+    private static void setArbolesDirectorios() {
+        JTree mapeoCliente = new Mapeador().mapear();
         
-        root.add(vegetables);
-        vegetables.add(lechuga);
-        
-        treeTmp = new JTree(root);
-    }
-
-    /**
-     * Cambio de las propiedades que considero oportunas, del jTree final a usar.
-     */
-    private void cambioPropiedadesTreeFinal() {
-        jTree.setRootVisible(false);
+        jTree.setModel(mapeoCliente.getModel());
     }
     
     /**
@@ -133,7 +114,6 @@ public class MainWindow extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Arbol del Cliente"));
 
-        jTree.setModel(treeTmp.getModel());
         jScrollPane1.setViewportView(jTree);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -154,7 +134,13 @@ public class MainWindow extends javax.swing.JFrame {
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Arbol del Servidor"));
+        jPanel2.setEnabled(false);
 
+        jScrollPane2.setEnabled(false);
+
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Sin Conexion");
+        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jTree1.setEnabled(false);
         jScrollPane2.setViewportView(jTree1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -258,23 +244,17 @@ public class MainWindow extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        new MainWindow().setVisible(true);
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainWindow().setVisible(true);
-//                new Cliente("127.0.0.1", 8142).ejecucion();
-                new Mapeador().mapear();
-            }
-        });
-    }
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                
 
-    /**
-     * Setter personalizado para meterle el modelo custom.
-     * @param treeModel TreeModel actualizado.
-     */
-    public static void setjTreeModel(TreeModel treeModel) {
-        MainWindow.jTree.setModel(treeModel);
+//            }
+//        });
+        
+        ////                new Cliente("127.0.0.1", 8142).ejecucion();
+        setArbolesDirectorios();
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
