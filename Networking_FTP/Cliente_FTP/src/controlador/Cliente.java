@@ -52,7 +52,7 @@ public class Cliente {
         
         dout.write(1);
         
-        byte[] bytess = "nombre".getBytes();
+        byte[] bytess = "Suuuu.txt".getBytes();
         dout.write(bytess.length);
         dout.write(bytess);
         

@@ -15,6 +15,10 @@ import java.net.Socket;
 /**
  * Recopilacion de la implementacion logica del Server.
  *  El servidor opera de forma multihilo para no esperar con cada conexion.
+ *  El primer bit que se recibe indica la operacion. 
+ *      El segundo bit el .length del nombre del archivo a leer.
+ *      El tercer BLOQUE es el nombre del archivo.
+ *      El resto es el contenido del fichero.
  * @author Mario Codes Sánchez
  * @since 19/01/2017
  */
@@ -32,23 +36,17 @@ public class Servidor {
      */
     private static void recibirFichero() {
         try {
-            out = new FileOutputStream("ficheros/fichero.txt"); //todo: mas adelante debera ser variable. No hardcodeado.
-
-            byte[] bytes = new byte[BUFFER_LENGTH];
-            
             int nameLength = in.read(); //Tamaño del nombre.
-            System.out.println(nameLength);
             
-            StringBuffer sb = new StringBuffer();
+            StringBuffer nombreFichero = new StringBuffer();
             
-            for (int i = 0; i < nameLength; i++) {
+            for (int i = 0; i < nameLength; i++) { //Operacion para sacar el nombre, con el tamaño antes obtenido.
                 byte bit = (byte) in.read();
-                sb.append((char) bit);
+                nombreFichero.append((char) bit);
             }
             
-            System.out.println(sb.toString());
-            
-            //System.out.println(in.read(l));
+            byte[] bytes = new byte[BUFFER_LENGTH]; //Operacion para escribir el contenido.
+            out = new FileOutputStream("ficheros/" +nombreFichero.toString()); //todo: mas adelante debera ser variable. No hardcodeado.
             
             int count;
             while((count = in.read(bytes)) > 0) {
