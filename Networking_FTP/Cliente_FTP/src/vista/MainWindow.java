@@ -6,6 +6,7 @@
 package vista;
 
 import cliente_ftp.Facade;
+import controlador.FileBrowser;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -260,6 +261,8 @@ public class MainWindow extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainWindow().setVisible(true);
+//                new Cliente("127.0.0.1", 8142).ejecucion();
+                new FileBrowser().run();
             }
         });
     }
