@@ -6,11 +6,13 @@
 package vista;
 
 import cliente_ftp.Facade;
-import controlador.FileBrowser;
+import controlador.Mapeador;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeModel;
 
 /**
+ * todo: Crear(?) un mapeador en el server. Que a una orden se mapee a si mismo y mande el Model o el Tree al cliente para que muestre la info.
  * Ventana principal del programa. Se encargara de la gestion grafica.
  * @author Mario Codes Sánchez
  * @since 19/01/2017
@@ -262,11 +264,19 @@ public class MainWindow extends javax.swing.JFrame {
             public void run() {
                 new MainWindow().setVisible(true);
 //                new Cliente("127.0.0.1", 8142).ejecucion();
-                new FileBrowser().run();
+                new Mapeador().mapear();
             }
         });
     }
 
+    /**
+     * Setter personalizado para meterle el modelo custom.
+     * @param treeModel TreeModel actualizado.
+     */
+    public static void setjTreeModel(TreeModel treeModel) {
+        MainWindow.jTree.setModel(treeModel);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonConectar;
     private javax.swing.JLabel jLabelPuerto;
@@ -282,7 +292,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextFieldInputPuerto;
     private javax.swing.JTextField jTextFieldInputURL;
-    private javax.swing.JTree jTree;
+    private static javax.swing.JTree jTree;
     private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
 }

@@ -11,18 +11,22 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import vista.MainWindow;
 
 /**
- *
- * @author Mario
+ * Clase encargada de hacer el mapeo de ficheros / directorios y transformarlo al JTree.
+ * @author Mario Codes Sánchez
+ * @since 22/01/2017
  */
-public class FileBrowser implements Runnable {
-    DefaultMutableTreeNode root;
-    DefaultTreeModel treeModel;
-    JTree tree;
+public class Mapeador {
+    private DefaultMutableTreeNode root;
+    private DefaultTreeModel treeModel;
+    private JTree tree;
     
-    @Override
-    public void run() {
+    /**
+     * Metodo Base para el funcionamiento. Con llamar a este ya funciona.
+     */
+    public void mapear() {
         JFrame frame = new JFrame("File Browser: ");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
@@ -37,14 +41,15 @@ public class FileBrowser implements Runnable {
         frame.add(scrollPane);
         frame.setLocationByPlatform(true);
         frame.setSize(640, 480);
-        frame.setVisible(true);
+        frame.setVisible(false);
         
-        CreateChildNodes createChildNodes = new CreateChildNodes(fileRoot, root);
-        new Thread(createChildNodes).start();
+        new CreateChildNodes(fileRoot, root).createChildrenStart();
+        
+        MainWindow.setjTreeModel(tree.getModel());
     }
     
-    
-    private class CreateChildNodes implements Runnable {
+    //todo: mirar que hace y crear Javadoc. Idem para la inner de abajo.
+    private class CreateChildNodes {
         DefaultMutableTreeNode root;
         File fileRoot;
         
@@ -64,11 +69,9 @@ public class FileBrowser implements Runnable {
             }
         }
         
-        @Override
-        public void run() {
+        private void createChildrenStart() {
             createChildren(fileRoot, root);
         }
-        
     }
     
     private class FileNode {
