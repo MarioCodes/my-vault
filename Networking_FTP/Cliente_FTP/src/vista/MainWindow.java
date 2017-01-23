@@ -8,10 +8,7 @@ package vista;
 import cliente_ftp.Facade;
 import controlador.Mapeador;
 import java.io.File;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
 import javax.swing.JTree;
-import javax.swing.plaf.basic.BasicComboPopup;
 
 /**
  * todo: Crear(?) un mapeador en el server. Que a una orden se mapee a si mismo y mande el Model o el Tree al cliente para que muestre la info.
@@ -33,10 +30,10 @@ public class MainWindow extends javax.swing.JFrame {
     
     /**
      * Mapeo del cliente para su arbol de directorios.
+     *  Me interesa encapsulamiento 'package' para refrescar cuando cree carpetas / ficheros.
      */
-    private static void setArbolCliente() {
+    static void setArbolCliente() {
         JTree mapeoCliente = new Mapeador().mapear();
-        
         jTree.setModel(mapeoCliente.getModel());
     }
     
@@ -48,14 +45,11 @@ public class MainWindow extends javax.swing.JFrame {
     }
     
     /**
-     * Crea un directorio dentro de la ruta seleccionada del JTree.
-     * @fixme: habra que moverlo a la clase que pida el nombre del dir a crear.
-     * @todo: idea. para que los directorios los mapee como directorios. crear un .fich oculto a la vez que el dir. Al tener contenido deberia mapearse como dir y no fich(?).
+     * Borra el Fichero o Directorio (debe estar vacio) seleccionado en el JTree.
      */
-    private void creacionDirectorio() {
-//        String ruta = conversionJTreePath.conversion(MainWindow.jTree.getSelectionPath().toString());
-        new NewFolder();
-//        new File(ruta +"test").mkdir();
+    private void borrarFile() {
+        String rutaSeleccionada = conversionJTreePath.conversion(MainWindow.jTree.getSelectionPath().toString());
+        new File(rutaSeleccionada).delete(); //fixme: returns booleano. Los directorios solo se pueden borrar si estan vacios. hacer algun tipo de output al user.
     }
     
     /**
@@ -80,6 +74,7 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jButtonRefrescarCliente = new javax.swing.JButton();
         jButtonCrearCarpeta = new javax.swing.JButton();
+        jButtonBorrar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
@@ -157,6 +152,13 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        jButtonBorrar.setText("Borrar");
+        jButtonBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBorrarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -165,13 +167,16 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jButtonRefrescarCliente)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonCrearCarpeta)
-                .addGap(0, 131, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonBorrar)
+                .addGap(0, 46, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jButtonRefrescarCliente)
-                .addComponent(jButtonCrearCarpeta))
+                .addComponent(jButtonCrearCarpeta)
+                .addComponent(jButtonBorrar))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -228,7 +233,7 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelArbolDirectoriosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 119, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -281,8 +286,13 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonRefrescarClienteActionPerformed
 
     private void jButtonCrearCarpetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearCarpetaActionPerformed
-        creacionDirectorio();
+        String rutaSeleccionada = conversionJTreePath.conversion(MainWindow.jTree.getSelectionPath().toString()); //fixme: fixear si no hay ruta seleccioanda. Petara.
+        new NewFolder(rutaSeleccionada);
     }//GEN-LAST:event_jButtonCrearCarpetaActionPerformed
+
+    private void jButtonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBorrarActionPerformed
+        borrarFile();
+    }//GEN-LAST:event_jButtonBorrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -324,6 +334,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonBorrar;
     private javax.swing.JButton jButtonConectar;
     private javax.swing.JButton jButtonCrearCarpeta;
     private javax.swing.JButton jButtonRefrescarCliente;
