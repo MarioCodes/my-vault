@@ -8,7 +8,10 @@ package vista;
 import cliente_ftp.Facade;
 import controlador.Mapeador;
 import java.io.File;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JTree;
+import javax.swing.plaf.basic.BasicComboPopup;
 
 /**
  * todo: Crear(?) un mapeador en el server. Que a una orden se mapee a si mismo y mande el Model o el Tree al cliente para que muestre la info.
@@ -50,9 +53,9 @@ public class MainWindow extends javax.swing.JFrame {
      * @todo: idea. para que los directorios los mapee como directorios. crear un .fich oculto a la vez que el dir. Al tener contenido deberia mapearse como dir y no fich(?).
      */
     private void creacionDirectorio() {
-        String ruta = conversionJTreePath.conversion(MainWindow.jTree.getSelectionPath().toString());
-        
-        new File(ruta +"test").mkdir();
+//        String ruta = conversionJTreePath.conversion(MainWindow.jTree.getSelectionPath().toString());
+        new NewFolder();
+//        new File(ruta +"test").mkdir();
     }
     
     /**
@@ -162,7 +165,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jButtonRefrescarCliente)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonCrearCarpeta)
-                .addGap(0, 244, Short.MAX_VALUE))
+                .addGap(0, 131, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -225,7 +228,7 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelArbolDirectoriosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 119, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
