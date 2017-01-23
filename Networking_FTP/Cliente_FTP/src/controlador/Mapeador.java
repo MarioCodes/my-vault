@@ -13,7 +13,7 @@ import javax.swing.tree.DefaultTreeModel;
 /**
  * Clase encargada de hacer el mapeo de ficheros / directorios y transformarlo al JTree.
  * @author Mario Codes Sánchez
- * @since 22/01/2017
+ * @since 23/01/2017
  */
 public class Mapeador {
     private DefaultMutableTreeNode root;
@@ -21,10 +21,12 @@ public class Mapeador {
     private JTree tree;
     
     /**
-     * Metodo Base para el funcionamiento. Con llamar a este ya funciona.
+     * Metodo Base para el funcionamiento. Llamar a este.
+     *  Devuelve un JTree, pero en la ventana habra que hacer un .set() del TreeNode y settearlo al de la ventana.
+     * @return JTree mapeado. 
      */
     public JTree mapear() {
-        File fileRoot = new File("root/");
+        File fileRoot = new File("root/"); //Directorio 'root' a partir del cual se mapeara.
         root = new DefaultMutableTreeNode(new FileNode(fileRoot));
         treeModel = new DefaultTreeModel(root);
         
@@ -35,7 +37,9 @@ public class Mapeador {
         return tree;
     }
     
-    //todo: mirar que hace y crear Javadoc. Idem para la inner de abajo.
+    /**
+     * Crea los hijos.
+     */
     private class CreateChildNodes {
         DefaultMutableTreeNode root;
         File fileRoot;
@@ -56,11 +60,17 @@ public class Mapeador {
             }
         }
         
+        /**
+         * Metodo a invocar para usar.
+         */
         private void createChildrenStart() {
             createChildren(fileRoot, root);
         }
     }
     
+    /**
+     * Devuelve el nombre del fichero.
+     */
     private class FileNode {
         File file;
         
