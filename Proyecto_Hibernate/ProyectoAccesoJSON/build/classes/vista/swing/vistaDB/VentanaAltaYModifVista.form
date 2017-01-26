@@ -107,12 +107,12 @@
                           </Group>
                           <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
                                   <Component id="jTextFieldInputIDAloj" min="-2" pref="72" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="jLabelNombre" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="jTextFieldInputNombreAloj" min="-2" pref="120" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldInputNombreAloj" min="-2" pref="153" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jTextFieldInputTelefono" alignment="0" max="32767" attributes="0"/>
                               <Component id="jTextFieldInputDirSocial" alignment="0" max="32767" attributes="0"/>
@@ -367,7 +367,7 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
                               <Component id="jTextFieldInputDiaSemana" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jTextFieldHoraFinActiv" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTextFieldInputHoraFinActiv" alignment="0" max="32767" attributes="0"/>
                               <Component id="jSpinnerCapacidadActiv" alignment="0" max="32767" attributes="0"/>
                               <Component id="jTextFieldInputNombreActiv" min="-2" pref="116" max="-2" attributes="0"/>
                           </Group>
@@ -407,7 +407,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jTextFieldInputHoraInicioAc" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabelHoraIni" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextFieldHoraFinActiv" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jTextFieldInputHoraFinActiv" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabelHoraFin" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -488,7 +488,7 @@
             <Property name="text" type="java.lang.String" value="Hora Inicio"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldHoraFinActiv">
+        <Component class="javax.swing.JTextField" name="jTextFieldInputHoraFinActiv">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelHoraFin">
           <Properties>
@@ -539,6 +539,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Introducir"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonIntroducirActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonCancelar">
       <Properties>

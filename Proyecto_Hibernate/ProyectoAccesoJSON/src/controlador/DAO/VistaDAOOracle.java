@@ -16,7 +16,7 @@ public class VistaDAOOracle extends VistaDAO{
 
     @Override
     public int altaVista(VistaActividadesAlojamientoId vistaActividades) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
     
 }

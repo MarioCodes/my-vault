@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="2">
         <file>
             <url>src/aplicacion/DAO/AlojamientoDAO.java</url>
             <bookmark id="1">
@@ -11,6 +11,11 @@
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/Mario/Programacion/Desarrollo_Proyectos_Clase/Proyecto_Hibernate/ProyectoAccesoJSON/src/controlador/DAO/AlojamientoDAOOracle.java</file>
+            <file>file:/C:/Users/Mario/Programacion/Desarrollo_Proyectos_Clase/Proyecto_Hibernate/ProyectoAccesoJSON/src/vista/swing/vistaDB/VentanaAltaYModifVista.java</file>
+            <file>file:/C:/Users/Mario/Programacion/Desarrollo_Proyectos_Clase/Proyecto_Hibernate/ProyectoAccesoJSON/src/controlador/DAO/VistaDAOOracle.java</file>
+            <file>file:/C:/Users/Mario/Programacion/Desarrollo_Proyectos_Clase/Proyecto_Hibernate/ProyectoAccesoJSON/src/proyecto_acceso_1diciembre/Proyecto_Acceso_1Diciembre.java</file>
+        </group>
     </open-files>
 </project-private>

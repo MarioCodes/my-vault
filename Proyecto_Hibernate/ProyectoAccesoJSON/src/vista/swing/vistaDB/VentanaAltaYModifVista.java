@@ -5,23 +5,64 @@
  */
 package vista.swing.vistaDB;
 
+import aplicacion.facade.Facade;
+import controlador.DTO.VistaActividadesAlojamientoId;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import vista.swing.comun.SingletonVentanas;
+import vista.swing.comun.VentanaPrincipal;
+
 /**
- *
- * @author Mario
+ * Ventana encargada de hacer las altas y modificaciones para la gestion de la vista.
+ * @author Mario Codes Sánchez
+ * @since 26/01/2017
  */
 public class VentanaAltaYModifVista extends javax.swing.JFrame {
-
+    private final Facade FACHADA = new Facade();
+    private final VentanaPrincipal VP = SingletonVentanas.getVentanaPrincipalObtencionSingleton();
+    private VistaActividadesAlojamientoId vistaActividades;
+    
     /**
      * Creates new form VentanaAltaYModifVista
      */
     public VentanaAltaYModifVista() {
         initComponents();
         
+        this.setTitle("Alta de Conjunto de Datos Nuevo.");
         this.setVisible(true);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
+        
+        VP.setVisible(false);
+        
+        desactivarCamposIDAlojamiento();
     }
 
+    /**
+     * El ID del Alojamiento es AI. Lo gestiona Oracle.
+     */
+    private void desactivarCamposIDAlojamiento() {
+        this.jLabelID.setVisible(false);
+        this.jTextFieldInputIDAloj.setVisible(false);
+    }
+    
+    /**
+     * Chequea que el input realizado sobre el telefono sean solo numeros y de longitud 9 a 13.
+     * @return True si el campo contiene solo numeros (int).
+     */
+    private boolean checkInputTlfNumericoExprRegular() {
+        try {
+            String cadena = this.jTextFieldInputTelefono.getText();
+
+            Pattern pat = Pattern.compile("[0-9]{9,13}");
+            Matcher mat = pat.matcher(cadena);
+
+            return mat.matches();
+        } catch(NumberFormatException ex) {
+            return false;
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -69,7 +110,7 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
         jLabelFechaAc = new javax.swing.JLabel();
         jTextFieldInputHoraInicioAc = new javax.swing.JTextField();
         jLabelHoraIni = new javax.swing.JLabel();
-        jTextFieldHoraFinActiv = new javax.swing.JTextField();
+        jTextFieldInputHoraFinActiv = new javax.swing.JTextField();
         jLabelHoraFin = new javax.swing.JLabel();
         jSpinnerCapacidadActiv = new javax.swing.JSpinner();
         jLabelCapacidad = new javax.swing.JLabel();
@@ -132,12 +173,12 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
                             .addComponent(jLabelID))
                         .addGap(12, 12, 12)
                         .addGroup(jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelDatosAlojamientoLayout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDatosAlojamientoLayout.createSequentialGroup()
                                 .addComponent(jTextFieldInputIDAloj, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabelNombre)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextFieldInputNombreAloj, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextFieldInputNombreAloj, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jTextFieldInputTelefono)
                             .addComponent(jTextFieldInputDirSocial)
                             .addComponent(jTextFieldInputRazonSocial, javax.swing.GroupLayout.Alignment.TRAILING)))
@@ -278,7 +319,7 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanelDatosActividadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jTextFieldInputDiaSemana, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldHoraFinActiv, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldInputHoraFinActiv, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSpinnerCapacidadActiv, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextFieldInputNombreActiv, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane1)
@@ -309,7 +350,7 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
                 .addGroup(jPanelDatosActividadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldInputHoraInicioAc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelHoraIni)
-                    .addComponent(jTextFieldHoraFinActiv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldInputHoraFinActiv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelHoraFin))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelDatosActividadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -333,6 +374,11 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
         );
 
         jButtonIntroducir.setText("Introducir");
+        jButtonIntroducir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonIntroducirActionPerformed(evt);
+            }
+        });
 
         jButtonCancelar.setText("Cancelar");
         jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -390,6 +436,18 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
+    private void jButtonIntroducirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIntroducirActionPerformed
+        System.out.println(checkCamposLlenos());
+    }//GEN-LAST:event_jButtonIntroducirActionPerformed
+
+    /**
+     * Comprobacion de que absolutamente todos los campos rellenables estan rellenos.
+     * @return True si no hay ninguno vacio.
+     */
+    private boolean checkCamposLlenos() {
+        return !(jTextFieldInputNombreAloj.getText().isEmpty() || jTextFieldInputTelefono.getText().isEmpty() || jTextFieldInputDirSocial.getText().isEmpty() || jTextFieldInputRazonSocial.getText().isEmpty() || jTextFieldInputFechaApertura.getText().isEmpty() || jTextPaneInputDescripcionAloj.getText().isEmpty() || jTextFieldInputIDActividad.getText().isEmpty() || jTextFieldInputNombreActiv.getText().isEmpty() || jTextFieldInputFechaActiv.getText().isEmpty() || jTextFieldInputDiaSemana.getText().isEmpty() || jTextFieldInputHoraInicioAc.getText().isEmpty() || jTextFieldInputHoraFinActiv.getText().isEmpty() || jTextFieldInputLocalizacion.getText().isEmpty() || jTextFieldInputNombreGuia.getText().isEmpty() || jTextPaneInputDescrip.getText().isEmpty());
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonIntroducir;
@@ -426,11 +484,11 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
     private javax.swing.JSpinner jSpinnerHabitaciones;
     private javax.swing.JSpinner jSpinnerValoracion;
     private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JTextField jTextFieldHoraFinActiv;
     private javax.swing.JTextField jTextFieldInputDiaSemana;
     private javax.swing.JTextField jTextFieldInputDirSocial;
     private javax.swing.JTextField jTextFieldInputFechaActiv;
     private javax.swing.JTextField jTextFieldInputFechaApertura;
+    private javax.swing.JTextField jTextFieldInputHoraFinActiv;
     private javax.swing.JTextField jTextFieldInputHoraInicioAc;
     private javax.swing.JTextField jTextFieldInputIDActividad;
     private javax.swing.JTextField jTextFieldInputIDAloj;
