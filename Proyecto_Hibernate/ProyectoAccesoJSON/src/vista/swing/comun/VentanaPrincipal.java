@@ -11,6 +11,7 @@ import vista.swing.alojamientos.*;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import vista.swing.habitacion.*;
+import vista.swing.vistaDB.VentanaAltaYModifVista;
 
 /**
  * Ventana Principal del programa. Conduce al resto de Ventanas que haran las operaciones.
@@ -128,7 +129,6 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         jPanel1.setMinimumSize(new java.awt.Dimension(317, 403));
 
         botonAltaAlojamiento.setText("Alta");
-        botonAltaAlojamiento.setEnabled(false);
         botonAltaAlojamiento.setMaximumSize(new java.awt.Dimension(190, 60));
         botonAltaAlojamiento.setMinimumSize(new java.awt.Dimension(190, 60));
         botonAltaAlojamiento.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -359,7 +359,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAltaAlojamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAltaAlojamientoActionPerformed
-        new VentanaAltaYModifAlojamiento();
+        new VentanaAltaYModifVista();
     }//GEN-LAST:event_botonAltaAlojamientoActionPerformed
 
     private void botonBajaAlojamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBajaAlojamientoActionPerformed

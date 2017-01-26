@@ -99,15 +99,19 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
 
         jLabelRazonSocial.setText("Razon Social");
 
+        jSpinnerValoracion.setModel(new javax.swing.SpinnerNumberModel(1, 1, 5, 1));
+
         jLabelValoracion.setText("Valoracion");
 
         jLabelFechaApertura.setText("Fecha Apertura");
 
         jLabelHabitaciones.setText("Habitaciones");
 
+        jSpinnerHabitaciones.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+
         jLabelProvincia.setText("Provincia");
 
-        jComboBoxProvincia.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxProvincia.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Huesca", "Zaragoza", "Teruel" }));
 
         jScrollPane2.setViewportView(jTextPaneInputDescripcionAloj);
 
@@ -120,6 +124,23 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
             .addGroup(jPanelDatosAlojamientoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDatosAlojamientoLayout.createSequentialGroup()
+                        .addGroup(jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelRazonSocial)
+                            .addComponent(jLabelDirSocial)
+                            .addComponent(jLabelTelefono)
+                            .addComponent(jLabelID))
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelDatosAlojamientoLayout.createSequentialGroup()
+                                .addComponent(jTextFieldInputIDAloj, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabelNombre)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTextFieldInputNombreAloj, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextFieldInputTelefono)
+                            .addComponent(jTextFieldInputDirSocial)
+                            .addComponent(jTextFieldInputRazonSocial, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(jPanelDatosAlojamientoLayout.createSequentialGroup()
                         .addGroup(jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelValoracion)
@@ -136,34 +157,13 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
                                 .addComponent(jLabelFechaApertura)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanelDatosAlojamientoLayout.createSequentialGroup()
-                                .addComponent(jComboBoxProvincia, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())
+                            .addComponent(jComboBoxProvincia, 0, 112, Short.MAX_VALUE)
                             .addComponent(jTextFieldInputFechaApertura)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDatosAlojamientoLayout.createSequentialGroup()
-                        .addGroup(jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelRazonSocial)
-                            .addComponent(jLabelDirSocial)
-                            .addComponent(jLabelTelefono)
-                            .addComponent(jLabelID))
-                        .addGap(12, 12, 12)
-                        .addGroup(jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelDatosAlojamientoLayout.createSequentialGroup()
-                                .addComponent(jTextFieldInputIDAloj, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabelNombre)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextFieldInputNombreAloj, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jTextFieldInputDirSocial)
-                            .addComponent(jTextFieldInputTelefono, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextFieldInputRazonSocial, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanelDatosAlojamientoLayout.createSequentialGroup()
-                        .addGroup(jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanelDatosAlojamientoLayout.createSequentialGroup()
-                                .addComponent(jLabelDescripcion)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())))
+                        .addComponent(jLabelDescripcion)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanelDatosAlojamientoLayout.setVerticalGroup(
             jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,7 +222,11 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
 
         jLabelHoraFin.setText("Hora Fin");
 
+        jSpinnerCapacidadActiv.setModel(new javax.swing.SpinnerNumberModel(1, 1, 20, 1));
+
         jLabelCapacidad.setText("Capacidad");
+
+        jSpinnerDificultad.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10, 1));
 
         jLabelDificultad.setText("Dificultad");
 
@@ -331,6 +335,11 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
         jButtonIntroducir.setText("Introducir");
 
         jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
 
         jLabelMainTitulo.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabelMainTitulo.setText("Alta Juego de Datos");
@@ -340,23 +349,23 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jPanelDatosActividad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(123, 123, 123)
+                            .addComponent(jButtonIntroducir)
+                            .addGap(51, 51, 51)
+                            .addComponent(jButtonCancelar))
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jPanelDatosAlojamiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanelDatosActividad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(114, 114, 114)
-                        .addComponent(jButtonIntroducir)
-                        .addGap(37, 37, 37)
-                        .addComponent(jButtonCancelar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanelDatosAlojamiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(130, 130, 130)
+                        .addComponent(jLabelMainTitulo)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabelMainTitulo)
-                .addGap(126, 126, 126))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -367,50 +376,19 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
                 .addComponent(jPanelDatosAlojamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelDatosActividad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonIntroducir)
                     .addComponent(jButtonCancelar))
-                .addGap(17, 17, 17))
+                .addGap(11, 11, 11))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VentanaAltaYModifVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VentanaAltaYModifVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VentanaAltaYModifVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VentanaAltaYModifVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VentanaAltaYModifVista().setVisible(true);
-            }
-        });
-    }
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCancelar;

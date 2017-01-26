@@ -84,7 +84,6 @@ public class VentanaLoginBDD extends javax.swing.JFrame {
             Connection conResultado = DBBConexion.getConexionDBBSingletonPattern(driver, url, user, password); //Instanciacion de la conexion por primera y unica vez (Patron Singleton).
             if(conResultado != null) { //Comprobacion de si la conexion es nula.
                 VentanaPrincipal vp = SingletonVentanas.getVentanaPrincipalObtencionSingleton(); //Instanciacion de la VentanaPrincipal y puesta en marcha.
-                enableBotonesHabitacionVentanaPrincipal(vp);
                 vp.setTitle("Ventana Principal - Version BDD");
                 vp.setVisible(true);
                 this.dispose(); //Cerramos esta ventana.
@@ -92,18 +91,6 @@ public class VentanaLoginBDD extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Introduce un Usuario.");
         }
-    }
-    
-    /**
-     * Para cuando vuelva de JSON a BDD, reactivacion.
-     * @param vp 
-     */
-    private void enableBotonesHabitacionVentanaPrincipal(VentanaPrincipal vp) {
-        vp.getBotonAltaHabitacion().setEnabled(true);
-        vp.getBotonBajaHabitacion().setEnabled(true);
-        vp.getBotonListadoCompletoHabitaciones().setEnabled(true);
-        vp.getBotonHabitacionesPrecio().setEnabled(true);
-        vp.getBotonModificacionHabitacion().setEnabled(true);
     }
     
     /**
