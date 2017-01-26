@@ -7,9 +7,9 @@ package vista.swing.comun;
 
 import controlador.datos.DBBConexion;
 import java.util.ArrayList;
+import vista.swing.alojamientos.*;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import vista.swing.alojamientos.*;
 import vista.swing.habitacion.*;
 
 /**

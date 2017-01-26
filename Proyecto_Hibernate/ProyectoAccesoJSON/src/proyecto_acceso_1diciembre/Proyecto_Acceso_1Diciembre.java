@@ -7,6 +7,7 @@ package proyecto_acceso_1diciembre;
 
 import java.io.IOException;
 import vista.swing.comun.VentanaLoginBDD;
+import vista.swing.vistaDB.VentanaAltaYModifVista;
 
 /**
  * Tercer Proyecto para Angel (Acceso a Datos). Hibernate.
@@ -20,7 +21,8 @@ public class Proyecto_Acceso_1Diciembre {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-        new VentanaLoginBDD();
+        new VentanaAltaYModifVista();
+//        new VentanaLoginBDD();
 //        SingletonVentanas.getVentanaPrincipalObtencionSingleton();
     }
 }
