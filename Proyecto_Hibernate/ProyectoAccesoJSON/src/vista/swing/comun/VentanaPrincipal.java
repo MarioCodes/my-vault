@@ -39,7 +39,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
 
         switch(res) {
             case 0: //Si
-                SingletonVentanas.getVentanaModoEjecucionObtencionSingleton().setVisible(true);
+//                SingletonVentanas.getVentanaModoEjecucionObtencionSingleton().setVisible(true);
                 this.setVisible(false);
                 cerrarVentanasIndependientesAbiertas();
             case 1: case 2: case -1: //Cancelar o 'x'.
@@ -58,7 +58,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         switch(res) {
             case 0:
                 DBBConexion.cerrarConexionBDDSingletonAMano();
-                SingletonVentanas.getVentanaModoEjecucionObtencionSingleton().setVisible(true);
+//                SingletonVentanas.getVentanaModoEjecucionObtencionSingleton().setVisible(true);
                 this.setVisible(false);
                 cerrarVentanasIndependientesAbiertas();
                 break;
@@ -121,13 +121,14 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         setResizable(false);
 
         labelTitulo.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        labelTitulo.setText("Gestión Alojamientos Rurales Aragón v.2");
+        labelTitulo.setText("Gestión Alojamientos Rurales Aragón v.3");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gestión Alojamientos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 14))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gestión Vista Mapeada", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 14))); // NOI18N
         jPanel1.setMaximumSize(new java.awt.Dimension(317, 403));
         jPanel1.setMinimumSize(new java.awt.Dimension(317, 403));
 
         botonAltaAlojamiento.setText("Alta");
+        botonAltaAlojamiento.setEnabled(false);
         botonAltaAlojamiento.setMaximumSize(new java.awt.Dimension(190, 60));
         botonAltaAlojamiento.setMinimumSize(new java.awt.Dimension(190, 60));
         botonAltaAlojamiento.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -138,6 +139,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         });
 
         botonModifAlojamiento.setText("Modificacion");
+        botonModifAlojamiento.setEnabled(false);
         botonModifAlojamiento.setMaximumSize(new java.awt.Dimension(190, 60));
         botonModifAlojamiento.setMinimumSize(new java.awt.Dimension(190, 60));
         botonModifAlojamiento.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -148,6 +150,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         });
 
         botonBajaAlojamiento.setText("Baja");
+        botonBajaAlojamiento.setEnabled(false);
         botonBajaAlojamiento.setMaximumSize(new java.awt.Dimension(190, 60));
         botonBajaAlojamiento.setMinimumSize(new java.awt.Dimension(190, 60));
         botonBajaAlojamiento.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -158,6 +161,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         });
 
         botonListado.setText("Listado Completo");
+        botonListado.setEnabled(false);
         botonListado.setMaximumSize(new java.awt.Dimension(190, 60));
         botonListado.setMinimumSize(new java.awt.Dimension(190, 60));
         botonListado.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -168,6 +172,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         });
 
         jButtonBuscarAlProvincia.setText("Buscar por Provincia");
+        jButtonBuscarAlProvincia.setEnabled(false);
         jButtonBuscarAlProvincia.setMaximumSize(new java.awt.Dimension(190, 60));
         jButtonBuscarAlProvincia.setMinimumSize(new java.awt.Dimension(190, 60));
         jButtonBuscarAlProvincia.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -207,12 +212,13 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gestión Habitaciones", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 14))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gestión Tabla Unica", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 14))); // NOI18N
         jPanel2.setMaximumSize(new java.awt.Dimension(317, 403));
         jPanel2.setMinimumSize(new java.awt.Dimension(317, 403));
         jPanel2.setPreferredSize(new java.awt.Dimension(317, 403));
 
         botonHabitacionesPrecio.setText("Buscar por Precio");
+        botonHabitacionesPrecio.setEnabled(false);
         botonHabitacionesPrecio.setMaximumSize(new java.awt.Dimension(190, 60));
         botonHabitacionesPrecio.setMinimumSize(new java.awt.Dimension(190, 60));
         botonHabitacionesPrecio.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -223,6 +229,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         });
 
         botonAltaHabitacion.setText("Alta");
+        botonAltaHabitacion.setEnabled(false);
         botonAltaHabitacion.setMaximumSize(new java.awt.Dimension(190, 60));
         botonAltaHabitacion.setMinimumSize(new java.awt.Dimension(190, 60));
         botonAltaHabitacion.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -233,6 +240,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         });
 
         botonBajaHabitacion.setText("Baja");
+        botonBajaHabitacion.setEnabled(false);
         botonBajaHabitacion.setMaximumSize(new java.awt.Dimension(190, 60));
         botonBajaHabitacion.setMinimumSize(new java.awt.Dimension(190, 60));
         botonBajaHabitacion.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -243,6 +251,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         });
 
         botonModificacionHabitacion.setText("Modificación");
+        botonModificacionHabitacion.setEnabled(false);
         botonModificacionHabitacion.setMaximumSize(new java.awt.Dimension(190, 60));
         botonModificacionHabitacion.setMinimumSize(new java.awt.Dimension(190, 60));
         botonModificacionHabitacion.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -253,6 +262,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         });
 
         botonListadoCompletoHabitaciones.setText("Listado Completo");
+        botonListadoCompletoHabitaciones.setEnabled(false);
         botonListadoCompletoHabitaciones.setMaximumSize(new java.awt.Dimension(190, 60));
         botonListadoCompletoHabitaciones.setMinimumSize(new java.awt.Dimension(190, 60));
         botonListadoCompletoHabitaciones.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -296,6 +306,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
 
         jMenuItemEscogerModo.setText("Menu escoger modo");
         jMenuItemEscogerModo.setToolTipText("Volver a escoger el modo de inicio de la ventana.");
+        jMenuItemEscogerModo.setEnabled(false);
         jMenuItemEscogerModo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemEscogerModoActionPerformed(evt);

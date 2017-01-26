@@ -13,6 +13,7 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Menu escoger modo"/>
                 <Property name="toolTipText" type="java.lang.String" value="Volver a escoger el modo de inicio de la ventana."/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemEscogerModoActionPerformed"/>
@@ -94,14 +95,14 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial" size="18" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Gesti&#xf3;n Alojamientos Rurales Arag&#xf3;n v.2"/>
+        <Property name="text" type="java.lang.String" value="Gesti&#xf3;n Alojamientos Rurales Arag&#xf3;n v.3"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel1">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Gesti&#xf3;n Alojamientos">
+            <TitledBorder title="Gesti&#xf3;n Vista Mapeada">
               <Font PropertyName="font" name="Tahoma" size="14" style="2"/>
             </TitledBorder>
           </Border>
@@ -153,6 +154,7 @@
         <Component class="javax.swing.JButton" name="botonAltaAlojamiento">
           <Properties>
             <Property name="text" type="java.lang.String" value="Alta"/>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[190, 60]"/>
             </Property>
@@ -170,6 +172,7 @@
         <Component class="javax.swing.JButton" name="botonModifAlojamiento">
           <Properties>
             <Property name="text" type="java.lang.String" value="Modificacion"/>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[190, 60]"/>
             </Property>
@@ -187,6 +190,7 @@
         <Component class="javax.swing.JButton" name="botonBajaAlojamiento">
           <Properties>
             <Property name="text" type="java.lang.String" value="Baja"/>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[190, 60]"/>
             </Property>
@@ -204,6 +208,7 @@
         <Component class="javax.swing.JButton" name="botonListado">
           <Properties>
             <Property name="text" type="java.lang.String" value="Listado Completo"/>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[190, 60]"/>
             </Property>
@@ -221,6 +226,7 @@
         <Component class="javax.swing.JButton" name="jButtonBuscarAlProvincia">
           <Properties>
             <Property name="text" type="java.lang.String" value="Buscar por Provincia"/>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[190, 60]"/>
             </Property>
@@ -241,7 +247,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Gesti&#xf3;n Habitaciones">
+            <TitledBorder title="Gesti&#xf3;n Tabla Unica">
               <Font PropertyName="font" name="Tahoma" size="14" style="2"/>
             </TitledBorder>
           </Border>
@@ -296,6 +302,7 @@
         <Component class="javax.swing.JButton" name="botonHabitacionesPrecio">
           <Properties>
             <Property name="text" type="java.lang.String" value="Buscar por Precio"/>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[190, 60]"/>
             </Property>
@@ -313,6 +320,7 @@
         <Component class="javax.swing.JButton" name="botonAltaHabitacion">
           <Properties>
             <Property name="text" type="java.lang.String" value="Alta"/>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[190, 60]"/>
             </Property>
@@ -330,6 +338,7 @@
         <Component class="javax.swing.JButton" name="botonBajaHabitacion">
           <Properties>
             <Property name="text" type="java.lang.String" value="Baja"/>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[190, 60]"/>
             </Property>
@@ -347,6 +356,7 @@
         <Component class="javax.swing.JButton" name="botonModificacionHabitacion">
           <Properties>
             <Property name="text" type="java.lang.String" value="Modificaci&#xf3;n"/>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[190, 60]"/>
             </Property>
@@ -364,6 +374,7 @@
         <Component class="javax.swing.JButton" name="botonListadoCompletoHabitaciones">
           <Properties>
             <Property name="text" type="java.lang.String" value="Listado Completo"/>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[190, 60]"/>
             </Property>

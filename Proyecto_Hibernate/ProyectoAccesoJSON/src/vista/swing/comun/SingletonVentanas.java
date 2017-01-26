@@ -14,16 +14,16 @@ package vista.swing.comun;
  */
 public class SingletonVentanas {
     private static VentanaPrincipal vp;
-    private static VentanaModoEjecucion vme;
+//    private static VentanaModoEjecucion vme;
     
-    /**
-     * Obtencion de la instancia unica de 'VentanaModoEjecucion'.
-     * @return Instancia de 'VentanaModoEjecucion'.
-     */
-    public static VentanaModoEjecucion getVentanaModoEjecucionObtencionSingleton() {
-        if(vme == null) vme = new VentanaModoEjecucion();
-        return vme;
-    }
+//    /**
+//     * Obtencion de la instancia unica de 'VentanaModoEjecucion'.
+//     * @return Instancia de 'VentanaModoEjecucion'.
+//     */
+//    public static VentanaModoEjecucion getVentanaModoEjecucionObtencionSingleton() {
+//        if(vme == null) vme = new VentanaModoEjecucion();
+//        return vme;
+//    }
     
     /**
      * Obtencion de instancia unica de 'VentanaPrincipal'.

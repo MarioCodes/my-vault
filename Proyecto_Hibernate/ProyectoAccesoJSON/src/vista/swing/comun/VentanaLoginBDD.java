@@ -231,12 +231,12 @@ public class VentanaLoginBDD extends javax.swing.JFrame {
 
     private void jButtonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtrasActionPerformed
         this.dispose();
-        SingletonVentanas.getVentanaModoEjecucionObtencionSingleton().setVisible(true);
+//        SingletonVentanas.getVentanaModoEjecucionObtencionSingleton().setVisible(true);
     }//GEN-LAST:event_jButtonAtrasActionPerformed
 
     private void jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoginActionPerformed
         logeoBDD();
-        SingletonVentanas.getVentanaModoEjecucionObtencionSingleton().setVisible(false);
+//        SingletonVentanas.getVentanaModoEjecucionObtencionSingleton().setVisible(false);
     }//GEN-LAST:event_jButtonLoginActionPerformed
 
     /**
@@ -253,9 +253,12 @@ public class VentanaLoginBDD extends javax.swing.JFrame {
                 break;
             case "Oracle XE":
                 url = "jdbc:oracle:thin:@";
-                this.jTextFieldInputUser.setText("dai3");
-                this.jPasswordFieldInputPWD.setText("tiger");
-                this.jTextFieldInputUrl.setText("172.30.160.190:1521/xe");
+                this.jTextFieldInputUser.setText("mario");
+                this.jPasswordFieldInputPWD.setText("2kjkszpj");
+                this.jTextFieldInputUrl.setText("localhost:1521:xe");
+//                this.jTextFieldInputUser.setText("dai3");
+//                this.jPasswordFieldInputPWD.setText("tiger");
+//                this.jTextFieldInputUrl.setText("172.30.160.190:1521/xe");
 //                this.jTextFieldInputUrl.setText("localhost:1521:xe"); //fixme: Cambio la URL a la del server de clase. Tenerlo en cuenta al trabajar en casa.
                 break;
             default:
