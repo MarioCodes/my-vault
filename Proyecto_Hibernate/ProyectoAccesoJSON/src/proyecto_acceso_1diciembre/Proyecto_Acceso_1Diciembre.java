@@ -20,7 +20,7 @@ import vista.swing.comun.VentanaLoginBDD;
  * @version 0.1 Haciendo Limpieza de Codigo.
  */
 public class Proyecto_Acceso_1Diciembre {
-
+    
     /*
      * @param args the command line arguments
      */
@@ -29,15 +29,35 @@ public class Proyecto_Acceso_1Diciembre {
 //        SingletonVentanas.getVentanaPrincipalObtencionSingleton();
         SessionFactory sf = HibernateUtil.getSessionFactory();
         Session s = sf.openSession();
+        s.beginTransaction();
         
         VistaActividadesAlojamientoId vaid = new VistaActividadesAlojamientoId();
-        vaid.setIdAlojamiento(1);
-        vaid.setIdActividad(2);
+        vaid.setIdAlojamiento(61);
+        vaid.setIdActividad(61);
         vaid.setNombreAlojamiento("SUUU");
+        vaid.setDescripcionAlojamiento("SUU");
+        vaid.setDireccionSocial("SUU");
+        vaid.setRazonSocial("SUUU");
+        vaid.setTelefonoContacto("123");
+        vaid.setValoracionAlojamiento(8);
+        vaid.setFechaApertura("12");
+        vaid.setNumeroHabitaciones(1);
+        vaid.setProvincia("Huesca");
+        vaid.setNombreActividad("Kayak");
+        vaid.setDescripcionActividad("TEST");
+        vaid.setDiaRealizacion("12");
+        vaid.setDiaSemana("Lunes");
+        vaid.setHoraInicio("8:10");
+        vaid.setHoraFin("10:10");
+        vaid.setLocalizacion("Barbastro");
+        vaid.setDificultad(3);
+        vaid.setCapacidad("12");
+        vaid.setNombreGuia("Manolo");
         
         VistaActividadesAlojamiento va = new VistaActividadesAlojamiento();
         va.setId(vaid);
         
-//        s.save(va);
+        s.save(va);
+        s.getTransaction().commit();
     }
 }
