@@ -7,8 +7,13 @@ package vista.swing.comun;
 
 import controlador.datos.DBBConexion;
 import aplicacion.facade.Facade;
+import entidades.HibernateUtil;
+import entidades.VistaActividadesAlojamiento;
+import entidades.VistaActividadesAlojamientoId;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 /**
  * Ventana para Seleccionar la BDD que queremos utilizar y introducir usuario y contraseña.
@@ -255,6 +260,46 @@ public class VentanaLoginBDD extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBoxSelectBDDActionPerformed
 
+    /*
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+//        new VentanaLoginBDD();
+//        SingletonVentanas.getVentanaPrincipalObtencionSingleton();
+        SessionFactory sf = HibernateUtil.getSessionFactory();
+        Session s = sf.openSession();
+        s.beginTransaction();
+        
+        VistaActividadesAlojamientoId vaid = new VistaActividadesAlojamientoId();
+        vaid.setIdAlojamiento(65);
+        vaid.setIdActividad(66);
+        vaid.setNombreAlojamiento("SUUU");
+        vaid.setDescripcionAlojamiento("SUU");
+        vaid.setDireccionSocial("SUU");
+        vaid.setRazonSocial("SUUU");
+        vaid.setTelefonoContacto("123");
+        vaid.setValoracionAlojamiento(8);
+        vaid.setFechaApertura("12");
+        vaid.setNumeroHabitaciones(1);
+        vaid.setProvincia("Huesca");
+        vaid.setNombreActividad("Kayak");
+        vaid.setDescripcionActividad("TEST");
+        vaid.setDiaRealizacion("12");
+        vaid.setDiaSemana("Lunes");
+        vaid.setHoraInicio("8:10");
+        vaid.setHoraFin("10:10");
+        vaid.setLocalizacion("Barbastro");
+        vaid.setDificultad(3);
+        vaid.setCapacidad("12");
+        vaid.setNombreGuia("Manolo");
+        
+        VistaActividadesAlojamiento va = new VistaActividadesAlojamiento();
+        va.setId(vaid);
+        
+        s.save(va);
+        s.getTransaction().commit();
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAtras;
     private javax.swing.JButton jButtonLogin;
