@@ -8,7 +8,9 @@ package vista.swing.vista;
 import aplicacion.facade.Facade;
 import dto.VistaActividadesAlojamiento;
 import dto.VistaActividadesAlojamientoId;
+import javax.swing.JOptionPane;
 import org.hibernate.Hibernate;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
@@ -32,17 +34,18 @@ public class VentanaBuscarAlojID extends javax.swing.JFrame {
      * Recogida del ID y buscado de una entrada en la Vista con ese ID.
      */
     private void recogerDatos() {
-//        int id_aloj = Integer.parseInt(this.jTextFieldInputIDAloj.getText());
+        int id_aloj = Integer.parseInt(this.jTextFieldInputIDAloj.getText());
         
         Session s = Facade.abrirSessionHibernate();
-        VistaActividadesAlojamiento vaa = null;
-        VistaActividadesAlojamientoId vaaID = new VistaActividadesAlojamientoId();
-        vaaID.setIdAlojamiento(1);
-        vaaID.setIdActividad(5);
         
-        vaa = (VistaActividadesAlojamiento) s.get(VistaActividadesAlojamiento.class, vaaID);
-        Hibernate.initialize(vaa);
-        System.out.println(vaa.getId().getNombreAlojamiento());
+        Query q = s.createQuery("delete VistaActividadesAlojamiento "
+                                    + "where ID_ALOJAMIENTO = :idAloj"); //Mediante HQL
+        q.setParameter("idAloj", id_aloj);
+        int resultado = q.executeUpdate();
+
+        JOptionPane.showMessageDialog(this, resultado +" filas modificada(s).");
+        
+        Facade.cerrarSessionHibernate(s);
     }
     
     /**
