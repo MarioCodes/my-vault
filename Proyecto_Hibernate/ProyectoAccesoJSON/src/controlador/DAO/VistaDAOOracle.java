@@ -16,7 +16,7 @@ public class VistaDAOOracle extends VistaDAO{
 
     @Override
     public int altaVista(VistaActividadesAlojamientoId vistaActividades) {
-        
+        throw new UnsupportedOperationException();
     }
     
 }
