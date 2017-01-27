@@ -11,9 +11,6 @@ package aplicacion.facade;
  * @since 26/11/2016
  */
 public class Facade {
-    private static String claseSubhijaAlojamientoDAOSegunBDD; //Cambia en funcion de la BDD a la que nos conectamos, la pongo como variable miembro ya podra cambiar durante el programa.
-    private static String claseSubhijaHabitacionDAOSegunBDD;
-    
     /**
      * Parte relacionada a Alojamientos desde BDD.
      */
@@ -86,24 +83,4 @@ public class Facade {
 //            AlojamientoDAO alDAO = (AlojamientoDAO) DAOFactory.getInstancia(claseSubhijaAlojamientoDAOSegunBDD);
 //            return alDAO.buscarAlojamientos(provincia);
 //        }
-
-    /*
-        Cambio de las SubhijasDAO a instanciar. Esto se debera ejecutar cuando el User seleccione BDD.
-    */
-        
-        /**
-         * Cambiamos la clase a instanciar a la version usada por MySQL.
-         */
-        public void cargadoPropertiesMySQL() {
-            claseSubhijaAlojamientoDAOSegunBDD = "AlojamientoDAOMySQL";
-            claseSubhijaHabitacionDAOSegunBDD = "HabitacionDAOMySQL";
-        }
-        
-        /**
-         * Cambiamos la clase a instanciar a la version de Oracle.
-         */
-        public void cargadoPropertiesOracle() {
-            claseSubhijaAlojamientoDAOSegunBDD = "AlojamientoDAOOracle";
-            claseSubhijaHabitacionDAOSegunBDD = "HabitacionDAOOracle";
-        }
 }

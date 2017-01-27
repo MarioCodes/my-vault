@@ -9,7 +9,7 @@ import aplicacion.facade.Facade;
 //import controlador.DTO.VistaActividadesAlojamientoId;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import vista.swing.comun.SingletonVentanas;
+import controlador.datos.Singleton;
 import vista.swing.comun.VentanaPrincipal;
 
 /**
@@ -19,7 +19,7 @@ import vista.swing.comun.VentanaPrincipal;
  */
 public class VentanaAltaYModifVista extends javax.swing.JFrame {
     private final Facade FACHADA = new Facade();
-    private final VentanaPrincipal VP = SingletonVentanas.getVentanaPrincipalObtencionSingleton();
+    private final VentanaPrincipal VP = Singleton.getVentanaPrincipalObtencionSingleton();
 //    private VistaActividadesAlojamientoId vistaActividades;
     
     /**

@@ -5,6 +5,7 @@
  */
 package vista.swing.comun;
 
+import controlador.datos.Singleton;
 import controlador.datos.DBBConexion;
 import aplicacion.facade.Facade;
 import entidades.HibernateUtil;
@@ -21,7 +22,7 @@ import org.hibernate.SessionFactory;
  * @since 24/11/2016
  */
 public class VentanaLoginBDD extends javax.swing.JFrame {
-    private String user, password, driver, url = "jdbc:mysql:";
+    private String user, password, driver = "oracle.jdbc.driver.OracleDriver", url = "jdbc:oracle:thin:@";
     
     /**
      * Creates new form VentanaLoginBDD
@@ -30,34 +31,8 @@ public class VentanaLoginBDD extends javax.swing.JFrame {
         initComponents();
         
         this.setTitle("Log In");
-        this.setVisible(true);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-    }
-
-    /**
-     * Set del driver a utilizar y clases DAO segun conectemos y necesitemos de MySQL o Oracle.
-     * Lo pongo en este de propio y no en el otro, porque necesito que se ejecute si o si una vez y cuando sea definitivo, no con un action que va cambiando.
-     * @param seleccionBDD String con la BDD seleccionada.
-     */
-    private void seleccionarDriverCorrespondiente(String seleccionBDD) {
-        Facade fachada = new Facade();
-        
-        switch(seleccionBDD) {
-            case "MySQL":
-                driver = "com.mysql.jdbc.Driver";
-                fachada.cargadoPropertiesMySQL();
-                break;
-            case "Oracle XE":
-                driver = "oracle.jdbc.driver.OracleDriver";
-                fachada.cargadoPropertiesOracle();
-                break;
-            default:
-                driver = "com.mysql.jdbc.Driver";
-                JOptionPane.showMessageDialog(this, "Valor por defecto del switch. Error.");
-                fachada.cargadoPropertiesMySQL();
-                break;
-        }
     }
     
     /**
@@ -75,8 +50,6 @@ public class VentanaLoginBDD extends javax.swing.JFrame {
         user = this.jTextFieldInputUser.getText();
         password = new String(this.jPasswordFieldInputPWD.getPassword()); //Forma de obtener el input de jPasswordField y hacerlo String.
         url += this.jTextFieldInputUrl.getText(); //Concateno la parte variable de la url a la parte fija (driver) que se ha de poner antes.
-        
-        seleccionarDriverCorrespondiente((String) this.jComboBoxSelectBDD.getSelectedItem());
     }
     
     /**
@@ -88,7 +61,7 @@ public class VentanaLoginBDD extends javax.swing.JFrame {
         if(checkUser()) {
             Connection conResultado = DBBConexion.getConexionDBBSingletonPattern(driver, url, user, password); //Instanciacion de la conexion por primera y unica vez (Patron Singleton).
             if(conResultado != null) { //Comprobacion de si la conexion es nula.
-                VentanaPrincipal vp = SingletonVentanas.getVentanaPrincipalObtencionSingleton(); //Instanciacion de la VentanaPrincipal y puesta en marcha.
+                VentanaPrincipal vp = Singleton.getVentanaPrincipalObtencionSingleton(); //Instanciacion de la VentanaPrincipal y puesta en marcha.
                 vp.setTitle("Ventana Principal - Version BDD");
                 vp.setVisible(true);
                 this.dispose(); //Cerramos esta ventana.
@@ -126,18 +99,16 @@ public class VentanaLoginBDD extends javax.swing.JFrame {
 
         jLabelUser.setText("Usuario");
 
-        jTextFieldInputUser.setText("root");
+        jTextFieldInputUser.setText("dai4");
 
         jLabelPWD.setText("Contraseña");
 
+        jPasswordFieldInputPWD.setText("tiger");
+        jPasswordFieldInputPWD.setToolTipText("");
+
         jLabelBDD.setText("Database");
 
-        jComboBoxSelectBDD.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MySQL", "Oracle XE" }));
-        jComboBoxSelectBDD.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxSelectBDDActionPerformed(evt);
-            }
-        });
+        jComboBoxSelectBDD.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Oracle XE" }));
 
         jButtonLogin.setText("Aceptar");
         jButtonLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -158,7 +129,7 @@ public class VentanaLoginBDD extends javax.swing.JFrame {
 
         jLabelUrl.setText("Url");
 
-        jTextFieldInputUrl.setText("//localhost/proyecto");
+        jTextFieldInputUrl.setText("172.30.160.190:1521/XE");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -223,82 +194,86 @@ public class VentanaLoginBDD extends javax.swing.JFrame {
 
     private void jButtonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtrasActionPerformed
         this.dispose();
-//        SingletonVentanas.getVentanaModoEjecucionObtencionSingleton().setVisible(true);
     }//GEN-LAST:event_jButtonAtrasActionPerformed
 
     private void jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoginActionPerformed
         logeoBDD();
-//        SingletonVentanas.getVentanaModoEjecucionObtencionSingleton().setVisible(false);
     }//GEN-LAST:event_jButtonLoginActionPerformed
 
     /**
-     * Set de fields necesarios cuando el usuario cambia la BDD a conectar en el comboBox.
+     * @param args the command line arguments
      */
-    private void jComboBoxSelectBDDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxSelectBDDActionPerformed
-        String valorSeleccionado = (String) this.jComboBoxSelectBDD.getSelectedItem();
-        
-        switch(valorSeleccionado) {
-            case "MySQL":
-                url = "jdbc:mysql:";
-                this.jTextFieldInputUser.setText("root");
-                this.jTextFieldInputUrl.setText("//localhost/proyecto");
-                break;
-            case "Oracle XE":
-                url = "jdbc:oracle:thin:@";
-                this.jTextFieldInputUser.setText("mario");
-                this.jPasswordFieldInputPWD.setText("2kjkszpj");
-                this.jTextFieldInputUrl.setText("localhost:1521:xe");
-//                this.jTextFieldInputUser.setText("dai3");
-//                this.jPasswordFieldInputPWD.setText("tiger");
-//                this.jTextFieldInputUrl.setText("172.30.160.190:1521/xe");
-//                this.jTextFieldInputUrl.setText("localhost:1521:xe"); //fixme: Cambio la URL a la del server de clase. Tenerlo en cuenta al trabajar en casa.
-                break;
-            default:
-                this.jTextFieldInputUser.setText("root");
-                this.jTextFieldInputUrl.setText("jdbc:mysql://localhost/proyecto");
-                break;
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(VentanaLoginBDD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(VentanaLoginBDD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(VentanaLoginBDD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(VentanaLoginBDD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jComboBoxSelectBDDActionPerformed
+        //</editor-fold>
 
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new VentanaLoginBDD().setVisible(true);
+            }
+        });
+    }
+    
     /*
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+//    public static void main(String[] args) {
 //        new VentanaLoginBDD();
 //        SingletonVentanas.getVentanaPrincipalObtencionSingleton();
-        SessionFactory sf = HibernateUtil.getSessionFactory();
-        Session s = sf.openSession();
-        s.beginTransaction();
-        
-        VistaActividadesAlojamientoId vaid = new VistaActividadesAlojamientoId();
-        vaid.setIdAlojamiento(65);
-        vaid.setIdActividad(66);
-        vaid.setNombreAlojamiento("SUUU");
-        vaid.setDescripcionAlojamiento("SUU");
-        vaid.setDireccionSocial("SUU");
-        vaid.setRazonSocial("SUUU");
-        vaid.setTelefonoContacto("123");
-        vaid.setValoracionAlojamiento(8);
-        vaid.setFechaApertura("12");
-        vaid.setNumeroHabitaciones(1);
-        vaid.setProvincia("Huesca");
-        vaid.setNombreActividad("Kayak");
-        vaid.setDescripcionActividad("TEST");
-        vaid.setDiaRealizacion("12");
-        vaid.setDiaSemana("Lunes");
-        vaid.setHoraInicio("8:10");
-        vaid.setHoraFin("10:10");
-        vaid.setLocalizacion("Barbastro");
-        vaid.setDificultad(3);
-        vaid.setCapacidad("12");
-        vaid.setNombreGuia("Manolo");
-        
-        VistaActividadesAlojamiento va = new VistaActividadesAlojamiento();
-        va.setId(vaid);
-        
-        s.save(va);
-        s.getTransaction().commit();
-    }
+//        SessionFactory sf = HibernateUtil.getSessionFactory();
+//        Session s = sf.openSession();
+//        s.beginTransaction();
+//        
+//        VistaActividadesAlojamientoId vaid = new VistaActividadesAlojamientoId();
+//        vaid.setIdAlojamiento(65);
+//        vaid.setIdActividad(66);
+//        vaid.setNombreAlojamiento("SUUU");
+//        vaid.setDescripcionAlojamiento("SUU");
+//        vaid.setDireccionSocial("SUU");
+//        vaid.setRazonSocial("SUUU");
+//        vaid.setTelefonoContacto("123");
+//        vaid.setValoracionAlojamiento(8);
+//        vaid.setFechaApertura("12");
+//        vaid.setNumeroHabitaciones(1);
+//        vaid.setProvincia("Huesca");
+//        vaid.setNombreActividad("Kayak");
+//        vaid.setDescripcionActividad("TEST");
+//        vaid.setDiaRealizacion("12");
+//        vaid.setDiaSemana("Lunes");
+//        vaid.setHoraInicio("8:10");
+//        vaid.setHoraFin("10:10");
+//        vaid.setLocalizacion("Barbastro");
+//        vaid.setDificultad(3);
+//        vaid.setCapacidad("12");
+//        vaid.setNombreGuia("Manolo");
+//        
+//        VistaActividadesAlojamiento va = new VistaActividadesAlojamiento();
+//        va.setId(vaid);
+//        
+//        s.save(va);
+//        s.getTransaction().commit();
+//    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAtras;

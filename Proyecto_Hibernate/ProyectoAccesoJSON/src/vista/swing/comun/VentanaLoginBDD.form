@@ -109,7 +109,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldInputUser">
       <Properties>
-        <Property name="text" type="java.lang.String" value="root"/>
+        <Property name="text" type="java.lang.String" value="dai4"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelPWD">
@@ -118,6 +118,10 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JPasswordField" name="jPasswordFieldInputPWD">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="tiger"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelBDD">
       <Properties>
@@ -127,15 +131,11 @@
     <Component class="javax.swing.JComboBox" name="jComboBoxSelectBDD">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="2">
-            <StringItem index="0" value="MySQL"/>
-            <StringItem index="1" value="Oracle XE"/>
+          <StringArray count="1">
+            <StringItem index="0" value="Oracle XE"/>
           </StringArray>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxSelectBDDActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonLogin">
       <Properties>
@@ -169,7 +169,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldInputUrl">
       <Properties>
-        <Property name="text" type="java.lang.String" value="//localhost/proyecto"/>
+        <Property name="text" type="java.lang.String" value="172.30.160.190:1521/XE"/>
       </Properties>
     </Component>
   </SubComponents>

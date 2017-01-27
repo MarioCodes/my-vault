@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 
-package vista.swing.comun;
+package controlador.datos;
+
+import vista.swing.comun.VentanaPrincipal;
 
 /**
  * Aplicacion del Patron de disenio 'Singleton' para tener una unica instancia de las ventanas de menu que vamos a utilizar varias veces en el programa.
@@ -12,18 +14,8 @@ package vista.swing.comun;
  * @author Mario Codes Sánchez.
  * @since 21/11/2016
  */
-public class SingletonVentanas {
+public class Singleton {
     private static VentanaPrincipal vp;
-//    private static VentanaModoEjecucion vme;
-    
-//    /**
-//     * Obtencion de la instancia unica de 'VentanaModoEjecucion'.
-//     * @return Instancia de 'VentanaModoEjecucion'.
-//     */
-//    public static VentanaModoEjecucion getVentanaModoEjecucionObtencionSingleton() {
-//        if(vme == null) vme = new VentanaModoEjecucion();
-//        return vme;
-//    }
     
     /**
      * Obtencion de instancia unica de 'VentanaPrincipal'.
