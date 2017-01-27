@@ -7,8 +7,8 @@
     <property name="hibernate.connection.url">jdbc:oracle:thin:@172.30.160.190:1521:XE</property>
     <property name="hibernate.connection.username">dai4</property>
     <property name="hibernate.connection.password">tiger</property>
-    <mapping resource="entidades/Actividad.hbm.xml"/>
-    <mapping resource="entidades/VistaActividadesAlojamiento.hbm.xml"/>
-    <mapping resource="entidades/Alojamiento.hbm.xml"/>
+    <mapping resource="dto/Actividad.hbm.xml"/>
+    <mapping resource="dto/VistaActividadesAlojamiento.hbm.xml"/>
+    <mapping resource="dto/Alojamiento.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
