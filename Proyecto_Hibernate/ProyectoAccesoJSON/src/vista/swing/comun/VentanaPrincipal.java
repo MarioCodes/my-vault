@@ -389,8 +389,8 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         
         VistaActividadesAlojamiento va = new VistaActividadesAlojamiento();
         va.setId(vaid);
-        
         s.save(va);
+        
         Facade.cerrarSessionHibernate(s);
     }
     

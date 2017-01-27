@@ -52,6 +52,24 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
         }
     }
     
+    private void recogidaDatos() {
+        String nombreAloj = this.jTextFieldInputNombreAloj.getText();
+        String telefono = this.jTextFieldInputTelefono.getText();
+        String dirSocial = this.jTextFieldInputDirSocial.getText();
+        String razSocial = this.jTextFieldInputRazonSocial.getText();
+        int valoracion = (int) this.jSpinnerValoracion.getValue();
+        String fechaApertura = this.jTextFieldInputFechaApertura.getText();
+        int habitaciones = (int) this.jSpinnerHabitaciones.getValue();
+        String provincia = (String) this.jComboBoxProvincia.getSelectedItem();
+        String descripAloj = this.jTextPaneInputDescripcionAloj.getText();
+        
+        int idActividad = Integer.parseInt(this.jTextFieldInputIDActividad.getText()); //todo: cambiar esto a ID automatico.
+        String nombreActiv = this.jTextFieldInputNombreActiv.getText();
+        String fechaActiv = this.jTextFieldInputFechaActiv.getText();
+        
+        //todo: CONTINUAR RECOGIENDO DATOS.
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
