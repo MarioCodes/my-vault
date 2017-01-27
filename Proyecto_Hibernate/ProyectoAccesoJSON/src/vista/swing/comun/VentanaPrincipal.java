@@ -5,13 +5,13 @@
  */
 package vista.swing.comun;
 
+import aplicacion.facade.Facade;
+import controlador.datos.Singleton;
 import dto.HibernateUtil;
 import dto.VistaActividadesAlojamiento;
 import dto.VistaActividadesAlojamientoId;
-import posibles.DBBConexion;
 import java.util.ArrayList;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import vista.swing.vista.VentanaAltaYModifVista;
@@ -362,13 +362,11 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     //fixme: borrar mas adelante.
     private void testeoFuncionamientoHibernate() {
 //        SingletonVentanas.getVentanaPrincipalObtencionSingleton();
-        SessionFactory sf = HibernateUtil.getSessionFactory();
-        Session s = sf.openSession();
-        s.beginTransaction();
+        Session s = Facade.abrirSessionHibernate();
         
         VistaActividadesAlojamientoId vaid = new VistaActividadesAlojamientoId();
         vaid.setIdAlojamiento(65);
-        vaid.setIdActividad(80);
+        vaid.setIdActividad(81);
         vaid.setNombreAlojamiento("SUUU");
         vaid.setDescripcionAlojamiento("SUU");
         vaid.setDireccionSocial("SUU");
@@ -393,7 +391,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         va.setId(vaid);
         
         s.save(va);
-        s.getTransaction().commit();
+        Facade.cerrarSessionHibernate(s);
     }
     
     /**
@@ -426,7 +424,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VentanaPrincipal().setVisible(true);
+                Singleton.getVentanaPrincipalObtencionSingleton().setVisible(true);
             }
         });
     }

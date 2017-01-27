@@ -20,7 +20,6 @@ import vista.swing.comun.VentanaPrincipal;
 public class VentanaAltaYModifVista extends javax.swing.JFrame {
     private final Facade FACHADA = new Facade();
     private final VentanaPrincipal VP = Singleton.getVentanaPrincipalObtencionSingleton();
-//    private VistaActividadesAlojamientoId vistaActividades;
     
     /**
      * Creates new form VentanaAltaYModifVista
@@ -413,6 +412,7 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         this.dispose();
+        VP.setVisible(true);
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jButtonIntroducirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIntroducirActionPerformed

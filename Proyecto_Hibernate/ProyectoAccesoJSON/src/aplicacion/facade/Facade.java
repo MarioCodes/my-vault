@@ -5,6 +5,9 @@
  */
 package aplicacion.facade;
 
+import dto.HibernateUtil;
+import org.hibernate.Session;
+
 /**
  * Patron de Diseño Façade. Modelo Vista - Controlador. Clase Intermediaria entre ambas para mantener separado el la ejecucion de codigo.
  * @author Mario Codes Sánchez
@@ -12,8 +15,25 @@ package aplicacion.facade;
  */
 public class Facade {
     /**
-     * Parte relacionada a Alojamientos desde BDD.
+     * Abre la Session de Hibernate y la devuelve para manipular los datos 
+     * @return Session abierta.
      */
+    public static Session abrirSessionHibernate() {
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        s.beginTransaction();
+        return s;
+    }
+    
+    /**
+     * Hacemos Commit y cerramos la Session.
+     * @param s session abierta y con datos manipulados.
+     */
+    public static void cerrarSessionHibernate(Session s) {
+        s.getTransaction().commit();
+        s.close();
+    }
+    
+    
 //        /**
 //         * Alta o Modificacion de un Alojamiento. Obtenemos AlojamientoDTO de la ventana grafica, con los datos que haya en ese momento, se hace una busqueda por el ID.
 //         *  Si ese Alojamiento ya existe, lo modifica, si es null, lo crea nuevo.
