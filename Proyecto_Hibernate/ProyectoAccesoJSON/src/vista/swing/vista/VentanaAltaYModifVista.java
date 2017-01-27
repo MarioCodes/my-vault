@@ -34,16 +34,6 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         
         VP.setVisible(false);
-        
-        desactivarCamposIDAlojamiento();
-    }
-
-    /**
-     * El ID del Alojamiento es AI. Lo gestiona Oracle.
-     */
-    private void desactivarCamposIDAlojamiento() {
-        this.jLabelID.setVisible(false);
-        this.jTextFieldInputIDAloj.setVisible(false);
     }
     
     /**
@@ -75,8 +65,6 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanelDatosAlojamiento = new javax.swing.JPanel();
-        jLabelID = new javax.swing.JLabel();
-        jTextFieldInputIDAloj = new javax.swing.JTextField();
         jLabelTelefono = new javax.swing.JLabel();
         jTextFieldInputTelefono = new javax.swing.JTextField();
         jLabelNombre = new javax.swing.JLabel();
@@ -130,8 +118,6 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
 
         jPanelDatosAlojamiento.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos Alojamiento", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("sansserif", 2, 12))); // NOI18N
 
-        jLabelID.setText("ID");
-
         jLabelTelefono.setText("Telefono");
 
         jLabelNombre.setText("Nombre");
@@ -170,18 +156,13 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
                             .addComponent(jLabelRazonSocial)
                             .addComponent(jLabelDirSocial)
                             .addComponent(jLabelTelefono)
-                            .addComponent(jLabelID))
+                            .addComponent(jLabelNombre))
                         .addGap(12, 12, 12)
                         .addGroup(jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDatosAlojamientoLayout.createSequentialGroup()
-                                .addComponent(jTextFieldInputIDAloj, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabelNombre)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextFieldInputNombreAloj, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jTextFieldInputTelefono)
                             .addComponent(jTextFieldInputDirSocial)
-                            .addComponent(jTextFieldInputRazonSocial, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addComponent(jTextFieldInputRazonSocial, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTextFieldInputNombreAloj, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(jPanelDatosAlojamientoLayout.createSequentialGroup()
                         .addGroup(jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelValoracion)
@@ -210,8 +191,6 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
             jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDatosAlojamientoLayout.createSequentialGroup()
                 .addGroup(jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldInputIDAloj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelID)
                     .addComponent(jLabelNombre)
                     .addComponent(jTextFieldInputNombreAloj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -464,7 +443,6 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelHabitaciones;
     private javax.swing.JLabel jLabelHoraFin;
     private javax.swing.JLabel jLabelHoraIni;
-    private javax.swing.JLabel jLabelID;
     private javax.swing.JLabel jLabelIDActiv;
     private javax.swing.JLabel jLabelLocalizacion;
     private javax.swing.JLabel jLabelMainTitulo;
@@ -491,7 +469,6 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldInputHoraFinActiv;
     private javax.swing.JTextField jTextFieldInputHoraInicioAc;
     private javax.swing.JTextField jTextFieldInputIDActividad;
-    private javax.swing.JTextField jTextFieldInputIDAloj;
     private javax.swing.JTextField jTextFieldInputLocalizacion;
     private javax.swing.JTextField jTextFieldInputNombreActiv;
     private javax.swing.JTextField jTextFieldInputNombreAloj;

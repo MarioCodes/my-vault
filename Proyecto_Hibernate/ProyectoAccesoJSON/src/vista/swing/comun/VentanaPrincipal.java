@@ -5,10 +5,15 @@
  */
 package vista.swing.comun;
 
+import dto.HibernateUtil;
+import dto.VistaActividadesAlojamiento;
+import dto.VistaActividadesAlojamientoId;
 import posibles.DBBConexion;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import vista.swing.vista.VentanaAltaYModifVista;
 
 /**
@@ -25,59 +30,10 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     public VentanaPrincipal() {
         initComponents();
         
-        this.setVisible(true);
         this.setLocationRelativeTo(null);
-        this.setResizable(false);        
-    }
-    
-    /**
-     * Pregunta al usuario para guardar o no cambios en fichero .JSON antes de volver a la ventana de elegir menu.
-     */
-    private void volverVentanaElegirVersionJSON() {
-        int res = JOptionPane.showConfirmDialog(this, "Estas a punto de volver al menu principal. ¿Seguro?");
-
-        switch(res) {
-            case 0: //Si
-//                SingletonVentanas.getVentanaModoEjecucionObtencionSingleton().setVisible(true);
-                this.setVisible(false);
-                cerrarVentanasIndependientesAbiertas();
-            case 1: case 2: case -1: //Cancelar o 'x'.
-                break;
-            default: 
-                System.out.println("Valor por defecto en Switch volverVentanaElegirVersionJSON()");
-        }
-    }
-    
-    /**
-     * Confirmacion por parte del usuario de que se cerrara la conexion de BDD. Permiso para continuar.
-     */
-    private void volverVentanaElegirVersionBDD() {
-        int res = JOptionPane.showConfirmDialog(this, "Se cerrara la conexion a la Base de Datos. ¿Continuar?");
+        this.setResizable(false);       
         
-        switch(res) {
-            case 0:
-                DBBConexion.cerrarConexionBDDSingletonAMano();
-//                SingletonVentanas.getVentanaModoEjecucionObtencionSingleton().setVisible(true);
-                this.setVisible(false);
-                cerrarVentanasIndependientesAbiertas();
-                break;
-            case 1: case 2: case -1:
-                break;
-            default:
-                System.out.println("Valor por defecto en Switch VolverVentanaElegirBDD()");
-                break;
-        }
-    }
-    
-    /**
-     * Confirmacion del Usuario para guardar cambios antes de volver al menu para elegir entre 'BDD' o 'JSON'. Posibilidad de cancelar cerrado.
-     */
-    private void confirmacionVolverVentanaPrincipalGuardarCambiosJSON() {
-        if(!DBBConexion.checkConexionDBBExiste()) {
-            volverVentanaElegirVersionJSON();
-        } else {
-            volverVentanaElegirVersionBDD();
-        }
+//        testeoFuncionamientoHibernate();
     }
     
     /**
@@ -401,9 +357,45 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     }//GEN-LAST:event_jMenuItemSalirActionPerformed
 
     private void jMenuItemEscogerModoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEscogerModoActionPerformed
-        confirmacionVolverVentanaPrincipalGuardarCambiosJSON();
     }//GEN-LAST:event_jMenuItemEscogerModoActionPerformed
        
+    //fixme: borrar mas adelante.
+    private void testeoFuncionamientoHibernate() {
+//        SingletonVentanas.getVentanaPrincipalObtencionSingleton();
+        SessionFactory sf = HibernateUtil.getSessionFactory();
+        Session s = sf.openSession();
+        s.beginTransaction();
+        
+        VistaActividadesAlojamientoId vaid = new VistaActividadesAlojamientoId();
+        vaid.setIdAlojamiento(65);
+        vaid.setIdActividad(80);
+        vaid.setNombreAlojamiento("SUUU");
+        vaid.setDescripcionAlojamiento("SUU");
+        vaid.setDireccionSocial("SUU");
+        vaid.setRazonSocial("SUUU");
+        vaid.setTelefonoContacto("123");
+        vaid.setValoracionAlojamiento(8);
+        vaid.setFechaApertura("12");
+        vaid.setNumeroHabitaciones(1);
+        vaid.setProvincia("Huesca");
+        vaid.setNombreActividad("Kayak");
+        vaid.setDescripcionActividad("TEST");
+        vaid.setDiaRealizacion("12");
+        vaid.setDiaSemana("Lunes");
+        vaid.setHoraInicio("8:10");
+        vaid.setHoraFin("10:10");
+        vaid.setLocalizacion("Barbastro");
+        vaid.setDificultad(3);
+        vaid.setCapacidad("12");
+        vaid.setNombreGuia("Manolo");
+        
+        VistaActividadesAlojamiento va = new VistaActividadesAlojamiento();
+        va.setId(vaid);
+        
+        s.save(va);
+        s.getTransaction().commit();
+    }
+    
     /**
      * @param args the command line arguments
      */
