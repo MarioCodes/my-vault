@@ -33,7 +33,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         this.setLocationRelativeTo(null);
         this.setResizable(false);       
         
-//        testeoFuncionamientoHibernate();
+        testeoFuncionamientoHibernate();
     }
     
     /**
@@ -365,14 +365,15 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         Session s = Facade.abrirSessionHibernate();
         
         VistaActividadesAlojamientoId vaid = new VistaActividadesAlojamientoId();
-        vaid.setIdAlojamiento(65);
-        vaid.setIdActividad(81);
+//        vaid.setIdAlojamiento(65);
+        vaid.setIdActividad(82);
+        
         vaid.setNombreAlojamiento("SUUU");
         vaid.setDescripcionAlojamiento("SUU");
         vaid.setDireccionSocial("SUU");
         vaid.setRazonSocial("SUUU");
         vaid.setTelefonoContacto("123");
-//        vaid.setValoracionAlojamiento(8);
+        vaid.setValoracionAlojamiento(8);
         vaid.setFechaApertura("12");
         vaid.setNumeroHabitaciones(1);
         vaid.setProvincia("Huesca");

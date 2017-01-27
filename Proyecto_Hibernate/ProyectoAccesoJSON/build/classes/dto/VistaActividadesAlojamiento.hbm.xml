@@ -26,7 +26,7 @@
             <key-property name="telefonoContacto" type="string">
                 <column name="TELEFONO_CONTACTO" length="15" />
             </key-property>
-            <key-property name="valoracionAlojamiento" type="java.lang.Boolean">
+            <key-property name="valoracionAlojamiento" type="int">
                 <column name="VALORACION_ALOJAMIENTO" precision="1" scale="0" />
             </key-property>
             <key-property name="fechaApertura" type="string">
