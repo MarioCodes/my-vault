@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 27-ene-2017 12:01:59 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class name="entidades.Alojamiento" optimistic-lock="version" schema="DAI4" table="ALOJAMIENTO">
+    <id name="idAlojamiento" type="int">
+      <column name="ID_ALOJAMIENTO" precision="7" scale="0"/>
+      <generator class="assigned"/>
+    </id>
+    <property name="nombre" type="string">
+      <column length="80" name="NOMBRE" not-null="true"/>
+    </property>
+    <property name="direccionSocial" type="string">
+      <column length="200" name="DIRECCION_SOCIAL" not-null="true"/>
+    </property>
+    <property name="razonSocial" type="string">
+      <column length="200" name="RAZON_SOCIAL"/>
+    </property>
+    <property name="telefonoContacto" type="string">
+      <column length="15" name="TELEFONO_CONTACTO"/>
+    </property>
+    <property name="descripcion" type="string">
+      <column length="500" name="DESCRIPCION"/>
+    </property>
+    <property name="valoracion" type="java.lang.Boolean">
+      <column name="VALORACION" precision="1" scale="0"/>
+    </property>
+    <property name="fechaApertura" type="string">
+      <column length="50" name="FECHA_APERTURA"/>
+    </property>
+    <property name="numHabitaciones" type="java.lang.Integer">
+      <column name="NUM_HABITACIONES" precision="7" scale="0"/>
+    </property>
+    <property name="provincia" type="string">
+      <column length="100" name="PROVINCIA"/>
+    </property>
+  </class>
+</hibernate-mapping>

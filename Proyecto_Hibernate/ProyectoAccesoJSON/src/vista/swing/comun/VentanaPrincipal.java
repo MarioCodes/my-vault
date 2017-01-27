@@ -7,11 +7,9 @@ package vista.swing.comun;
 
 import controlador.datos.DBBConexion;
 import java.util.ArrayList;
-import vista.swing.alojamientos.*;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import vista.swing.habitacion.*;
-import vista.swing.vistaDB.VentanaAltaYModifVista;
+import vista.swing.vistasHibernate.VentanaAltaYModifVista;
 
 /**
  * Ventana Principal del programa. Conduce al resto de Ventanas que haran las operaciones.
@@ -363,39 +361,39 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     }//GEN-LAST:event_botonAltaAlojamientoActionPerformed
 
     private void botonBajaAlojamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBajaAlojamientoActionPerformed
-        new VentanaBajaAlojamiento();
+//        new VentanaBajaAlojamiento();
     }//GEN-LAST:event_botonBajaAlojamientoActionPerformed
 
     private void botonListadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonListadoActionPerformed
-        VENTANAS_INDEPENDIENTES_ABIERTAS.add(new VentanaListadoAlojamientos());
+//        VENTANAS_INDEPENDIENTES_ABIERTAS.add(new VentanaListadoAlojamientos());
     }//GEN-LAST:event_botonListadoActionPerformed
 
     private void botonModifAlojamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModifAlojamientoActionPerformed
-        VENTANAS_INDEPENDIENTES_ABIERTAS.add(new VentanaBuscarAlojamientoInputID());
+//        VENTANAS_INDEPENDIENTES_ABIERTAS.add(new VentanaBuscarAlojamientoInputID());
     }//GEN-LAST:event_botonModifAlojamientoActionPerformed
 
     private void botonHabitacionesPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonHabitacionesPrecioActionPerformed
-        VENTANAS_INDEPENDIENTES_ABIERTAS.add(new VentanaOrdenarHabitacionPrecioInput());
+//        VENTANAS_INDEPENDIENTES_ABIERTAS.add(new VentanaOrdenarHabitacionPrecioInput());
     }//GEN-LAST:event_botonHabitacionesPrecioActionPerformed
 
     private void jButtonBuscarAlProvinciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarAlProvinciaActionPerformed
-        VENTANAS_INDEPENDIENTES_ABIERTAS.add(new VentanaInputProvinciaAlojamiento());
+//        VENTANAS_INDEPENDIENTES_ABIERTAS.add(new VentanaInputProvinciaAlojamiento());
     }//GEN-LAST:event_jButtonBuscarAlProvinciaActionPerformed
 
     private void botonAltaHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAltaHabitacionActionPerformed
-        new VentanaAltaYModifHabitacion();
+//        new VentanaAltaYModifHabitacion();
     }//GEN-LAST:event_botonAltaHabitacionActionPerformed
 
     private void botonModificacionHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificacionHabitacionActionPerformed
-        VENTANAS_INDEPENDIENTES_ABIERTAS.add(new VentanaBuscarHabitacionInputID());
+//        VENTANAS_INDEPENDIENTES_ABIERTAS.add(new VentanaBuscarHabitacionInputID());
     }//GEN-LAST:event_botonModificacionHabitacionActionPerformed
 
     private void botonListadoCompletoHabitacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonListadoCompletoHabitacionesActionPerformed
-        VENTANAS_INDEPENDIENTES_ABIERTAS.add(new VentanaListadoHabitaciones());
+//        VENTANAS_INDEPENDIENTES_ABIERTAS.add(new VentanaListadoHabitaciones());
     }//GEN-LAST:event_botonListadoCompletoHabitacionesActionPerformed
 
     private void botonBajaHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBajaHabitacionActionPerformed
-        new VentanaBajaHabitacion();
+//        new VentanaBajaHabitacion();
     }//GEN-LAST:event_botonBajaHabitacionActionPerformed
 
     private void jMenuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalirActionPerformed

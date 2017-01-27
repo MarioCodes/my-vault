@@ -5,8 +5,8 @@
  */
 package proyecto_acceso_1diciembre;
 
-import entities.VistaActividadesAlojamiento;
-import entities.VistaActividadesAlojamientoId;
+import entidades.VistaActividadesAlojamiento;
+import entidades.VistaActividadesAlojamientoId;
 import hibernate.HibernateUtil;
 import java.io.IOException;
 import org.hibernate.Session;
@@ -32,8 +32,8 @@ public class Proyecto_Acceso_1Diciembre {
         s.beginTransaction();
         
         VistaActividadesAlojamientoId vaid = new VistaActividadesAlojamientoId();
-        vaid.setIdAlojamiento(61);
-        vaid.setIdActividad(61);
+        vaid.setIdAlojamiento(62);
+        vaid.setIdActividad(62);
         vaid.setNombreAlojamiento("SUUU");
         vaid.setDescripcionAlojamiento("SUU");
         vaid.setDireccionSocial("SUU");
