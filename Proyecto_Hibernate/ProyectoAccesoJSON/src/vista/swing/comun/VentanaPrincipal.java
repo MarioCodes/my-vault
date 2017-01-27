@@ -12,6 +12,8 @@ import dto.VistaActividadesAlojamiento;
 import dto.VistaActividadesAlojamientoId;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
 import javax.swing.JFrame;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -28,7 +30,20 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     private final ArrayList<JFrame> VENTANAS_INDEPENDIENTES_ABIERTAS = new ArrayList<>(); //Para almarcenar y cerrar las que se abren de forma independiente cuando volvamos a la ventana de "escoger modo".
     
     private void test() {
+        Session s = Facade.abrirSessionHibernate();
         
+        List lista = s.createCriteria(VistaActividadesAlojamiento.class).list();
+        
+        ListIterator li = lista.listIterator();
+        
+        while(li.hasNext()) {
+            VistaActividadesAlojamiento vaa = (VistaActividadesAlojamiento) li.next();
+            VistaActividadesAlojamientoId vaaID = vaa.getId();
+            
+            System.out.println(vaaID.getNombreAlojamiento());
+        }
+        
+        Facade.cerrarSessionHibernate(s);
     }
     
     /**
@@ -40,7 +55,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         this.setLocationRelativeTo(null);
         this.setResizable(false);      
         
-//        test();
+        test();
     }
     
     /**
