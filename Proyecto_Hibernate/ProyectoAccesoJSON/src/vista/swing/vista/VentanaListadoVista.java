@@ -21,6 +21,7 @@ import org.hibernate.Session;
  */
 public class VentanaListadoVista extends javax.swing.JFrame {
     private DefaultTableModel model;
+    private int valoracion = 0;
     
     /**
      * Creates new form VentanaListadoVista
@@ -33,6 +34,20 @@ public class VentanaListadoVista extends javax.swing.JFrame {
         
         this.jTabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         rellenoTablaDatos();
+    }
+    
+    /**
+     * Constructor para la version filtrada por valoracion media.
+     * @param valoracion Valoracion media que queremos que tenga el alojamiento / actividad donde vamos.
+     */
+    public VentanaListadoVista(int valoracion) {
+        initComponents();
+        
+        this.setVisible(true);
+        
+        this.valoracion = valoracion;
+        this.jTabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        rellenoTablaDatos(valoracion);
     }
     
     /**
@@ -78,6 +93,56 @@ public class VentanaListadoVista extends javax.swing.JFrame {
                 model.addRow(row);
             }catch(NullPointerException ex) {
                 ex.printStackTrace();
+            }
+        }
+    }
+    
+    /**
+     * Version para obtener filtrados los que tengan mas de 'x' valoracion.
+     * @param valoracion Valoracion minima que queremos que tenga.
+     */
+    private void rellenoTablaDatos(int valoracion) {
+        if(model != null) model.setRowCount(0);
+        
+        model = (DefaultTableModel) this.jTabla.getModel();
+        
+        Session s = Facade.abrirSessionHibernate();
+        List lista = s.createCriteria(VistaActividadesAlojamiento.class).list();
+        
+        ListIterator li = lista.listIterator();
+        
+        while(li.hasNext()) {
+            VistaActividadesAlojamiento vaa = (VistaActividadesAlojamiento) li.next();
+            VistaActividadesAlojamientoId vaaID = vaa.getId();
+            
+            if(vaaID.getValoracionAlojamiento() >= valoracion) {
+                try {
+                    Object[] row = new Object[21];
+                    row[0] = vaaID.getIdAlojamiento();
+                    row[1] = vaaID.getIdActividad();
+                    row[2] = vaaID.getNombreAlojamiento();
+                    row[3] = vaaID.getDescripcionAlojamiento();
+                    row[4] = vaaID.getDireccionSocial();
+                    row[5] = vaaID.getRazonSocial();
+                    row[6] = vaaID.getTelefonoContacto();
+                    row[7] = vaaID.getValoracionAlojamiento();
+                    row[8] = vaaID.getFechaApertura();
+                    row[9] = vaaID.getNumeroHabitaciones();
+                    row[10] = vaaID.getProvincia();
+                    row[11] = vaaID.getNombreActividad();
+                    row[12] = vaaID.getDescripcionActividad();
+                    row[13] = vaaID.getDiaRealizacion();
+                    row[14] = vaaID.getDiaSemana();
+                    row[15] = vaaID.getHoraInicio();
+                    row[16] = vaaID.getHoraFin();
+                    row[17] = vaaID.getLocalizacion();
+                    row[18] = vaaID.getDificultad();
+                    row[19] = vaaID.getCapacidad();
+                    row[20] = vaaID.getNombreGuia();
+                    model.addRow(row);
+                }catch(NullPointerException ex) {
+                    ex.printStackTrace();
+                }
             }
         }
     }
@@ -177,7 +242,8 @@ public class VentanaListadoVista extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSalirActionPerformed
 
     private void jButtonRefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefrescarActionPerformed
-        rellenoTablaDatos();
+        if(valoracion == 0)rellenoTablaDatos();
+        else rellenoTablaDatos(valoracion);
         JOptionPane.showMessageDialog(this, "Tabla Actualizada.");
     }//GEN-LAST:event_jButtonRefrescarActionPerformed
 

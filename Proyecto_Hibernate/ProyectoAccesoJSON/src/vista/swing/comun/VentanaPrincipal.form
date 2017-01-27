@@ -125,7 +125,7 @@
                           <Component id="botonModifAlojamiento" alignment="0" max="32767" attributes="0"/>
                           <Component id="botonBajaAlojamiento" alignment="0" max="32767" attributes="0"/>
                           <Component id="botonListado" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButtonBuscarAlProvincia" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jButtonBuscarValoracion" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <Component id="botonAltaAlojamiento" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -144,7 +144,7 @@
                   <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                   <Component id="botonListado" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
-                  <Component id="jButtonBuscarAlProvincia" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonBuscarValoracion" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="40" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -220,10 +220,9 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonListadoActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonBuscarAlProvincia">
+        <Component class="javax.swing.JButton" name="jButtonBuscarValoracion">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Buscar por Provincia"/>
-            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="text" type="java.lang.String" value="Buscar por Valoracion"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[190, 60]"/>
             </Property>
@@ -235,7 +234,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonBuscarAlProvinciaActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonBuscarValoracionActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

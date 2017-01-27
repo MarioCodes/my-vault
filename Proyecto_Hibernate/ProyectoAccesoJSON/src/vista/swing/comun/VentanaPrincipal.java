@@ -21,6 +21,7 @@ import org.hibernate.SessionFactory;
 import vista.swing.vista.VentanaAltaYModifVista;
 import vista.swing.vista.VentanaBajaVista;
 import vista.swing.vista.VentanaListadoVista;
+import vista.swing.vista.VentanaValoracionMinima;
 
 /**
  * Ventana Principal del programa. Conduce al resto de Ventanas que haran las operaciones.
@@ -83,7 +84,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         botonModifAlojamiento = new javax.swing.JButton();
         botonBajaAlojamiento = new javax.swing.JButton();
         botonListado = new javax.swing.JButton();
-        jButtonBuscarAlProvincia = new javax.swing.JButton();
+        jButtonBuscarValoracion = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         botonHabitacionesPrecio = new javax.swing.JButton();
         botonAltaHabitacion = new javax.swing.JButton();
@@ -146,14 +147,13 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
             }
         });
 
-        jButtonBuscarAlProvincia.setText("Buscar por Provincia");
-        jButtonBuscarAlProvincia.setEnabled(false);
-        jButtonBuscarAlProvincia.setMaximumSize(new java.awt.Dimension(190, 60));
-        jButtonBuscarAlProvincia.setMinimumSize(new java.awt.Dimension(190, 60));
-        jButtonBuscarAlProvincia.setPreferredSize(new java.awt.Dimension(190, 60));
-        jButtonBuscarAlProvincia.addActionListener(new java.awt.event.ActionListener() {
+        jButtonBuscarValoracion.setText("Buscar por Valoracion");
+        jButtonBuscarValoracion.setMaximumSize(new java.awt.Dimension(190, 60));
+        jButtonBuscarValoracion.setMinimumSize(new java.awt.Dimension(190, 60));
+        jButtonBuscarValoracion.setPreferredSize(new java.awt.Dimension(190, 60));
+        jButtonBuscarValoracion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonBuscarAlProvinciaActionPerformed(evt);
+                jButtonBuscarValoracionActionPerformed(evt);
             }
         });
 
@@ -168,7 +168,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
                         .addComponent(botonModifAlojamiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(botonBajaAlojamiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(botonListado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonBuscarAlProvincia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jButtonBuscarValoracion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(botonAltaAlojamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -183,7 +183,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
                 .addGap(17, 17, 17)
                 .addComponent(botonListado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17)
-                .addComponent(jButtonBuscarAlProvincia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonBuscarValoracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(40, Short.MAX_VALUE))
         );
 
@@ -353,9 +353,9 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
 //        VENTANAS_INDEPENDIENTES_ABIERTAS.add(new VentanaOrdenarHabitacionPrecioInput());
     }//GEN-LAST:event_botonHabitacionesPrecioActionPerformed
 
-    private void jButtonBuscarAlProvinciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarAlProvinciaActionPerformed
-//        VENTANAS_INDEPENDIENTES_ABIERTAS.add(new VentanaInputProvinciaAlojamiento());
-    }//GEN-LAST:event_jButtonBuscarAlProvinciaActionPerformed
+    private void jButtonBuscarValoracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarValoracionActionPerformed
+        new VentanaValoracionMinima();
+    }//GEN-LAST:event_jButtonBuscarValoracionActionPerformed
 
     private void botonAltaHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAltaHabitacionActionPerformed
 //        new VentanaAltaYModifHabitacion();
@@ -425,7 +425,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     private javax.swing.JButton botonListadoCompletoHabitaciones;
     private javax.swing.JButton botonModifAlojamiento;
     private javax.swing.JButton botonModificacionHabitacion;
-    private javax.swing.JButton jButtonBuscarAlProvincia;
+    private javax.swing.JButton jButtonBuscarValoracion;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItemEscogerModo;
     private javax.swing.JMenuItem jMenuItemSalir;
