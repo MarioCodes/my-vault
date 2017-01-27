@@ -5,12 +5,21 @@
  */
 package vista.swing.vista;
 
+import aplicacion.facade.Facade;
+import dto.VistaActividadesAlojamiento;
+import dto.VistaActividadesAlojamientoId;
+import java.util.List;
+import java.util.ListIterator;
+import javax.swing.table.DefaultTableModel;
+import org.hibernate.Session;
+
 /**
  *
  * @author Mario Codes Sánchez
  */
 public class VentanaListadoVista extends javax.swing.JFrame {
-
+    private DefaultTableModel model;
+    
     /**
      * Creates new form VentanaListadoVista
      */
@@ -18,8 +27,55 @@ public class VentanaListadoVista extends javax.swing.JFrame {
         initComponents();
         
         this.setVisible(true);
+        
+        rellenoTablaDatos();
     }
-
+    
+    /**
+     * Operacion Base. Hace un get de los datos actuales y los muestra en una JTable.
+     */
+    private void rellenoTablaDatos() {
+        model = (DefaultTableModel) this.jTabla.getModel();
+        
+        Session s = Facade.abrirSessionHibernate();
+        List lista = s.createCriteria(VistaActividadesAlojamiento.class).list();
+        
+        ListIterator li = lista.listIterator();
+        
+        while(li.hasNext()) {
+            VistaActividadesAlojamiento vaa = (VistaActividadesAlojamiento) li.next();
+            VistaActividadesAlojamientoId vaaID = vaa.getId();
+            
+            try {
+                Object[] row = new Object[21];
+                row[0] = vaaID.getIdAlojamiento();
+                row[1] = vaaID.getIdActividad();
+                row[2] = vaaID.getNombreAlojamiento();
+                row[3] = vaaID.getDescripcionAlojamiento();
+                row[4] = vaaID.getDireccionSocial();
+                row[5] = vaaID.getRazonSocial();
+                row[6] = vaaID.getTelefonoContacto();
+                row[7] = vaaID.getValoracionAlojamiento();
+                row[8] = vaaID.getFechaApertura();
+                row[9] = vaaID.getNumeroHabitaciones();
+                row[10] = vaaID.getProvincia();
+                row[11] = vaaID.getNombreActividad();
+                row[12] = vaaID.getDescripcionActividad();
+                row[13] = vaaID.getDiaRealizacion();
+                row[14] = vaaID.getDiaSemana();
+                row[15] = vaaID.getHoraInicio();
+                row[16] = vaaID.getHoraFin();
+                row[17] = vaaID.getLocalizacion();
+                row[18] = vaaID.getDificultad();
+                row[19] = vaaID.getCapacidad();
+                row[20] = vaaID.getNombreGuia();
+                model.addRow(row);
+            }catch(NullPointerException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,21 +85,22 @@ public class VentanaListadoVista extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jLabelTitulo = new javax.swing.JLabel();
+        jScrollPane = new javax.swing.JScrollPane();
+        jTabla = new javax.swing.JTable();
+        jButtonRefrescar = new javax.swing.JButton();
+        jButtonSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("jLabel1");
+        jLabelTitulo.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        jLabelTitulo.setText("Lista Completa");
 
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "ID_ALOJAMIENTO", "ID_ACTIVIDAD", "NOMBRE", "DESCRIPCION", "DIRECCION", "RAZON_SOCIAL", "TELEFONO", "VALORACION", "FECHA_APERTURA", "HABITACIONES", "PROVINCIA", "ACTIVIDAD", "DESCRIPCION", "SIGUIENTE_DIA", "DIA_SEMANA", "HORA_INICIO", "HORA_FIN", "LOCALIZACION", "DIFICULTAD", "CAPACIDAD", "NOMBRE_GUIA"
@@ -57,11 +114,16 @@ public class VentanaListadoVista extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane.setViewportView(jTabla);
 
-        jButton1.setText("jButton1");
+        jButtonRefrescar.setText("Refrescar");
 
-        jButton2.setText("jButton2");
+        jButtonSalir.setText("Cerrar");
+        jButtonSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -69,41 +131,47 @@ public class VentanaListadoVista extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(280, 280, 280))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 460, Short.MAX_VALUE)
+                        .addComponent(jButtonRefrescar)
+                        .addGap(116, 116, 116)
+                        .addComponent(jButtonSalir)
+                        .addGap(495, 495, 495))))
             .addGroup(layout.createSequentialGroup()
-                .addGap(175, 175, 175)
-                .addComponent(jButton1)
-                .addGap(112, 112, 112)
-                .addComponent(jButton2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(523, 523, 523)
+                .addComponent(jLabelTitulo)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(jLabelTitulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButtonRefrescar)
+                    .addComponent(jButtonSalir))
                 .addGap(20, 20, 20))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButtonSalirActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JButton jButtonRefrescar;
+    private javax.swing.JButton jButtonSalir;
+    private javax.swing.JLabel jLabelTitulo;
+    private javax.swing.JScrollPane jScrollPane;
+    private javax.swing.JTable jTabla;
     // End of variables declaration//GEN-END:variables
 }
