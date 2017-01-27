@@ -5,19 +5,60 @@
  */
 package vista.swing.vista;
 
+import aplicacion.facade.Facade;
+import javax.swing.JOptionPane;
+import org.hibernate.Query;
+import org.hibernate.Session;
+
 /**
  *
  * @author Mario
  */
 public class VentanaBajaVista extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form VentanaBajaVista
      */
     public VentanaBajaVista() {
         initComponents();
+        
+        this.setTitle("Dar de Baja.");
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
 
+    /**
+     * Accion de borrar mediante sentencia HQL de Hibernate.
+     * @param idAlojamiento ID del Alojamiento a borrar.
+     * @param idActividad ID de la actividad para confirmar. Ambas deben coincidir.
+     */
+    private void borrarDesdeHibernate(int idAlojamiento, int idActividad) {
+        Session s = Facade.abrirSessionHibernate();
+        
+        Query q = s.createQuery("delete VistaActividadesAlojamiento "
+                                    + "where ID_ALOJAMIENTO = :idAloj "
+                                    + "and ID_ACTIVIDAD = :idActiv"); //Mediante HQL
+        q.setParameter("idAloj", idAlojamiento);
+        q.setParameter("idActiv", idActividad);
+        q.executeUpdate();
+
+        Facade.cerrarSessionHibernate(s);
+    }
+    
+    /**
+     * Pillamos los datos de la ventana.
+     */
+    private void recogidaDatos() {
+        try {
+            int idAlojamiento = Integer.parseInt(this.jTextFieldInputIDAloj.getText());
+            int idActividad = Integer.parseInt(this.jTextFieldInputIDActiv.getText());
+            
+            borrarDesdeHibernate(idAlojamiento, idActividad);
+        }catch(ClassCastException | NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "ID no valido.");
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,68 +68,103 @@ public class VentanaBajaVista extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        jLabelTitulo = new javax.swing.JLabel();
+        jLabelTituloIDAloj = new javax.swing.JLabel();
+        jLabelTituloIDActiv = new javax.swing.JLabel();
+        jTextFieldInputIDAloj = new javax.swing.JTextField();
+        jTextFieldInputIDActiv = new javax.swing.JTextField();
+        jButtonAceptar = new javax.swing.JButton();
+        jButtonCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("jLabel1");
+        jLabelTitulo.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        jLabelTitulo.setText("Dar de Baja");
+
+        jLabelTituloIDAloj.setText("ID Alojamiento");
+
+        jLabelTituloIDActiv.setText("ID Actividad");
+
+        jButtonAceptar.setText("Aceptar");
+        jButtonAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAceptarActionPerformed(evt);
+            }
+        });
+
+        jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelTituloIDActiv)
+                    .addComponent(jLabelTituloIDAloj))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextFieldInputIDAloj)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTextFieldInputIDActiv, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelTitulo)
+                .addGap(42, 42, 42))
             .addGroup(layout.createSequentialGroup()
-                .addGap(170, 170, 170)
-                .addComponent(jLabel1)
-                .addContainerGap(189, Short.MAX_VALUE))
+                .addGap(23, 23, 23)
+                .addComponent(jButtonAceptar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonCancelar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(278, Short.MAX_VALUE))
+                .addComponent(jLabelTitulo)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelTituloIDAloj)
+                    .addComponent(jTextFieldInputIDAloj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelTituloIDActiv)
+                    .addComponent(jTextFieldInputIDActiv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonAceptar)
+                    .addComponent(jButtonCancelar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VentanaBajaVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VentanaBajaVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VentanaBajaVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VentanaBajaVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VentanaBajaVista().setVisible(true);
-            }
-        });
-    }
+    private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
+        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Seguro?");
+        if (confirmacion == 0) recogidaDatos();
+    }//GEN-LAST:event_jButtonAceptarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButtonAceptar;
+    private javax.swing.JButton jButtonCancelar;
+    private javax.swing.JLabel jLabelTitulo;
+    private javax.swing.JLabel jLabelTituloIDActiv;
+    private javax.swing.JLabel jLabelTituloIDAloj;
+    private javax.swing.JTextField jTextFieldInputIDActiv;
+    private javax.swing.JTextField jTextFieldInputIDAloj;
     // End of variables declaration//GEN-END:variables
 }

@@ -17,6 +17,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import vista.swing.vista.VentanaAltaYModifVista;
+import vista.swing.vista.VentanaBajaVista;
 
 /**
  * Ventana Principal del programa. Conduce al resto de Ventanas que haran las operaciones.
@@ -27,11 +28,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     private final ArrayList<JFrame> VENTANAS_INDEPENDIENTES_ABIERTAS = new ArrayList<>(); //Para almarcenar y cerrar las que se abren de forma independiente cuando volvamos a la ventana de "escoger modo".
     
     private void test() {
-        Session s = Facade.abrirSessionHibernate();
         
-        
-
-        Facade.cerrarSessionHibernate(s);
     }
     
     /**
@@ -43,7 +40,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         this.setLocationRelativeTo(null);
         this.setResizable(false);      
         
-        test();
+//        test();
     }
     
     /**
@@ -114,7 +111,6 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         });
 
         botonBajaAlojamiento.setText("Baja");
-        botonBajaAlojamiento.setEnabled(false);
         botonBajaAlojamiento.setMaximumSize(new java.awt.Dimension(190, 60));
         botonBajaAlojamiento.setMinimumSize(new java.awt.Dimension(190, 60));
         botonBajaAlojamiento.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -173,7 +169,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
                 .addComponent(botonListado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17)
                 .addComponent(jButtonBuscarAlProvincia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gestión Tabla Unica", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 14))); // NOI18N
@@ -314,7 +310,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
                 .addComponent(labelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -327,7 +323,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     }//GEN-LAST:event_botonAltaAlojamientoActionPerformed
 
     private void botonBajaAlojamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBajaAlojamientoActionPerformed
-//        new VentanaBajaAlojamiento();
+        new VentanaBajaVista();
     }//GEN-LAST:event_botonBajaAlojamientoActionPerformed
 
     private void botonListadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonListadoActionPerformed
