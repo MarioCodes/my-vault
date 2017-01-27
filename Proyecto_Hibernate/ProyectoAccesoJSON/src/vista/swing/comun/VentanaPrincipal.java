@@ -20,6 +20,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import vista.swing.vista.VentanaAltaYModifVista;
 import vista.swing.vista.VentanaBajaVista;
+import vista.swing.vista.VentanaBuscarAlojID;
 import vista.swing.vista.VentanaListadoVista;
 import vista.swing.vista.VentanaValoracionMinima;
 
@@ -117,7 +118,6 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         });
 
         botonModifAlojamiento.setText("Modificacion");
-        botonModifAlojamiento.setEnabled(false);
         botonModifAlojamiento.setMaximumSize(new java.awt.Dimension(190, 60));
         botonModifAlojamiento.setMinimumSize(new java.awt.Dimension(190, 60));
         botonModifAlojamiento.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -346,7 +346,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     }//GEN-LAST:event_botonListadoActionPerformed
 
     private void botonModifAlojamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModifAlojamientoActionPerformed
-//        VENTANAS_INDEPENDIENTES_ABIERTAS.add(new VentanaBuscarAlojamientoInputID());
+        new VentanaBuscarAlojID();
     }//GEN-LAST:event_botonModifAlojamientoActionPerformed
 
     private void botonHabitacionesPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonHabitacionesPrecioActionPerformed
