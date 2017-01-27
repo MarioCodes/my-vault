@@ -40,8 +40,10 @@ public class VentanaBajaVista extends javax.swing.JFrame {
                                     + "and ID_ACTIVIDAD = :idActiv"); //Mediante HQL
         q.setParameter("idAloj", idAlojamiento);
         q.setParameter("idActiv", idActividad);
-        q.executeUpdate();
+        int resultado = q.executeUpdate();
 
+        JOptionPane.showMessageDialog(this, resultado +" filas modificada(s).");
+        
         Facade.cerrarSessionHibernate(s);
     }
     
