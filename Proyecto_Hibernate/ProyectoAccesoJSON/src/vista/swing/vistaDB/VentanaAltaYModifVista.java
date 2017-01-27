@@ -6,7 +6,7 @@
 package vista.swing.vistaDB;
 
 import aplicacion.facade.Facade;
-import controlador.DTO.VistaActividadesAlojamientoId;
+//import controlador.DTO.VistaActividadesAlojamientoId;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import vista.swing.comun.SingletonVentanas;
@@ -20,7 +20,7 @@ import vista.swing.comun.VentanaPrincipal;
 public class VentanaAltaYModifVista extends javax.swing.JFrame {
     private final Facade FACHADA = new Facade();
     private final VentanaPrincipal VP = SingletonVentanas.getVentanaPrincipalObtencionSingleton();
-    private VistaActividadesAlojamientoId vistaActividades;
+//    private VistaActividadesAlojamientoId vistaActividades;
     
     /**
      * Creates new form VentanaAltaYModifVista
