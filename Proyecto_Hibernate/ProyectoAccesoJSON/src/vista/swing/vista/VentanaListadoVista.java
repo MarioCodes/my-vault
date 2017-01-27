@@ -10,6 +10,8 @@ import dto.VistaActividadesAlojamiento;
 import dto.VistaActividadesAlojamientoId;
 import java.util.List;
 import java.util.ListIterator;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.Session;
 
@@ -28,6 +30,8 @@ public class VentanaListadoVista extends javax.swing.JFrame {
         
         this.setVisible(true);
         
+        
+        this.jTabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         rellenoTablaDatos();
     }
     
@@ -35,6 +39,8 @@ public class VentanaListadoVista extends javax.swing.JFrame {
      * Operacion Base. Hace un get de los datos actuales y los muestra en una JTable.
      */
     private void rellenoTablaDatos() {
+        if(model != null) model.setRowCount(0);
+        
         model = (DefaultTableModel) this.jTabla.getModel();
         
         Session s = Facade.abrirSessionHibernate();
@@ -96,8 +102,6 @@ public class VentanaListadoVista extends javax.swing.JFrame {
         jLabelTitulo.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabelTitulo.setText("Lista Completa");
 
-        jScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-
         jTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -117,6 +121,11 @@ public class VentanaListadoVista extends javax.swing.JFrame {
         jScrollPane.setViewportView(jTabla);
 
         jButtonRefrescar.setText("Refrescar");
+        jButtonRefrescar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRefrescarActionPerformed(evt);
+            }
+        });
 
         jButtonSalir.setText("Cerrar");
         jButtonSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -136,11 +145,11 @@ public class VentanaListadoVista extends javax.swing.JFrame {
                         .addComponent(jScrollPane)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 460, Short.MAX_VALUE)
-                        .addComponent(jButtonRefrescar)
-                        .addGap(116, 116, 116)
-                        .addComponent(jButtonSalir)
-                        .addGap(495, 495, 495))))
+                        .addGap(0, 409, Short.MAX_VALUE)
+                        .addComponent(jButtonRefrescar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(73, 73, 73)
+                        .addComponent(jButtonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(474, 474, 474))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(523, 523, 523)
                 .addComponent(jLabelTitulo)
@@ -153,11 +162,11 @@ public class VentanaListadoVista extends javax.swing.JFrame {
                 .addComponent(jLabelTitulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonRefrescar)
-                    .addComponent(jButtonSalir))
-                .addGap(20, 20, 20))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonRefrescar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
@@ -166,6 +175,11 @@ public class VentanaListadoVista extends javax.swing.JFrame {
     private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButtonSalirActionPerformed
+
+    private void jButtonRefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefrescarActionPerformed
+        rellenoTablaDatos();
+        JOptionPane.showMessageDialog(this, "Tabla Actualizada.");
+    }//GEN-LAST:event_jButtonRefrescarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonRefrescar;
