@@ -206,7 +206,6 @@
         <Component class="javax.swing.JButton" name="botonListado">
           <Properties>
             <Property name="text" type="java.lang.String" value="Listado Completo"/>
-            <Property name="enabled" type="boolean" value="false"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[190, 60]"/>
             </Property>

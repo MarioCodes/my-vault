@@ -20,6 +20,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import vista.swing.vista.VentanaAltaYModifVista;
 import vista.swing.vista.VentanaBajaVista;
+import vista.swing.vista.VentanaListadoVista;
 
 /**
  * Ventana Principal del programa. Conduce al resto de Ventanas que haran las operaciones.
@@ -55,7 +56,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         this.setLocationRelativeTo(null);
         this.setResizable(false);      
         
-        test();
+//        test();
     }
     
     /**
@@ -136,7 +137,6 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         });
 
         botonListado.setText("Listado Completo");
-        botonListado.setEnabled(false);
         botonListado.setMaximumSize(new java.awt.Dimension(190, 60));
         botonListado.setMinimumSize(new java.awt.Dimension(190, 60));
         botonListado.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -342,7 +342,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     }//GEN-LAST:event_botonBajaAlojamientoActionPerformed
 
     private void botonListadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonListadoActionPerformed
-//        VENTANAS_INDEPENDIENTES_ABIERTAS.add(new VentanaListadoAlojamientos());
+        new VentanaListadoVista();
     }//GEN-LAST:event_botonListadoActionPerformed
 
     private void botonModifAlojamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModifAlojamientoActionPerformed
