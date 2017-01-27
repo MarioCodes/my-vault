@@ -15,7 +15,8 @@ import org.hibernate.service.ServiceRegistryBuilder;
  * Hibernate Utility class with a convenient method to get Session Factory
  * object.
  *
- * @author Alumno
+ * @author Mario Codes Sánchez
+ * @since 26/01/2017
  */
 public class HibernateUtil {
     private static final SessionFactory sessionFactory;

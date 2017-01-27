@@ -7,9 +7,11 @@ package vista.swing.vista;
 
 import aplicacion.facade.Facade;
 //import controlador.DTO.VistaActividadesAlojamientoId;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import controlador.datos.Singleton;
+import dto.VistaActividadesAlojamiento;
+import dto.VistaActividadesAlojamientoId;
+import javax.swing.JOptionPane;
+import org.hibernate.Session;
 import vista.swing.comun.VentanaPrincipal;
 
 /**
@@ -18,7 +20,6 @@ import vista.swing.comun.VentanaPrincipal;
  * @since 26/01/2017
  */
 public class VentanaAltaYModifVista extends javax.swing.JFrame {
-    private final Facade FACHADA = new Facade();
     private final VentanaPrincipal VP = Singleton.getVentanaPrincipalObtencionSingleton();
     
     /**
@@ -35,39 +36,48 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
         VP.setVisible(false);
     }
     
-    /**
-     * Chequea que el input realizado sobre el telefono sean solo numeros y de longitud 9 a 13.
-     * @return True si el campo contiene solo numeros (int).
-     */
-    private boolean checkInputTlfNumericoExprRegular() {
-        try {
-            String cadena = this.jTextFieldInputTelefono.getText();
+    
+    private void altaVista(VistaActividadesAlojamientoId vaaID) {
+        Session s = Facade.abrirSessionHibernate();
+        
+        VistaActividadesAlojamiento vaa = new VistaActividadesAlojamiento(vaaID);
+        s.save(vaa);
 
-            Pattern pat = Pattern.compile("[0-9]{9,13}");
-            Matcher mat = pat.matcher(cadena);
-
-            return mat.matches();
-        } catch(NumberFormatException ex) {
-            return false;
-        }
+        Facade.cerrarSessionHibernate(s);
     }
     
+    /**
+     * Ejecucion de recogida de datos de la Ventana.
+     */
     private void recogidaDatos() {
-        String nombreAloj = this.jTextFieldInputNombreAloj.getText();
-        String telefono = this.jTextFieldInputTelefono.getText();
-        String dirSocial = this.jTextFieldInputDirSocial.getText();
-        String razSocial = this.jTextFieldInputRazonSocial.getText();
-        int valoracion = (int) this.jSpinnerValoracion.getValue();
-        String fechaApertura = this.jTextFieldInputFechaApertura.getText();
-        int habitaciones = (int) this.jSpinnerHabitaciones.getValue();
-        String provincia = (String) this.jComboBoxProvincia.getSelectedItem();
-        String descripAloj = this.jTextPaneInputDescripcionAloj.getText();
-        
-        int idActividad = Integer.parseInt(this.jTextFieldInputIDActividad.getText()); //todo: cambiar esto a ID automatico.
-        String nombreActiv = this.jTextFieldInputNombreActiv.getText();
-        String fechaActiv = this.jTextFieldInputFechaActiv.getText();
-        
-        //todo: CONTINUAR RECOGIENDO DATOS.
+        try {
+            String nombreAloj = this.jTextFieldInputNombreAloj.getText();
+            String telefono = this.jTextFieldInputTelefono.getText();
+            String dirSocial = this.jTextFieldInputDirSocial.getText();
+            String razSocial = this.jTextFieldInputRazonSocial.getText();
+            int valoracion = (int) this.jSpinnerValoracion.getValue();
+            String fechaApertura = this.jTextFieldInputFechaApertura.getText();
+            int habitaciones = (int) this.jSpinnerHabitaciones.getValue();
+            String provincia = (String) this.jComboBoxProvincia.getSelectedItem();
+            String descripAloj = this.jTextPaneInputDescripcionAloj.getText();
+
+            int idActividad = Integer.parseInt(this.jTextFieldInputIDActividad.getText()); //todo: cambiar esto a ID automatico.
+            String nombreActiv = this.jTextFieldInputNombreActiv.getText();
+            String fechaActiv = this.jTextFieldInputFechaActiv.getText();
+            String diaSemana = this.jTextFieldInputDiaSemana.getText();
+            String horaInicio = this.jTextFieldInputHoraInicioAc.getText();
+            String horaFin = this.jTextFieldInputHoraFinActiv.getText();
+            int dificultad = (int) this.jSpinnerDificultad.getValue();
+            String capacidad = this.jSpinnerCapacidadActiv.getValue().toString();
+            String localizacionActividad = this.jTextFieldInputLocalizacion.getText();
+            String nombreGuia = this.jTextFieldInputNombreGuia.getText();
+            String descripActiv = this.jTextPaneInputDescrip.getText();
+            
+            VistaActividadesAlojamientoId vaaID = new VistaActividadesAlojamientoId(0, idActividad, nombreAloj, descripAloj, dirSocial, razSocial, telefono, valoracion, fechaApertura, habitaciones, provincia, nombreActiv, descripActiv, fechaActiv, diaSemana, horaInicio, horaFin, localizacionActividad, dificultad, capacidad, nombreGuia);
+            altaVista(vaaID);
+        }catch(NumberFormatException | ClassCastException ex) {
+            JOptionPane.showMessageDialog(this, "Campo numerico no valido.");
+        }
     }
     
     /**
@@ -434,7 +444,11 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jButtonIntroducirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIntroducirActionPerformed
-        System.out.println(checkCamposLlenos());
+        if(checkCamposLlenos()) {
+            recogidaDatos();
+        } else {
+            JOptionPane.showMessageDialog(this, "Revisar los campos. Es necesario que TODOS esten rellenos.");
+        }
     }//GEN-LAST:event_jButtonIntroducirActionPerformed
 
     /**

@@ -10,8 +10,10 @@ import controlador.datos.Singleton;
 import dto.HibernateUtil;
 import dto.VistaActividadesAlojamiento;
 import dto.VistaActividadesAlojamientoId;
+import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import vista.swing.vista.VentanaAltaYModifVista;
@@ -24,6 +26,14 @@ import vista.swing.vista.VentanaAltaYModifVista;
 public class VentanaPrincipal extends javax.swing.JFrame  {
     private final ArrayList<JFrame> VENTANAS_INDEPENDIENTES_ABIERTAS = new ArrayList<>(); //Para almarcenar y cerrar las que se abren de forma independiente cuando volvamos a la ventana de "escoger modo".
     
+    private void test() {
+        Session s = Facade.abrirSessionHibernate();
+        
+        
+
+        Facade.cerrarSessionHibernate(s);
+    }
+    
     /**
      * Creates new form VentanaPrincipal
      */
@@ -31,9 +41,9 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         initComponents();
         
         this.setLocationRelativeTo(null);
-        this.setResizable(false);       
+        this.setResizable(false);      
         
-        testeoFuncionamientoHibernate();
+        test();
     }
     
     /**
@@ -358,43 +368,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
 
     private void jMenuItemEscogerModoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEscogerModoActionPerformed
     }//GEN-LAST:event_jMenuItemEscogerModoActionPerformed
-       
-    //fixme: borrar mas adelante.
-    private void testeoFuncionamientoHibernate() {
-//        SingletonVentanas.getVentanaPrincipalObtencionSingleton();
-        Session s = Facade.abrirSessionHibernate();
-        
-        VistaActividadesAlojamientoId vaid = new VistaActividadesAlojamientoId();
-//        vaid.setIdAlojamiento(65);
-        vaid.setIdActividad(82);
-        
-        vaid.setNombreAlojamiento("SUUU");
-        vaid.setDescripcionAlojamiento("SUU");
-        vaid.setDireccionSocial("SUU");
-        vaid.setRazonSocial("SUUU");
-        vaid.setTelefonoContacto("123");
-        vaid.setValoracionAlojamiento(8);
-        vaid.setFechaApertura("12");
-        vaid.setNumeroHabitaciones(1);
-        vaid.setProvincia("Huesca");
-        vaid.setNombreActividad("Kayak");
-        vaid.setDescripcionActividad("TEST");
-        vaid.setDiaRealizacion("12");
-        vaid.setDiaSemana("Lunes");
-        vaid.setHoraInicio("8:10");
-        vaid.setHoraFin("10:10");
-        vaid.setLocalizacion("Barbastro");
-        vaid.setDificultad(3);
-        vaid.setCapacidad("12");
-        vaid.setNombreGuia("Manolo");
-        
-        VistaActividadesAlojamiento va = new VistaActividadesAlojamiento();
-        va.setId(vaid);
-        s.save(va);
-        
-        Facade.cerrarSessionHibernate(s);
-    }
-    
+          
     /**
      * @param args the command line arguments
      */
