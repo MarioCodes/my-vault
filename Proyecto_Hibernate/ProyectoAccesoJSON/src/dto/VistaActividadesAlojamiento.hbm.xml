@@ -1,72 +1,73 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 27-ene-2017 12:01:59 by Hibernate Tools 4.3.1 -->
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 27-ene-2017 16:47:01 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-  <class name="dto.VistaActividadesAlojamiento" optimistic-lock="version" schema="DAI4" table="VISTA_ACTIVIDADES_ALOJAMIENTO">
-    <composite-id class="dto.VistaActividadesAlojamientoId" name="id">
-      <key-property name="idAlojamiento" type="int">
-        <column name="ID_ALOJAMIENTO" precision="7" scale="0"/>
-      </key-property>
-      <key-property name="idActividad" type="int">
-        <column name="ID_ACTIVIDAD" precision="7" scale="0"/>
-      </key-property>
-      <key-property name="nombreAlojamiento" type="string">
-        <column length="80" name="NOMBRE_ALOJAMIENTO"/>
-      </key-property>
-      <key-property name="descripcionAlojamiento" type="string">
-        <column length="500" name="DESCRIPCION_ALOJAMIENTO"/>
-      </key-property>
-      <key-property name="direccionSocial" type="string">
-        <column length="200" name="DIRECCION_SOCIAL"/>
-      </key-property>
-      <key-property name="razonSocial" type="string">
-        <column length="200" name="RAZON_SOCIAL"/>
-      </key-property>
-      <key-property name="telefonoContacto" type="string">
-        <column length="15" name="TELEFONO_CONTACTO"/>
-      </key-property>
-      <key-property name="valoracionAlojamiento" type="int">
-        <column name="VALORACION_ALOJAMIENTO" precision="1" scale="0"/>
-      </key-property>
-      <key-property name="fechaApertura" type="string">
-        <column length="50" name="FECHA_APERTURA"/>
-      </key-property>
-      <key-property name="numeroHabitaciones" type="java.lang.Integer">
-        <column name="NUMERO_HABITACIONES" precision="7" scale="0"/>
-      </key-property>
-      <key-property name="provincia" type="string">
-        <column length="100" name="PROVINCIA"/>
-      </key-property>
-      <key-property name="nombreActividad" type="string">
-        <column length="100" name="NOMBRE_ACTIVIDAD"/>
-      </key-property>
-      <key-property name="descripcionActividad" type="string">
-        <column length="300" name="DESCRIPCION_ACTIVIDAD"/>
-      </key-property>
-      <key-property name="diaRealizacion" type="string">
-        <column length="200" name="DIA_REALIZACION"/>
-      </key-property>
-      <key-property name="diaSemana" type="string">
-        <column length="100" name="DIA_SEMANA"/>
-      </key-property>
-      <key-property name="horaInicio" type="string">
-        <column length="100" name="HORA_INICIO"/>
-      </key-property>
-      <key-property name="horaFin" type="string">
-        <column length="100" name="HORA_FIN"/>
-      </key-property>
-      <key-property name="localizacion" type="string">
-        <column length="200" name="LOCALIZACION"/>
-      </key-property>
-      <key-property name="dificultad" type="java.lang.Integer">
-        <column name="DIFICULTAD" precision="7" scale="0"/>
-      </key-property>
-      <key-property name="capacidad" type="string">
-        <column length="200" name="CAPACIDAD"/>
-      </key-property>
-      <key-property name="nombreGuia" type="string">
-        <column length="200" name="NOMBRE_GUIA"/>
-      </key-property>
-    </composite-id>
-  </class>
+    <class name="dto.VistaActividadesAlojamiento" table="VISTA_ACTIVIDADES_ALOJAMIENTO" schema="MARIO" optimistic-lock="version">
+        <composite-id name="id" class="dto.VistaActividadesAlojamientoId">
+            <key-property name="idAlojamiento" type="int">
+                <column name="ID_ALOJAMIENTO" precision="7" scale="0" />
+            </key-property>
+            <key-property name="idActividad" type="int">
+                <column name="ID_ACTIVIDAD" precision="7" scale="0" />
+            </key-property>
+            <key-property name="nombreAlojamiento" type="string">
+                <column name="NOMBRE_ALOJAMIENTO" length="80" />
+            </key-property>
+            <key-property name="descripcionAlojamiento" type="string">
+                <column name="DESCRIPCION_ALOJAMIENTO" length="500" />
+            </key-property>
+            <key-property name="direccionSocial" type="string">
+                <column name="DIRECCION_SOCIAL" length="200" />
+            </key-property>
+            <key-property name="razonSocial" type="string">
+                <column name="RAZON_SOCIAL" length="200" />
+            </key-property>
+            <key-property name="telefonoContacto" type="string">
+                <column name="TELEFONO_CONTACTO" length="15" />
+            </key-property>
+            <key-property name="valoracionAlojamiento" type="java.lang.Boolean">
+                <column name="VALORACION_ALOJAMIENTO" precision="1" scale="0" />
+            </key-property>
+            <key-property name="fechaApertura" type="string">
+                <column name="FECHA_APERTURA" length="50" />
+            </key-property>
+            <key-property name="numeroHabitaciones" type="java.lang.Integer">
+                <column name="NUMERO_HABITACIONES" precision="7" scale="0" />
+            </key-property>
+            <key-property name="provincia" type="string">
+                <column name="PROVINCIA" length="100" />
+            </key-property>
+            <key-property name="nombreActividad" type="string">
+                <column name="NOMBRE_ACTIVIDAD" length="100" />
+            </key-property>
+            <key-property name="descripcionActividad" type="string">
+                <column name="DESCRIPCION_ACTIVIDAD" length="300" />
+            </key-property>
+            <key-property name="diaRealizacion" type="string">
+                <column name="DIA_REALIZACION" length="200" />
+            </key-property>
+            <key-property name="diaSemana" type="string">
+                <column name="DIA_SEMANA" length="100" />
+            </key-property>
+            <key-property name="horaInicio" type="string">
+                <column name="HORA_INICIO" length="100" />
+            </key-property>
+            <key-property name="horaFin" type="string">
+                <column name="HORA_FIN" length="100" />
+            </key-property>
+            <key-property name="localizacion" type="string">
+                <column name="LOCALIZACION" length="200" />
+            </key-property>
+            <key-property name="dificultad" type="java.lang.Integer">
+                <column name="DIFICULTAD" precision="7" scale="0" />
+            </key-property>
+            <key-property name="capacidad" type="string">
+                <column name="CAPACIDAD" length="200" />
+            </key-property>
+            <key-property name="nombreGuia" type="string">
+                <column name="NOMBRE_GUIA" length="200" />
+            </key-property>
+        </composite-id>
+    </class>
 </hibernate-mapping>

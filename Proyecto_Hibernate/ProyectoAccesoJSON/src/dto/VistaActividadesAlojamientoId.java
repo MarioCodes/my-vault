@@ -1,5 +1,5 @@
 package dto;
-// Generated 27-ene-2017 12:01:58 by Hibernate Tools 4.3.1
+// Generated 27-ene-2017 16:47:00 by Hibernate Tools 4.3.1
 
 
 
@@ -16,7 +16,7 @@ public class VistaActividadesAlojamientoId  implements java.io.Serializable {
      private String direccionSocial;
      private String razonSocial;
      private String telefonoContacto;
-     private int valoracionAlojamiento;
+     private Boolean valoracionAlojamiento;
      private String fechaApertura;
      private Integer numeroHabitaciones;
      private String provincia;
@@ -41,7 +41,7 @@ public class VistaActividadesAlojamientoId  implements java.io.Serializable {
         this.nombreAlojamiento = nombreAlojamiento;
         this.direccionSocial = direccionSocial;
     }
-    public VistaActividadesAlojamientoId(int idAlojamiento, int idActividad, String nombreAlojamiento, String descripcionAlojamiento, String direccionSocial, String razonSocial, String telefonoContacto, int valoracionAlojamiento, String fechaApertura, Integer numeroHabitaciones, String provincia, String nombreActividad, String descripcionActividad, String diaRealizacion, String diaSemana, String horaInicio, String horaFin, String localizacion, Integer dificultad, String capacidad, String nombreGuia) {
+    public VistaActividadesAlojamientoId(int idAlojamiento, int idActividad, String nombreAlojamiento, String descripcionAlojamiento, String direccionSocial, String razonSocial, String telefonoContacto, Boolean valoracionAlojamiento, String fechaApertura, Integer numeroHabitaciones, String provincia, String nombreActividad, String descripcionActividad, String diaRealizacion, String diaSemana, String horaInicio, String horaFin, String localizacion, Integer dificultad, String capacidad, String nombreGuia) {
        this.idAlojamiento = idAlojamiento;
        this.idActividad = idActividad;
        this.nombreAlojamiento = nombreAlojamiento;
@@ -114,11 +114,11 @@ public class VistaActividadesAlojamientoId  implements java.io.Serializable {
     public void setTelefonoContacto(String telefonoContacto) {
         this.telefonoContacto = telefonoContacto;
     }
-    public int getValoracionAlojamiento() {
+    public Boolean getValoracionAlojamiento() {
         return this.valoracionAlojamiento;
     }
     
-    public void setValoracionAlojamiento(int valoracionAlojamiento) {
+    public void setValoracionAlojamiento(Boolean valoracionAlojamiento) {
         this.valoracionAlojamiento = valoracionAlojamiento;
     }
     public String getFechaApertura() {
@@ -227,7 +227,7 @@ public class VistaActividadesAlojamientoId  implements java.io.Serializable {
  && ( (this.getDireccionSocial()==castOther.getDireccionSocial()) || ( this.getDireccionSocial()!=null && castOther.getDireccionSocial()!=null && this.getDireccionSocial().equals(castOther.getDireccionSocial()) ) )
  && ( (this.getRazonSocial()==castOther.getRazonSocial()) || ( this.getRazonSocial()!=null && castOther.getRazonSocial()!=null && this.getRazonSocial().equals(castOther.getRazonSocial()) ) )
  && ( (this.getTelefonoContacto()==castOther.getTelefonoContacto()) || ( this.getTelefonoContacto()!=null && castOther.getTelefonoContacto()!=null && this.getTelefonoContacto().equals(castOther.getTelefonoContacto()) ) )
- && ( (this.getValoracionAlojamiento()==castOther.getValoracionAlojamiento()))
+ && ( (this.getValoracionAlojamiento()==castOther.getValoracionAlojamiento()) || ( this.getValoracionAlojamiento()!=null && castOther.getValoracionAlojamiento()!=null && this.getValoracionAlojamiento().equals(castOther.getValoracionAlojamiento()) ) )
  && ( (this.getFechaApertura()==castOther.getFechaApertura()) || ( this.getFechaApertura()!=null && castOther.getFechaApertura()!=null && this.getFechaApertura().equals(castOther.getFechaApertura()) ) )
  && ( (this.getNumeroHabitaciones()==castOther.getNumeroHabitaciones()) || ( this.getNumeroHabitaciones()!=null && castOther.getNumeroHabitaciones()!=null && this.getNumeroHabitaciones().equals(castOther.getNumeroHabitaciones()) ) )
  && ( (this.getProvincia()==castOther.getProvincia()) || ( this.getProvincia()!=null && castOther.getProvincia()!=null && this.getProvincia().equals(castOther.getProvincia()) ) )
@@ -253,7 +253,7 @@ public class VistaActividadesAlojamientoId  implements java.io.Serializable {
          result = 37 * result + ( getDireccionSocial() == null ? 0 : this.getDireccionSocial().hashCode() );
          result = 37 * result + ( getRazonSocial() == null ? 0 : this.getRazonSocial().hashCode() );
          result = 37 * result + ( getTelefonoContacto() == null ? 0 : this.getTelefonoContacto().hashCode() );
-         result = 37 * result + this.getDificultad();
+         result = 37 * result + ( getValoracionAlojamiento() == null ? 0 : this.getValoracionAlojamiento().hashCode() );
          result = 37 * result + ( getFechaApertura() == null ? 0 : this.getFechaApertura().hashCode() );
          result = 37 * result + ( getNumeroHabitaciones() == null ? 0 : this.getNumeroHabitaciones().hashCode() );
          result = 37 * result + ( getProvincia() == null ? 0 : this.getProvincia().hashCode() );

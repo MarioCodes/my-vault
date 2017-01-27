@@ -372,7 +372,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         vaid.setDireccionSocial("SUU");
         vaid.setRazonSocial("SUUU");
         vaid.setTelefonoContacto("123");
-        vaid.setValoracionAlojamiento(8);
+//        vaid.setValoracionAlojamiento(8);
         vaid.setFechaApertura("12");
         vaid.setNumeroHabitaciones(1);
         vaid.setProvincia("Huesca");
