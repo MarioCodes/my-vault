@@ -12,6 +12,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.Collection;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 //import vista.swing.comun.SingletonVentanas;
 
@@ -30,6 +31,7 @@ public class VentanaListadoHabitaciones extends javax.swing.JFrame {
         this.setVisible(true);
         this.setResizable(false);
         
+        this.tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 //        creacionTabla();
     }
     

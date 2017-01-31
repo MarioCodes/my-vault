@@ -20,6 +20,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import vista.swing.tabla.VentanaAltaYModifHabitacion;
 import vista.swing.tabla.VentanaBajaHabitacion;
+import vista.swing.tabla.VentanaListadoHabitaciones;
 import vista.swing.vista.VentanaAltaYModifVista;
 import vista.swing.vista.VentanaBajaVista;
 import vista.swing.vista.VentanaBuscarAlojID;
@@ -237,7 +238,6 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         });
 
         botonListadoCompletoHabitaciones.setText("Listado Completo");
-        botonListadoCompletoHabitaciones.setEnabled(false);
         botonListadoCompletoHabitaciones.setMaximumSize(new java.awt.Dimension(190, 60));
         botonListadoCompletoHabitaciones.setMinimumSize(new java.awt.Dimension(190, 60));
         botonListadoCompletoHabitaciones.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -366,7 +366,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     }//GEN-LAST:event_botonModificacionHabitacionActionPerformed
 
     private void botonListadoCompletoHabitacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonListadoCompletoHabitacionesActionPerformed
-//        VENTANAS_INDEPENDIENTES_ABIERTAS.add(new VentanaListadoHabitaciones());
+        VENTANAS_INDEPENDIENTES_ABIERTAS.add(new VentanaListadoHabitaciones());
     }//GEN-LAST:event_botonListadoCompletoHabitacionesActionPerformed
 
     private void botonBajaHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBajaHabitacionActionPerformed
