@@ -245,7 +245,7 @@ public class VentanaListadoVista extends javax.swing.JFrame {
         else rellenoTablaDatos(valoracion);
         JOptionPane.showMessageDialog(this, "Tabla Actualizada.");
     }//GEN-LAST:event_jButtonRefrescarActionPerformed
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonRefrescar;
     private javax.swing.JButton jButtonSalir;

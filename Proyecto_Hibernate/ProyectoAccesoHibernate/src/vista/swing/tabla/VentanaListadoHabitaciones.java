@@ -8,12 +8,16 @@ package vista.swing.tabla;
 import vista.swing.comun.VentanaPrincipal;
 //import controlador.DTO.HabitacionDTO;
 import aplicacion.facade.Facade;
+import dto.Habitacion;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.Collection;
+import java.util.List;
+import java.util.ListIterator;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import org.hibernate.Session;
 //import vista.swing.comun.SingletonVentanas;
 
 /**
@@ -32,7 +36,7 @@ public class VentanaListadoHabitaciones extends javax.swing.JFrame {
         this.setResizable(false);
         
         this.tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-//        creacionTabla();
+        rellenoTablaDatos();
     }
     
     /**
@@ -67,26 +71,36 @@ public class VentanaListadoHabitaciones extends javax.swing.JFrame {
      * Metodo que se encarga de actualizar la tabla con el RestultSet que paso como parametro por el constructor.
      * Montado por mi cuenta googleando, explicado dentro.
      */
-//    private void rellenoTablaDatos(Collection<HabitacionDTO> col) {
-//        model = (DefaultTableModel) tabla.getModel(); //Hacemos un get del DefaultModel con el que creamos la tabla desde Swing.
-//
-//        try {
-//            for(HabitacionDTO habDTO : col) { //Para cada objeto Alojamiento de la coleccion.
-//                Object[] row = new Object[7]; //Creamos un objeto 'fila' con tantas columnas como tenga nuestra tabla (10 en este caso).
-//                row[0] = habDTO.getId_habitacion(); //Para cada row, se va rellenando columna a columna con los datos.
-//                row[1] = habDTO.getHabitacion_id_foranea_alojamiento();
-//                row[2] = habDTO.getPrecio();
-//                row[3] = habDTO.getTipo_habitacion();
-//                row[4] = habDTO.isCuarto_banio() ? "Si" : "No";
-//                row[5] = habDTO.getExtras_habitacion();
-//                row[6] = habDTO.getResenias();
-//                model.addRow(row); //Añade la fila ya rellena al modelo de la tabla.
-//            }
-//        }catch(NullPointerException ex) {
-//            System.out.println("Error especifico: " +ex.getLocalizedMessage());
-//            JOptionPane.showMessageDialog(this, "ERROR. NullPointerException.");
-//        }
-//    }
+    private void rellenoTablaDatos() {
+        if(model != null) model.setRowCount(0);
+        
+        model = (DefaultTableModel) tabla.getModel(); //Hacemos un get del DefaultModel con el que creamos la tabla desde Swing.
+
+        Session s = Facade.abrirSessionHibernate();
+        List lista = s.createCriteria(Habitacion.class).list();
+        
+        ListIterator li = lista.listIterator();
+        
+        while(li.hasNext()) {
+            Habitacion habitacion = (Habitacion) li.next();
+            
+            try {
+                Object[] row = new Object[8];
+                row[0] = habitacion.getIdHabitacion();
+                row[1] = habitacion.getAlojamientoIdAlojamiento();
+                row[2] = habitacion.getReservaIdReserva();
+                row[3] = habitacion.getExtrasHabitacion();
+                row[4] = habitacion.getPrecio();
+                row[5] = habitacion.getCuartoBanio();
+                row[6] = habitacion.getTipoHabitacion();
+                row[7] = habitacion.getResenias();
+                model.addRow(row);
+            }catch(NullPointerException ex) {
+                System.out.println("Error especifico: " +ex.getLocalizedMessage());
+                JOptionPane.showMessageDialog(this, "ERROR. NullPointerException.");
+            }
+        }
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -114,14 +128,14 @@ public class VentanaListadoHabitaciones extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID_Habitacion", "ID_Alojamiento", "Precio", "Tipo_Habitacion", "# Cuarto(s) Baño", "Extras", "Reseñas"
+                "ID_Habitacion", "ID_Alojamiento", "ID_Reserva", "Extras", "Precio", "# Cuarto(s) Baño", "Tipo Habitacion", "Reseñas"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, true, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -197,15 +211,9 @@ public class VentanaListadoHabitaciones extends javax.swing.JFrame {
     }//GEN-LAST:event_botonCerrarActionPerformed
 
     private void botonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActualizarActionPerformed
-//        model.setRowCount(0); //Hace un vaciado de la tabla. Despúes de ejecutar esto, se debera volver a rellenar o quedara vacia.
-//        
-//        if(precio_max == -1) { //En funcion de que version de la ventana se haya invocado, se debera ejecutar una u otra version del metodo sobrecargado.
-//            creacionTabla();
-//        } else {
-//            creacionTabla(precio_max);
-//        }
-//        
-//        JOptionPane.showMessageDialog(this, "Listado Actualizado");
+        if(precio_max != -1) rellenoTablaDatos();
+        //else rellenoTablaDatos()
+        JOptionPane.showMessageDialog(this, "Tabla Actualizada.");
     }//GEN-LAST:event_botonActualizarActionPerformed
 
 
