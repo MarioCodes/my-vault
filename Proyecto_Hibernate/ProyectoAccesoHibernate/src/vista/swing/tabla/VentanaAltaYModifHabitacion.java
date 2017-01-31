@@ -17,10 +17,9 @@ import org.hibernate.Session;
 
 /**
  * @author Mario Codes Sánchez
- * @since 11/11/2016
+ * @since 31/01/2017
  */
 public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
-    private final Facade FACHADA = new Facade();
     private final VentanaPrincipal VP = Singleton.getVentanaPrincipalObtencionSingleton(); //Obtencion de VentanaPrincipal por Singleton.
     private Habitacion habitacion; //AlojamientoDTO del cual cargaremos los datos en pantalla para MODIFICAR.
     
@@ -53,7 +52,7 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         
-//        cargadoDatosHabitacion(habitacion);
+        cargadoDatosHabitacion(habitacion);
     }
     
     /*
@@ -233,45 +232,54 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
          * Hace un match del valor actual contenido en el rs e iguala al valor de la box que coincida.
          * @param alDTO AlojamientoDTO del cual se obtiene la provincia.
          */
-//        private void rellenoAutoTipoHabitacion(HabitacionDTO habDTO) {
-//            String tipo = habDTO.getTipo_habitacion();
-//
-//            switch(tipo) {
-//                case "simple":
-//                    this.jComboBoxTipoHabitacion.setSelectedIndex(0);
-//                    break;
-//                case "doble":
-//                    this.jComboBoxTipoHabitacion.setSelectedIndex(1);
-//                    break;
-//                case "matrimonio":
-//                    this.jComboBoxTipoHabitacion.setSelectedIndex(2);
-//                    break;
-//                case "triple":
-//                    this.jComboBoxTipoHabitacion.setSelectedIndex(3);
-//                    break;
-//                case "cuadruple":
-//                    this.jComboBoxTipoHabitacion.setSelectedIndex(4);
-//                    break;
-//                default:
-//                    this.jComboBoxTipoHabitacion.setSelectedIndex(0);
-//                    JOptionPane.showMessageDialog(this, "ERROR. Problema con valor Tipo_Habitacion.");
-//                    break;
-//            }
-//        }
+        private void rellenoAutoTipoHabitacion(Habitacion habDTO) {
+            String tipo = habDTO.getTipoHabitacion();
+
+            switch(tipo) {
+                case "simple":
+                    this.jComboBoxTipoHabitacion.setSelectedIndex(0);
+                    break;
+                case "doble":
+                    this.jComboBoxTipoHabitacion.setSelectedIndex(1);
+                    break;
+                case "matrimonio":
+                    this.jComboBoxTipoHabitacion.setSelectedIndex(2);
+                    break;
+                case "triple":
+                    this.jComboBoxTipoHabitacion.setSelectedIndex(3);
+                    break;
+                case "cuadruple":
+                    this.jComboBoxTipoHabitacion.setSelectedIndex(4);
+                    break;
+                default:
+                    this.jComboBoxTipoHabitacion.setSelectedIndex(0);
+                    JOptionPane.showMessageDialog(this, "ERROR. Problema con valor Tipo_Habitacion.");
+                    break;
+            }
+        }
 
         /**
          * Rellena la ventana con los datos de HabitacionDTO pasado por contructor.
          * @param habDTO Habitacion cuyos datos se mostraran en la ventana.
          */
-//        private void cargadoDatosHabitacion(HabitacionDTO habDTO) {
-//            this.inputIDHabitacion.setText(Integer.toString(habDTO.getId_habitacion()));
-//            this.inputIDForanea.setText(Integer.toString(habDTO.getHabitacion_id_foranea_alojamiento()));
-//            this.inputPrecio.setValue(habDTO.getPrecio());
-//            this.inputExtras.setText(habDTO.getExtras_habitacion());
-//            this.jTextFieldInputResenias.setText(habDTO.getResenias());
-//            if(habDTO.isCuarto_banio()) this.jCheckBoxCuartoBanio.setSelected(true);
-//            rellenoAutoTipoHabitacion(habDTO);
-//        }
+        private void cargadoDatosHabitacion(Habitacion habDTO) {
+            try {
+                this.jTextFieldInputIDHabitacion.setText(Integer.toString(habDTO.getIdHabitacion()));
+                this.jTextFieldInputIDHabitacion.setEnabled(false);
+
+                this.inputIDForanea.setText(Integer.toString(habDTO.getAlojamientoIdAlojamiento()));
+                this.inputIDForanea.setEnabled(false);
+
+                if(habDTO.getReservaIdReserva() != null) this.jTextFieldIDReserva.setText(Integer.toString(habDTO.getReservaIdReserva()));
+                
+                this.inputPrecio.setValue(habDTO.getPrecio());
+                
+                if(habDTO.getExtrasHabitacion() != null) this.inputExtras.setText(habDTO.getExtrasHabitacion());
+                if(habDTO.getResenias() != null) this.jTextFieldInputResenias.setText(habDTO.getResenias());
+                if(habDTO.getCuartoBanio() == 1) this.jCheckBoxCuartoBanio.setSelected(true);
+                rellenoAutoTipoHabitacion(habDTO);
+            }catch (NullPointerException ex) {} //Hay algunos campos que no son obligatorios.
+        }
     
     /**
      * This method is called from within the constructor to initialize the form.
