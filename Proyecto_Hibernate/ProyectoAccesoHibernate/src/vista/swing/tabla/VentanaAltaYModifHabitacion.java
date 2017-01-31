@@ -9,6 +9,7 @@ import vista.swing.comun.VentanaPrincipal;
 import aplicacion.facade.Facade;
 import controlador.datos.Singleton;
 import dto.Habitacion;
+import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
@@ -100,57 +101,57 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
          * @param id_foranea_alojamiento ID actual de la ventana.
          * @return True si se desea cambiar.
          */
-//        private boolean confirmacionCambioReferenciaAlojamiento(int id_foranea_alojamiento) {
-//            boolean confirmacion = true;
-//
-//            if(habitacion != null) {
-//                if(habitacion.getHabitacion_id_foranea_alojamiento() != id_foranea_alojamiento) {
-//                    int res = JOptionPane.showConfirmDialog(this, "Estas a punto de cambiar el Alojamiento al que pertenece esta habitacion. ¿Seguro?");
-//                    if(res != 0) confirmacion = false;
-//                }
-//            }
-//            
-//            return confirmacion;
-//        }
+        private boolean confirmacionCambioReferenciaAlojamiento(int id_foranea_alojamiento) {
+            boolean confirmacion = true;
+
+            if(habitacion != null) {
+                if(habitacion.getAlojamientoIdAlojamiento() != id_foranea_alojamiento) {
+                    int res = JOptionPane.showConfirmDialog(this, "Estas a punto de cambiar el Alojamiento al que pertenece esta habitacion. ¿Seguro?");
+                    if(res != 0) confirmacion = false;
+                }
+            }
+            
+            return confirmacion;
+        }
         
         /**
         * Recoleccion del ID en funcion del modo de ejecucion de la ventana (alta o modificacion). 
         * En la version de Alta desde BDD se debe omitir totalmente, se encargara MySQL con un AI.
         * @param alDTO HabitacionDTO donde necesito meter los datos para realizar las operaciones oportunas con el.
         */
-//        private void recoleccionDatosID(HabitacionDTO habDTO) {
-//            if(this.habDTO != null) habDTO.setId_habitacion(this.habDTO.getId_habitacion()); 
-//        }
+        private void recoleccionDatosID(Habitacion habDTO) {
+            if(this.habitacion != null) habDTO.setIdHabitacion(this.habitacion.getIdHabitacion()); 
+        }
         
         /**
          * Recoleccion y pasado de datos desde la ventana grafica a un HabitacionDTO para operar con el.
          * @param habDTO 
          */
-//        private void recoleccionDatosInputHabitacion(HabitacionDTO habDTO) {
-//            recoleccionDatosID(habDTO);
-//            
-//            habDTO.setHabitacion_id_foranea_alojamiento(Integer.parseInt(this.inputIDForanea.getText()));
-//            habDTO.setPrecio((float) this.inputPrecio.getValue());
-//            habDTO.setExtras_habitacion(this.inputExtras.getText());
-//            habDTO.setTipo_habitacion((String) this.jComboBoxTipoHabitacion.getSelectedItem());
-//            habDTO.setResenias(this.jTextFieldInputResenias.getText());
-//            habDTO.setCuarto_banio(this.jCheckBoxCuartoBanio.isSelected());
-//        }
+        private void recoleccionDatosInputHabitacion(Habitacion habDTO) {
+            recoleccionDatosID(habDTO);
+            
+            habitacion.setAlojamientoIdAlojamiento(Integer.parseInt(this.inputIDForanea.getText()));
+            habitacion.setPrecio((BigDecimal) this.inputPrecio.getValue());
+            habitacion.setExtrasHabitacion(this.inputExtras.getText());
+            habitacion.setTipoHabitacion((String) this.jComboBoxTipoHabitacion.getSelectedItem());
+            habitacion.setResenias(this.jTextFieldInputResenias.getText());
+            habitacion.setCuartoBanio(this.jCheckBoxCuartoBanio.isSelected());
+        }
         
         /**
          * Recoleccion de los campos de la ventana e instanciacion de un alojamiento con esos datos. Previamente se ha realizado la comprobacion de que los datos sean correctos.
          */
-//        private void recoleccionDatosVentana() {            
-//            //Recoleccion y almacenado de los valores actuales en la ventana.
-//            HabitacionDTO habDTO = new HabitacionDTO();
-//
-//            try {
-//                recoleccionDatosInputHabitacion(habDTO);
-//                
-//                if(confirmacionCambioReferenciaAlojamiento(habDTO.getHabitacion_id_foranea_alojamiento())) {
-//                    //Instanciacion del DTO de Alojamiento y pasado a fachada con este DTO.
+        private void recoleccionDatosVentana() {            
+            //Recoleccion y almacenado de los valores actuales en la ventana.
+            Habitacion habDTO = new Habitacion();
+
+            try {
+                recoleccionDatosInputHabitacion(habDTO);
+                
+                if(confirmacionCambioReferenciaAlojamiento(habDTO.getAlojamientoIdAlojamiento())) {
+                    //Instanciacion del DTO de Alojamiento y pasado a fachada con este DTO.
 //                    int res = FACHADA.altaOModificacionHabitacion(habDTO); //Numero de filas modificadas. -1 salida de error por clave foranea.
-//
+
 //                    if(this.habDTO == null) { //Si nunca se ha instanciado, estamos en la version de alta.
 //                        if(res == -1) {
 //                            JOptionPane.showMessageDialog(null, "Error de clave foránea. Comprueba que el Alojamiento Referenciado existe.");
@@ -174,14 +175,14 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
 //                            }
 //                        }
 //                    }
-//                }
-//            } catch(NullPointerException ex) {
-//                JOptionPane.showMessageDialog(this, "ERROR. NullPointerException. Mirar Output. \n");
-//                System.out.println(ex.getLocalizedMessage());
-//            } catch(IllegalArgumentException | ClassCastException ex) {
-//                JOptionPane.showMessageDialog(this, "ERROR. Problema generico: \n" +ex.getLocalizedMessage());
-//            }
-//        } 
+                }
+            } catch(NullPointerException ex) {
+                JOptionPane.showMessageDialog(this, "ERROR. NullPointerException. Mirar Output. \n");
+                System.out.println(ex.getLocalizedMessage());
+            } catch(IllegalArgumentException | ClassCastException ex) {
+                JOptionPane.showMessageDialog(this, "ERROR. Problema generico: \n" +ex.getLocalizedMessage());
+            }
+        } 
     
     /*
         Metodos Version Ventana Alta Habitación.
@@ -406,7 +407,7 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
     
     private void botonAniadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAniadirActionPerformed
         if(checkCompletoInput()) {
-//            recoleccionDatosVentana(); //Llamada al metodo que comienza a trabajar los datos.
+            recoleccionDatosVentana(); //Llamada al metodo que comienza a trabajar los datos.
         }
     }//GEN-LAST:event_botonAniadirActionPerformed
 

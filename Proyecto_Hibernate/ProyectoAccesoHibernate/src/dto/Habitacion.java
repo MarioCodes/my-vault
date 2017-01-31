@@ -13,7 +13,7 @@ public class Habitacion  implements java.io.Serializable {
      private int idHabitacion;
      private String extrasHabitacion;
      private BigDecimal precio;
-     private char cuartoBanio;
+     private boolean cuartoBanio;
      private String tipoHabitacion;
      private String resenias;
      private int alojamientoIdAlojamiento;
@@ -23,12 +23,12 @@ public class Habitacion  implements java.io.Serializable {
     }
 
 	
-    public Habitacion(int idHabitacion, char cuartoBanio, int alojamientoIdAlojamiento) {
+    public Habitacion(int idHabitacion, boolean cuartoBanio, int alojamientoIdAlojamiento) {
         this.idHabitacion = idHabitacion;
         this.cuartoBanio = cuartoBanio;
         this.alojamientoIdAlojamiento = alojamientoIdAlojamiento;
     }
-    public Habitacion(int idHabitacion, String extrasHabitacion, BigDecimal precio, char cuartoBanio, String tipoHabitacion, String resenias, int alojamientoIdAlojamiento, Integer reservaIdReserva) {
+    public Habitacion(int idHabitacion, String extrasHabitacion, BigDecimal precio, boolean cuartoBanio, String tipoHabitacion, String resenias, int alojamientoIdAlojamiento, Integer reservaIdReserva) {
        this.idHabitacion = idHabitacion;
        this.extrasHabitacion = extrasHabitacion;
        this.precio = precio;
@@ -60,11 +60,11 @@ public class Habitacion  implements java.io.Serializable {
     public void setPrecio(BigDecimal precio) {
         this.precio = precio;
     }
-    public char getCuartoBanio() {
+    public boolean getCuartoBanio() {
         return this.cuartoBanio;
     }
     
-    public void setCuartoBanio(char cuartoBanio) {
+    public void setCuartoBanio(boolean cuartoBanio) {
         this.cuartoBanio = cuartoBanio;
     }
     public String getTipoHabitacion() {
