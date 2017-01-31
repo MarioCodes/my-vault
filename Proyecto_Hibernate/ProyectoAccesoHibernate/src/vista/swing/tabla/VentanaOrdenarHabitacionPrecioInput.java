@@ -5,15 +5,9 @@
  */
 package vista.swing.tabla;
 
-import vista.swing.comun.VentanaPrincipal;
 import aplicacion.facade.Facade;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.Collection;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
-//import vista.swing.comun.SingletonVentanas;
 
 /**
  * @author Mario Codes Sánchez
@@ -41,17 +35,15 @@ public class VentanaOrdenarHabitacionPrecioInput extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        inputID = new javax.swing.JTextField();
         botonMostrar = new javax.swing.JButton();
         botonCancelar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        jLabel1.setText("Precio Limite (€):");
-
-        inputID.setToolTipText("ID identificativo del alojamiento en la BDD");
+        jLabel1.setText("Tipo Habitacion:");
 
         botonMostrar.setText("Mostrar");
         botonMostrar.addActionListener(new java.awt.event.ActionListener() {
@@ -70,35 +62,38 @@ public class VentanaOrdenarHabitacionPrecioInput extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel4.setText("Mostrar Habitaciones");
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "simple", "doble", "triple", "cuadruple" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(botonMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(inputID, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4)
-                .addGap(49, 49, 49))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(botonMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(botonCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(jLabel4)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(inputID, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -111,53 +106,27 @@ public class VentanaOrdenarHabitacionPrecioInput extends javax.swing.JFrame {
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
         this.dispose();
     }//GEN-LAST:event_botonCancelarActionPerformed
-
-    /**
-     * Chequea que el input realizado sobre el precio sean solo numeros o coma.
-     * @return True si el campo contiene solo numeros o coma (float).
-     */
-    private boolean checkInputPrecioNumericoExprRegular() {
-        try {
-            Pattern pat = Pattern.compile("[0-9.]+");
-            Matcher mat = pat.matcher(this.inputID.getText());
-        
-            return mat.matches();
-        } catch(NumberFormatException ex) {
-            return false;
-        }
-    }
     
     private void botonMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMostrarActionPerformed
-//        Collection col = null;
-//        Facade fachada = new Facade();
-//        float precioInput;
-//        
-//        try {
-//            if(!this.inputID.getText().isEmpty() && checkInputPrecioNumericoExprRegular()) { //No este vacio y cumpla con la expresion regular.
-//                precioInput = Float.parseFloat(this.inputID.getText());
-//                
-//                col = fachada.listadoHabitaciones(precioInput);
-//                
-//                if(!col.isEmpty()) { //Si no esta vacio.
-//                    VentanaListadoHabitaciones mrwo = new VentanaListadoHabitaciones(precioInput);
-//                    this.dispose();
-//                } else {
-//                    JOptionPane.showMessageDialog(this, "No hay ningún Alojamiento con una habitacion tan barata.");
-//                }
-//            } else {
-//                JOptionPane.showMessageDialog(this, "Por favor, introduce un precio Válido.");
-//            }
-//        } catch(ClassCastException ex) {
-//            JOptionPane.showMessageDialog(this, "ERROR. El id tiene que ser un numero Entero.");
-//        } catch(NumberFormatException ex) {
-//            JOptionPane.showMessageDialog(this, "ERROR. Introduce un precio Valido.");
-//        }
+        Collection col = null;
+        Facade fachada = new Facade();
+        float precioInput;
+        
+        try {
+            String tipo = (String) this.jComboBox1.getSelectedItem();
+            this.dispose();
+            new VentanaListadoHabitaciones(tipo);
+        } catch(ClassCastException ex) {
+            JOptionPane.showMessageDialog(this, "ERROR. El id tiene que ser un numero Entero.");
+        } catch(NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "ERROR. Introduce un precio Valido.");
+        }
     }//GEN-LAST:event_botonMostrarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonCancelar;
     private javax.swing.JButton botonMostrar;
-    private javax.swing.JTextField inputID;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables

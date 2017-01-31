@@ -81,7 +81,7 @@
               <Component id="labelTitulo" min="-2" pref="37" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jPanel2" pref="467" max="32767" attributes="0"/>
+                  <Component id="jPanel2" pref="416" max="32767" attributes="0"/>
                   <Component id="jPanel1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -145,7 +145,7 @@
                   <Component id="botonListado" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                   <Component id="jButtonBuscarValoracion" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="57" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -296,8 +296,7 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="botonHabitacionesPrecio">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Buscar por Precio"/>
-            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="text" type="java.lang.String" value="Buscar por Tipo de Hab."/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[190, 60]"/>
             </Property>

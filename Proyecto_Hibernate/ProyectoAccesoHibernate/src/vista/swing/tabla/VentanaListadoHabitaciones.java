@@ -5,28 +5,22 @@
  */
 package vista.swing.tabla;
 
-import vista.swing.comun.VentanaPrincipal;
-//import controlador.DTO.HabitacionDTO;
 import aplicacion.facade.Facade;
 import dto.Habitacion;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.Session;
-//import vista.swing.comun.SingletonVentanas;
 
 /**
  * @author Mario Codes Sánchez
  * @since 10/11/2016
  */
 public class VentanaListadoHabitaciones extends javax.swing.JFrame {
-    private float precio_max = -1;
     private DefaultTableModel model;
+    private String tipo_habitacion = null;
     
     public VentanaListadoHabitaciones() {
         initComponents();
@@ -41,31 +35,17 @@ public class VentanaListadoHabitaciones extends javax.swing.JFrame {
     
     /**
      * Constructor por defecto que utilizare yo.
-     * @param precioMax
+     * @param tipo_habitacion 
      */
-    public VentanaListadoHabitaciones(float precioMax) {
+    public VentanaListadoHabitaciones(String tipo_habitacion) {
         initComponents(); //Ini necesario de los componentes intrinsecos de la ventana.
-        this.precio_max = precioMax;
-        
+
+        this.tipo_habitacion = tipo_habitacion;
         this.setVisible(true);
         this.setResizable(false);
         
-//        creacionTabla(precioMax); //Introduccion del ResultSet en la tabla.
+        rellenoTablaDatos(tipo_habitacion);
     }
-
-//    private void creacionTabla() {
-//        Facade fachada = new Facade();
-//        Collection<HabitacionDTO> col = fachada.listadoHabitaciones();
-//        
-//        rellenoTablaDatos(col);
-//    }
-//    
-//    private void creacionTabla(float precioMax) {
-//        Facade fachada = new Facade();
-//        Collection<HabitacionDTO> col = fachada.listadoHabitaciones(precioMax);
-//        
-//        rellenoTablaDatos(col);
-//    }
     
     /**
      * Metodo que se encarga de actualizar la tabla con el RestultSet que paso como parametro por el constructor.
@@ -98,6 +78,39 @@ public class VentanaListadoHabitaciones extends javax.swing.JFrame {
             }catch(NullPointerException ex) {
                 System.out.println("Error especifico: " +ex.getLocalizedMessage());
                 JOptionPane.showMessageDialog(this, "ERROR. NullPointerException.");
+            }
+        }
+    }
+    
+    private void rellenoTablaDatos(String tipo_habitacion) {
+        if(model != null) model.setRowCount(0);
+        
+        model = (DefaultTableModel) tabla.getModel(); //Hacemos un get del DefaultModel con el que creamos la tabla desde Swing.
+
+        Session s = Facade.abrirSessionHibernate();
+        List lista = s.createCriteria(Habitacion.class).list();
+        
+        ListIterator li = lista.listIterator();
+        
+        while(li.hasNext()) {
+            Habitacion habitacion = (Habitacion) li.next();
+            
+            if(habitacion.getTipoHabitacion().matches(tipo_habitacion)) {
+                try {
+                    Object[] row = new Object[8];
+                    row[0] = habitacion.getIdHabitacion();
+                    row[1] = habitacion.getAlojamientoIdAlojamiento();
+                    row[2] = habitacion.getReservaIdReserva();
+                    row[3] = habitacion.getExtrasHabitacion();
+                    row[4] = habitacion.getPrecio();
+                    row[5] = habitacion.getCuartoBanio();
+                    row[6] = habitacion.getTipoHabitacion();
+                    row[7] = habitacion.getResenias();
+                    model.addRow(row);
+                }catch(NullPointerException ex) {
+                    System.out.println("Error especifico: " +ex.getLocalizedMessage());
+                    JOptionPane.showMessageDialog(this, "ERROR. NullPointerException.");
+                }
             }
         }
     }
@@ -211,8 +224,8 @@ public class VentanaListadoHabitaciones extends javax.swing.JFrame {
     }//GEN-LAST:event_botonCerrarActionPerformed
 
     private void botonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActualizarActionPerformed
-        if(precio_max != -1) rellenoTablaDatos();
-        //else rellenoTablaDatos()
+        if(this.tipo_habitacion == null) rellenoTablaDatos();
+        else rellenoTablaDatos(tipo_habitacion);
         JOptionPane.showMessageDialog(this, "Tabla Actualizada.");
     }//GEN-LAST:event_botonActualizarActionPerformed
 

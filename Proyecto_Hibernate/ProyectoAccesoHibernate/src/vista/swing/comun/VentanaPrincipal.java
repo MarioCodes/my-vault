@@ -21,6 +21,7 @@ import org.hibernate.SessionFactory;
 import vista.swing.tabla.VentanaAltaYModifHabitacion;
 import vista.swing.tabla.VentanaBajaHabitacion;
 import vista.swing.tabla.VentanaListadoHabitaciones;
+import vista.swing.tabla.VentanaOrdenarHabitacionPrecioInput;
 import vista.swing.vista.VentanaAltaYModifVista;
 import vista.swing.vista.VentanaBajaVista;
 import vista.swing.vista.VentanaBuscarAlojID;
@@ -187,7 +188,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
                 .addComponent(botonListado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17)
                 .addComponent(jButtonBuscarValoracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gestión Tabla Unica", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 14))); // NOI18N
@@ -195,8 +196,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         jPanel2.setMinimumSize(new java.awt.Dimension(317, 403));
         jPanel2.setPreferredSize(new java.awt.Dimension(317, 403));
 
-        botonHabitacionesPrecio.setText("Buscar por Precio");
-        botonHabitacionesPrecio.setEnabled(false);
+        botonHabitacionesPrecio.setText("Buscar por Tipo de Hab.");
         botonHabitacionesPrecio.setMaximumSize(new java.awt.Dimension(190, 60));
         botonHabitacionesPrecio.setMinimumSize(new java.awt.Dimension(190, 60));
         botonHabitacionesPrecio.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -325,7 +325,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
                 .addComponent(labelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -350,7 +350,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     }//GEN-LAST:event_botonModifAlojamientoActionPerformed
 
     private void botonHabitacionesPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonHabitacionesPrecioActionPerformed
-//        VENTANAS_INDEPENDIENTES_ABIERTAS.add(new VentanaOrdenarHabitacionPrecioInput());
+        VENTANAS_INDEPENDIENTES_ABIERTAS.add(new VentanaOrdenarHabitacionPrecioInput());
     }//GEN-LAST:event_botonHabitacionesPrecioActionPerformed
 
     private void jButtonBuscarValoracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarValoracionActionPerformed
