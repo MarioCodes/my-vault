@@ -9,9 +9,14 @@ package vista.swing.tabla;
 //import controlador.DTO.AlojamientoDTO;
 //import controlador.DTO.HabitacionDTO;
 import aplicacion.facade.Facade;
+import dto.Habitacion;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -127,24 +132,38 @@ public class VentanaBuscarHabitacionInputID extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Get de una Habitacion por su ID primario.
+     * @return Habitacion instanciada o null si no hay ninguna.
+     */
+    private Habitacion getHabitacionPorID() {
+        Session s = Facade.abrirSessionHibernate();
+
+        String id = this.jTextFieldInputID.getText();
+
+        List lista = s.createCriteria(Habitacion.class)
+                .add(Restrictions.idEq(Integer.parseInt(id))).list();
+        
+        return lista.size() > 0 ? (Habitacion) lista.get(0) : null;
+    }
+    
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
-//        try {
-//            Facade fachada = new Facade();
-//            
-//            if(checkInputIDNumericoExprRegular()) {
-//                HabitacionDTO habDTOTmp = fachada.buscarHabitacionIdEspecifica(Integer.parseInt(jTextFieldInputID.getText()));
-//                if(habDTOTmp != null) {
-//                    new VentanaAltaYModifHabitacion(habDTOTmp);
-//                    this.setVisible(false);
-//                } else {
-//                    JOptionPane.showMessageDialog(this, "No existe ninguna Habitación con esa ID");
-//                }
-//            } else {
-//                JOptionPane.showMessageDialog(this, "Introduce un numero valido");
-//            }
-//        }catch(NumberFormatException ex) {
-//            JOptionPane.showMessageDialog(this, "El numero introducido no es un entero");
-//        }
+        try {
+            if(checkInputIDNumericoExprRegular()) {
+                Habitacion habDTOTmp = getHabitacionPorID();
+                
+                if(habDTOTmp != null) {
+                    new VentanaAltaYModifHabitacion(habDTOTmp);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "No existe ninguna Habitación con esa ID");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Introduce un numero valido");
+            }
+        }catch(NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "El numero introducido no es un entero");
+        }
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

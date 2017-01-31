@@ -20,6 +20,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import vista.swing.tabla.VentanaAltaYModifHabitacion;
 import vista.swing.tabla.VentanaBajaHabitacion;
+import vista.swing.tabla.VentanaBuscarHabitacionInputID;
 import vista.swing.tabla.VentanaListadoHabitaciones;
 import vista.swing.tabla.VentanaOrdenarHabitacionPrecioInput;
 import vista.swing.vista.VentanaAltaYModifVista;
@@ -122,6 +123,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         });
 
         botonModifAlojamiento.setText("Modificacion");
+        botonModifAlojamiento.setEnabled(false);
         botonModifAlojamiento.setMaximumSize(new java.awt.Dimension(190, 60));
         botonModifAlojamiento.setMinimumSize(new java.awt.Dimension(190, 60));
         botonModifAlojamiento.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -227,7 +229,6 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         });
 
         botonModificacionHabitacion.setText("Modificación");
-        botonModificacionHabitacion.setEnabled(false);
         botonModificacionHabitacion.setMaximumSize(new java.awt.Dimension(190, 60));
         botonModificacionHabitacion.setMinimumSize(new java.awt.Dimension(190, 60));
         botonModificacionHabitacion.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -362,7 +363,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     }//GEN-LAST:event_botonAltaHabitacionActionPerformed
 
     private void botonModificacionHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificacionHabitacionActionPerformed
-//        VENTANAS_INDEPENDIENTES_ABIERTAS.add(new VentanaBuscarHabitacionInputID());
+        VENTANAS_INDEPENDIENTES_ABIERTAS.add(new VentanaBuscarHabitacionInputID());
     }//GEN-LAST:event_botonModificacionHabitacionActionPerformed
 
     private void botonListadoCompletoHabitacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonListadoCompletoHabitacionesActionPerformed
