@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import org.hibernate.Session;
 
 /**
  * @author Mario Codes Sánchez
@@ -124,18 +125,37 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
         }
         
         /**
+         * Set del 'booleano' en forma de Char para indicar si existe cuarto de baño.
+         * @param habDTO Habitacion a la cual se lo ponemos.
+         * @return 1 si hay cuarto de baño. 0 sino.
+         */
+        private char seleccionCuartoBanio(Habitacion habDTO) {
+            if(this.jCheckBoxCuartoBanio.isSelected()) return 1;
+            else return 0;
+        }
+        
+        /**
          * Recoleccion y pasado de datos desde la ventana grafica a un HabitacionDTO para operar con el.
          * @param habDTO 
          */
         private void recoleccionDatosInputHabitacion(Habitacion habDTO) {
             recoleccionDatosID(habDTO);
             
-            habitacion.setAlojamientoIdAlojamiento(Integer.parseInt(this.inputIDForanea.getText()));
-            habitacion.setPrecio((BigDecimal) this.inputPrecio.getValue());
-            habitacion.setExtrasHabitacion(this.inputExtras.getText());
-            habitacion.setTipoHabitacion((String) this.jComboBoxTipoHabitacion.getSelectedItem());
-            habitacion.setResenias(this.jTextFieldInputResenias.getText());
-            habitacion.setCuartoBanio(this.jCheckBoxCuartoBanio.isSelected());
+            habDTO.setAlojamientoIdAlojamiento(Integer.parseInt(this.inputIDForanea.getText()));
+            habDTO.setPrecio(BigDecimal.valueOf((long) this.inputPrecio.getValue()));
+            habDTO.setExtrasHabitacion(this.inputExtras.getText());
+            habDTO.setTipoHabitacion((String) this.jComboBoxTipoHabitacion.getSelectedItem());
+            habDTO.setResenias(this.jTextFieldInputResenias.getText());
+            habDTO.setCuartoBanio(seleccionCuartoBanio(habDTO));
+        }
+        
+        /**
+         * Da la Habitacion de Alta mediante los metodos propios de Hibernate.
+         */
+        private void darHabitacionAltaHibernate(Habitacion habDTO) {
+            Session s = Facade.abrirSessionHibernate();
+            s.save(habDTO);
+            Facade.cerrarSessionHibernate(s);
         }
         
         /**
@@ -149,6 +169,7 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
                 recoleccionDatosInputHabitacion(habDTO);
                 
                 if(confirmacionCambioReferenciaAlojamiento(habDTO.getAlojamientoIdAlojamiento())) {
+                    darHabitacionAltaHibernate(habDTO);
                     //Instanciacion del DTO de Alojamiento y pasado a fachada con este DTO.
 //                    int res = FACHADA.altaOModificacionHabitacion(habDTO); //Numero de filas modificadas. -1 salida de error por clave foranea.
 
@@ -315,7 +336,7 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
 
         jLabelResenias.setText("Reseñas");
 
-        inputPrecio.setModel(new javax.swing.SpinnerNumberModel(1.0f, 0.0f, null, 100.0f));
+        inputPrecio.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(1L), Long.valueOf(0L), null, Long.valueOf(100L)));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
