@@ -19,6 +19,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import vista.swing.tabla.VentanaAltaYModifHabitacion;
+import vista.swing.tabla.VentanaBajaHabitacion;
 import vista.swing.vista.VentanaAltaYModifVista;
 import vista.swing.vista.VentanaBajaVista;
 import vista.swing.vista.VentanaBuscarAlojID;
@@ -215,7 +216,6 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         });
 
         botonBajaHabitacion.setText("Baja");
-        botonBajaHabitacion.setEnabled(false);
         botonBajaHabitacion.setMaximumSize(new java.awt.Dimension(190, 60));
         botonBajaHabitacion.setMinimumSize(new java.awt.Dimension(190, 60));
         botonBajaHabitacion.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -325,7 +325,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
                 .addComponent(labelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -370,7 +370,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     }//GEN-LAST:event_botonListadoCompletoHabitacionesActionPerformed
 
     private void botonBajaHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBajaHabitacionActionPerformed
-//        new VentanaBajaHabitacion();
+        new VentanaBajaHabitacion();
     }//GEN-LAST:event_botonBajaHabitacionActionPerformed
 
     private void jMenuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalirActionPerformed

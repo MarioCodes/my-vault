@@ -5,33 +5,26 @@
  */
 package vista.swing.tabla;
 
-import vista.swing.comun.VentanaPrincipal;
 import aplicacion.facade.Facade;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import javax.swing.JOptionPane;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 /**
  * @author Mario Codes Sánchez
  * @since 09/11/2016
  */
-public class VentanaBajaHabitacion extends javax.swing.JFrame implements WindowListener {
-//    private final VentanaPrincipal VP = SingletonVentanas.getVentanaPrincipalObtencionSingleton();
-    private final Facade FACHADA = new Facade();
-    
+public class VentanaBajaHabitacion extends javax.swing.JFrame {
     /**
      * Creates new form VentanaBajaAlojamiento
      */
     public VentanaBajaHabitacion() {
         initComponents();
-//        VP.setVisible(false);
         
         this.setTitle("Dar Habitación de Baja");
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        
-        addWindowListener(this);
     }
 
     /**
@@ -153,34 +146,39 @@ public class VentanaBajaHabitacion extends javax.swing.JFrame implements WindowL
      * @param evt 
      */
     private void botonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBorrarActionPerformed
-//        boolean checkBox;
-//        int id;
-//        
-//        if(checkInputLleno()) {
-//            try {
-//                id = Integer.parseInt(this.inputID.getText());
-//                checkBox = this.checkBoxBooleanConfirmacion.isSelected();
-//
-//                if(checkBox) {
-//                    HabitacionDTO habDTOTmp = FACHADA.buscarHabitacionIdEspecifica(id);
-//                    int res = FACHADA.bajaHabitacion(habDTOTmp);
-//
-//                    if(res == 0) {
-//                        JOptionPane.showMessageDialog(this, "Ninguna Habitación con esos datos.");
-//                    } else {
-//                        JOptionPane.showMessageDialog(this, res +" fila modificada.");
-//                        reseteoCampos();
-//                    }
-//                } else {
-//                    JOptionPane.showMessageDialog(this, "Por Favor, marque la casilla como que está \nconforme con borrar esta entrada.");
-//                }
-//            } catch(NumberFormatException ex) {
-//                JOptionPane.showMessageDialog(this, "ERROR. La ID debe ser un # entero");
-//            }
-//        } else {
-//            JOptionPane.showMessageDialog(this, "ERROR. El ID no puede estar vacio.");
-//        }
-//        
+        boolean checkBox;
+        int id;
+        
+        if(checkInputLleno()) {
+            try {
+                id = Integer.parseInt(this.inputID.getText());
+                checkBox = this.checkBoxBooleanConfirmacion.isSelected();
+
+                if(checkBox) {
+                    Session s = Facade.abrirSessionHibernate();
+                    Query q = s.createQuery("delete Habitacion "
+                                                + "where ID_HABITACION = :idHab");
+                    q.setParameter("idHab", id);
+                    int resultado = q.executeUpdate();
+
+                    if(resultado == 0) {
+                        JOptionPane.showMessageDialog(this, "Ninguna Habitación con esos datos.");
+                    } else {
+                        JOptionPane.showMessageDialog(this, resultado +" fila modificada.");
+                        reseteoCampos();
+                    }
+                    
+                    Facade.cerrarSessionHibernate(s);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Por Favor, marque la casilla como que está \nconforme con borrar esta entrada.");
+                }
+            } catch(NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "ERROR. La ID debe ser un # entero");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "ERROR. El ID no puede estar vacio.");
+        }
+        
     }//GEN-LAST:event_botonBorrarActionPerformed
 
 
@@ -193,34 +191,4 @@ public class VentanaBajaHabitacion extends javax.swing.JFrame implements WindowL
     private javax.swing.JLabel jLabelID;
     private javax.swing.JLabel jLabelTitulo;
     // End of variables declaration//GEN-END:variables
-
-    @Override
-    public void windowOpened(WindowEvent e) {
-    }
-
-    @Override
-    public void windowClosing(WindowEvent e) {
-//        VP.setVisible(true);
-    }
-
-    @Override
-    public void windowClosed(WindowEvent e) {
-//        VP.setVisible(true);
-    }
-
-    @Override
-    public void windowIconified(WindowEvent e) {
-    }
-
-    @Override
-    public void windowDeiconified(WindowEvent e) {
-    }
-
-    @Override
-    public void windowActivated(WindowEvent e) {
-    }
-
-    @Override
-    public void windowDeactivated(WindowEvent e) {
-    }
 }
