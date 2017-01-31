@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.OracleDialect</property>
+    <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+    <property name="hibernate.connection.url">jdbc:oracle:thin:@172.30.160.190:1521:xe</property>
+    <property name="hibernate.connection.username">dai4</property>
+    <property name="hibernate.connection.password">tiger</property>
+    <mapping resource="dto/Actividad.hbm.xml"/>
+    <mapping resource="dto/VistaActividadesAlojamiento.hbm.xml"/>
+    <mapping resource="dto/Alojamiento.hbm.xml"/>
+    <mapping resource="dto/Habitacion.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>

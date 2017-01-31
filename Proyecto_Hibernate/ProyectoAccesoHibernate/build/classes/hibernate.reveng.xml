@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+<hibernate-reverse-engineering>
+  <schema-selection/>
+  <!-- <table-filter match-name="ALOJAMIENTO"/>
+  <table-filter match-name="ACTIVIDAD"/>
+  <table-filter match-name="VISTA_ACTIVIDADES_ALOJAMIENTO"/> -->
+  <table-filter match-name="HABITACION" />
+</hibernate-reverse-engineering>
