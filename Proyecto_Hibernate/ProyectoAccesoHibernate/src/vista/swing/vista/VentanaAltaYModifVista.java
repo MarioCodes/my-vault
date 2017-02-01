@@ -21,7 +21,7 @@ import vista.swing.comun.VentanaPrincipal;
  */
 public class VentanaAltaYModifVista extends javax.swing.JFrame {
     private final VentanaPrincipal VP = Singleton.getVentanaPrincipalObtencionSingleton();
-    private VistaActividadesAlojamiento vista;
+    private VistaActividadesAlojamiento vista = null;
     
     /**
      * Creates new form VentanaAltaYModifVista
@@ -46,6 +46,7 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.vista = vista;
         
+        setDatosVistaModif(vista);
         VP.setVisible(false);
     }
     
@@ -56,6 +57,48 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
         s.save(vaa);
 
         Facade.cerrarSessionHibernate(s);
+    }
+    
+    private int setSelectedIndexComboBox(String provincia) {
+        switch(provincia) {
+            case "Huesca":
+                return 0;
+            case "Zaragoza":
+                return 1;
+            case "Teruel":
+                return 2;
+            default:
+                System.out.println("Problema con VentanaAltaVista.setSelectedIndexComboBox");
+                return 0;
+        }
+    }
+    
+    /**
+     * Set de los datos de una instancia de la Vista en Pantalla.
+     * @param vista Vista que pasa a VistaID para extraer los datos.
+     */
+    private void setDatosVistaModif(VistaActividadesAlojamiento vista) {
+        VistaActividadesAlojamientoId vistaID = vista.getId();
+        this.jTextFieldInputNombreAloj.setText(vistaID.getNombreAlojamiento());
+        this.jTextFieldInputTelefono.setText(vistaID.getTelefonoContacto());
+        this.jTextFieldInputDirSocial.setText(vistaID.getDireccionSocial());
+        this.jTextFieldInputRazonSocial.setText(vistaID.getRazonSocial());
+        this.jSpinnerValoracion.setValue(vistaID.getValoracionAlojamiento());
+        this.jTextFieldInputFechaApertura.setText(vistaID.getFechaApertura());
+        this.jSpinnerHabitaciones.setValue(vistaID.getNumeroHabitaciones());
+        this.jComboBoxProvincia.setSelectedIndex(setSelectedIndexComboBox(vistaID.getProvincia()));
+        this.jTextPaneInputDescripcionAloj.setText(vistaID.getDescripcionAlojamiento());
+        
+        this.jTextFieldInputIDActividad.setText(Integer.toString(vistaID.getIdActividad()));
+        this.jTextFieldInputNombreActiv.setText(vistaID.getNombreActividad());
+        this.jTextFieldInputFechaActiv.setText(vistaID.getDiaRealizacion());
+        this.jTextFieldInputHoraInicioAc.setText(vistaID.getHoraInicio());
+        this.jTextFieldInputHoraFinActiv.setText(vistaID.getHoraFin());
+        this.jSpinnerDificultad.setValue(vistaID.getDificultad());
+        this.jSpinnerCapacidadActiv.setValue(Integer.parseInt(vistaID.getCapacidad()));
+        this.jTextFieldInputLocalizacion.setText(vistaID.getLocalizacion());
+        this.jTextFieldInputNombreGuia.setText(vistaID.getNombreGuia());
+        this.jTextPaneInputDescrip.setText(vistaID.getDescripcionActividad());
     }
     
     /**
