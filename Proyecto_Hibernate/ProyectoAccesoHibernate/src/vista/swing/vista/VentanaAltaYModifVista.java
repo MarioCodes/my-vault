@@ -92,6 +92,7 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
         this.jTextFieldInputIDActividad.setText(Integer.toString(vistaID.getIdActividad()));
         this.jTextFieldInputNombreActiv.setText(vistaID.getNombreActividad());
         this.jTextFieldInputFechaActiv.setText(vistaID.getDiaRealizacion());
+        this.jTextFieldInputDiaSemana.setText(vistaID.getDiaSemana());
         this.jTextFieldInputHoraInicioAc.setText(vistaID.getHoraInicio());
         this.jTextFieldInputHoraFinActiv.setText(vistaID.getHoraFin());
         this.jSpinnerDificultad.setValue(vistaID.getDificultad());
