@@ -125,16 +125,6 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
         }
         
         /**
-         * Set del 'booleano' en forma de Char para indicar si existe cuarto de baño.
-         * @param habDTO Habitacion a la cual se lo ponemos.
-         * @return 1 si hay cuarto de baño. 0 sino.
-         */
-        private char seleccionCuartoBanio(Habitacion habDTO) {
-            if(this.jCheckBoxCuartoBanio.isSelected()) return 1;
-            else return 0;
-        }
-        
-        /**
          * Recoleccion y pasado de datos desde la ventana grafica a un HabitacionDTO para operar con el.
          * @param habDTO 
          */
@@ -143,12 +133,11 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
             
             habDTO.setIdHabitacion(Integer.parseInt(this.jTextFieldInputIDHabitacion.getText()));
             habDTO.setAlojamientoIdAlojamiento(Integer.parseInt(this.inputIDForanea.getText()));
-            habDTO.setReservaIdReserva(Integer.parseInt(this.jTextFieldIDReserva.getText()));
+            if(!this.jTextFieldIDReserva.getText().matches("")) habDTO.setReservaIdReserva(Integer.parseInt(this.jTextFieldIDReserva.getText()));
             habDTO.setPrecio((long) this.inputPrecio.getValue());
             habDTO.setExtrasHabitacion(this.inputExtras.getText());
             habDTO.setTipoHabitacion((String) this.jComboBoxTipoHabitacion.getSelectedItem());
             habDTO.setResenias(this.jTextFieldInputResenias.getText());
-            habDTO.setCuartoBanio(seleccionCuartoBanio(habDTO));
         }
         
         /**
@@ -165,13 +154,12 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
             Session s = Facade.abrirSessionHibernate();
             
             Query q = s.createQuery("UPDATE Habitacion "
-                    + "SET EXTRAS_HABITACION = :extras, PRECIO = :precio, CUARTO_BANIO = :banio, TIPO_HABITACION = :tipo, "
+                    + "SET EXTRAS_HABITACION = :extras, PRECIO = :precio, TIPO_HABITACION = :tipo, "
                     + "RESENIAS = :resenias, RESERVA_ID_RESERVA = :idReserva "
                     + "WHERE ID_HABITACION = :idHabitacion");
             
             q.setParameter("extras", habDTO.getExtrasHabitacion());
             q.setParameter("precio", habDTO.getPrecio());
-            q.setParameter("banio", habDTO.getCuartoBanio());
             q.setParameter("tipo", habDTO.getTipoHabitacion());
             q.setParameter("resenias", habDTO.getResenias());
             q.setParameter("idReserva", habDTO.getReservaIdReserva());
@@ -198,7 +186,10 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
                             reseteoCamposVentana();
                         }
                     } else {
-                        //TODO: ME QUEDO AQUI. Terminar de añadir para modificar Habitacion. No se hace nada cuando se pulsa el boton hasta ahora.
+                        if(actualizarHabitacionHibernate(habDTO)) {
+                            JOptionPane.showMessageDialog(null, "Habitacion modificada con Exito.");
+                            reseteoCamposVentana();
+                        } //Si no es true, Facade.cerrarSession() ya se encarga de hacer output al user por violacion de clave.
                     }
                 }
             } catch(NullPointerException ex) {
@@ -222,7 +213,6 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
             this.inputPrecio.setValue(Float.parseFloat("0")); //Si simplemente pongo '0', es un Int, debe ser Float.
             this.inputExtras.setText(null);
             this.jTextFieldInputResenias.setText(null);
-            this.jCheckBoxCuartoBanio.setSelected(false);
         }
     
     /*
@@ -277,7 +267,6 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
                 
                 if(habDTO.getExtrasHabitacion() != null) this.inputExtras.setText(habDTO.getExtrasHabitacion());
                 if(habDTO.getResenias() != null) this.jTextFieldInputResenias.setText(habDTO.getResenias());
-                if(habDTO.getCuartoBanio() == 1) this.jCheckBoxCuartoBanio.setSelected(true);
                 rellenoAutoTipoHabitacion(habDTO);
             }catch (NullPointerException ex) {} //Hay algunos campos que no son obligatorios.
         }
@@ -301,7 +290,6 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
         inputExtras = new javax.swing.JTextField();
         jLabelTituloVentana = new javax.swing.JLabel();
         jComboBoxTipoHabitacion = new javax.swing.JComboBox();
-        jCheckBoxCuartoBanio = new javax.swing.JCheckBox();
         jLabelResenias = new javax.swing.JLabel();
         jTextFieldInputResenias = new javax.swing.JTextField();
         inputPrecio = new javax.swing.JSpinner();
@@ -349,11 +337,9 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
 
         jComboBoxTipoHabitacion.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "simple", "doble", "matrimonio", "triple", "cuadruple" }));
 
-        jCheckBoxCuartoBanio.setText("Posee Cuarto de Baño*");
-
         jLabelResenias.setText("Reseñas");
 
-        inputPrecio.setModel(new javax.swing.SpinnerNumberModel(1L, 0L, null, 100L));
+        inputPrecio.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(1L), Long.valueOf(0L), null, Long.valueOf(100L)));
 
         jLabel1.setText("ID Hab*");
 
@@ -364,49 +350,43 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(83, 83, 83)
-                        .addComponent(jCheckBoxCuartoBanio)
-                        .addGap(107, 107, 107))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jLabelResenias)
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jLabelResenias)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldInputResenias)
+                            .addComponent(inputExtras)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabelExtras)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabelTipoHabitacion)
+                                .addGap(16, 16, 16)
+                                .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jComboBoxTipoHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabelPrecio)
+                                .addGap(13, 13, 13))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextFieldInputIDHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFieldInputResenias)
-                                    .addComponent(inputExtras)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(3, 3, 3)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabelExtras)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabelTipoHabitacion)
-                                        .addGap(16, 16, 16)
-                                        .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jComboBoxTipoHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabelPrecio)
-                                        .addGap(13, 13, 13))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addComponent(jLabel1)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jTextFieldInputIDHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jLabelIDAlojamientoForanea))
-                                        .addGap(7, 7, 7)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(inputPrecio)
-                                    .addComponent(jTextFieldIDReserva)
-                                    .addComponent(inputIDForanea, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabelIDAlojamientoForanea))
+                                .addGap(7, 7, 7)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(inputPrecio)
+                            .addComponent(jTextFieldIDReserva)
+                            .addComponent(inputIDForanea, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(33, 33, 33))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -451,9 +431,7 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldInputResenias, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelResenias))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCheckBoxCuartoBanio)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonAniadir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -483,7 +461,6 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
     protected javax.swing.JTextField inputExtras;
     protected javax.swing.JTextField inputIDForanea;
     private javax.swing.JSpinner inputPrecio;
-    private javax.swing.JCheckBox jCheckBoxCuartoBanio;
     private javax.swing.JComboBox jComboBoxTipoHabitacion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

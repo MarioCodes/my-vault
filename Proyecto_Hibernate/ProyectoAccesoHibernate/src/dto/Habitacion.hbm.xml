@@ -14,9 +14,6 @@
         <property name="precio" type="long">
             <column name="PRECIO" precision="7" />
         </property>
-        <property name="cuartoBanio" type="char">
-            <column name="CUARTO_BANIO" length="1" not-null="true" />
-        </property>
         <property name="tipoHabitacion" type="string">
             <column name="TIPO_HABITACION" length="100" />
         </property>

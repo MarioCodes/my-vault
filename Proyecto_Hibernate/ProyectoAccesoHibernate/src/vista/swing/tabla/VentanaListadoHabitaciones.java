@@ -65,15 +65,14 @@ public class VentanaListadoHabitaciones extends javax.swing.JFrame {
             Habitacion habitacion = (Habitacion) li.next();
             
             try {
-                Object[] row = new Object[8];
+                Object[] row = new Object[7];
                 row[0] = habitacion.getIdHabitacion();
                 row[1] = habitacion.getAlojamientoIdAlojamiento();
                 row[2] = habitacion.getReservaIdReserva();
                 row[3] = habitacion.getExtrasHabitacion();
                 row[4] = habitacion.getPrecio();
-                row[5] = habitacion.getCuartoBanio();
-                row[6] = habitacion.getTipoHabitacion();
-                row[7] = habitacion.getResenias();
+                row[5] = habitacion.getTipoHabitacion();
+                row[6] = habitacion.getResenias();
                 model.addRow(row);
             }catch(NullPointerException ex) {
                 System.out.println("Error especifico: " +ex.getLocalizedMessage());
@@ -97,15 +96,14 @@ public class VentanaListadoHabitaciones extends javax.swing.JFrame {
             
             if(habitacion.getTipoHabitacion().matches(tipo_habitacion)) {
                 try {
-                    Object[] row = new Object[8];
+                    Object[] row = new Object[7];
                     row[0] = habitacion.getIdHabitacion();
                     row[1] = habitacion.getAlojamientoIdAlojamiento();
                     row[2] = habitacion.getReservaIdReserva();
                     row[3] = habitacion.getExtrasHabitacion();
                     row[4] = habitacion.getPrecio();
-                    row[5] = habitacion.getCuartoBanio();
-                    row[6] = habitacion.getTipoHabitacion();
-                    row[7] = habitacion.getResenias();
+                    row[5] = habitacion.getTipoHabitacion();
+                    row[6] = habitacion.getResenias();
                     model.addRow(row);
                 }catch(NullPointerException ex) {
                     System.out.println("Error especifico: " +ex.getLocalizedMessage());
@@ -141,14 +139,14 @@ public class VentanaListadoHabitaciones extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID_Habitacion", "ID_Alojamiento", "ID_Reserva", "Extras", "Precio", "# Cuarto(s) Baño", "Tipo Habitacion", "Reseñas"
+                "ID_Habitacion", "ID_Alojamiento", "ID_Reserva", "Extras", "Precio", "Tipo Habitacion", "Reseñas"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, false, false, false, false, false, false
+                false, true, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
