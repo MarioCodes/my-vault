@@ -60,12 +60,12 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
     }
     
     private int setSelectedIndexComboBox(String provincia) {
-        switch(provincia) {
-            case "Huesca":
+        switch(provincia.toLowerCase()) {
+            case "huesca":
                 return 0;
-            case "Zaragoza":
+            case "zaragoza":
                 return 1;
-            case "Teruel":
+            case "teruel":
                 return 2;
             default:
                 System.out.println("Problema con VentanaAltaVista.setSelectedIndexComboBox");
@@ -233,41 +233,40 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
             .addGroup(jPanelDatosAlojamientoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDatosAlojamientoLayout.createSequentialGroup()
-                        .addGroup(jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelRazonSocial)
-                            .addComponent(jLabelDirSocial)
-                            .addComponent(jLabelTelefono)
-                            .addComponent(jLabelNombre))
-                        .addGap(12, 12, 12)
-                        .addGroup(jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldInputTelefono)
-                            .addComponent(jTextFieldInputDirSocial)
-                            .addComponent(jTextFieldInputRazonSocial, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextFieldInputNombreAloj, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addGroup(jPanelDatosAlojamientoLayout.createSequentialGroup()
-                        .addGroup(jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelValoracion)
-                            .addComponent(jLabelHabitaciones))
-                        .addGap(12, 12, 12)
-                        .addGroup(jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelDatosAlojamientoLayout.createSequentialGroup()
-                                .addComponent(jSpinnerHabitaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabelProvincia))
-                            .addGroup(jPanelDatosAlojamientoLayout.createSequentialGroup()
-                                .addComponent(jSpinnerValoracion, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabelFechaApertura)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBoxProvincia, 0, 112, Short.MAX_VALUE)
-                            .addComponent(jTextFieldInputFechaApertura)))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanelDatosAlojamientoLayout.createSequentialGroup()
+                    .addGroup(jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanelDatosAlojamientoLayout.createSequentialGroup()
+                            .addGroup(jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabelValoracion)
+                                .addComponent(jLabelHabitaciones))
+                            .addGap(12, 12, 12)
+                            .addGroup(jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanelDatosAlojamientoLayout.createSequentialGroup()
+                                    .addComponent(jSpinnerHabitaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jLabelProvincia)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                                    .addComponent(jComboBoxProvincia, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanelDatosAlojamientoLayout.createSequentialGroup()
+                                    .addComponent(jSpinnerValoracion, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jLabelFechaApertura))))
                         .addComponent(jLabelDescripcion)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGroup(jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTextFieldInputFechaApertura, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanelDatosAlojamientoLayout.createSequentialGroup()
+                                .addGroup(jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabelRazonSocial)
+                                    .addComponent(jLabelDirSocial)
+                                    .addComponent(jLabelTelefono)
+                                    .addComponent(jLabelNombre))
+                                .addGap(12, 12, 12)
+                                .addGroup(jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jTextFieldInputDirSocial, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                                    .addComponent(jTextFieldInputTelefono, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldInputNombreAloj, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldInputRazonSocial)))))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelDatosAlojamientoLayout.setVerticalGroup(
             jPanelDatosAlojamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
