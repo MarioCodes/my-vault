@@ -6,16 +6,12 @@
 package vista.swing.vista;
 
 import aplicacion.facade.Facade;
-import dto.Alojamiento;
 import dto.VistaActividadesAlojamiento;
-import dto.VistaActividadesAlojamientoId;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
 /**
  *
