@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 31-ene-2017 13:00:46 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="dto.Alojamiento" table="ALOJAMIENTO" schema="DAI4">
+    <class name="dto.Alojamiento" table="ALOJAMIENTO" schema="MARIO">
         <id name="idAlojamiento" type="int">
             <column name="ID_ALOJAMIENTO" precision="7" scale="0" />
             <generator class="assigned"></generator>
