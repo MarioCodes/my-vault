@@ -123,7 +123,6 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         });
 
         botonModifAlojamiento.setText("Modificacion");
-        botonModifAlojamiento.setEnabled(false);
         botonModifAlojamiento.setMaximumSize(new java.awt.Dimension(190, 60));
         botonModifAlojamiento.setMinimumSize(new java.awt.Dimension(190, 60));
         botonModifAlojamiento.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -190,7 +189,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
                 .addComponent(botonListado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17)
                 .addComponent(jButtonBuscarValoracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gestión Tabla Unica", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 14))); // NOI18N

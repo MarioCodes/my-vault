@@ -145,7 +145,7 @@
                   <Component id="botonListado" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                   <Component id="jButtonBuscarValoracion" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="23" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -171,7 +171,6 @@
         <Component class="javax.swing.JButton" name="botonModifAlojamiento">
           <Properties>
             <Property name="text" type="java.lang.String" value="Modificacion"/>
-            <Property name="enabled" type="boolean" value="false"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[190, 60]"/>
             </Property>

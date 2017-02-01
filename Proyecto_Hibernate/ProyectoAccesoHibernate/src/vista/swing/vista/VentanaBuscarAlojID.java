@@ -6,12 +6,15 @@
 package vista.swing.vista;
 
 import aplicacion.facade.Facade;
+import dto.Alojamiento;
 import dto.VistaActividadesAlojamiento;
 import dto.VistaActividadesAlojamientoId;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
-import org.hibernate.Hibernate;
-import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -25,27 +28,49 @@ public class VentanaBuscarAlojID extends javax.swing.JFrame {
     public VentanaBuscarAlojID() {
         initComponents();
         
+        this.setTitle("Introduce un ID de Alojamiento");
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
     }
-
+    
     /**
-     * Recogida del ID y buscado de una entrada en la Vista con ese ID.
+     * Comprobacion de que el ID sea un numero valido.
+     * @return True si el numero es valido.
      */
-    private void recogerDatos() {
-        int id_aloj = Integer.parseInt(this.jTextFieldInputIDAloj.getText());
+    private boolean checkInputIDNumericoExprRegular(String id) {
+        try {
+            Pattern pat = Pattern.compile("[0-9]+");
+            Matcher mat = pat.matcher(id);
         
+            return mat.matches();
+        } catch(NumberFormatException ex) {
+            return false;
+        }
+    }
+    
+    /**
+     * Obtencion de una instancia de la Vista si existe con el ID introducido.
+     * @param id_pk ID de la vista a obtener.
+     * @return Instancia de la Vista si existe, null si no.
+     */
+    private VistaActividadesAlojamiento getVistaPorID(int id_pk) {
         Session s = Facade.abrirSessionHibernate();
         
-        Query q = s.createQuery("delete VistaActividadesAlojamiento "
-                                    + "where ID_ALOJAMIENTO = :idAloj"); //Mediante HQL
-        q.setParameter("idAloj", id_aloj);
-        int resultado = q.executeUpdate();
-
-        JOptionPane.showMessageDialog(this, resultado +" filas modificada(s).");
+//        List lista = s.createCriteria(VistaActividadesAlojamientoId.class)
+//                .add(Restrictions.idEq(id_pk)).list();
+//        
+//        VistaActividadesAlojamientoId tmp = (VistaActividadesAlojamientoId) lista.get(0);
+//        
+//        System.out.println(tmp.getIdAlojamiento());
         
-        Facade.cerrarSessionHibernate(s);
+        List lista2 = s.createCriteria(VistaActividadesAlojamiento.class)
+                .add(Restrictions.idEq(id_pk)).list();
+        
+        System.out.println(((VistaActividadesAlojamiento) lista2.get(0)).getId().getIdAlojamiento());
+        
+        return null;
+//        return lista.size() > 0 ? (VistaActividadesAlojamiento) lista.get(0) : null;
     }
     
     /**
@@ -133,7 +158,18 @@ public class VentanaBuscarAlojID extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
-        recogerDatos();
+        String id = this.jTextFieldInputIDAloj.getText();
+        
+        if(checkInputIDNumericoExprRegular(id)) {
+            VistaActividadesAlojamiento vistaIDTmp = getVistaPorID(Integer.parseInt(id));
+            
+//            System.out.println(vistaIDTmp.getIdAlojamiento());
+            
+//            VistaActividadesAlojamiento vistaTmp = new VistaActividadesAlojamiento(vistaIDTmp);
+//            if(vistaTmp != null) new VentanaAltaYModifVista(vistaTmp);
+//            else JOptionPane.showMessageDialog(this, "No existe ninguna entrada de Vista con ese ID.");
+        }
+        else JOptionPane.showMessageDialog(this, "Introduce un numero valido.");
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

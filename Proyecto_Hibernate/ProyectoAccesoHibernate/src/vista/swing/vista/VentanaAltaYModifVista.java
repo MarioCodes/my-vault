@@ -21,6 +21,7 @@ import vista.swing.comun.VentanaPrincipal;
  */
 public class VentanaAltaYModifVista extends javax.swing.JFrame {
     private final VentanaPrincipal VP = Singleton.getVentanaPrincipalObtencionSingleton();
+    private VistaActividadesAlojamiento vista;
     
     /**
      * Creates new form VentanaAltaYModifVista
@@ -36,6 +37,18 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
         VP.setVisible(false);
     }
     
+    public VentanaAltaYModifVista(VistaActividadesAlojamiento vista) {
+        initComponents();
+        
+        this.setTitle("Alta de Conjunto de Datos Nuevo.");
+        this.setVisible(true);
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
+        this.vista = vista;
+        
+        System.out.println(vista.getId().getIdAlojamiento()); //fixme: borrar. Testeo.
+        VP.setVisible(false);
+    }
     
     private void altaVista(VistaActividadesAlojamientoId vaaID) {
         Session s = Facade.abrirSessionHibernate();
