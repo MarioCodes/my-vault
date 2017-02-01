@@ -46,7 +46,6 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.vista = vista;
         
-        System.out.println(vista.getId().getIdAlojamiento()); //fixme: borrar. Testeo.
         VP.setVisible(false);
     }
     

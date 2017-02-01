@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -57,20 +58,10 @@ public class VentanaBuscarAlojID extends javax.swing.JFrame {
     private VistaActividadesAlojamiento getVistaPorID(int id_pk) {
         Session s = Facade.abrirSessionHibernate();
         
-//        List lista = s.createCriteria(VistaActividadesAlojamientoId.class)
-//                .add(Restrictions.idEq(id_pk)).list();
-//        
-//        VistaActividadesAlojamientoId tmp = (VistaActividadesAlojamientoId) lista.get(0);
-//        
-//        System.out.println(tmp.getIdAlojamiento());
-        
-        List lista2 = s.createCriteria(VistaActividadesAlojamiento.class)
-                .add(Restrictions.idEq(id_pk)).list();
-        
-        System.out.println(((VistaActividadesAlojamiento) lista2.get(0)).getId().getIdAlojamiento());
-        
-        return null;
-//        return lista.size() > 0 ? (VistaActividadesAlojamiento) lista.get(0) : null;
+        Query q = s.createQuery("from VistaActividadesAlojamiento "
+                                    + "where ID_ALOJAMIENTO = :idAloj");
+        q.setParameter("idAloj", id_pk);
+        return (VistaActividadesAlojamiento) q.uniqueResult();
     }
     
     /**
@@ -161,13 +152,10 @@ public class VentanaBuscarAlojID extends javax.swing.JFrame {
         String id = this.jTextFieldInputIDAloj.getText();
         
         if(checkInputIDNumericoExprRegular(id)) {
-            VistaActividadesAlojamiento vistaIDTmp = getVistaPorID(Integer.parseInt(id));
+            VistaActividadesAlojamiento vistaTmp = getVistaPorID(Integer.parseInt(id));
             
-//            System.out.println(vistaIDTmp.getIdAlojamiento());
-            
-//            VistaActividadesAlojamiento vistaTmp = new VistaActividadesAlojamiento(vistaIDTmp);
-//            if(vistaTmp != null) new VentanaAltaYModifVista(vistaTmp);
-//            else JOptionPane.showMessageDialog(this, "No existe ninguna entrada de Vista con ese ID.");
+            if(vistaTmp != null) new VentanaAltaYModifVista(vistaTmp);
+            else JOptionPane.showMessageDialog(this, "No existe ninguna entrada de Vista con ese ID.");
         }
         else JOptionPane.showMessageDialog(this, "Introduce un numero valido.");
     }//GEN-LAST:event_jButtonBuscarActionPerformed
