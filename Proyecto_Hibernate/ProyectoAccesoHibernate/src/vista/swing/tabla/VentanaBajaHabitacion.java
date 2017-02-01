@@ -164,11 +164,11 @@ public class VentanaBajaHabitacion extends javax.swing.JFrame {
                     if(resultado == 0) {
                         JOptionPane.showMessageDialog(this, "Ninguna Habitación con esos datos.");
                     } else {
-                        JOptionPane.showMessageDialog(this, resultado +" fila modificada.");
-                        reseteoCampos();
+                        if(Facade.cerrarSessionHibernate(s)) { //todo: comprobar que funcione bien los mensajes de output en baja de habitacion.
+                            JOptionPane.showMessageDialog(this, resultado +" fila modificada.");
+                            reseteoCampos();
+                        }
                     }
-                    
-                    Facade.cerrarSessionHibernate(s);
                 } else {
                     JOptionPane.showMessageDialog(this, "Por Favor, marque la casilla como que está \nconforme con borrar esta entrada.");
                 }

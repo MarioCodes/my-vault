@@ -150,7 +150,10 @@ public class VentanaBuscarAlojID extends javax.swing.JFrame {
         if(checkInputIDNumericoExprRegular(id)) {
             VistaActividadesAlojamiento vistaTmp = getVistaPorID(Integer.parseInt(id));
             
-            if(vistaTmp != null) new VentanaAltaYModifVista(vistaTmp);
+            if(vistaTmp != null) {
+                this.dispose();
+                new VentanaAltaYModifVista(vistaTmp);
+            }
             else JOptionPane.showMessageDialog(this, "No existe ninguna entrada de Vista con ese ID.");
         }
         else JOptionPane.showMessageDialog(this, "Introduce un numero valido.");

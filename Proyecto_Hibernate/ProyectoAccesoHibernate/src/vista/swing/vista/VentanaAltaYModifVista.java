@@ -46,6 +46,7 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.vista = vista;
+        this.jTextFieldInputIDActividad.setEnabled(false);
         
         setDatosVistaModif(vista);
         VP.setVisible(false);
@@ -54,25 +55,26 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
     /**
      * Se encarga de dar de Alta una instancia de la Vista completamente Nueva.
      * @param vaaID VistaID con todos los datos para dar de Alta introducidos.
+     * @return Estado de la transaccion.
      */
-    private void altaVista(VistaActividadesAlojamientoId vaaID) {
+    private boolean altaVista(VistaActividadesAlojamientoId vaaID) {
         Session s = Facade.abrirSessionHibernate();
         
         VistaActividadesAlojamiento vaa = new VistaActividadesAlojamiento(vaaID);
         s.save(vaa);
 
-        Facade.cerrarSessionHibernate(s);
+        return Facade.cerrarSessionHibernate(s);
     }
     
-    private void updateVista(VistaActividadesAlojamientoId vaaID) {
-        Session s = Facade.abrirSessionHibernate();
-        
-        VistaActividadesAlojamiento vaa = new VistaActividadesAlojamiento(vaaID);
-        s.update(vaa);
-        
-        Facade.cerrarSessionHibernate(s);
-        System.out.println("SUUU");
-    }
+//    private void updateVista(VistaActividadesAlojamientoId vaaID) {
+//        Session s = Facade.abrirSessionHibernate();
+//        
+//        VistaActividadesAlojamiento vaa = new VistaActividadesAlojamiento(vaaID);
+//        s.update(vaa);
+//        
+//        Facade.cerrarSessionHibernate(s);
+//        System.out.println("SUUU");
+//    }
     
     private int setSelectedIndexComboBox(String provincia) {
         switch(provincia.toLowerCase()) {
@@ -119,8 +121,9 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
     
     /**
      * Updatea los datos de la vista mediante HQL.
+     * @return Estado de la transaccion.
      */
-    private void updateDatosVista() {
+    private boolean updateDatosVista() {
         Session s = Facade.abrirSessionHibernate();
         
         Query q = s.createQuery("UPDATE VistaActividadesAlojamiento "
@@ -154,7 +157,7 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
         q.setParameter("idAloj", vista.getId().getIdAlojamiento());
         
         q.executeUpdate();
-        Facade.cerrarSessionHibernate(s);
+        return Facade.cerrarSessionHibernate(s);
     }
     
     /**
@@ -189,6 +192,30 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Campo numerico no valido.");
             return null;
         }
+    }
+    
+    private void limpiezaDatos() {
+            this.jTextFieldInputNombreAloj.setText("");
+            this.jTextFieldInputTelefono.setText("");
+            this.jTextFieldInputDirSocial.setText("");
+            this.jTextFieldInputRazonSocial.setText("");
+            this.jSpinnerValoracion.setValue(1);
+            this.jTextFieldInputFechaApertura.setText("");
+            this.jSpinnerHabitaciones.setValue(0);
+            this.jComboBoxProvincia.setSelectedItem(0);
+            this.jTextPaneInputDescripcionAloj.setText("");
+
+            this.jTextFieldInputIDActividad.setText("");
+            this.jTextFieldInputNombreActiv.setText("");
+            this.jTextFieldInputFechaActiv.setText("");
+            this.jTextFieldInputDiaSemana.setText("");
+            this.jTextFieldInputHoraInicioAc.setText("");
+            this.jTextFieldInputHoraFinActiv.setText("");
+            this.jSpinnerDificultad.setValue(1);
+            this.jSpinnerCapacidadActiv.setValue(0);
+            this.jTextFieldInputLocalizacion.setText("");
+            this.jTextFieldInputNombreGuia.setText("");
+            this.jTextPaneInputDescrip.setText("");
     }
     
     /**
@@ -557,8 +584,21 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
         if(checkCamposLlenos()) {
             VistaActividadesAlojamientoId vaaID = recogidaDatosInstanciaVistaID();
             if(vaaID != null) {  //Mensaje de Output ya colocado, aqui simplemente tengo que tener cuidado de no  comerme el null.
-                if(this.vista == null) altaVista(vaaID);
-                else updateDatosVista();
+                if(this.vista == null) {
+                    if(altaVista(vaaID)) {
+                        limpiezaDatos();
+                        JOptionPane.showMessageDialog(null, "Conjunto de datos dado de Alta.");
+                    }
+                }
+                else {
+                    if(updateDatosVista()) {
+                        JOptionPane.showMessageDialog(null, "Conjunto modificado correctamente");
+                        this.dispose();
+                        VP.setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Problema con la clave ajena.");
+                    }
+                }
             }
         } else {
             JOptionPane.showMessageDialog(this, "Revisar los campos. Es necesario que TODOS esten rellenos.");

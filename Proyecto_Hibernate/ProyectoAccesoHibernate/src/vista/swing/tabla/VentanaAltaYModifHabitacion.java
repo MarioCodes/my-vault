@@ -152,11 +152,12 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
         
         /**
          * Da la Habitacion de Alta mediante los metodos propios de Hibernate.
+         * @return Estado de la transaccion.
          */
-        private void darHabitacionAltaHibernate(Habitacion habDTO) {
+        private boolean darHabitacionAltaHibernate(Habitacion habDTO) {
             Session s = Facade.abrirSessionHibernate();
             s.save(habDTO);
-            Facade.cerrarSessionHibernate(s);
+            return Facade.cerrarSessionHibernate(s);
         }
         
         /**
@@ -170,8 +171,7 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
                 recoleccionDatosInputHabitacion(habDTO);
                 
                 if(confirmacionCambioReferenciaAlojamiento(habDTO.getAlojamientoIdAlojamiento())) {
-                    darHabitacionAltaHibernate(habDTO);
-                    JOptionPane.showMessageDialog(this, "Habitacion dada de Alta.");
+                    if(darHabitacionAltaHibernate(habDTO)) JOptionPane.showMessageDialog(this, "Habitacion dada de Alta.");
                     
                     //Instanciacion del DTO de Alojamiento y pasado a fachada con este DTO.
 //                    int res = FACHADA.altaOModificacionHabitacion(habDTO); //Numero de filas modificadas. -1 salida de error por clave foranea.
