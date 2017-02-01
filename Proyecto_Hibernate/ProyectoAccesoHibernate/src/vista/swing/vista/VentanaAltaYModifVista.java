@@ -6,18 +6,18 @@
 package vista.swing.vista;
 
 import aplicacion.facade.Facade;
-//import controlador.DTO.VistaActividadesAlojamientoId;
 import controlador.datos.Singleton;
 import dto.VistaActividadesAlojamiento;
 import dto.VistaActividadesAlojamientoId;
 import javax.swing.JOptionPane;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import vista.swing.comun.VentanaPrincipal;
 
 /**
  * Ventana encargada de hacer las altas y modificaciones para la gestion de la vista.
  * @author Mario Codes Sánchez
- * @since 26/01/2017
+ * @since 01/02/2017
  */
 public class VentanaAltaYModifVista extends javax.swing.JFrame {
     private final VentanaPrincipal VP = Singleton.getVentanaPrincipalObtencionSingleton();
@@ -40,7 +40,8 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
     public VentanaAltaYModifVista(VistaActividadesAlojamiento vista) {
         initComponents();
         
-        this.setTitle("Alta de Conjunto de Datos Nuevo.");
+        this.jLabelMainTitulo.setText("Modificacion Vista");
+        this.setTitle("Modificacion de Conjunto de Datos.");
         this.setVisible(true);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
@@ -50,6 +51,10 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
         VP.setVisible(false);
     }
     
+    /**
+     * Se encarga de dar de Alta una instancia de la Vista completamente Nueva.
+     * @param vaaID VistaID con todos los datos para dar de Alta introducidos.
+     */
     private void altaVista(VistaActividadesAlojamientoId vaaID) {
         Session s = Facade.abrirSessionHibernate();
         
@@ -57,6 +62,16 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
         s.save(vaa);
 
         Facade.cerrarSessionHibernate(s);
+    }
+    
+    private void updateVista(VistaActividadesAlojamientoId vaaID) {
+        Session s = Facade.abrirSessionHibernate();
+        
+        VistaActividadesAlojamiento vaa = new VistaActividadesAlojamiento(vaaID);
+        s.update(vaa);
+        
+        Facade.cerrarSessionHibernate(s);
+        System.out.println("SUUU");
     }
     
     private int setSelectedIndexComboBox(String provincia) {
@@ -103,9 +118,49 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
     }
     
     /**
+     * Updatea los datos de la vista mediante HQL.
+     */
+    private void updateDatosVista() {
+        Session s = Facade.abrirSessionHibernate();
+        
+        Query q = s.createQuery("UPDATE VistaActividadesAlojamiento "
+                                    + "SET ID_ACTIVIDAD = :idActiv, NOMBRE_ALOJAMIENTO = :nombreAloj, DESCRIPCION_ALOJAMIENTO = :descripAloj, "
+                                    + "DIRECCION_SOCIAL = :dirSoc, RAZON_SOCIAL = :razSoc, TELEFONO_CONTACTO = :telefono, VALORACION_ALOJAMIENTO = :valoracion, FECHA_APERTURA = :fechaApertura, "
+                                    + "NUMERO_HABITACIONES = :numHabitaciones, PROVINCIA = :provincia, NOMBRE_ACTIVIDAD = :nombreActiv, DESCRIPCION_ACTIVIDAD = :descripActiv, "
+                                    + "DIA_REALIZACION = :diaRealizacion, DIA_SEMANA = :diaSemana, HORA_INICIO = :horaInicio, HORA_FIN = :horaFin, LOCALIZACION = :localizacion, "
+                                    + "DIFICULTAD = :dificultad, CAPACIDAD = :capacidad, NOMBRE_GUIA = :nombreGuia "
+                                    + "WHERE ID_ALOJAMIENTO = :idAloj");
+        
+        q.setParameter("idActiv", Integer.parseInt(this.jTextFieldInputIDActividad.getText()));
+        q.setParameter("nombreAloj", this.jTextFieldInputNombreAloj.getText());
+        q.setParameter("descripAloj", this.jTextPaneInputDescripcionAloj.getText());
+        q.setParameter("dirSoc", this.jTextFieldInputDirSocial.getText());
+        q.setParameter("razSoc", this.jTextFieldInputRazonSocial.getText());
+        q.setParameter("telefono", this.jTextFieldInputTelefono.getText());
+        q.setParameter("valoracion", (int) this.jSpinnerValoracion.getValue());
+        q.setParameter("fechaApertura", this.jTextFieldInputFechaApertura.getText());
+        q.setParameter("numHabitaciones", (int) this.jSpinnerHabitaciones.getValue());
+        q.setParameter("provincia", (String) this.jComboBoxProvincia.getSelectedItem());
+        q.setParameter("nombreActiv", this.jTextFieldInputNombreActiv.getText());
+        q.setParameter("descripActiv", this.jTextPaneInputDescrip.getText());
+        q.setParameter("diaRealizacion", this.jTextFieldInputFechaActiv.getText());
+        q.setParameter("diaSemana", this.jTextFieldInputDiaSemana.getText());
+        q.setParameter("horaInicio", this.jTextFieldInputHoraInicioAc.getText());
+        q.setParameter("horaFin", this.jTextFieldInputHoraFinActiv.getText());
+        q.setParameter("localizacion", this.jTextFieldInputLocalizacion.getText());
+        q.setParameter("dificultad", (int) this.jSpinnerDificultad.getValue());
+        q.setParameter("capacidad", this.jSpinnerCapacidadActiv.getValue().toString());
+        q.setParameter("nombreGuia", this.jTextFieldInputNombreGuia.getText());
+        q.setParameter("idAloj", vista.getId().getIdAlojamiento());
+        
+        q.executeUpdate();
+        Facade.cerrarSessionHibernate(s);
+    }
+    
+    /**
      * Ejecucion de recogida de datos de la Ventana.
      */
-    private void recogidaDatos() {
+    private VistaActividadesAlojamientoId recogidaDatosInstanciaVistaID() {
         try {
             String nombreAloj = this.jTextFieldInputNombreAloj.getText();
             String telefono = this.jTextFieldInputTelefono.getText();
@@ -129,10 +184,10 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
             String nombreGuia = this.jTextFieldInputNombreGuia.getText();
             String descripActiv = this.jTextPaneInputDescrip.getText();
             
-            VistaActividadesAlojamientoId vaaID = new VistaActividadesAlojamientoId(0, idActividad, nombreAloj, descripAloj, dirSocial, razSocial, telefono, valoracion, fechaApertura, habitaciones, provincia, nombreActiv, descripActiv, fechaActiv, diaSemana, horaInicio, horaFin, localizacionActividad, dificultad, capacidad, nombreGuia);
-            altaVista(vaaID);
+            return new VistaActividadesAlojamientoId(0, idActividad, nombreAloj, descripAloj, dirSocial, razSocial, telefono, valoracion, fechaApertura, habitaciones, provincia, nombreActiv, descripActiv, fechaActiv, diaSemana, horaInicio, horaFin, localizacionActividad, dificultad, capacidad, nombreGuia);
         }catch(NumberFormatException | ClassCastException ex) {
             JOptionPane.showMessageDialog(this, "Campo numerico no valido.");
+            return null;
         }
     }
     
@@ -500,7 +555,11 @@ public class VentanaAltaYModifVista extends javax.swing.JFrame {
 
     private void jButtonIntroducirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIntroducirActionPerformed
         if(checkCamposLlenos()) {
-            recogidaDatos();
+            VistaActividadesAlojamientoId vaaID = recogidaDatosInstanciaVistaID();
+            if(vaaID != null) {  //Mensaje de Output ya colocado, aqui simplemente tengo que tener cuidado de no  comerme el null.
+                if(this.vista == null) altaVista(vaaID);
+                else updateDatosVista();
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Revisar los campos. Es necesario que TODOS esten rellenos.");
         }
