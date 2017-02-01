@@ -171,34 +171,14 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
                 recoleccionDatosInputHabitacion(habDTO);
                 
                 if(confirmacionCambioReferenciaAlojamiento(habDTO.getAlojamientoIdAlojamiento())) {
-                    if(darHabitacionAltaHibernate(habDTO)) JOptionPane.showMessageDialog(this, "Habitacion dada de Alta.");
-                    
-                    //Instanciacion del DTO de Alojamiento y pasado a fachada con este DTO.
-//                    int res = FACHADA.altaOModificacionHabitacion(habDTO); //Numero de filas modificadas. -1 salida de error por clave foranea.
-
-//                    if(this.habDTO == null) { //Si nunca se ha instanciado, estamos en la version de alta.
-//                        if(res == -1) {
-//                            JOptionPane.showMessageDialog(null, "Error de clave foránea. Comprueba que el Alojamiento Referenciado existe.");
-//                        } else {
-//                            if(res == 0) {
-//                                JOptionPane.showMessageDialog(null, "Problema. 0 filas modificadas."); //No deberia darse nunca. Por si acaso.
-//                            } else {
-//                                JOptionPane.showMessageDialog(null, "¡Habitación dada de alta exitosamente!");  //Salida normal.
-//                                reseteoCamposVentana(); //Vaciamos todos los campos.
-//                            }
-//                        }
-//                    } else { //Si lo ha sido, estamos en la de modificacion.
-//                        if(res == -1) {
-//                            JOptionPane.showMessageDialog(this, "Error de clave foranea. Comprueba que el Alojamiento Referenciado existe.");
-//                        } else {
-//                            if(res == 0) {
-//                                JOptionPane.showMessageDialog(this, "Problema. 0 filas modificadas.");
-//                            } else {
-//                                JOptionPane.showMessageDialog(null, "¡Habitación modificada exitosamente!\n " +res +" fila(s) modificada(s)");
-//                                this.dispose();
-//                            }
-//                        }
-//                    }
+                    if(this.habitacion == null) {
+                        if(darHabitacionAltaHibernate(habDTO)) {
+                            JOptionPane.showMessageDialog(this, "Habitacion dada de Alta.");
+                            reseteoCamposVentana();
+                        }
+                    } else {
+                        
+                    }
                 }
             } catch(NullPointerException ex) {
                 JOptionPane.showMessageDialog(this, "ERROR. NullPointerException. Mirar Output. \n");
