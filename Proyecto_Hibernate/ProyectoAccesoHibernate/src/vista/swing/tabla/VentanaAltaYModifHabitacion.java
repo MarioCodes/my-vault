@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
@@ -143,7 +144,7 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
             habDTO.setIdHabitacion(Integer.parseInt(this.jTextFieldInputIDHabitacion.getText()));
             habDTO.setAlojamientoIdAlojamiento(Integer.parseInt(this.inputIDForanea.getText()));
             habDTO.setReservaIdReserva(Integer.parseInt(this.jTextFieldIDReserva.getText()));
-            habDTO.setPrecio(BigDecimal.valueOf((long) this.inputPrecio.getValue()));
+            habDTO.setPrecio((long) this.inputPrecio.getValue());
             habDTO.setExtrasHabitacion(this.inputExtras.getText());
             habDTO.setTipoHabitacion((String) this.jComboBoxTipoHabitacion.getSelectedItem());
             habDTO.setResenias(this.jTextFieldInputResenias.getText());
@@ -157,6 +158,26 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
         private boolean darHabitacionAltaHibernate(Habitacion habDTO) {
             Session s = Facade.abrirSessionHibernate();
             s.save(habDTO);
+            return Facade.cerrarSessionHibernate(s);
+        }
+        
+        private boolean actualizarHabitacionHibernate(Habitacion habDTO) {
+            Session s = Facade.abrirSessionHibernate();
+            
+            Query q = s.createQuery("UPDATE Habitacion "
+                    + "SET EXTRAS_HABITACION = :extras, PRECIO = :precio, CUARTO_BANIO = :banio, TIPO_HABITACION = :tipo, "
+                    + "RESENIAS = :resenias, RESERVA_ID_RESERVA = :idReserva "
+                    + "WHERE ID_HABITACION = :idHabitacion");
+            
+            q.setParameter("extras", habDTO.getExtrasHabitacion());
+            q.setParameter("precio", habDTO.getPrecio());
+            q.setParameter("banio", habDTO.getCuartoBanio());
+            q.setParameter("tipo", habDTO.getTipoHabitacion());
+            q.setParameter("resenias", habDTO.getResenias());
+            q.setParameter("idReserva", habDTO.getReservaIdReserva());
+            q.setParameter("idHabitacion", habDTO.getIdHabitacion());
+            
+            q.executeUpdate();
             return Facade.cerrarSessionHibernate(s);
         }
         
@@ -177,7 +198,7 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
                             reseteoCamposVentana();
                         }
                     } else {
-                        
+                        //TODO: ME QUEDO AQUI. Terminar de añadir para modificar Habitacion. No se hace nada cuando se pulsa el boton hasta ahora.
                     }
                 }
             } catch(NullPointerException ex) {

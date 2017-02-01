@@ -11,7 +11,7 @@
         <property name="extrasHabitacion" type="string">
             <column name="EXTRAS_HABITACION" length="200" />
         </property>
-        <property name="precio" type="big_decimal">
+        <property name="precio" type="long">
             <column name="PRECIO" precision="7" />
         </property>
         <property name="cuartoBanio" type="char">
