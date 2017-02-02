@@ -147,6 +147,7 @@ public class VentanaAltaYModifHabitacion extends javax.swing.JFrame {
          */
         private boolean darHabitacionAltaHibernate(Habitacion habDTO) {
             Session s = Facade.abrirSessionHibernate();
+            if(habDTO.getReservaIdReserva() == -1) habDTO.setReservaIdReserva(null);
             s.save(habDTO);
             return Facade.cerrarSessionHibernate(s);
         }
