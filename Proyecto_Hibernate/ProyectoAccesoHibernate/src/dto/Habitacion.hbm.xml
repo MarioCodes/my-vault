@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 31-ene-2017 13:00:46 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="dto.Habitacion" table="HABITACION" schema="DAI4" optimistic-lock="version">
+    <class name="dto.Habitacion" table="HABITACION" schema="MARIO" optimistic-lock="version">
         <id name="idHabitacion" type="int">
             <column name="ID_HABITACION" precision="7" scale="0" />
             <generator class="assigned" />
