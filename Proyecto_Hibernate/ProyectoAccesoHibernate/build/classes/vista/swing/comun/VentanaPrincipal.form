@@ -9,16 +9,6 @@
             <Property name="text" type="java.lang.String" value="Programa"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEscogerModo">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Menu escoger modo"/>
-                <Property name="toolTipText" type="java.lang.String" value="Volver a escoger el modo de inicio de la ventana."/>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemEscogerModoActionPerformed"/>
-              </Events>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemSalir">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Salir"/>

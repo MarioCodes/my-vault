@@ -82,7 +82,6 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         botonListadoCompletoHabitaciones = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuPrograma = new javax.swing.JMenu();
-        jMenuItemEscogerModo = new javax.swing.JMenuItem();
         jMenuItemSalir = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -262,16 +261,6 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
 
         jMenuPrograma.setText("Programa");
 
-        jMenuItemEscogerModo.setText("Menu escoger modo");
-        jMenuItemEscogerModo.setToolTipText("Volver a escoger el modo de inicio de la ventana.");
-        jMenuItemEscogerModo.setEnabled(false);
-        jMenuItemEscogerModo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemEscogerModoActionPerformed(evt);
-            }
-        });
-        jMenuPrograma.add(jMenuItemEscogerModo);
-
         jMenuItemSalir.setText("Salir");
         jMenuItemSalir.setToolTipText("Cerrar el Programa.");
         jMenuItemSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -359,9 +348,6 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     private void jMenuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalirActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jMenuItemSalirActionPerformed
-
-    private void jMenuItemEscogerModoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEscogerModoActionPerformed
-    }//GEN-LAST:event_jMenuItemEscogerModoActionPerformed
           
     /**
      * @param args the command line arguments
@@ -410,7 +396,6 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     private javax.swing.JButton botonModificacionHabitacion;
     private javax.swing.JButton jButtonBuscarValoracion;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItemEscogerModo;
     private javax.swing.JMenuItem jMenuItemSalir;
     private javax.swing.JMenu jMenuPrograma;
     private javax.swing.JPanel jPanel1;

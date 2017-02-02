@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 31-ene-2017 13:00:46 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="dto.Actividad" table="ACTIVIDAD" schema="MARIO">
+    <class name="dto.Actividad" table="ACTIVIDAD" schema="DAI4">
         <id name="idActividad" type="int">
             <column name="ID_ACTIVIDAD" precision="7" scale="0" />
             <generator class="assigned"></generator>
