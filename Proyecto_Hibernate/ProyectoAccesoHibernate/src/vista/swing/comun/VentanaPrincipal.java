@@ -27,6 +27,7 @@ import vista.swing.vista.VentanaAltaYModifVista;
 import vista.swing.vista.VentanaBajaVista;
 import vista.swing.vista.VentanaBuscarAlojID;
 import vista.swing.vista.VentanaListadoVista;
+import vista.swing.vista.VentanaSeleccion;
 import vista.swing.vista.VentanaValoracionMinima;
 
 /**
@@ -105,6 +106,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         });
 
         botonModifAlojamiento.setText("Modificacion");
+        botonModifAlojamiento.setEnabled(false);
         botonModifAlojamiento.setMaximumSize(new java.awt.Dimension(190, 60));
         botonModifAlojamiento.setMinimumSize(new java.awt.Dimension(190, 60));
         botonModifAlojamiento.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -174,7 +176,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gestión Tabla Unica", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 14))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gestión Habitaciones", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 14))); // NOI18N
         jPanel2.setMaximumSize(new java.awt.Dimension(317, 403));
         jPanel2.setMinimumSize(new java.awt.Dimension(317, 403));
         jPanel2.setPreferredSize(new java.awt.Dimension(317, 403));
@@ -306,7 +308,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAltaAlojamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAltaAlojamientoActionPerformed
-        new VentanaAltaYModifVista();
+        new VentanaSeleccion();
     }//GEN-LAST:event_botonAltaAlojamientoActionPerformed
 
     private void botonBajaAlojamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBajaAlojamientoActionPerformed
