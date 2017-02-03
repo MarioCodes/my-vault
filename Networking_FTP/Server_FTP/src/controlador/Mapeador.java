@@ -16,7 +16,7 @@ import javax.swing.tree.DefaultTreeModel;
  *
  * @author Mario
  */
-public class FileBrowser implements Runnable {
+public class Mapeador implements Runnable {
     DefaultMutableTreeNode root;
     DefaultTreeModel treeModel;
     JTree tree;

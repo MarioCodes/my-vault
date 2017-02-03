@@ -5,7 +5,7 @@
  */
 package server_ftp;
 
-import controlador.FileBrowser;
+import controlador.Mapeador;
 import controlador.Servidor;
 
 /**
@@ -20,7 +20,7 @@ public class Server_FTP {
      */
     public static void main(String[] args) {
 //        Servidor.ejecucion();
-        FileBrowser fb = new FileBrowser();
+        Mapeador fb = new Mapeador();
         fb.run();
     }
     
