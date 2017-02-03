@@ -108,8 +108,8 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButtonPasarACliente = new javax.swing.JButton();
+        jButtonPasarAServer = new javax.swing.JButton();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuFile = new javax.swing.JMenu();
         jMenuItemSalir = new javax.swing.JMenuItem();
@@ -172,6 +172,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Controles", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("sansserif", 2, 10))); // NOI18N
 
+        jButtonRefrescarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/refresh.png"))); // NOI18N
         jButtonRefrescarCliente.setText("Actualizar");
         jButtonRefrescarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -179,13 +180,15 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        jButtonCrearCarpeta.setText("Crear Directorio");
+        jButtonCrearCarpeta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/folder.png"))); // NOI18N
+        jButtonCrearCarpeta.setText("Crear Carpeta");
         jButtonCrearCarpeta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCrearCarpetaActionPerformed(evt);
             }
         });
 
+        jButtonBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete.png"))); // NOI18N
         jButtonBorrar.setText("Borrar");
         jButtonBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -198,19 +201,20 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonRefrescarCliente)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jButtonCrearCarpeta)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jButtonBorrar)
-                .addGap(0, 72, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jButtonRefrescarCliente)
-                .addComponent(jButtonCrearCarpeta)
-                .addComponent(jButtonBorrar))
+                .addComponent(jButtonCrearCarpeta, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jButtonBorrar)
+                .addComponent(jButtonRefrescarCliente))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -260,9 +264,11 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1486145535_forward.png"))); // NOI18N
+        jButtonPasarACliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flecha_forward.png"))); // NOI18N
+        jButtonPasarACliente.setEnabled(false);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1486145535_forward.png"))); // NOI18N
+        jButtonPasarAServer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flecha_backward.png"))); // NOI18N
+        jButtonPasarAServer.setEnabled(false);
 
         javax.swing.GroupLayout jPanelArbolDirectoriosLayout = new javax.swing.GroupLayout(jPanelArbolDirectorios);
         jPanelArbolDirectorios.setLayout(jPanelArbolDirectoriosLayout);
@@ -271,11 +277,11 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelArbolDirectoriosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                .addGroup(jPanelArbolDirectoriosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
+                .addGap(54, 54, 54)
+                .addGroup(jPanelArbolDirectoriosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonPasarAServer, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonPasarACliente, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -284,10 +290,10 @@ public class MainWindow extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanelArbolDirectoriosLayout.createSequentialGroup()
-                .addGap(120, 120, 120)
-                .addComponent(jButton1)
-                .addGap(35, 35, 35)
-                .addComponent(jButton2)
+                .addGap(122, 122, 122)
+                .addComponent(jButtonPasarACliente)
+                .addGap(33, 33, 33)
+                .addComponent(jButtonPasarAServer)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -397,11 +403,11 @@ public class MainWindow extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonBorrar;
     private javax.swing.JButton jButtonConectar;
     private javax.swing.JButton jButtonCrearCarpeta;
+    private javax.swing.JButton jButtonPasarACliente;
+    private javax.swing.JButton jButtonPasarAServer;
     private javax.swing.JButton jButtonRefrescarCliente;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemConfBorrar;
     private javax.swing.JLabel jLabelPuerto;
