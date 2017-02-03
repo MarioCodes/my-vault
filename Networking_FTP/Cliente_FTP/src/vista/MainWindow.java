@@ -48,8 +48,24 @@ public class MainWindow extends javax.swing.JFrame {
      * Borra el Fichero o Directorio (debe estar vacio) seleccionado en el JTree.
      */
     private void borrarFile() {
-        String rutaSeleccionada = conversionJTreePath.conversion(MainWindow.jTree.getSelectionPath().toString());
-        new File(rutaSeleccionada).delete(); //fixme: returns booleano. Los directorios solo se pueden borrar si estan vacios. hacer algun tipo de output al user.
+        try {
+            String rutaSeleccionada = conversionJTreePath.conversion(MainWindow.jTree.getSelectionPath().toString());
+            new File(rutaSeleccionada).delete(); //fixme: returns booleano. Los directorios solo se pueden borrar si estan vacios. hacer algun tipo de output al user.
+        }catch(NullPointerException ex) {
+            System.out.println("INFO: NullPointerException al borrar sin especificar capturado.");
+        }
+    }
+    
+    /**
+     * Crea un directorio dentro del item seleccionado en el JTree.
+     */
+    private void crearDirectorio() {
+        try {
+            String rutaSeleccionada = conversionJTreePath.conversion(MainWindow.jTree.getSelectionPath().toString()); //fixme: fixear si no hay ruta seleccioanda. Petara.
+            new NewFolder(rutaSeleccionada);
+        }catch(NullPointerException ex) {
+            System.out.println("INFO: NullPointerException al crear directorio sin ruta capturado.");
+        }
     }
     
     /**
@@ -286,12 +302,12 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonRefrescarClienteActionPerformed
 
     private void jButtonCrearCarpetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearCarpetaActionPerformed
-        String rutaSeleccionada = conversionJTreePath.conversion(MainWindow.jTree.getSelectionPath().toString()); //fixme: fixear si no hay ruta seleccioanda. Petara.
-        new NewFolder(rutaSeleccionada);
+        crearDirectorio();
     }//GEN-LAST:event_jButtonCrearCarpetaActionPerformed
 
     private void jButtonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBorrarActionPerformed
         borrarFile();
+        setArbolCliente();
     }//GEN-LAST:event_jButtonBorrarActionPerformed
 
     /**

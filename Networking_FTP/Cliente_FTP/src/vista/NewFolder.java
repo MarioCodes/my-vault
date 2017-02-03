@@ -6,6 +6,7 @@
 package vista;
 
 import java.io.File;
+import javax.swing.JOptionPane;
 
 /**
  * Clase encargada de recoger el nombre del nuevo directorio y crearlo dentro de la ruta previamente seleccionada en el JTree por el User.
@@ -39,6 +40,14 @@ public class NewFolder extends javax.swing.JFrame {
         
         System.out.println(this.RUTA_SELECCIONADA +nombre);
         new File(this.RUTA_SELECCIONADA +nombre).mkdir();
+    }
+    
+    /**
+     * Comprueba que no se esta introduciendo un nombre en blanco.
+     * @return True si !empty.
+     */
+    private boolean checkInputNoVacio(String nombre) {
+        return !nombre.matches("");
     }
     
     /**
@@ -114,9 +123,11 @@ public class NewFolder extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
-        creacionDirectorio();
-        this.dispose();
-        MainWindow.setArbolCliente();
+        if(checkInputNoVacio(this.jTextFieldInputNombre.getText())) {
+            creacionDirectorio();
+            this.dispose();
+            MainWindow.setArbolCliente();
+        } else JOptionPane.showMessageDialog(this, "No se puede introducir un nombre de directorio vacio.");
     }//GEN-LAST:event_jButtonAceptarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
