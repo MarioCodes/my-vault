@@ -13,6 +13,21 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Salir"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemSalirActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenuPreferencias">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Preferencias"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="jCheckBoxMenuItemConfBorrar">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Pedir Confirmacion al Borrar"/>
+              </Properties>
             </MenuItem>
           </SubComponents>
         </Menu>

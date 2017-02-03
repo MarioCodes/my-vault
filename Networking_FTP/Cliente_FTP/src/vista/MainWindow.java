@@ -8,6 +8,7 @@ package vista;
 import cliente_ftp.Facade;
 import controlador.Mapeador;
 import java.io.File;
+import javax.swing.JOptionPane;
 import javax.swing.JTree;
 
 /**
@@ -47,13 +48,26 @@ public class MainWindow extends javax.swing.JFrame {
     /**
      * Borra el Fichero o Directorio (debe estar vacio) seleccionado en el JTree.
      */
-    private void borrarFile() {
+    private void accionBorrar() {
         try {
             String rutaSeleccionada = conversionJTreePath.conversion(MainWindow.jTree.getSelectionPath().toString());
-            new File(rutaSeleccionada).delete(); //fixme: returns booleano. Los directorios solo se pueden borrar si estan vacios. hacer algun tipo de output al user.
+            if(!new File(rutaSeleccionada).delete()) JOptionPane.showMessageDialog(this, "No se puede borrar el elemento. Comprueba que esta vacio."); //@fixme: ahora mismo no permito borrar directorios rellenos, solo hago output. Mirar forma de hacerlo.
+            setArbolCliente(); //Refresco del contenido del JTree hacia el usuario.
         }catch(NullPointerException ex) {
             System.out.println("INFO: NullPointerException al borrar sin especificar capturado.");
         }
+    }
+    
+    /**
+     * Metodo principal para borrar.
+     *  Comprueba si el usuario quiere que se pida confirmacion al borrar, si es asi la pide antes de ejecutar la accion propiamente dicha.
+     */
+    private void borrarFile() {
+        boolean pedirConfirmacion = this.jCheckBoxMenuItemConfBorrar.getState();
+        
+        if(pedirConfirmacion) {
+            if(JOptionPane.showConfirmDialog(this, "¿Seguro?") == 0) accionBorrar();
+        } else accionBorrar();
     }
     
     /**
@@ -97,6 +111,8 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuBar = new javax.swing.JMenuBar();
         jMenuFile = new javax.swing.JMenu();
         jMenuItemSalir = new javax.swing.JMenuItem();
+        jMenuPreferencias = new javax.swing.JMenu();
+        jCheckBoxMenuItemConfBorrar = new javax.swing.JCheckBoxMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -262,9 +278,21 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuFile.setText("File");
 
         jMenuItemSalir.setText("Salir");
+        jMenuItemSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemSalirActionPerformed(evt);
+            }
+        });
         jMenuFile.add(jMenuItemSalir);
 
         jMenuBar.add(jMenuFile);
+
+        jMenuPreferencias.setText("Preferencias");
+
+        jCheckBoxMenuItemConfBorrar.setText("Pedir Confirmacion al Borrar");
+        jMenuPreferencias.add(jCheckBoxMenuItemConfBorrar);
+
+        jMenuBar.add(jMenuPreferencias);
 
         setJMenuBar(jMenuBar);
 
@@ -307,8 +335,11 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void jButtonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBorrarActionPerformed
         borrarFile();
-        setArbolCliente();
     }//GEN-LAST:event_jButtonBorrarActionPerformed
+
+    private void jMenuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalirActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItemSalirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -354,11 +385,13 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton jButtonConectar;
     private javax.swing.JButton jButtonCrearCarpeta;
     private javax.swing.JButton jButtonRefrescarCliente;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemConfBorrar;
     private javax.swing.JLabel jLabelPuerto;
     private javax.swing.JLabel jLabelURL;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenu jMenuFile;
     private javax.swing.JMenuItem jMenuItemSalir;
+    private javax.swing.JMenu jMenuPreferencias;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

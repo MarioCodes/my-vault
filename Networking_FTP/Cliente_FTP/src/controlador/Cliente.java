@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.ConnectException;
 import java.net.Socket;
 
 /**
@@ -69,8 +70,9 @@ public class Cliente {
     
     /**
      * Ejecucion de la conexion al server en si misma.
+     * @return Estado de la ejecucion.
      */
-    public void ejecucion() {
+    public boolean ejecucion() {
         BufferedReader br = null;
         BufferedWriter bw = null;
         Socket socket = null;
@@ -85,8 +87,14 @@ public class Cliente {
             long inicio = System.currentTimeMillis();
             envioFichero(socket);
             System.out.println("Tiempo de Ejecucion: " +(System.currentTimeMillis()-inicio));
+            return true;
+        }catch(ConnectException ex) {
+            System.out.println("Problema en la conexion. " +ex.getLocalizedMessage());
+            return false;
         }catch(IOException ex) {
+            System.out.println("Problema de IO.");
             ex.printStackTrace();
+            return false;
         }finally {
             try {
                 if(br != null) br.close();
