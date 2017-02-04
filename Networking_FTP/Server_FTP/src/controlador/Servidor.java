@@ -13,9 +13,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import javax.swing.JTree;
-import javax.swing.tree.TreeModel;
 
 /**
  * Recopilacion de la implementacion logica del Server.
@@ -95,13 +93,12 @@ public class Servidor {
     }
     
     /**
-     * Envio por Socket del TreeModel mapeado al Cliente.
+     * Envio por Socket del Tree local mapeado, al Cliente.
      * @param tree Tree mapeado que queremos enviar.
      */
     private static void envioMapeoCliente(JTree tree) {
         try {
-            TreeModel m = tree.getModel();
-            oos.writeObject(m.getRoot());
+            oos.writeObject(tree);
         } catch(IOException ex) {
             ex.printStackTrace();
         }

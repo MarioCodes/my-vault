@@ -21,6 +21,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.Socket;
+import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeModel;
 
@@ -144,7 +145,7 @@ public class Red {
 //            oos.writeInt(0); //Indica al Server que realice un testeo de conexion.
             boolean estado = ois.readBoolean(); //Leemos la respuesta del server.
             
-            DefaultMutableTreeNode treeModel = (DefaultMutableTreeNode) ois.readObject();
+            JTree treeModel = (JTree) ois.readObject();
             System.out.println("SUP");
             oos.close();
             out.close();
