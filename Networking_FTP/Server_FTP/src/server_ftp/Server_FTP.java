@@ -5,7 +5,6 @@
  */
 package server_ftp;
 
-import controlador.Mapeador;
 import controlador.Servidor;
 
 /**
@@ -20,8 +19,6 @@ public class Server_FTP {
      */
     public static void main(String[] args) {
         Servidor.ejecucionServidor();
-//        Mapeador fb = new Mapeador();
-//        fb.mapear();
     }
     
 }

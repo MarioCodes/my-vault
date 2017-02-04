@@ -5,10 +5,6 @@
  */
 package controlador;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,21 +14,18 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeModel;
 
 /**
  * Recopilacion de la implementacion logica del Server.
  *  El servidor opera de forma multihilo para no esperar con cada conexion.
  *  El primer bit que se recibe indica la operacion. 
- *      El segundo bit el .length del nombre del archivo a leer.
+ *      El segundo bit el .length del nombre del archivo a leer. //fixme: revisar esto, solo se aplica a cuando enviaba ficheros y no hacia nada mas.
  *      El tercer BLOQUE es el nombre del archivo.
  *      El resto es el contenido del fichero.
  * @author Mario Codes Sánchez
- * @since 19/01/2017
+ * @since 04/02/2017
  */
 public class Servidor {
     private static final int BUFFER_LENGTH = 8192; //Tamaño del buffer que se enviara de golpe.
@@ -71,13 +64,13 @@ public class Servidor {
         }catch(IOException ex) {
             ex.printStackTrace();
         }finally {
-//            try {
-//                if(out != null) out.close();
-//                if(in != null) in.close();
-//                if(socket != null) socket.close();
-//            }catch(IOException ex) {
-//                ex.printStackTrace();
-//            }
+            try {
+                if(out != null) out.close();
+                if(in != null) in.close();
+                if(socket != null) socket.close();
+            }catch(IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
     
@@ -87,13 +80,7 @@ public class Servidor {
      */
     private static void comprobacionConexion() {
         try {
-//            out = socket.getOutputStream();
-//            DataOutputStream dout = new DataOutputStream(out);
             oos.writeBoolean(true);
-//            dout.writeBoolean(true);
-            
-//            dout.close();
-//            out.close();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -107,22 +94,17 @@ public class Servidor {
         return new Mapeador().mapear();
     }
     
+    /**
+     * Envio por Socket del TreeModel mapeado al Cliente.
+     * @param tree Tree mapeado que queremos enviar.
+     */
     private static void envioMapeoCliente(JTree tree) {
         try {
-//            ObjectInputStream ois = new ObjectInputStream(in);
             TreeModel m = tree.getModel();
-            Object o = m.getRoot();
-//            DefaultMutableTreeNode su;
-            oos.writeObject(o);
+            oos.writeObject(m.getRoot());
         } catch(IOException ex) {
             ex.printStackTrace();
         }
-    }
-    
-    private static ArrayList<String> manipulacionTree(JTree tree) {
-        ArrayList<String> contenidoMapeo = new ArrayList<>();
-        
-        return null;
     }
     
     /**
@@ -139,8 +121,7 @@ public class Servidor {
             switch(opcion) {
                 case 0: //Testeo de Conexion , mapeo del Server y envio de esta informacion al Cliente.
                     comprobacionConexion();
-                    JTree tree = mapearServer();
-                    envioMapeoCliente(tree);
+                    envioMapeoCliente(mapearServer());
                     break;
                 case 1: //Recibir fichero.
                     recibirFichero();
