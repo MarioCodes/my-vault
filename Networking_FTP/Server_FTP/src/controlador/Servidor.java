@@ -16,6 +16,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTree;
 
 /**
  * Recopilacion de la implementacion logica del Server.
@@ -92,6 +93,18 @@ public class Servidor {
     }
     
     /**
+     * Mapeado local del server y retorno de esta informacion en forma de JTree; Para hacer set directo de su mode(). //todo: comprobar que es el mode lo que hay que hacer set. no recuerdo.
+     * @return JTree con el contenido mapeado del server.
+     */
+    private static JTree mapearServer() {
+        return new Mapeador().mapear();
+    }
+    
+    private static void envioMapeoCliente(JTree tree) {
+        
+    }
+    
+    /**
      * Recoge y lee el primer byte de los datos entrantes. Este es el que indica la accion a realizar.
      */
     private static void gestionAcciones() {
@@ -100,8 +113,9 @@ public class Servidor {
             byte opcion = (byte) in.read();
             
             switch(opcion) {
-                case 0: //Testeo de Conexion.
+                case 0: //Testeo de Conexion , mapeo del Server y envio de esta informacion al Cliente.
                     comprobacionConexion();
+                    mapearServer();
                     break;
                 case 1: //Recibir fichero.
                     recibirFichero();

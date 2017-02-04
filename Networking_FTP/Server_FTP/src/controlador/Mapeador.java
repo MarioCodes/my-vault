@@ -13,20 +13,20 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 /**
- *
- * @author Mario
+ * Clase Mapeador del Servidor. Esta informacion se enviara  por red al Cliente.
+ * @author Mario Codes Sánchez
+ * @since 04/02/2017
  */
-public class Mapeador implements Runnable {
+public class Mapeador {
     DefaultMutableTreeNode root;
     DefaultTreeModel treeModel;
     JTree tree;
     
-    @Override
-    public void run() {
-        JFrame frame = new JFrame("File Browser: ");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public JTree mapear() {
+//        JFrame frame = new JFrame("File Browser: ");
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        File fileRoot = new File("C:/");
+        File fileRoot = new File("root/");
         root = new DefaultMutableTreeNode(new FileNode(fileRoot));
         treeModel = new DefaultTreeModel(root);
         
@@ -34,17 +34,22 @@ public class Mapeador implements Runnable {
         tree.setShowsRootHandles(true);
         JScrollPane scrollPane = new JScrollPane(tree);
         
-        frame.add(scrollPane);
-        frame.setLocationByPlatform(true);
-        frame.setSize(640, 480);
-        frame.setVisible(true);
+//        frame.add(scrollPane);
+//        frame.setLocationByPlatform(true);
+//        frame.setSize(640, 480);
+//        frame.setVisible(true);
         
         CreateChildNodes createChildNodes = new CreateChildNodes(fileRoot, root);
-        new Thread(createChildNodes).start();
+        new CreateChildNodes(fileRoot, root).createChildrenStart();
+        
+        return tree;
     }
     
     
-    private class CreateChildNodes implements Runnable {
+    /**
+     * Crea los hijos.
+     */
+    private class CreateChildNodes {
         DefaultMutableTreeNode root;
         File fileRoot;
         
@@ -64,13 +69,17 @@ public class Mapeador implements Runnable {
             }
         }
         
-        @Override
-        public void run() {
+        /**
+         * Metodo a invocar para usar.
+         */
+        private void createChildrenStart() {
             createChildren(fileRoot, root);
         }
-        
     }
     
+    /**
+     * Devuelve el nombre del fichero.
+     */
     private class FileNode {
         File file;
         
