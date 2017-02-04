@@ -87,6 +87,18 @@ public class MainWindow extends javax.swing.JFrame {
     }
     
     /**
+     * (Des)activacion de los botones segun el estado de la conexion, asi como cambio del icono de estado.
+     * @param conexion Estado de la conexion previamente comprobado.
+     */
+    private void gestionControlesConexion(boolean conexion) {
+        if(conexion) this.jLabelEstadoConexion.setIcon(new ImageIcon(getClass().getResource("../imagenes/Tick.png")));
+        else this.jLabelEstadoConexion.setIcon(new ImageIcon(getClass().getResource("../imagenes/Cross.png")));
+        
+        this.jButtonPasarACliente.setEnabled(conexion);
+        this.jButtonPasarAServer.setEnabled(conexion);
+    }
+    
+    /**
      * Comprobacion de que el servidor esta alcanzable.
      *  Cambia el Icon de la barra principal en funcion de la conexion.
      */
@@ -100,8 +112,7 @@ public class MainWindow extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         
-        if(conexion) this.jLabelEstadoConexion.setIcon(new ImageIcon(getClass().getResource("../imagenes/Tick.png")));
-        else this.jLabelEstadoConexion.setIcon(new ImageIcon(getClass().getResource("../imagenes/Cross.png")));
+        gestionControlesConexion(conexion);
         
     }
     

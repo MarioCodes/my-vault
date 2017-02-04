@@ -19,7 +19,7 @@ public class Server_FTP {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Servidor.ejecucion();
+        Servidor.ejecucionServidor();
 //        Mapeador fb = new Mapeador();
 //        fb.run();
     }

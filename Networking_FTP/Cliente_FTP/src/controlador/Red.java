@@ -49,7 +49,7 @@ public class Red {
      *  Al final habra que usar la cabecera de fin para cerrar estas conexiones.
      * @throws IOException Posible excepcion lanzada por las conexiones al abrirse.
      */
-    private void cabeceraComienzoConexion() throws IOException {
+    private void cabeceraComienzoConexion() throws IOException, IllegalArgumentException {
         socket = new Socket(SERVER_IP, PUERTO); //IP y PORT del Server.
 
         bw = new BufferedWriter(new PrintWriter(socket.getOutputStream()));
@@ -71,50 +71,45 @@ public class Red {
     }
     
     /**
-     * Metodo para el envio de un fichero al server.
-     * @param socket Socket usado en la conexion.
-     * @throws IOException. Capturada en el llamado.
+     * Metodo para el envio de un fichero del Cliente al Server.
+     * @return Estado de la envioFichero.
      */
-    private void envioFichero(Socket socket) throws IOException {
-        File file = new File("ficheros/fichero.txt");
-        byte[] bytes = new byte[BUFFER_LENGTH];
-        
-        InputStream in = new FileInputStream(file);
-        OutputStream out = socket.getOutputStream();
-        DataOutputStream dout = new DataOutputStream(out);
-        
-        dout.write(0); //fixme: habra que cambiarlo al adecuado para envio de fichero.
-        
-        byte[] bytess = "Suuuu.txt".getBytes();
-        dout.write(bytess.length);
-        dout.write(bytess);
-        
-        int count;
-        while((count = in.read(bytes)) > 0) {
-            dout.write(bytes, 0, count);
-        }
-        
-        dout.close();
-        out.close();
-        in.close();
-        socket.close();
-    }
-    
-    /**
-     * Ejecucion de la conexion al server en si misma.
-     * @return Estado de la ejecucion.
-     */
-    public boolean ejecucion() {
+    public boolean envioFichero() {
         try {
             cabeceraComienzoConexion();
             
-            //Envio y medida del tiempo tardado.
-            long inicio = System.currentTimeMillis();
-            envioFichero(socket);
+            long inicio = System.currentTimeMillis(); //Comienzo a medir del tiempo.
+            
+            File file = new File("ficheros/fichero.txt"); //fixme: hacer el nombre del fichero variable segun seleccionado en el JTree.
+            byte[] bytes = new byte[BUFFER_LENGTH];
+
+            InputStream in = new FileInputStream(file);
+            OutputStream out = socket.getOutputStream();
+            DataOutputStream dout = new DataOutputStream(out);
+
+            dout.write(1); //Set de la accion en el server. (1 = recibir fichero).
+
+            byte[] bytess = "Suuuu.txt".getBytes(); //fixme: investigar. Esto no se que hace.
+            dout.write(bytess.length);
+            dout.write(bytess);
+
+            int count;
+            while((count = in.read(bytes)) > 0) {
+                dout.write(bytes, 0, count);
+            }
+
+            dout.close();
+            out.close();
+            in.close();
+            socket.close();
+            
             System.out.println("Tiempo de Ejecucion: " +(System.currentTimeMillis()-inicio));
             return true;
         }catch(ConnectException ex) {
             System.out.println("Problema en la conexion. " +ex.getLocalizedMessage());
+            return false;
+        }catch(IllegalArgumentException ex) {
+            System.out.println("Numero de argumentos erroneo. Comprobar que el puerto este dentro de rango.\t " +ex.getLocalizedMessage());
             return false;
         }catch(IOException ex) {
             System.out.println("Problema de IO.");
@@ -148,6 +143,9 @@ public class Red {
             return estado;
         }catch(ConnectException ex) {
             System.out.println("Problema en la conexion. " +ex.getLocalizedMessage());
+            return false;
+        }catch(IllegalArgumentException ex) {
+            System.out.println("Numero de argumentos erroneo. Comprobar que el puerto este dentro de rango.\t" +ex.getLocalizedMessage());
             return false;
         }catch(IOException ex) {
             System.out.println("Problema de IO.");

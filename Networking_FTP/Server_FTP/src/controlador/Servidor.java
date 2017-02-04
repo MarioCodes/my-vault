@@ -121,7 +121,7 @@ public class Servidor {
      * Puesta en marcha del Servidor. Se quedara a la espera de que haya conexiones entrantes.
      * Cada cliente tendra su propio hilo aparte.
      */
-    public static void ejecucion() {
+    public static void ejecucionServidor() {
         try {
             ServerSocket serverSocket = new ServerSocket(PUERTO); //Espera y escucha la llegada de los clientes. Una vez establecida, devuelve el Socket.; 
         

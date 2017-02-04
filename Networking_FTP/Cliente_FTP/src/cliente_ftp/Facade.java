@@ -19,7 +19,7 @@ public class Facade {
      * @param puerto Puerto del server por donde entra la conexion.
      */
     public static void abrirConexionCliente(String ip, int puerto) {
-        new Red(ip, puerto).ejecucion();
+        new Red(ip, puerto).envioFichero();
     }
     
     /**
