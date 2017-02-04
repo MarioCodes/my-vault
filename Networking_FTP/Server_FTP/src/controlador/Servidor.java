@@ -5,12 +5,17 @@
  */
 package controlador;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Recopilacion de la implementacion logica del Server.
@@ -67,6 +72,25 @@ public class Servidor {
     }
     
     /**
+     * Contestacion al chequeo realizado por el Cliente para comprobar si el Server esta 'reachable'.
+     *  Envia true al cliente.
+     */
+    private static void comprobacionConexion() {
+        try {
+            out = socket.getOutputStream();
+            DataOutputStream dout = new DataOutputStream(out);
+            dout.writeBoolean(true);
+            
+            dout.close();
+            out.close();
+            
+            System.out.println("AQUI"); //fixme: borrar. testeo.
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    /**
      * Recoge y lee el primer byte de los datos entrantes. Este es el que indica la accion a realizar.
      */
     private static void gestionAcciones() {
@@ -76,7 +100,7 @@ public class Servidor {
             
             switch(opcion) {
                 case 0: //Testeo de Conexion.
-                    System.out.println("SUUUU0");
+                    comprobacionConexion();
                     break;
                 case 1: //Recibir fichero.
                     recibirFichero();

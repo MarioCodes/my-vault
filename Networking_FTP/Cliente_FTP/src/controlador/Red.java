@@ -5,8 +5,10 @@
  */
 package controlador;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,6 +26,7 @@ import java.net.Socket;
  * @since 19/01/2017
  */
 public class Red {
+    private boolean conexion = false; //Estado de la conexion en el programa.
     private static final int BUFFER_LENGTH = 8192;
     private final int PUERTO;
     private final String SERVER_IP;
@@ -106,47 +109,42 @@ public class Red {
         }
     }
     
-    //Copia Seguridad.
-    public boolean ejecucionCP() {
+    /**
+     * Comprobacion de que el servidor esta alcanzable mediante los parametros introducidos.
+     * @return Estado de la conexion.
+     */
+    public boolean testeoConexion() {
         BufferedReader br = null;
         BufferedWriter bw = null;
         Socket socket = null;
+        conexion = false;
         
         try {
             socket = new Socket(SERVER_IP, PUERTO); //IP y PORT del Server.
 
             bw = new BufferedWriter(new PrintWriter(socket.getOutputStream()));
             br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-            //Envio y medida del tiempo tardado.
-            long inicio = System.currentTimeMillis();
             
-//                File file = new File("ficheros/fichero.txt");
-                byte[] bytes = new byte[BUFFER_LENGTH];
+            long inicio = System.currentTimeMillis(); //Envio y medida del tiempo tardado.
+            
+            InputStream in = new BufferedInputStream(socket.getInputStream());
+            OutputStream out = socket.getOutputStream();
+            DataOutputStream dout = new DataOutputStream(out);
+            DataInputStream din = new DataInputStream(in);
 
-//                InputStream in = new FileInputStream(file);
-                OutputStream out = socket.getOutputStream();
-                DataOutputStream dout = new DataOutputStream(out);
+            dout.write(0); //Indica al Server que realice un testeo de conexion.
 
-                dout.write(0);
+            conexion = din.readBoolean(); //Obtenemos la respuesta del server.
 
-                byte[] bytess = "Suuuu.txt".getBytes();
-                dout.write(bytess.length);
-                dout.write(bytess);
-
-//                int count;
-//                while((count = in.read(bytes)) > 0) {
-//                    dout.write(bytes, 0, count);
-//                }
-
-                dout.close();
-                out.close();
-//                in.close();
-                socket.close();
+            dout.close();
+            out.close();
+            in.close();
+            socket.close();
             
             System.out.println("Tiempo de Ejecucion: " +(System.currentTimeMillis()-inicio));
             return true;
         }catch(ConnectException ex) {
+            conexion = false;
             System.out.println("Problema en la conexion. " +ex.getLocalizedMessage());
             return false;
         }catch(IOException ex) {
