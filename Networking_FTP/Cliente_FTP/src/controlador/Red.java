@@ -8,7 +8,6 @@ package controlador;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,8 +21,6 @@ import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.Socket;
 import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeModel;
 
 /**
  * Recopilacion de la implementacion logica del Red.
@@ -39,6 +36,12 @@ public class Red {
     private BufferedWriter bw = null;
     private Socket socket = null;
         
+    private InputStream in = null;
+    private OutputStream out = null;
+    private DataOutputStream dout = null;
+    private ObjectOutputStream oos = null;
+    private ObjectInputStream ois = null;
+            
     /**
      * Constructor a utilizar por defecto.
      * @param serverIP IP del Servidor a conectarse.
@@ -127,26 +130,59 @@ public class Red {
     }
     
     /**
-     * Comprobacion de que el servidor esta alcanzable mediante los parametros introducidos.
-     * @return Estado de la conexion.
+     * Obtencion del JTree mapeado del directorio del Servidor.
+     * @return JTree mapeado del Server.
      */
-    public boolean comprobacionConexion() {
+    public JTree obtencionMapeoServer() {
         try {
             cabeceraComienzoConexion();
             
-            InputStream in = new BufferedInputStream(socket.getInputStream());
-            OutputStream out = socket.getOutputStream();
-            DataOutputStream dout = new DataOutputStream(out);
-            ObjectOutputStream oos = new ObjectOutputStream(out);
-            ObjectInputStream ois = new ObjectInputStream(in);
-//            DataInputStream din = new DataInputStream(in);
+            in = new BufferedInputStream(socket.getInputStream());
+            out = socket.getOutputStream();
+            oos = new ObjectOutputStream(out);
+            ois = new ObjectInputStream(in);
             
-            dout.write(0);
-//            oos.writeInt(0); //Indica al Server que realice un testeo de conexion.
+            oos.writeByte(1);
+            oos.flush();
+            
+            JTree treeServer = (JTree) ois.readObject();
+            
+            ois.close();
+            oos.close();
+            out.close();
+            in.close();
+            
+            return treeServer;
+        }catch(ClassCastException|ClassNotFoundException ex) {
+            System.out.println("Problema de cast de clase.");
+            ex.printStackTrace();
+        }catch(IOException ex) {
+            System.out.println("Problema de IO");
+            ex.printStackTrace();
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Comprobacion de que el servidor esta alcanzable mediante los parametros introducidos.
+     * @return Estado de la conexion.
+     */
+    public boolean checkConexion() {
+        try {
+            cabeceraComienzoConexion();
+            
+            in = new BufferedInputStream(socket.getInputStream());
+            out = socket.getOutputStream();
+            oos = new ObjectOutputStream(out);
+            ois = new ObjectInputStream(in);
+            
+            oos.writeByte(0);
+            oos.flush();
+            
             boolean estado = ois.readBoolean(); //Leemos la respuesta del server.
             
-            JTree treeModel = (JTree) ois.readObject();
-            System.out.println("SUP");
+            ois.close();
             oos.close();
             out.close();
             in.close();
@@ -157,10 +193,6 @@ public class Red {
             return false;
         }catch(IllegalArgumentException ex) {
             System.out.println("Numero de argumentos erroneo. Comprobar que el puerto este dentro de rango.\t" +ex.getLocalizedMessage());
-            return false;
-        }catch(ClassCastException|ClassNotFoundException ex) {
-            System.out.println("Problema de conversion de clase.");
-            ex.printStackTrace();
             return false;
         }catch(IOException ex) {
             System.out.println("Problema de IO.");

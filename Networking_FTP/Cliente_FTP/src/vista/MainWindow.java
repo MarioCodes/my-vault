@@ -17,11 +17,12 @@ import javax.swing.JTree;
  * fixme: Al intentar borrar archivos complejos (.bmp); no me deja con la forma actual, lo entiende como si fuera un dir y !vacio.
  * Ventana principal del programa. Se encargara de la gestion grafica.
  * @author Mario Codes Sánchez
- * @since 22/01/2017
+ * @since 04/02/2017
  */
 public class MainWindow extends javax.swing.JFrame {
     private boolean conexion = false;
-    
+    private String url;
+    private int puerto;
     /**
      * Creates new form MainWindow
      */
@@ -87,13 +88,30 @@ public class MainWindow extends javax.swing.JFrame {
     }
     
     /**
+     * Setteo del model del tree de la GUI por el obtenido mediante el mapeo del server.
+     * @param treeServer JTree obtenido del server.
+     */
+    private void setJTreeServer(JTree treeServer) {
+        this.jTreeServer.setModel(treeServer.getModel());
+    }
+    
+    /**
      * (Des)activacion de los botones segun el estado de la conexion, asi como cambio del icono de estado.
      * @param conexion Estado de la conexion previamente comprobado.
      */
     private void gestionControlesConexion(boolean conexion) {
-        if(conexion) this.jLabelEstadoConexion.setIcon(new ImageIcon(getClass().getResource("../imagenes/Tick.png")));
+        if(conexion) {
+            this.jLabelEstadoConexion.setIcon(new ImageIcon(getClass().getResource("../imagenes/Tick.png")));
+            setJTreeServer(Facade.obtencionMapeoServer(url, puerto));
+        }
         else this.jLabelEstadoConexion.setIcon(new ImageIcon(getClass().getResource("../imagenes/Cross.png")));
         
+        this.jButtonBorrarServer.setEnabled(conexion);
+        this.jButtonCrearCarpetaServer.setEnabled(conexion);
+        this.jButtonRefrescarServer.setEnabled(conexion);
+        this.jPanel2.setEnabled(conexion);
+        this.jPanel4.setEnabled(conexion);
+        this.jTreeServer.setEnabled(conexion);
         this.jButtonPasarACliente.setEnabled(conexion);
         this.jButtonPasarAServer.setEnabled(conexion);
     }
@@ -103,7 +121,10 @@ public class MainWindow extends javax.swing.JFrame {
      *  Cambia el Icon de la barra principal en funcion de la conexion.
      */
     private void testeoConexion() {
-        Runnable runnable = () -> conexion = Facade.testearConexionCliente(this.jTextFieldInputURL.getText(), Integer.parseInt(this.jTextFieldInputPuerto.getText()));
+        this.url = this.jTextFieldInputURL.getText();
+        this.puerto = Integer.parseInt(this.jTextFieldInputPuerto.getText());
+        
+        Runnable runnable = () -> conexion = Facade.testearConexionCliente(url, puerto);
         Thread t = new Thread(runnable); //Para que no se quede colgada la GUI.
         try {
             t.start();
@@ -113,7 +134,6 @@ public class MainWindow extends javax.swing.JFrame {
         }
         
         gestionControlesConexion(conexion);
-        
     }
     
     /**
@@ -142,7 +162,11 @@ public class MainWindow extends javax.swing.JFrame {
         jButtonBorrar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
+        jTreeServer = new javax.swing.JTree();
+        jPanel4 = new javax.swing.JPanel();
+        jButtonRefrescarServer = new javax.swing.JButton();
+        jButtonCrearCarpetaServer = new javax.swing.JButton();
+        jButtonBorrarServer = new javax.swing.JButton();
         jButtonPasarACliente = new javax.swing.JButton();
         jButtonPasarAServer = new javax.swing.JButton();
         jMenuBar = new javax.swing.JMenuBar();
@@ -241,7 +265,7 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(27, Short.MAX_VALUE)
+                .addContainerGap(22, Short.MAX_VALUE)
                 .addComponent(jButtonRefrescarCliente)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonCrearCarpeta)
@@ -283,9 +307,60 @@ public class MainWindow extends javax.swing.JFrame {
         jScrollPane2.setEnabled(false);
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Sin Conexion");
-        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        jTree1.setEnabled(false);
-        jScrollPane2.setViewportView(jTree1);
+        jTreeServer.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jTreeServer.setEnabled(false);
+        jScrollPane2.setViewportView(jTreeServer);
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Controles", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("sansserif", 2, 10))); // NOI18N
+        jPanel4.setEnabled(false);
+
+        jButtonRefrescarServer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/refresh.png"))); // NOI18N
+        jButtonRefrescarServer.setText("Actualizar");
+        jButtonRefrescarServer.setEnabled(false);
+        jButtonRefrescarServer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRefrescarServerActionPerformed(evt);
+            }
+        });
+
+        jButtonCrearCarpetaServer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/folder.png"))); // NOI18N
+        jButtonCrearCarpetaServer.setText("Crear Carpeta");
+        jButtonCrearCarpetaServer.setEnabled(false);
+        jButtonCrearCarpetaServer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCrearCarpetaServerActionPerformed(evt);
+            }
+        });
+
+        jButtonBorrarServer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete.png"))); // NOI18N
+        jButtonBorrarServer.setText("Borrar");
+        jButtonBorrarServer.setEnabled(false);
+        jButtonBorrarServer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBorrarServerActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap(27, Short.MAX_VALUE)
+                .addComponent(jButtonRefrescarServer)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonCrearCarpetaServer)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonBorrarServer)
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jButtonCrearCarpetaServer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jButtonBorrarServer)
+                .addComponent(jButtonRefrescarServer))
+        );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -293,13 +368,17 @@ public class MainWindow extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -402,6 +481,18 @@ public class MainWindow extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jMenuItemSalirActionPerformed
 
+    private void jButtonRefrescarServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefrescarServerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonRefrescarServerActionPerformed
+
+    private void jButtonCrearCarpetaServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearCarpetaServerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonCrearCarpetaServerActionPerformed
+
+    private void jButtonBorrarServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBorrarServerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonBorrarServerActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -434,11 +525,14 @@ public class MainWindow extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonBorrar;
+    private javax.swing.JButton jButtonBorrarServer;
     private javax.swing.JButton jButtonConectar;
     private javax.swing.JButton jButtonCrearCarpeta;
+    private javax.swing.JButton jButtonCrearCarpetaServer;
     private javax.swing.JButton jButtonPasarACliente;
     private javax.swing.JButton jButtonPasarAServer;
     private javax.swing.JButton jButtonRefrescarCliente;
+    private javax.swing.JButton jButtonRefrescarServer;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemConfBorrar;
     private javax.swing.JLabel jLabelEstadoConexion;
     private javax.swing.JLabel jLabelPuerto;
@@ -450,6 +544,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanelArbolDirectorios;
     private javax.swing.JPanel jPanelParametros;
     private javax.swing.JScrollPane jScrollPane1;
@@ -457,7 +552,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldInputPuerto;
     private javax.swing.JTextField jTextFieldInputURL;
     private static javax.swing.JTree jTree;
-    private javax.swing.JTree jTree1;
+    private javax.swing.JTree jTreeServer;
     // End of variables declaration//GEN-END:variables
     
     /**

@@ -79,6 +79,7 @@ public class Servidor {
     private static void comprobacionConexion() {
         try {
             oos.writeBoolean(true);
+            oos.flush();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -99,6 +100,7 @@ public class Servidor {
     private static void envioMapeoCliente(JTree tree) {
         try {
             oos.writeObject(tree);
+            oos.flush();
         } catch(IOException ex) {
             ex.printStackTrace();
         }
@@ -114,16 +116,20 @@ public class Servidor {
             oos = new ObjectOutputStream(out);
             ois = new ObjectInputStream(in);
             
-            byte opcion = (byte) in.read();
+            byte opcion = (byte) ois.readByte();
+            System.out.println(opcion); //todo: borrar al final.
+            
             switch(opcion) {
-                case 0: //Testeo de Conexion , mapeo del Server y envio de esta informacion al Cliente.
+                case 0: //Testeo de Conexion.
                     comprobacionConexion();
+                    break;
+                case 1: //Mapeo del Server y envio de esta informacion al Cliente.
                     envioMapeoCliente(mapearServer());
                     break;
-                case 1: //Recibir fichero.
+                case 2: //Recibir fichero.
                     recibirFichero();
                     break;
-                case 2: //Envio de fichero.
+                case 3: //Envio de fichero.
                     break;
                 default:
                     System.out.println("SHIT.");

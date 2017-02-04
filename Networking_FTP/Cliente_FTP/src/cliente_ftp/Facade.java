@@ -6,6 +6,7 @@
 package cliente_ftp;
 
 import controlador.Red;
+import javax.swing.JTree;
 
 /**
  * Patron de diseño Façade. Intermediario entre la vista y el controlador para separar el codigo entre ambos.
@@ -20,7 +21,17 @@ public class Facade {
      * @return Estado de la conexion.
      */
     public static boolean testearConexionCliente(String ip, int puerto) {
-        return new Red(ip, puerto).comprobacionConexion();
+        return new Red(ip, puerto).checkConexion();
+    }
+    
+    /**
+     * Obtenemos el mapeo local del Server en un Tree que se puede settear directamente.
+     * @param ip IP del server a Conectarse.
+     * @param puerto Puerto del Server por donde entra la conexion.
+     * @return JTree Mapeado para settear en la GUI.
+     */
+    public static JTree obtencionMapeoServer(String ip, int puerto) {
+        return new Red(ip, puerto).obtencionMapeoServer();
     }
     
     /**
