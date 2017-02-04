@@ -6,6 +6,7 @@
 package controlador;
 
 import java.io.File;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -18,28 +19,18 @@ import javax.swing.tree.DefaultTreeModel;
  * @since 04/02/2017
  */
 public class Mapeador {
-    DefaultMutableTreeNode root;
-    DefaultTreeModel treeModel;
-    JTree tree;
+    private DefaultMutableTreeNode root;
+    private DefaultTreeModel treeModel;
+    private JTree tree;
     
     public JTree mapear() {
-//        JFrame frame = new JFrame("File Browser: ");
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
         File fileRoot = new File("root/");
         root = new DefaultMutableTreeNode(new FileNode(fileRoot));
         treeModel = new DefaultTreeModel(root);
         
         tree = new JTree(treeModel);
         tree.setShowsRootHandles(true);
-        JScrollPane scrollPane = new JScrollPane(tree);
         
-//        frame.add(scrollPane);
-//        frame.setLocationByPlatform(true);
-//        frame.setSize(640, 480);
-//        frame.setVisible(true);
-        
-        CreateChildNodes createChildNodes = new CreateChildNodes(fileRoot, root);
         new CreateChildNodes(fileRoot, root).createChildrenStart();
         
         return tree;

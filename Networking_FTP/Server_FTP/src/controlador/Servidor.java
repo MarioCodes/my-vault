@@ -12,13 +12,17 @@ import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeModel;
 
 /**
  * Recopilacion de la implementacion logica del Server.
@@ -38,6 +42,9 @@ public class Servidor {
     private static InputStream in = null;
     private static OutputStream out = null;
         
+    private static ObjectInputStream ois = null;
+    private static ObjectOutputStream oos = null;
+    
     /**
      * Accion de recibir y guardar el fichero recibido.
      * Se ejecuta en un hilo aparte.
@@ -64,13 +71,13 @@ public class Servidor {
         }catch(IOException ex) {
             ex.printStackTrace();
         }finally {
-            try {
-                if(out != null) out.close();
-                if(in != null) in.close();
-                if(socket != null) socket.close();
-            }catch(IOException ex) {
-                ex.printStackTrace();
-            }
+//            try {
+//                if(out != null) out.close();
+//                if(in != null) in.close();
+//                if(socket != null) socket.close();
+//            }catch(IOException ex) {
+//                ex.printStackTrace();
+//            }
         }
     }
     
@@ -81,9 +88,9 @@ public class Servidor {
     private static void comprobacionConexion() {
         try {
 //            out = socket.getOutputStream();
-            DataOutputStream dout = new DataOutputStream(out);
-            
-            dout.writeBoolean(true);
+//            DataOutputStream dout = new DataOutputStream(out);
+            oos.writeBoolean(true);
+//            dout.writeBoolean(true);
             
 //            dout.close();
 //            out.close();
@@ -101,11 +108,21 @@ public class Servidor {
     }
     
     private static void envioMapeoCliente(JTree tree) {
-//        try {
-//            
-//        } catch(IOException ex) {
-//            ex.printStackTrace();
-//        }
+        try {
+//            ObjectInputStream ois = new ObjectInputStream(in);
+            TreeModel m = tree.getModel();
+            Object o = m.getRoot();
+//            DefaultMutableTreeNode su;
+            oos.writeObject(o);
+        } catch(IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    private static ArrayList<String> manipulacionTree(JTree tree) {
+        ArrayList<String> contenidoMapeo = new ArrayList<>();
+        
+        return null;
     }
     
     /**
@@ -115,12 +132,15 @@ public class Servidor {
         try {
             in = socket.getInputStream();
             out = socket.getOutputStream();
+            oos = new ObjectOutputStream(out);
+            ois = new ObjectInputStream(in);
             
             byte opcion = (byte) in.read();
             switch(opcion) {
                 case 0: //Testeo de Conexion , mapeo del Server y envio de esta informacion al Cliente.
                     comprobacionConexion();
-                    envioMapeoCliente(mapearServer());
+                    JTree tree = mapearServer();
+                    envioMapeoCliente(tree);
                     break;
                 case 1: //Recibir fichero.
                     recibirFichero();

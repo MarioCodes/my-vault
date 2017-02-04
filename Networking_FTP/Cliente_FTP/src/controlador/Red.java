@@ -15,10 +15,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.Socket;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeModel;
 
 /**
  * Recopilacion de la implementacion logica del Red.
@@ -132,12 +136,17 @@ public class Red {
             InputStream in = new BufferedInputStream(socket.getInputStream());
             OutputStream out = socket.getOutputStream();
             DataOutputStream dout = new DataOutputStream(out);
-            DataInputStream din = new DataInputStream(in);
+            ObjectOutputStream oos = new ObjectOutputStream(out);
+            ObjectInputStream ois = new ObjectInputStream(in);
+//            DataInputStream din = new DataInputStream(in);
             
-            dout.write(0); //Indica al Server que realice un testeo de conexion.
-            boolean estado = din.readBoolean(); //Leemos la respuesta del server.
+            dout.write(0);
+//            oos.writeInt(0); //Indica al Server que realice un testeo de conexion.
+            boolean estado = ois.readBoolean(); //Leemos la respuesta del server.
             
-            dout.close();
+            DefaultMutableTreeNode treeModel = (DefaultMutableTreeNode) ois.readObject();
+            System.out.println("SUP");
+            oos.close();
             out.close();
             in.close();
             
@@ -147,6 +156,10 @@ public class Red {
             return false;
         }catch(IllegalArgumentException ex) {
             System.out.println("Numero de argumentos erroneo. Comprobar que el puerto este dentro de rango.\t" +ex.getLocalizedMessage());
+            return false;
+        }catch(ClassCastException|ClassNotFoundException ex) {
+            System.out.println("Problema de conversion de clase.");
+            ex.printStackTrace();
             return false;
         }catch(IOException ex) {
             System.out.println("Problema de IO.");
