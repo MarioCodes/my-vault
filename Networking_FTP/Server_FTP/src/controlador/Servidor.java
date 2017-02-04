@@ -23,7 +23,7 @@ import java.net.Socket;
  * @since 19/01/2017
  */
 public class Servidor {
-    private static final int BUFFER_LENGTH = 16384; //Tamaño del buffer que se enviara de golpe.
+    private static final int BUFFER_LENGTH = 8192; //Tamaño del buffer que se enviara de golpe.
     private static final int PUERTO = 8142; //fixme: el servidor debera dejar elegir el puerto por el cual se conecta.
     
     private static Socket socket = null;    
@@ -76,7 +76,7 @@ public class Servidor {
             
             switch(opcion) {
                 case 0: //Testeo de Conexion.
-                    System.out.println("SUUUU");
+                    System.out.println("SUUUU0");
                     break;
                 case 1: //Recibir fichero.
                     recibirFichero();

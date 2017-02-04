@@ -21,4 +21,13 @@ public class Facade {
     public static void abrirConexionCliente(String ip, int puerto) {
         new Red(ip, puerto).ejecucion();
     }
+    
+    /**
+     * Realizacion de un testeo de conexion Cliente - Server.
+     * @param ip IP del server a Conectarse.
+     * @param puerto Puerto del server por donde entra la conexion.
+     */
+    public static void testearConexionCliente(String ip, int puerto) {
+        new Red(ip, puerto).ejecucionCP();
+    }
 }

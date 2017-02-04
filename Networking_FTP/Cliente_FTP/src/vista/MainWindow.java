@@ -87,7 +87,7 @@ public class MainWindow extends javax.swing.JFrame {
      * Comprobacion de que el servidor esta alcanzable.
      */
     private void testeoConexion() {
-        Runnable runnable = () -> Facade.abrirConexionCliente(this.jTextFieldInputURL.getText(), Integer.parseInt(this.jTextFieldInputPuerto.getText()));
+        Runnable runnable = () -> Facade.testearConexionCliente(this.jTextFieldInputURL.getText(), Integer.parseInt(this.jTextFieldInputPuerto.getText()));
         new Thread(runnable).start(); //Para que no se quede colgada la GUI.
     }
     
@@ -106,6 +106,7 @@ public class MainWindow extends javax.swing.JFrame {
         jLabelPuerto = new javax.swing.JLabel();
         jTextFieldInputPuerto = new javax.swing.JTextField();
         jButtonConectar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         jPanelArbolDirectorios = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -144,6 +145,8 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Cross.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanelParametrosLayout = new javax.swing.GroupLayout(jPanelParametros);
         jPanelParametros.setLayout(jPanelParametrosLayout);
         jPanelParametrosLayout.setHorizontalGroup(
@@ -157,7 +160,9 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jLabelPuerto)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextFieldInputPuerto)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonConectar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -169,8 +174,9 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(jTextFieldInputURL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelPuerto)
                     .addComponent(jTextFieldInputPuerto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonConectar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 6, Short.MAX_VALUE))
+                    .addComponent(jButtonConectar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanelArbolDirectorios.setBorder(javax.swing.BorderFactory.createTitledBorder("Gestion Ficheros"));
@@ -418,6 +424,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton jButtonPasarAServer;
     private javax.swing.JButton jButtonRefrescarCliente;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemConfBorrar;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelPuerto;
     private javax.swing.JLabel jLabelURL;
     private javax.swing.JMenuBar jMenuBar;

@@ -24,7 +24,7 @@ import java.net.Socket;
  * @since 19/01/2017
  */
 public class Red {
-    private static final int BUFFER_LENGTH = 16384;
+    private static final int BUFFER_LENGTH = 8192;
     private final int PUERTO;
     private final String SERVER_IP;
     
@@ -86,6 +86,64 @@ public class Red {
             //Envio y medida del tiempo tardado.
             long inicio = System.currentTimeMillis();
             envioFichero(socket);
+            System.out.println("Tiempo de Ejecucion: " +(System.currentTimeMillis()-inicio));
+            return true;
+        }catch(ConnectException ex) {
+            System.out.println("Problema en la conexion. " +ex.getLocalizedMessage());
+            return false;
+        }catch(IOException ex) {
+            System.out.println("Problema de IO.");
+            ex.printStackTrace();
+            return false;
+        }finally {
+            try {
+                if(br != null) br.close();
+                if(bw != null) bw.close();
+                if(socket != null) socket.close();
+            }catch(IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    //Copia Seguridad.
+    public boolean ejecucionCP() {
+        BufferedReader br = null;
+        BufferedWriter bw = null;
+        Socket socket = null;
+        
+        try {
+            socket = new Socket(SERVER_IP, PUERTO); //IP y PORT del Server.
+
+            bw = new BufferedWriter(new PrintWriter(socket.getOutputStream()));
+            br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            //Envio y medida del tiempo tardado.
+            long inicio = System.currentTimeMillis();
+            
+//                File file = new File("ficheros/fichero.txt");
+                byte[] bytes = new byte[BUFFER_LENGTH];
+
+//                InputStream in = new FileInputStream(file);
+                OutputStream out = socket.getOutputStream();
+                DataOutputStream dout = new DataOutputStream(out);
+
+                dout.write(0);
+
+                byte[] bytess = "Suuuu.txt".getBytes();
+                dout.write(bytess.length);
+                dout.write(bytess);
+
+//                int count;
+//                while((count = in.read(bytes)) > 0) {
+//                    dout.write(bytes, 0, count);
+//                }
+
+                dout.close();
+                out.close();
+//                in.close();
+                socket.close();
+            
             System.out.println("Tiempo de Ejecucion: " +(System.currentTimeMillis()-inicio));
             return true;
         }catch(ConnectException ex) {
