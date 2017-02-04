@@ -29,6 +29,6 @@ public class Facade {
      * @return Estado de la conexion.
      */
     public static boolean testearConexionCliente(String ip, int puerto) {
-        return new Red(ip, puerto).testeoConexion();
+        return new Red(ip, puerto).comprobacionConexion();
     }
 }

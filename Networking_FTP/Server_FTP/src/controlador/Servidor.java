@@ -79,6 +79,7 @@ public class Servidor {
         try {
             out = socket.getOutputStream();
             DataOutputStream dout = new DataOutputStream(out);
+            
             dout.writeBoolean(true);
             
             dout.close();

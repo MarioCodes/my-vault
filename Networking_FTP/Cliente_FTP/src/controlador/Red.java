@@ -23,14 +23,17 @@ import java.net.Socket;
 /**
  * Recopilacion de la implementacion logica del Red.
  * @author Mario Codes Sánchez
- * @since 19/01/2017
+ * @since 04/02/2017
  */
 public class Red {
-    private boolean conexion = false; //Estado de la conexion en el programa.
     private static final int BUFFER_LENGTH = 8192;
     private final int PUERTO;
     private final String SERVER_IP;
     
+    private BufferedReader br = null;
+    private BufferedWriter bw = null;
+    private Socket socket = null;
+        
     /**
      * Constructor a utilizar por defecto.
      * @param serverIP IP del Servidor a conectarse.
@@ -39,6 +42,32 @@ public class Red {
     public Red(String serverIP, int puerto) {
         this.SERVER_IP = serverIP;
         this.PUERTO = puerto;
+    }
+    
+    /**
+     * Pasos necesarios a realizar antes de ejecutar cualquier accion.
+     *  Al final habra que usar la cabecera de fin para cerrar estas conexiones.
+     * @throws IOException Posible excepcion lanzada por las conexiones al abrirse.
+     */
+    private void cabeceraComienzoConexion() throws IOException {
+        socket = new Socket(SERVER_IP, PUERTO); //IP y PORT del Server.
+
+        bw = new BufferedWriter(new PrintWriter(socket.getOutputStream()));
+        br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+    }
+    
+    /**
+     * Para colocar en el 'finally'. Cierra las conexiones estandar usadas, abiertas por la cabecera de comienzo.
+     */
+    private void cabeceraFinConexion() {
+        try {
+            if(br != null) br.close();
+            if(bw != null) bw.close();
+            if(socket != null) socket.close();
+        }catch(IOException ex) {
+            System.out.println("Problema al cerrar las conexiones.");
+            ex.printStackTrace();
+        }
     }
     
     /**
@@ -54,7 +83,7 @@ public class Red {
         OutputStream out = socket.getOutputStream();
         DataOutputStream dout = new DataOutputStream(out);
         
-        dout.write(0);
+        dout.write(0); //fixme: habra que cambiarlo al adecuado para envio de fichero.
         
         byte[] bytess = "Suuuu.txt".getBytes();
         dout.write(bytess.length);
@@ -76,16 +105,9 @@ public class Red {
      * @return Estado de la ejecucion.
      */
     public boolean ejecucion() {
-        BufferedReader br = null;
-        BufferedWriter bw = null;
-        Socket socket = null;
-        
         try {
-            socket = new Socket(SERVER_IP, PUERTO); //IP y PORT del Server.
-
-            bw = new BufferedWriter(new PrintWriter(socket.getOutputStream()));
-            br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
+            cabeceraComienzoConexion();
+            
             //Envio y medida del tiempo tardado.
             long inicio = System.currentTimeMillis();
             envioFichero(socket);
@@ -99,13 +121,7 @@ public class Red {
             ex.printStackTrace();
             return false;
         }finally {
-            try {
-                if(br != null) br.close();
-                if(bw != null) bw.close();
-                if(socket != null) socket.close();
-            }catch(IOException ex) {
-                ex.printStackTrace();
-            }
+            cabeceraFinConexion();
         }
     }
     
@@ -113,38 +129,24 @@ public class Red {
      * Comprobacion de que el servidor esta alcanzable mediante los parametros introducidos.
      * @return Estado de la conexion.
      */
-    public boolean testeoConexion() {
-        BufferedReader br = null;
-        BufferedWriter bw = null;
-        Socket socket = null;
-        conexion = false;
-        
+    public boolean comprobacionConexion() {
         try {
-            socket = new Socket(SERVER_IP, PUERTO); //IP y PORT del Server.
-
-            bw = new BufferedWriter(new PrintWriter(socket.getOutputStream()));
-            br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            
-            long inicio = System.currentTimeMillis(); //Envio y medida del tiempo tardado.
+            cabeceraComienzoConexion();
             
             InputStream in = new BufferedInputStream(socket.getInputStream());
             OutputStream out = socket.getOutputStream();
             DataOutputStream dout = new DataOutputStream(out);
             DataInputStream din = new DataInputStream(in);
-
+            
             dout.write(0); //Indica al Server que realice un testeo de conexion.
-
-            conexion = din.readBoolean(); //Obtenemos la respuesta del server.
-
+            boolean estado = din.readBoolean(); //Leemos la respuesta del server.
+            
             dout.close();
             out.close();
             in.close();
-            socket.close();
             
-            System.out.println("Tiempo de Ejecucion: " +(System.currentTimeMillis()-inicio));
-            return true;
+            return estado;
         }catch(ConnectException ex) {
-            conexion = false;
             System.out.println("Problema en la conexion. " +ex.getLocalizedMessage());
             return false;
         }catch(IOException ex) {
@@ -152,13 +154,7 @@ public class Red {
             ex.printStackTrace();
             return false;
         }finally {
-            try {
-                if(br != null) br.close();
-                if(bw != null) bw.close();
-                if(socket != null) socket.close();
-            }catch(IOException ex) {
-                ex.printStackTrace();
-            }
+            cabeceraFinConexion();
         }
     }
 }
