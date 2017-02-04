@@ -10,18 +10,9 @@ import controlador.Red;
 /**
  * Patron de diseño Façade. Intermediario entre la vista y el controlador para separar el codigo entre ambos.
  * @author Mario Codes Sánchez
- * @since 19/01/2017
+ * @since 04/02/2017
  */
 public class Facade {
-    /**
-     * Abrimos la conexion desde el Red al Server.
-     * @param ip IP del server a Conectarse.
-     * @param puerto Puerto del server por donde entra la conexion.
-     */
-    public static void abrirConexionCliente(String ip, int puerto) {
-        new Red(ip, puerto).envioFichero();
-    }
-    
     /**
      * Realizacion de un testeo de conexion Cliente - Server.
      * @param ip IP del server a Conectarse.
@@ -30,5 +21,15 @@ public class Facade {
      */
     public static boolean testearConexionCliente(String ip, int puerto) {
         return new Red(ip, puerto).comprobacionConexion();
+    }
+    
+    /**
+     * Abrimos la conexion desde el Red al Server.
+     * @param ip IP del server a Conectarse.
+     * @param puerto Puerto del server por donde entra la conexion.
+     * @param nombreFich Nombre del fichero a enviar
+     */
+    public static void envioFicheroClienteServer(String ip, int puerto, String nombreFich) {
+        new Red(ip, puerto).envioFichero(nombreFich);
     }
 }

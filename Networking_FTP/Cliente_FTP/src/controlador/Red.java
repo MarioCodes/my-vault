@@ -72,15 +72,16 @@ public class Red {
     
     /**
      * Metodo para el envio de un fichero del Cliente al Server.
+     * @param nombreFich Nombre del fichero a mandar.
      * @return Estado de la envioFichero.
      */
-    public boolean envioFichero() {
+    public boolean envioFichero(String nombreFich) {
         try {
             cabeceraComienzoConexion();
             
             long inicio = System.currentTimeMillis(); //Comienzo a medir del tiempo.
             
-            File file = new File("ficheros/fichero.txt"); //fixme: hacer el nombre del fichero variable segun seleccionado en el JTree.
+            File file = new File(nombreFich); //fixme: hacer el nombre del fichero variable segun seleccionado en el JTree. Tambien habra que manipular la ruta en ambos.
             byte[] bytes = new byte[BUFFER_LENGTH];
 
             InputStream in = new FileInputStream(file);
