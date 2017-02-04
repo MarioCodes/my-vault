@@ -5,7 +5,7 @@
  */
 package cliente_ftp;
 
-import controlador.Cliente;
+import controlador.Red;
 
 /**
  * Patron de diseño Façade. Intermediario entre la vista y el controlador para separar el codigo entre ambos.
@@ -14,11 +14,11 @@ import controlador.Cliente;
  */
 public class Facade {
     /**
-     * Abrimos la conexion desde el Cliente al Server.
+     * Abrimos la conexion desde el Red al Server.
      * @param ip IP del server a Conectarse.
      * @param puerto Puerto del server por donde entra la conexion.
      */
     public static void abrirConexionCliente(String ip, int puerto) {
-        new Cliente(ip, puerto).ejecucion();
+        new Red(ip, puerto).ejecucion();
     }
 }

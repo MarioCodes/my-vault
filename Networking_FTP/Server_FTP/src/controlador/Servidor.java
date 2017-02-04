@@ -73,8 +73,11 @@ public class Servidor {
         try {
             in = socket.getInputStream();
             byte opcion = (byte) in.read();
-
+            
             switch(opcion) {
+                case 0: //Testeo de Conexion.
+                    System.out.println("SUUUU");
+                    break;
                 case 1: //Recibir fichero.
                     recibirFichero();
                     break;

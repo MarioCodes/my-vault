@@ -19,11 +19,11 @@ import java.net.ConnectException;
 import java.net.Socket;
 
 /**
- * Recopilacion de la implementacion logica del Cliente.
+ * Recopilacion de la implementacion logica del Red.
  * @author Mario Codes Sánchez
  * @since 19/01/2017
  */
-public class Cliente {
+public class Red {
     private static final int BUFFER_LENGTH = 16384;
     private final int PUERTO;
     private final String SERVER_IP;
@@ -33,7 +33,7 @@ public class Cliente {
      * @param serverIP IP del Servidor a conectarse.
      * @param puerto Puerto del Server para la conexion.
      */
-    public Cliente(String serverIP, int puerto) {
+    public Red(String serverIP, int puerto) {
         this.SERVER_IP = serverIP;
         this.PUERTO = puerto;
     }
@@ -51,7 +51,7 @@ public class Cliente {
         OutputStream out = socket.getOutputStream();
         DataOutputStream dout = new DataOutputStream(out);
         
-        dout.write(1);
+        dout.write(0);
         
         byte[] bytess = "Suuuu.txt".getBytes();
         dout.write(bytess.length);
