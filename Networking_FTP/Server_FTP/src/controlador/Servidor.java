@@ -7,10 +7,12 @@ package controlador;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -78,15 +80,13 @@ public class Servidor {
      */
     private static void comprobacionConexion() {
         try {
-            out = socket.getOutputStream();
+//            out = socket.getOutputStream();
             DataOutputStream dout = new DataOutputStream(out);
             
             dout.writeBoolean(true);
             
-            dout.close();
-            out.close();
-            
-            System.out.println("AQUI"); //fixme: borrar. testeo.
+//            dout.close();
+//            out.close();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -101,7 +101,11 @@ public class Servidor {
     }
     
     private static void envioMapeoCliente(JTree tree) {
-        
+//        try {
+//            
+//        } catch(IOException ex) {
+//            ex.printStackTrace();
+//        }
     }
     
     /**
@@ -110,12 +114,13 @@ public class Servidor {
     private static void gestionAcciones() {
         try {
             in = socket.getInputStream();
-            byte opcion = (byte) in.read();
+            out = socket.getOutputStream();
             
+            byte opcion = (byte) in.read();
             switch(opcion) {
                 case 0: //Testeo de Conexion , mapeo del Server y envio de esta informacion al Cliente.
                     comprobacionConexion();
-                    mapearServer();
+                    envioMapeoCliente(mapearServer());
                     break;
                 case 1: //Recibir fichero.
                     recibirFichero();
