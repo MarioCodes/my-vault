@@ -42,6 +42,6 @@ public class Facade {
      * @param nombreFich Nombre del fichero a enviar
      */
     public static void envioFicheroClienteServer(String ip, int puerto, String nombreFich) {
-        new Red(ip, puerto).envioFichero("root/", "test.txt");
+        new Red(ip, puerto).envioFichero("root/dirServer1/", "root/", "test.txt");
     }
 }

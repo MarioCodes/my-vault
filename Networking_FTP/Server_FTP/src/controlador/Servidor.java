@@ -23,7 +23,7 @@ import javax.swing.JTree;
  *      El tercer BLOQUE es el nombre del archivo.
  *      El resto es el contenido del fichero.
  * @author Mario Codes Sánchez
- * @since 04/02/2017
+ * @since 05/02/2017
  */
 public class Servidor {
     private static final int BUFFER_LENGTH = 8192; //Tamaño del buffer que se enviara de golpe.
@@ -42,17 +42,23 @@ public class Servidor {
      */
     private static void recibirFichero() {
         try {
+            byte rutaLength = ois.readByte();
+            StringBuilder rutaFichero = new StringBuilder();
+            for (int i = 0; i < rutaLength; i++) {
+                byte bit = (byte) ois.read();
+                rutaFichero.append((char) bit);
+            }
+            
+            
             byte nameLength = ois.readByte(); //Tamaño del nombre.
-            
             StringBuilder nombreFichero = new StringBuilder();
-            
             for (int i = 0; i < nameLength; i++) { //Operacion para sacar el nombre, con el tamaño antes obtenido.
                 byte bit = (byte) ois.read();
                 nombreFichero.append((char) bit);
             }
             
             byte[] bytes = new byte[BUFFER_LENGTH]; //Operacion para escribir el contenido.
-            out = new FileOutputStream("root/" +nombreFichero.toString()); //todo: mas adelante debera ser variable. No hardcodeado.
+            out = new FileOutputStream(rutaFichero +nombreFichero.toString()); //todo: mas adelante debera ser variable. No hardcodeado.
             
             int count;
             while((count = ois.read(bytes)) > 0) {
