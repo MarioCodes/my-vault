@@ -96,9 +96,10 @@ public class Red {
             OutputStream out = socket.getOutputStream();
             DataOutputStream dout = new DataOutputStream(out);
 
-            dout.write(1); //Set de la accion en el server. (1 = recibir fichero).
+            dout.write(2); //Set de la accion en el server. (1 = recibir fichero).
 
             byte[] bytess = "Suuuu.txt".getBytes(); //fixme: investigar. Esto no se que hace.
+//            byte[] bytess = "Suuuu.txt".getBytes(); //fixme: investigar. Esto no se que hace.
             dout.write(bytess.length);
             dout.write(bytess);
 

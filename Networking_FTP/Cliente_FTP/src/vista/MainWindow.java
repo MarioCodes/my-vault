@@ -383,6 +383,11 @@ public class MainWindow extends javax.swing.JFrame {
 
         jButtonPasarAServer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flecha_backward.png"))); // NOI18N
         jButtonPasarAServer.setEnabled(false);
+        jButtonPasarAServer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPasarAServerActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelArbolDirectoriosLayout = new javax.swing.GroupLayout(jPanelArbolDirectorios);
         jPanelArbolDirectorios.setLayout(jPanelArbolDirectoriosLayout);
@@ -488,6 +493,10 @@ public class MainWindow extends javax.swing.JFrame {
         borrarFile(true, this.jTreeServer);
         setArbolServer();
     }//GEN-LAST:event_jButtonBorrarServerActionPerformed
+
+    private void jButtonPasarAServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPasarAServerActionPerformed
+        Facade.envioFicheroClienteServer(url, puerto, "test.txt");
+    }//GEN-LAST:event_jButtonPasarAServerActionPerformed
 
     /**
      * @param args the command line arguments
