@@ -80,13 +80,13 @@ public class Red {
     /**
      * Metodo para el envio de un fichero del Cliente al Server.
      */
-    public void envioFichero() {
+    public void envioFichero(String ruta, String nombreFichero) {
         try {
             cabeceraComienzoConexion();
             
             long inicio = System.currentTimeMillis(); //Envio y medida del tiempo tardado.
             
-            File file = new File("root/test.txt");
+            File file = new File(ruta +nombreFichero);
             byte[] bytes = new byte[BUFFER_LENGTH];
 
             InputStream in = new FileInputStream(file);
@@ -96,10 +96,10 @@ public class Red {
             oos.writeInt(2);
 //            oos.flush(); //fixme: investigar si es necesario, no lo se. De momento peta al darle al boton de enviar varias veces.
             
-            byte[] bytess = "test.txt".getBytes();
-            oos.writeByte(bytess.length);
+            byte[] bytesNombreFich = nombreFichero.getBytes();
+            oos.writeByte(bytesNombreFich.length);
             
-            oos.write(bytess);
+            oos.write(bytesNombreFich);
 
             int count;
             while((count = in.read(bytes)) > 0) {
