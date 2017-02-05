@@ -29,6 +29,7 @@ public class Facade {
      * @param ip IP del server a Conectarse.
      * @param puerto Puerto del Server por donde entra la conexion.
      * @return JTree Mapeado para settear en la GUI.
+     * @deprecated Idea original, no me da tiempo. Lo mantengo para hacerlo por mi cuenta mas adelante con tiempo.
      */
     public static JTree obtencionMapeoServer(String ip, int puerto) {
         return new Red(ip, puerto).obtencionMapeoServer();
@@ -41,7 +42,6 @@ public class Facade {
      * @param nombreFich Nombre del fichero a enviar
      */
     public static void envioFicheroClienteServer(String ip, int puerto, String nombreFich) {
-//        new Red(ip, puerto).envioFichero(nombreFich);
-        new Red(ip, puerto).ejecucion();
+        new Red(ip, puerto).envioFichero();
     }
 }

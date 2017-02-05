@@ -8,10 +8,8 @@ package controlador;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -26,7 +24,7 @@ import javax.swing.JTree;
 /**
  * Recopilacion de la implementacion logica del Red.
  * @author Mario Codes Sánchez
- * @since 04/02/2017
+ * @since 05/02/2017
  */
 public class Red {
     private static final int BUFFER_LENGTH = 8192;
@@ -39,7 +37,6 @@ public class Red {
         
     private InputStream in = null;
     private OutputStream out = null;
-    private DataOutputStream dout = null;
     private ObjectOutputStream oos = null;
     private ObjectInputStream ois = null;
             
@@ -67,6 +64,7 @@ public class Red {
     
     /**
      * Para colocar en el 'finally'. Cierra las conexiones estandar usadas, abiertas por la cabecera de comienzo.
+     * @fixme: comprobar todas las conexiones miembro y cerrarlas todas.
      */
     private void cabeceraFinConexion() {
         try {
@@ -80,14 +78,13 @@ public class Red {
     }
     
     /**
-     * Ejecucion de la conexion al server en si misma.
+     * Metodo para el envio de un fichero del Cliente al Server.
      */
-    public void ejecucion() {
+    public void envioFichero() {
         try {
             cabeceraComienzoConexion();
-
-            //Envio y medida del tiempo tardado.
-            long inicio = System.currentTimeMillis();
+            
+            long inicio = System.currentTimeMillis(); //Envio y medida del tiempo tardado.
             
             File file = new File("root/test.txt");
             byte[] bytes = new byte[BUFFER_LENGTH];
@@ -95,18 +92,14 @@ public class Red {
             InputStream in = new FileInputStream(file);
             OutputStream out = socket.getOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(out);
-//            DataOutputStream dout = new DataOutputStream(out);
             
             oos.writeInt(2);
-//            oos.flush();
-//            dout.flush();
+//            oos.flush(); //fixme: investigar si es necesario, no lo se. De momento peta al darle al boton de enviar varias veces.
             
             byte[] bytess = "test.txt".getBytes();
             oos.writeByte(bytess.length);
-            System.out.println("tamanio fich: " +bytess.length); //fixme : borraar.
             
             oos.write(bytess);
-//            oos.flush();
 
             int count;
             while((count = in.read(bytes)) > 0) {
@@ -115,7 +108,7 @@ public class Red {
             
             oos.flush();
             
-//            dout.close();
+            oos.close();
             out.close();
             in.close();
             socket.close();
@@ -123,58 +116,6 @@ public class Red {
             System.out.println("Tiempo de Ejecucion: " +(System.currentTimeMillis()-inicio));
         }catch(IOException ex) {
             ex.printStackTrace();
-        }finally {
-            cabeceraFinConexion();
-        }
-    }
-    
-    /**
-     * Metodo para el envio de un fichero del Cliente al Server.
-     * @param nombreFich Nombre del fichero a mandar.
-     * @return Estado de la envioFichero.
-     */
-    public boolean envioFichero(String nombreFich) {
-        try {
-            cabeceraComienzoConexion();
-            
-            long inicio = System.currentTimeMillis(); //Comienzo a medir del tiempo.
-            
-            File file = new File(nombreFich); //fixme: hacer el nombre del fichero variable segun seleccionado en el JTree. Tambien habra que manipular la ruta en ambos.
-            byte[] bytes = new byte[BUFFER_LENGTH];
-
-            InputStream in = new FileInputStream(file);
-            OutputStream out = socket.getOutputStream();
-            DataOutputStream dout = new DataOutputStream(out);
-
-            dout.write(2); //Set de la accion en el server. (1 = recibir fichero).
-
-            byte[] bytess = "Suuuu.txt".getBytes(); //fixme: investigar. Esto no se que hace.
-//            byte[] bytess = "Suuuu.txt".getBytes(); //fixme: investigar. Esto no se que hace.
-            dout.write(bytess.length);
-            dout.write(bytess);
-
-            int count;
-            while((count = in.read(bytes)) > 0) {
-                dout.write(bytes, 0, count);
-            }
-
-            dout.close();
-            out.close();
-            in.close();
-            socket.close();
-            
-            System.out.println("Tiempo de Ejecucion: " +(System.currentTimeMillis()-inicio));
-            return true;
-        }catch(ConnectException ex) {
-            System.out.println("Problema en la conexion. " +ex.getLocalizedMessage());
-            return false;
-        }catch(IllegalArgumentException ex) {
-            System.out.println("Numero de argumentos erroneo. Comprobar que el puerto este dentro de rango.\t " +ex.getLocalizedMessage());
-            return false;
-        }catch(IOException ex) {
-            System.out.println("Problema de IO.");
-            ex.printStackTrace();
-            return false;
         }finally {
             cabeceraFinConexion();
         }
@@ -183,6 +124,7 @@ public class Red {
     /**
      * Obtencion del JTree mapeado del directorio del Servidor.
      * @return JTree mapeado del Server.
+     * @deprecated Era la idea original, no me da tiempo.
      */
     public JTree obtencionMapeoServer() {
         try {
@@ -228,7 +170,6 @@ public class Red {
             oos = new ObjectOutputStream(out);
             ois = new ObjectInputStream(in);
             
-//            oos.writeByte(0);
             oos.writeInt(0);
             oos.flush();
             

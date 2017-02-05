@@ -43,7 +43,6 @@ public class Servidor {
     private static void recibirFichero() {
         try {
             byte nameLength = ois.readByte(); //Tamaño del nombre.
-            System.out.println("Tamño del nombre: " +nameLength); //fixme: borrar
             
             StringBuilder nombreFichero = new StringBuilder();
             
