@@ -42,20 +42,21 @@ public class Servidor {
      */
     private static void recibirFichero() {
         try {
-            int nameLength = in.read(); //Tamaño del nombre.
+            byte nameLength = ois.readByte(); //Tamaño del nombre.
+            System.out.println("Tamño del nombre: " +nameLength); //fixme: borrar
             
-            StringBuffer nombreFichero = new StringBuffer();
+            StringBuilder nombreFichero = new StringBuilder();
             
             for (int i = 0; i < nameLength; i++) { //Operacion para sacar el nombre, con el tamaño antes obtenido.
-                byte bit = (byte) in.read();
+                byte bit = (byte) ois.read();
                 nombreFichero.append((char) bit);
             }
             
             byte[] bytes = new byte[BUFFER_LENGTH]; //Operacion para escribir el contenido.
-            out = new FileOutputStream("ficheros/" +nombreFichero.toString()); //todo: mas adelante debera ser variable. No hardcodeado.
+            out = new FileOutputStream("root/" +nombreFichero.toString()); //todo: mas adelante debera ser variable. No hardcodeado.
             
             int count;
-            while((count = in.read(bytes)) > 0) {
+            while((count = ois.read(bytes)) > 0) {
                 out.write(bytes, 0, count);
             }
             
@@ -118,7 +119,7 @@ public class Servidor {
             oos = new ObjectOutputStream(out);
             ois = new ObjectInputStream(in);
             
-            byte opcion = (byte) ois.readByte();
+            byte opcion = (byte) ois.readInt();
             System.out.println(opcion); //todo: borrar al final.
             
             switch(opcion) {

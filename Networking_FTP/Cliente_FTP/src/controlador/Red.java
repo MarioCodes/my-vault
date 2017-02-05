@@ -11,6 +11,7 @@ import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -75,6 +76,55 @@ public class Red {
         }catch(IOException ex) {
             System.out.println("Problema al cerrar las conexiones.");
             ex.printStackTrace();
+        }
+    }
+    
+    /**
+     * Ejecucion de la conexion al server en si misma.
+     */
+    public void ejecucion() {
+        try {
+            cabeceraComienzoConexion();
+
+            //Envio y medida del tiempo tardado.
+            long inicio = System.currentTimeMillis();
+            
+            File file = new File("root/test.txt");
+            byte[] bytes = new byte[BUFFER_LENGTH];
+
+            InputStream in = new FileInputStream(file);
+            OutputStream out = socket.getOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(out);
+//            DataOutputStream dout = new DataOutputStream(out);
+            
+            oos.writeInt(2);
+//            oos.flush();
+//            dout.flush();
+            
+            byte[] bytess = "test.txt".getBytes();
+            oos.writeByte(bytess.length);
+            System.out.println("tamanio fich: " +bytess.length); //fixme : borraar.
+            
+            oos.write(bytess);
+//            oos.flush();
+
+            int count;
+            while((count = in.read(bytes)) > 0) {
+                oos.write(bytes, 0, count);
+            }
+            
+            oos.flush();
+            
+//            dout.close();
+            out.close();
+            in.close();
+            socket.close();
+            
+            System.out.println("Tiempo de Ejecucion: " +(System.currentTimeMillis()-inicio));
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }finally {
+            cabeceraFinConexion();
         }
     }
     
@@ -178,7 +228,8 @@ public class Red {
             oos = new ObjectOutputStream(out);
             ois = new ObjectInputStream(in);
             
-            oos.writeByte(0);
+//            oos.writeByte(0);
+            oos.writeInt(0);
             oos.flush();
             
             boolean estado = ois.readBoolean(); //Leemos la respuesta del server.
