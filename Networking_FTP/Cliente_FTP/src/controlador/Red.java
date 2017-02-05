@@ -86,37 +86,30 @@ public class Red {
             
             long inicio = System.currentTimeMillis(); //Envio y medida del tiempo tardado.
             
-            File file = new File(rutaLocal +nombreFichero);
+            File file = new File(rutaLocal+nombreFichero);
             byte[] bytes = new byte[BUFFER_LENGTH];
 
-            InputStream in = new FileInputStream(file);
-            OutputStream out = socket.getOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(out);
+            in = new FileInputStream(file);
+            out = socket.getOutputStream();
+            oos = new ObjectOutputStream(out);
             
             oos.writeInt(2);
-//            oos.flush(); //fixme: investigar si es necesario, no lo se. De momento peta al darle al boton de enviar varias veces.
+            oos.flush(); //fixme: investigar si es necesario, no lo se. De momento peta al darle al boton de enviar varias veces.
             
             byte[] bytesRutaFich = rutaServer.getBytes();
             oos.writeByte(bytesRutaFich.length);
             oos.write(bytesRutaFich);
-            
+            oos.flush();
             
             byte[] bytesNombreFich = nombreFichero.getBytes();
             oos.writeByte(bytesNombreFich.length);
-            
             oos.write(bytesNombreFich);
-
+            oos.flush();
+            
             int count;
             while((count = in.read(bytes)) > 0) {
                 oos.write(bytes, 0, count);
             }
-            
-            oos.flush();
-            
-            oos.close();
-            out.close();
-            in.close();
-            socket.close();
             
             System.out.println("Tiempo de Ejecucion: " +(System.currentTimeMillis()-inicio));
         }catch(IOException ex) {
