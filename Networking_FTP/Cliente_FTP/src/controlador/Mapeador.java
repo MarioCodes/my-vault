@@ -38,6 +38,22 @@ public class Mapeador {
     }
     
     /**
+     * Como sabemos donde va a estar el server, lo hacemos mediante rutas relativas, no me gusta pero no me da tiempo a hacerlo como queria.
+     * @return JTree mapeado.
+     */
+    public JTree mapearServer() {
+        File fileRoot = new File("../Server_FTP/root/"); //Directorio 'root' a partir del cual se mapeara.
+        root = new DefaultMutableTreeNode(new FileNode(fileRoot));
+        treeModel = new DefaultTreeModel(root);
+        
+        tree = new JTree(treeModel);
+        tree.setShowsRootHandles(true);
+        new CreateChildNodes(fileRoot, root).createChildrenStart();
+        
+        return tree;
+    }
+    
+    /**
      * Crea los hijos.
      */
     private class CreateChildNodes {

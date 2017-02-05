@@ -88,14 +88,16 @@ public class Servidor {
     /**
      * Mapeado local del server y retorno de esta informacion en forma de JTree; Para hacer set directo de su mode(). //todo: comprobar que es el mode lo que hay que hacer set. no recuerdo.
      * @return JTree con el contenido mapeado del server.
+     * @deprecated no me da tiempo a implementar esto.
      */
     private static JTree mapearServer() {
         return new Mapeador().mapear();
-    }
+    } 
     
     /**
      * Envio por Socket del Tree local mapeado, al Cliente.
      * @param tree Tree mapeado que queremos enviar.
+     * @deprecated era la idea original, no me da tiempo ni de fly.
      */
     private static void envioMapeoCliente(JTree tree) {
         try {

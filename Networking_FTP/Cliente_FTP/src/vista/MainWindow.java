@@ -23,6 +23,7 @@ public class MainWindow extends javax.swing.JFrame {
     private boolean conexion = false;
     private String url;
     private int puerto;
+    
     /**
      * Creates new form MainWindow
      */
@@ -102,7 +103,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void gestionControlesConexion(boolean conexion) {
         if(conexion) {
             this.jLabelEstadoConexion.setIcon(new ImageIcon(getClass().getResource("../imagenes/Tick.png")));
-            setJTreeServer(Facade.obtencionMapeoServer(url, puerto));
+            setJTreeServer(new Mapeador().mapearServer());
         }
         else this.jLabelEstadoConexion.setIcon(new ImageIcon(getClass().getResource("../imagenes/Cross.png")));
         
