@@ -17,7 +17,7 @@ import javax.swing.JTree;
  * fixme: Al intentar borrar archivos complejos (.bmp); no me deja con la forma actual, lo entiende como si fuera un dir y !vacio.
  * Ventana principal del programa. Se encargara de la gestion grafica.
  * @author Mario Codes Sánchez
- * @since 04/02/2017
+ * @since 05/02/2017
  */
 public class MainWindow extends javax.swing.JFrame {
     private boolean conexion = false;
@@ -41,22 +41,24 @@ public class MainWindow extends javax.swing.JFrame {
      */
     static void setArbolCliente() {
         JTree mapeoCliente = new Mapeador().mapear();
-        jTree.setModel(mapeoCliente.getModel());
+        jTreeCliente.setModel(mapeoCliente.getModel());
     }
     
     /**
-     * Mapeo del cliente y servidor y set de los arboles de directorios.
+     * Setteo del model del tree de la GUI por el obtenido mediante el mapeo del server.
+     * @param treeServer JTree obtenido del server.
      */
-    private static void setArbolesDirectorios() {
-        setArbolCliente();
+    private void setArbolServer() {
+        JTree treeServer = new Mapeador().mapearServer();
+        this.jTreeServer.setModel(treeServer.getModel());
     }
     
     /**
      * Borra el Fichero o Directorio (debe estar vacio) seleccionado en el JTree.
      */
-    private void accionBorrar() {
+    private void accionBorrar(boolean isServer, JTree tree) {
         try {
-            String rutaSeleccionada = conversionJTreePath.conversion(MainWindow.jTree.getSelectionPath().toString());
+            String rutaSeleccionada = conversionJTreePath.conversion(isServer, tree.getSelectionPath().toString());
             if(!new File(rutaSeleccionada).delete()) JOptionPane.showMessageDialog(this, "No se puede borrar el elemento. Comprueba que esta vacio."); //@fixme: ahora mismo no permito borrar directorios rellenos, solo hago output. Mirar forma de hacerlo.
             setArbolCliente(); //Refresco del contenido del JTree hacia el usuario.
         }catch(NullPointerException ex) {
@@ -68,32 +70,24 @@ public class MainWindow extends javax.swing.JFrame {
      * Metodo principal para borrar.
      *  Comprueba si el usuario quiere que se pida confirmacion al borrar, si es asi la pide antes de ejecutar la accion propiamente dicha.
      */
-    private void borrarFile() {
+    private void borrarFile(boolean isServer, JTree tree) {
         boolean pedirConfirmacion = this.jCheckBoxMenuItemConfBorrar.getState();
         
         if(pedirConfirmacion) {
-            if(JOptionPane.showConfirmDialog(this, "¿Seguro?") == 0) accionBorrar();
-        } else accionBorrar();
+            if(JOptionPane.showConfirmDialog(this, "¿Seguro?") == 0) accionBorrar(isServer, tree);
+        } else accionBorrar(isServer, tree);
     }
     
     /**
-     * Crea un directorio dentro del item seleccionado en el JTree.
+     * Crea un directorio dentro del item seleccionado en el JTree pasado como parametro.
      */
-    private void crearDirectorio() {
+    private void crearDirectorio(boolean isServer, JTree jtree) {
         try {
-            String rutaSeleccionada = conversionJTreePath.conversion(MainWindow.jTree.getSelectionPath().toString());
+            String rutaSeleccionada = conversionJTreePath.conversion(isServer, jtree.getSelectionPath().toString());
             new NewFolder(rutaSeleccionada);
         }catch(NullPointerException ex) {
             System.out.println("INFO: NullPointerException al crear directorio sin ruta capturado.");
         }
-    }
-    
-    /**
-     * Setteo del model del tree de la GUI por el obtenido mediante el mapeo del server.
-     * @param treeServer JTree obtenido del server.
-     */
-    private void setJTreeServer(JTree treeServer) {
-        this.jTreeServer.setModel(treeServer.getModel());
     }
     
     /**
@@ -103,7 +97,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void gestionControlesConexion(boolean conexion) {
         if(conexion) {
             this.jLabelEstadoConexion.setIcon(new ImageIcon(getClass().getResource("../imagenes/Tick.png")));
-            setJTreeServer(new Mapeador().mapearServer());
+            setArbolServer();
         }
         else this.jLabelEstadoConexion.setIcon(new ImageIcon(getClass().getResource("../imagenes/Cross.png")));
         
@@ -156,7 +150,7 @@ public class MainWindow extends javax.swing.JFrame {
         jPanelArbolDirectorios = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTree = new javax.swing.JTree();
+        jTreeCliente = new javax.swing.JTree();
         jPanel3 = new javax.swing.JPanel();
         jButtonRefrescarCliente = new javax.swing.JButton();
         jButtonCrearCarpeta = new javax.swing.JButton();
@@ -233,7 +227,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Arbol del Cliente"));
 
-        jScrollPane1.setViewportView(jTree);
+        jScrollPane1.setViewportView(jTreeCliente);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Controles", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("sansserif", 2, 10))); // NOI18N
 
@@ -266,20 +260,20 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jButtonRefrescarCliente)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addComponent(jButtonCrearCarpeta)
-                .addGap(18, 18, 18)
+                .addGap(26, 26, 26)
                 .addComponent(jButtonBorrar)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButtonCrearCarpeta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jButtonRefrescarCliente, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jButtonBorrar)
-                .addComponent(jButtonRefrescarCliente))
+                .addComponent(jButtonCrearCarpeta, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -347,20 +341,20 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap(27, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jButtonRefrescarServer)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(jButtonCrearCarpetaServer)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonBorrarServer)
-                .addContainerGap())
+                .addGap(17, 17, 17))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButtonCrearCarpetaServer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jButtonBorrarServer)
-                .addComponent(jButtonRefrescarServer))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jButtonCrearCarpetaServer, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jButtonRefrescarServer)
+                .addComponent(jButtonBorrarServer))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -471,11 +465,11 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonRefrescarClienteActionPerformed
 
     private void jButtonCrearCarpetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearCarpetaActionPerformed
-        crearDirectorio();
+        crearDirectorio(false, MainWindow.jTreeCliente);
     }//GEN-LAST:event_jButtonCrearCarpetaActionPerformed
 
     private void jButtonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBorrarActionPerformed
-        borrarFile();
+        borrarFile(false, MainWindow.jTreeCliente);
     }//GEN-LAST:event_jButtonBorrarActionPerformed
 
     private void jMenuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalirActionPerformed
@@ -483,15 +477,16 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemSalirActionPerformed
 
     private void jButtonRefrescarServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefrescarServerActionPerformed
-        // TODO add your handling code here:
+        setArbolServer();
     }//GEN-LAST:event_jButtonRefrescarServerActionPerformed
 
     private void jButtonCrearCarpetaServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearCarpetaServerActionPerformed
-        // TODO add your handling code here:
+        crearDirectorio(true, this.jTreeServer);
     }//GEN-LAST:event_jButtonCrearCarpetaServerActionPerformed
 
     private void jButtonBorrarServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBorrarServerActionPerformed
-        // TODO add your handling code here:
+        borrarFile(true, this.jTreeServer);
+        setArbolServer();
     }//GEN-LAST:event_jButtonBorrarServerActionPerformed
 
     /**
@@ -521,7 +516,7 @@ public class MainWindow extends javax.swing.JFrame {
         }
         //</editor-fold>
         new MainWindow().setVisible(true);
-        setArbolesDirectorios();
+        setArbolCliente();
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -552,7 +547,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextFieldInputPuerto;
     private javax.swing.JTextField jTextFieldInputURL;
-    private static javax.swing.JTree jTree;
+    private static javax.swing.JTree jTreeCliente;
     private javax.swing.JTree jTreeServer;
     // End of variables declaration//GEN-END:variables
     
@@ -564,10 +559,12 @@ public class MainWindow extends javax.swing.JFrame {
         /**
          * Le damos un Path en estilo JTree y lo devolvemos en estilo Windows.
          * @param pathEstiloJTree Path a convertir [root, dirx].
+         * @param isServer Si es server habra que aniadir el resto de la ruta para que opere.
          * @return Path convertido \root\dir.
          */
-        private static String conversion(String pathEstiloJTree) {
+        private static String conversion(boolean isServer, String pathEstiloJTree) {
             String convertida = "";
+            if(isServer) convertida += "..\\Server_FTP\\";
             String conversion = pathEstiloJTree.substring(1, pathEstiloJTree.length()-1); //Quitamos los dos [ ]. Inicial y final.
             
             conversion = conversion.replace(',', '\\'); //Cambio de comas por  \.
