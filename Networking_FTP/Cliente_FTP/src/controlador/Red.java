@@ -93,10 +93,18 @@ public class Red {
             oos = new ObjectOutputStream(out);
             ois = new ObjectInputStream(in);
             
-            oos.writeInt(3);
+            oos.writeInt(3); //Envio de la accion.
             oos.flush();
             
-            System.out.println("SU!");
+            byte[] bytesRutaFich = rutaServer.getBytes(); //Envio de la ruta del Server recortada.
+            oos.writeByte(bytesRutaFich.length);
+            oos.write(bytesRutaFich);
+            oos.flush();
+            
+            byte[] bytesNombreFich = nombreFichero.getBytes(); //Envio del nombre del fichero.
+            oos.writeByte(bytesNombreFich.length);
+            oos.write(bytesNombreFich);
+            oos.flush();
         }catch (IOException ex) {
             ex.printStackTrace();
         }

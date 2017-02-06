@@ -81,6 +81,25 @@ public class Servidor {
     }
     
     private static void reciboParametrosEnvioFichero() {
+        try {
+            byte rutaServerLength = ois.readByte();
+            StringBuilder rutaServer = new StringBuilder();
+            for (int i = 0; i < rutaServerLength; i++) {
+                byte bit = (byte) ois.read();
+                rutaServer.append((char) bit);
+            }
+            
+            byte nombreFicheroLength = ois.readByte();
+            StringBuilder nombreFichero = new StringBuilder();
+            for (int i = 0; i < nombreFicheroLength; i++) {
+                byte bit = (byte) ois.read();
+                nombreFichero.append((char) bit);
+            }
+            
+            System.out.println(rutaServer.toString() +nombreFichero.toString());
+        }catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
     
     /**
