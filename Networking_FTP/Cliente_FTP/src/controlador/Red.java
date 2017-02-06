@@ -70,6 +70,7 @@ public class Red {
             if(out != null) out.close();
             if(ois != null) ois.close();
             if(oos != null) oos.close();
+        }catch(SocketException ex){
         }catch(IOException ex) {
             System.out.println("Problema al cerrar las conexiones.");
             ex.printStackTrace();
@@ -149,7 +150,7 @@ public class Red {
                 oos.write(bytes, 0, count);
             }
             
-            System.out.println("Tiempo de Ejecucion: " +(System.currentTimeMillis()-inicio));
+            oos.flush();
         }catch(IOException ex) {
             ex.printStackTrace();
         }
