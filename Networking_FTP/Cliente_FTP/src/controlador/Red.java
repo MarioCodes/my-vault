@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -105,6 +106,14 @@ public class Red {
             oos.writeByte(bytesNombreFich.length);
             oos.write(bytesNombreFich);
             oos.flush();
+            
+            byte[] bytes = new byte[BUFFER_LENGTH]; //Operacion para escribir el contenido.
+            out = new FileOutputStream(rutaLocal +nombreFichero); //todo: mas adelante debera ser variable. No hardcodeado.
+            
+            int count;
+            while((count = ois.read(bytes)) > 0) {
+                out.write(bytes, 0, count);
+            }
         }catch (IOException ex) {
             ex.printStackTrace();
         }

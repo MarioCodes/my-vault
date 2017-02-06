@@ -524,11 +524,15 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonBorrarServerActionPerformed
 
     private void jButtonPasarAServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPasarAServerActionPerformed
-        recoleccionDatosEnvioFichero();
+        Runnable r = () -> recoleccionDatosEnvioFichero();
+        new Thread(r).start();
+//        recoleccionDatosEnvioFichero();
     }//GEN-LAST:event_jButtonPasarAServerActionPerformed
 
     private void jButtonPasarAClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPasarAClienteActionPerformed
-        recoleccionDatosRecibimientoFichero();
+        Runnable r = () -> recoleccionDatosRecibimientoFichero();
+        new Thread(r).start();
+//        recoleccionDatosRecibimientoFichero();
     }//GEN-LAST:event_jButtonPasarAClienteActionPerformed
 
     /**

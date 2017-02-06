@@ -128,7 +128,7 @@ public class Servidor {
             while((count = in.read(bytes)) > 0) {
                 oos.write(bytes, 0, count);
             }
-            
+            oos.flush();
         }catch(IOException ex) {
             ex.printStackTrace();
         }
