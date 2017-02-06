@@ -60,12 +60,16 @@ public class Red {
         ois = new ObjectInputStream(in);
     }
     
+    /**
+     * Cerrado de todas las conexiones usadas, fallos varios sino.
+     */
     private void finConexion() {
         try {
             if(ois != null) ois.close();
             if(oos != null) oos.close();
             if(out != null) out.close();
             if(in != null) in.close();
+            if(socket != null) socket.close();
         }catch(IOException ex) {
             ex.printStackTrace();
         }

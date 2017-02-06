@@ -33,12 +33,16 @@ public class Servidor {
     private static ObjectInputStream ois = null;
     private static ObjectOutputStream oos = null;
     
+    /**
+     * Cerrado de todas las conexiones que se han usado. Problemas varios si no las cierro despues de usarlas.
+     */
     private static void cerrarCabecerasConexion() {
         try {
             if(oos != null) oos.close();
             if(ois != null) ois.close();
             if(out != null) out.close();
             if(in != null) in.close();
+            if(socket != null) socket.close();
         }catch(IOException ex) {
             ex.printStackTrace();
         }

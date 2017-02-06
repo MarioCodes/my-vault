@@ -13,7 +13,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTree;
 
 /**
- * @todo: hacer que cuando no haya ninguna carpeta seleccionada, tome root por defecto.
  * Ventana principal del programa. Se encargara de la gestion grafica.
  * @author Mario Codes Sánchez
  * @since 06/02/2017
