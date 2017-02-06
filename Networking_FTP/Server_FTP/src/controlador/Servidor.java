@@ -5,6 +5,8 @@
  */
 package controlador;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -78,6 +80,41 @@ public class Servidor {
         }
     }
     
+    private static void reciboParametrosEnvioFichero() {
+    }
+    
+    /**
+     * Accion de enviar un fichero al Cliente que lo ha solicitado.
+     */
+    private static void enviarFichero(String rutaServer, String nombreFichero) {
+        try {
+            File file = new File(rutaServer+nombreFichero);
+            byte[] bytes = new byte[BUFFER_LENGTH];
+
+            in = new FileInputStream(file);
+            out = socket.getOutputStream();
+            oos = new ObjectOutputStream(out);
+            
+            byte[] bytesRutaFich = rutaServer.getBytes();
+            oos.writeByte(bytesRutaFich.length);
+            oos.write(bytesRutaFich);
+            oos.flush();
+            
+            byte[] bytesNombreFich = nombreFichero.getBytes();
+            oos.writeByte(bytesNombreFich.length);
+            oos.write(bytesNombreFich);
+            oos.flush();
+            
+            int count;
+            while((count = in.read(bytes)) > 0) {
+                oos.write(bytes, 0, count);
+            }
+            
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     /**
      * Contestacion al chequeo realizado por el Cliente para comprobar si el Server esta 'reachable'.
      *  Envia true al cliente.
@@ -138,6 +175,8 @@ public class Servidor {
                     recibirFichero();
                     break;
                 case 3: //Envio de fichero.
+                    reciboParametrosEnvioFichero();
+//                    enviarFichero();
                     break;
                 default:
                     System.out.println("SHIT.");

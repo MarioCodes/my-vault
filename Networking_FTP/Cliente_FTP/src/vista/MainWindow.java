@@ -132,24 +132,27 @@ public class MainWindow extends javax.swing.JFrame {
     }
     
     /**
-     * Ejecucion del envio del fichero de local a la ruta seleccionada en el server.
-     * @param ip IP a conectar.
-     * @param puerto Puerto al que nos conectamos.
-     * @param rutaServer Ruta del server donde se copiara el fichero.
-     * @param rutaLocal Ruta del cliente donde se encuentra el fichero a copiar.
-     * @param nombreFich Nombre del fichero a copiar y nombre con el que se copiara.
+     * Recoleccion de datos necesarios para el envio de un fichero desde el Cliente al Server.
      */
-    private void envioFichero(String ip, int puerto, String rutaServer, String rutaLocal, String nombreFich) {
-        Facade.envioFicheroClienteServer(ip, puerto, rutaServer, rutaLocal, nombreFich);
-    }
-    
     private void recoleccionDatosEnvioFichero() {
         String rutaServerSeleccionada = conversionJTreePath.conversion(true, this.jTreeServer.getSelectionPath().toString()) +"\\";
         String rutaLocalEntera = conversionJTreePath.conversion(false, MainWindow.jTreeCliente.getSelectionPath().toString());
         String rutaLocalRecortada = rutaLocalEntera.substring(0, rutaLocalEntera.lastIndexOf('\\')+1);
         String nombreFichero = rutaLocalEntera.substring(rutaLocalEntera.lastIndexOf('\\')+1);
         
-        envioFichero(url, puerto, rutaServerSeleccionada, rutaLocalRecortada, nombreFichero);
+        Facade.envioFicheroClienteServer(url, puerto, rutaServerSeleccionada, rutaLocalRecortada, nombreFichero);
+    }
+    
+    /**
+     * Recoleccion de datos necesarios para recibir un fichero desde el Server al Cliente.
+     */
+    private void recoleccionDatosRecibimientoFichero() {
+        String rutaServerCompleta = conversionJTreePath.conversion(true, this.jTreeServer.getSelectionPath().toString());
+        String rutaServerRecortada = rutaServerCompleta.substring(0, rutaServerCompleta.lastIndexOf('\\')+1);
+        String rutaLocal = conversionJTreePath.conversion(false, MainWindow.jTreeCliente.getSelectionPath().toString()) +'\\';
+        String nombreFichero = rutaServerCompleta.substring(rutaServerCompleta.lastIndexOf('\\')+1);
+        
+        Facade.envioFicheroServerCliente(url, puerto, rutaServerRecortada, rutaLocal, nombreFichero);
     }
     
     /**
@@ -401,6 +404,11 @@ public class MainWindow extends javax.swing.JFrame {
 
         jButtonPasarACliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flecha_forward.png"))); // NOI18N
         jButtonPasarACliente.setEnabled(false);
+        jButtonPasarACliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPasarAClienteActionPerformed(evt);
+            }
+        });
 
         jButtonPasarAServer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flecha_backward.png"))); // NOI18N
         jButtonPasarAServer.setEnabled(false);
@@ -518,6 +526,10 @@ public class MainWindow extends javax.swing.JFrame {
     private void jButtonPasarAServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPasarAServerActionPerformed
         recoleccionDatosEnvioFichero();
     }//GEN-LAST:event_jButtonPasarAServerActionPerformed
+
+    private void jButtonPasarAClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPasarAClienteActionPerformed
+        recoleccionDatosRecibimientoFichero();
+    }//GEN-LAST:event_jButtonPasarAClienteActionPerformed
 
     /**
      * @param args the command line arguments

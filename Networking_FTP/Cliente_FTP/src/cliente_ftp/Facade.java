@@ -38,12 +38,26 @@ public class Facade {
     }
     
     /**
-     * Abrimos la conexion desde el Red al Server.
-     * @param ip IP del server a Conectarse.
-     * @param puerto Puerto del server por donde entra la conexion.
-     * @param nombreFich Nombre del fichero a enviar
+     * Envio de un Fichero desde el Cliente al Server.
+     * @param ip IP a la que nos conectamos.
+     * @param puerto Puerto por el cual nos conectamos.
+     * @param rutaServer Ruta del server donde queremos el fichero.
+     * @param rutaLocal Ruta local del cliente donde se encuentra el fichero.
+     * @param nombreFich Nombre del fichero a copiar.
      */
     public static void envioFicheroClienteServer(String ip, int puerto, String rutaServer, String rutaLocal, String nombreFich) {
-        new Red(ip, puerto).envioFichero(rutaServer, rutaLocal, nombreFich);
+        new Red(ip, puerto).envioFicheroClienteServer(rutaServer, rutaLocal, nombreFich);
+    }
+    
+    /**
+     * Recibo de un fichero o envio desde el Server al Cliente.
+     * @param ip IP a la que nos conectamos.
+     * @param puerto Puerto por el cual nos conectamos.
+     * @param rutaServer Ruta del Server donde se encuentra el fichero.
+     * @param rutaLocal Ruta local del Cliente donde queremos el fichero.
+     * @param nombreFich Nombre del fichero a copiar.
+     */
+    public static void envioFicheroServerCliente(String ip, int puerto, String rutaServer, String rutaLocal, String nombreFich) {
+        new Red(ip, puerto).reciboFicheroServerCliente(rutaServer, rutaLocal, nombreFich);
     }
 }

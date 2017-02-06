@@ -25,6 +25,7 @@ import javax.swing.JTree;
  * Recopilacion de la implementacion logica del Red.
  * @author Mario Codes Sánchez
  * @since 05/02/2017
+ * @todo: al cerrar la conexion del cliente directamente sin cerrar el socket y demas peta el server. Poner un Shutdown Hook.
  */
 public class Red {
     private static final int BUFFER_LENGTH = 8192;
@@ -78,9 +79,36 @@ public class Red {
     }
     
     /**
-     * Metodo para el envio de un fichero del Cliente al Server.
+     * Metodo para el recibimiento de un fichero Server -> Cliente.
+     * @param rutaServer Ruta del Servidor recortada de donde pillamos el fichero.
+     * @param rutaLocal Ruta local donde queremos el fichero.
+     * @param nombreFichero Nombre del fichero recortado.
      */
-    public void envioFichero(String rutaServer, String rutaLocal, String nombreFichero) {
+    public void reciboFicheroServerCliente(String rutaServer, String rutaLocal, String nombreFichero) {
+        try {
+            cabeceraComienzoConexion();
+            
+            in = socket.getInputStream();
+            out = socket.getOutputStream();
+            oos = new ObjectOutputStream(out);
+            ois = new ObjectInputStream(in);
+            
+            oos.writeInt(3);
+            oos.flush();
+            
+            System.out.println("SU!");
+        }catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    /**
+     * Metodo para el envio de un fichero del Cliente al Server.
+     * @param rutaServer Ruta del Servidor donde queremos el  fichero.
+     * @param rutaLocal Ruta local recortada (sin incluir el fichero) de donde lo pillamos.
+     * @param nombreFichero Nombre recortado del fichero suelto.
+     */
+    public void envioFicheroClienteServer(String rutaServer, String rutaLocal, String nombreFichero) {
         try {
             cabeceraComienzoConexion();
             
