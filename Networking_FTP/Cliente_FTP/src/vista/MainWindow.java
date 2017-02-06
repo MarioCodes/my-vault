@@ -41,6 +41,8 @@ public class MainWindow extends javax.swing.JFrame {
     static void setArbolCliente() {
         JTree mapeoCliente = new Mapeador().mapear();
         jTreeCliente.setModel(mapeoCliente.getModel());
+        jTreeCliente.setSelectionRow(0);
+        jTreeCliente.setShowsRootHandles(false);
     }
     
     /**
@@ -50,6 +52,8 @@ public class MainWindow extends javax.swing.JFrame {
     private void setArbolServer() {
         JTree treeServer = new Mapeador().mapearServer();
         this.jTreeServer.setModel(treeServer.getModel());
+        this.jTreeServer.setSelectionRow(0);
+        this.jTreeServer.setShowsRootHandles(false);
     }
     
     /**
@@ -58,7 +62,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void accionBorrar(boolean isServer, JTree tree) {
         try {
             String rutaSeleccionada = conversionJTreePath.conversion(isServer, tree.getSelectionPath().toString());
-            if(!new File(rutaSeleccionada).delete()) JOptionPane.showMessageDialog(this, "No se puede borrar el elemento. Comprueba que esta vacio."); //@fixme: ahora mismo no permito borrar directorios rellenos, solo hago output. Mirar forma de hacerlo.
+            if(!new File(rutaSeleccionada).delete()) JOptionPane.showMessageDialog(this, "No se puede borrar el elemento. Comprueba que esta vacio.");
             setArbolCliente(); //Refresco del contenido del JTree hacia el usuario.
         }catch(NullPointerException ex) {
             System.out.println("INFO: NullPointerException al borrar sin especificar capturado.");
@@ -525,13 +529,11 @@ public class MainWindow extends javax.swing.JFrame {
     private void jButtonPasarAServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPasarAServerActionPerformed
         Runnable r = () -> recoleccionDatosEnvioFichero();
         new Thread(r).start();
-//        recoleccionDatosEnvioFichero();
     }//GEN-LAST:event_jButtonPasarAServerActionPerformed
 
     private void jButtonPasarAClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPasarAClienteActionPerformed
         Runnable r = () -> recoleccionDatosRecibimientoFichero();
         new Thread(r).start();
-//        recoleccionDatosRecibimientoFichero();
     }//GEN-LAST:event_jButtonPasarAClienteActionPerformed
 
     /**

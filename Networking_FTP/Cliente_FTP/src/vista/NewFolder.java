@@ -34,7 +34,6 @@ public class NewFolder extends javax.swing.JFrame {
 
     /**
      * Crea un directorio dentro de la ruta seleccionada del JTree.
-     * @todo: idea. para que los directorios los mapee como directorios. crear un .fich oculto a la vez que el dir. Al tener contenido deberia mapearse como dir y no fich(?). Problema, al no estar vacios los dir. no creo que me deje, mirar solucion
      */
     private void creacionDirectorio() {
         String nombre = this.jTextFieldInputNombre.getText();
