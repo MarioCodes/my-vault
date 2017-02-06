@@ -3,10 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cliente_ftp;
+package controlador;
 
-import controlador.Red;
-import controlador.NetShutdownHook;
 import javax.swing.JTree;
 
 /**

@@ -5,15 +5,15 @@
  */
 package vista;
 
-import cliente_ftp.Facade;
+import controlador.Facade;
 import controlador.Mapeador;
 import java.io.File;
+import java.net.SocketException;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
 
 /**
- * todo: Crear(?) un mapeador en el server. Que a una orden se mapee a si mismo y mande el Model o el Tree al cliente para que muestre la info.
  * fixme: Al intentar borrar archivos complejos (.bmp); no me deja con la forma actual, lo entiende como si fuera un dir y !vacio.
  * Ventana principal del programa. Se encargara de la gestion grafica.
  * @author Mario Codes Sánchez
@@ -151,7 +151,7 @@ public class MainWindow extends javax.swing.JFrame {
         String rutaServerRecortada = rutaServerCompleta.substring(0, rutaServerCompleta.lastIndexOf('\\')+1);
         String rutaLocal = conversionJTreePath.conversion(false, MainWindow.jTreeCliente.getSelectionPath().toString()) +'\\';
         String nombreFichero = rutaServerCompleta.substring(rutaServerCompleta.lastIndexOf('\\')+1);
-        
+
         Facade.envioFicheroServerCliente(url, puerto, rutaServerRecortada, rutaLocal, nombreFichero);
     }
     
@@ -206,7 +206,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         jTextFieldInputPuerto.setText("8142");
 
-        jButtonConectar.setText("<html><i>Probar Conexión</i></html>");
+        jButtonConectar.setText("<html><i>Iniciar Conexión</i></html>");
         jButtonConectar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonConectarActionPerformed(evt);
@@ -438,10 +438,10 @@ public class MainWindow extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanelArbolDirectoriosLayout.createSequentialGroup()
-                .addGap(135, 135, 135)
-                .addComponent(jButtonPasarACliente)
-                .addGap(33, 33, 33)
+                .addGap(146, 146, 146)
                 .addComponent(jButtonPasarAServer)
+                .addGap(36, 36, 36)
+                .addComponent(jButtonPasarACliente)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 

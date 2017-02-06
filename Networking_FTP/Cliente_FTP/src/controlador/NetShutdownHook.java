@@ -5,8 +5,6 @@
  */
 package controlador;
 
-import cliente_ftp.Facade;
-
 /**
  * Hook que se ejecutara automaticamente al finalizar el programa para cerrar todas las conexiones abiertas durante este.
  * @author Mario Codes Sánchez

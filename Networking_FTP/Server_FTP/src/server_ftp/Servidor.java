@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controlador;
+package server_ftp;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,7 +15,6 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import javax.swing.JTree;
 
 /**
  * Recopilacion de la implementacion logica del Server.
@@ -25,7 +24,7 @@ import javax.swing.JTree;
  *      El tercer BLOQUE es el nombre del archivo.
  *      El resto es el contenido del fichero.
  * @author Mario Codes Sánchez
- * @since 05/02/2017
+ * @since 06/02/2017
  */
 public class Servidor {
     private static final int BUFFER_LENGTH = 8192; //Tamaño del buffer que se enviara de golpe.
@@ -117,6 +116,7 @@ public class Servidor {
                 oos.write(bytes, 0, count);
             }
             oos.flush();
+            
         }catch(IOException ex) {
             ex.printStackTrace();
         }
@@ -131,29 +131,6 @@ public class Servidor {
             oos.writeBoolean(true);
             oos.flush();
         } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-    
-    /**
-     * Mapeado local del server y retorno de esta informacion en forma de JTree; Para hacer set directo de su mode(). //todo: comprobar que es el mode lo que hay que hacer set. no recuerdo.
-     * @return JTree con el contenido mapeado del server.
-     * @deprecated no me da tiempo a implementar esto.
-     */
-    private static JTree mapearServer() {
-        return new Mapeador().mapear();
-    } 
-    
-    /**
-     * Envio por Socket del Tree local mapeado, al Cliente.
-     * @param tree Tree mapeado que queremos enviar.
-     * @deprecated era la idea original, no me da tiempo ni de fly.
-     */
-    private static void envioMapeoCliente(JTree tree) {
-        try {
-            oos.writeObject(tree);
-            oos.flush();
-        } catch(IOException ex) {
             ex.printStackTrace();
         }
     }
@@ -174,8 +151,8 @@ public class Servidor {
                 case 0: //Testeo de Conexion.
                     comprobacionConexion();
                     break;
-                case 1: //Mapeo del Server y envio de esta informacion al Cliente.
-                    envioMapeoCliente(mapearServer());
+                case 1: //Mapeo del Server y envio de esta informacion al Cliente. Deprecated, me da demasiados problemas y no tengo tiempo.
+                    //envioMapeoCliente(mapearServer());
                     break;
                 case 2: //Recibir fichero.
                     recibirFichero();
@@ -209,5 +186,12 @@ public class Servidor {
         }catch(IOException ex) {
             ex.printStackTrace();
         }
+    }
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        ejecucionServidor();
     }
 }

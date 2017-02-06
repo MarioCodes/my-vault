@@ -16,6 +16,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.net.SocketException;
 import javax.swing.JTree;
 
 /**
@@ -99,12 +100,15 @@ public class Red {
             oos.flush();
             
             byte[] bytes = new byte[BUFFER_LENGTH]; //Operacion para escribir el contenido.
-            out = new FileOutputStream(rutaLocal +nombreFichero); //todo: mas adelante debera ser variable. No hardcodeado.
+            out = new FileOutputStream(rutaLocal +nombreFichero);
             
             int count;
+
             while((count = ois.read(bytes)) > 0) {
                 out.write(bytes, 0, count);
             }
+         
+        }catch(SocketException ex) {
         }catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -128,7 +132,7 @@ public class Red {
             in = new FileInputStream(file);
             
             oos.writeInt(2);
-            oos.flush(); //fixme: investigar si es necesario, no lo se. De momento peta al darle al boton de enviar varias veces.
+            oos.flush();
             
             byte[] bytesRutaFich = rutaServer.getBytes();
             oos.writeByte(bytesRutaFich.length);
