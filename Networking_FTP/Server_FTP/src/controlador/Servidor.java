@@ -96,7 +96,7 @@ public class Servidor {
                 nombreFichero.append((char) bit);
             }
             
-            System.out.println(rutaServer.toString() +nombreFichero.toString());
+            enviarFichero(rutaServer.toString(), nombreFichero.toString());
         }catch (IOException ex) {
             ex.printStackTrace();
         }
