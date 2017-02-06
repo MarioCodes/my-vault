@@ -14,16 +14,17 @@ import javax.swing.JTree;
  * @since 04/02/2017
  */
 public class Facade {
-    private Red red = null;
+    private static Red red = null; //Propiedades de la conexion para utilizar de aqui en adelante.
     
     /**
-     * Realizacion de un testeo de conexion Cliente - Server.
+     * Comprueba si se puede establecer conexion mediante la IP y Puertos pasados como parametros. Instancia esta conexion para utilizarla de aqui en adelante.
      * @param ip IP del server a Conectarse.
      * @param puerto Puerto del server por donde entra la conexion.
      * @return Estado de la conexion.
      */
     public static boolean testearConexionCliente(String ip, int puerto) {
-        return new Red(ip, puerto).checkConexion();
+        red = new Red(ip, puerto);
+        return red.checkConexion();
     }
     
     /**
@@ -34,7 +35,7 @@ public class Facade {
      * @deprecated Idea original, no me da tiempo. Lo mantengo para hacerlo por mi cuenta mas adelante con tiempo.
      */
     public static JTree obtencionMapeoServer(String ip, int puerto) {
-        return new Red(ip, puerto).obtencionMapeoServer();
+        return red.obtencionMapeoServer();
     }
     
     /**
@@ -46,7 +47,7 @@ public class Facade {
      * @param nombreFich Nombre del fichero a copiar.
      */
     public static void envioFicheroClienteServer(String ip, int puerto, String rutaServer, String rutaLocal, String nombreFich) {
-        new Red(ip, puerto).envioFicheroClienteServer(rutaServer, rutaLocal, nombreFich);
+        red.envioFicheroClienteServer(rutaServer, rutaLocal, nombreFich);
     }
     
     /**
@@ -58,6 +59,13 @@ public class Facade {
      * @param nombreFich Nombre del fichero a copiar.
      */
     public static void envioFicheroServerCliente(String ip, int puerto, String rutaServer, String rutaLocal, String nombreFich) {
-        new Red(ip, puerto).reciboFicheroServerCliente(rutaServer, rutaLocal, nombreFich);
+        red.reciboFicheroServerCliente(rutaServer, rutaLocal, nombreFich);
+    }
+    
+    /**
+     * Cerrado de las conexiones abiertas en Red.
+     */
+    public static void cerradoConexiones() {
+        red.cerrarConexiones();
     }
 }

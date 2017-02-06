@@ -33,10 +33,7 @@ public class Red {
     private final int PUERTO;
     private final String SERVER_IP;
     
-    private BufferedReader br = null;
-    private BufferedWriter bw = null;
     private Socket socket = null;
-        
     private InputStream in = null;
     private OutputStream out = null;
     private ObjectOutputStream oos = null;
@@ -60,19 +57,22 @@ public class Red {
     private void cabeceraComienzoConexion() throws IOException, IllegalArgumentException {
         socket = new Socket(SERVER_IP, PUERTO); //IP y PORT del Server.
 
-        bw = new BufferedWriter(new PrintWriter(socket.getOutputStream()));
-        br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        in = socket.getInputStream();
+        out = socket.getOutputStream();
+        oos = new ObjectOutputStream(out);
+        ois = new ObjectInputStream(in);
     }
     
     /**
-     * Para colocar en el 'finally'. Cierra las conexiones estandar usadas, abiertas por la cabecera de comienzo.
-     * @fixme: comprobar todas las conexiones miembro y cerrarlas todas.
+     * Cerrado de las conexiones Abiertas, se ejecutara en el Shutdown Hook al finalizar el programa para asegurarme de que se ejecuta si o si.
      */
-    private void cabeceraFinConexion() {
+    public void cerrarConexiones() {
         try {
-            if(br != null) br.close();
-            if(bw != null) bw.close();
             if(socket != null) socket.close();
+            if(in != null) in.close();
+            if(out != null) out.close();
+            if(ois != null) ois.close();
+            if(oos != null) oos.close();
         }catch(IOException ex) {
             System.out.println("Problema al cerrar las conexiones.");
             ex.printStackTrace();
@@ -88,11 +88,6 @@ public class Red {
     public void reciboFicheroServerCliente(String rutaServer, String rutaLocal, String nombreFichero) {
         try {
             cabeceraComienzoConexion();
-            
-            in = socket.getInputStream();
-            out = socket.getOutputStream();
-            oos = new ObjectOutputStream(out);
-            ois = new ObjectInputStream(in);
             
             oos.writeInt(3); //Envio de la accion.
             oos.flush();
@@ -135,8 +130,6 @@ public class Red {
             byte[] bytes = new byte[BUFFER_LENGTH];
 
             in = new FileInputStream(file);
-            out = socket.getOutputStream();
-            oos = new ObjectOutputStream(out);
             
             oos.writeInt(2);
             oos.flush(); //fixme: investigar si es necesario, no lo se. De momento peta al darle al boton de enviar varias veces.
@@ -173,11 +166,6 @@ public class Red {
         try {
             cabeceraComienzoConexion();
             
-            in = new BufferedInputStream(socket.getInputStream());
-            out = socket.getOutputStream();
-            oos = new ObjectOutputStream(out);
-            ois = new ObjectInputStream(in);
-            
             oos.writeByte(1);
             oos.flush();
             
@@ -209,9 +197,9 @@ public class Red {
             cabeceraComienzoConexion();
             
             in = new BufferedInputStream(socket.getInputStream());
-            out = socket.getOutputStream();
-            oos = new ObjectOutputStream(out);
-            ois = new ObjectInputStream(in);
+//            out = socket.getOutputStream();
+//            oos = new ObjectOutputStream(out);
+//            ois = new ObjectInputStream(in);
             
             oos.writeInt(0);
             oos.flush();
@@ -235,7 +223,7 @@ public class Red {
             ex.printStackTrace();
             return false;
         }finally {
-            cabeceraFinConexion();
+//            cabeceraFinConexion();
         }
     }
 }
