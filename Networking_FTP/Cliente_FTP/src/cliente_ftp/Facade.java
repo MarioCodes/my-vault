@@ -14,6 +14,8 @@ import javax.swing.JTree;
  * @since 04/02/2017
  */
 public class Facade {
+    private Red red = null;
+    
     /**
      * Realizacion de un testeo de conexion Cliente - Server.
      * @param ip IP del server a Conectarse.

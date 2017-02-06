@@ -68,13 +68,13 @@ public class Servidor {
         }catch(IOException ex) {
             ex.printStackTrace();
         }finally {
-            try {
-                if(out != null) out.close();
-                if(in != null) in.close();
-                if(socket != null) socket.close();
-            }catch(IOException ex) {
-                ex.printStackTrace();
-            }
+//            try {
+//                if(out != null) out.close();
+//                if(in != null) in.close();
+//                if(socket != null) socket.close();
+//            }catch(IOException ex) {
+//                ex.printStackTrace();
+//            }
         }
     }
     
@@ -143,6 +143,12 @@ public class Servidor {
                     System.out.println("SHIT.");
                     break;
             }
+            
+//            ois.close();
+//            oos.close();
+//            out.close();
+//            in.close();
+//            socket.close();
         }catch(IOException ex) {
             ex.printStackTrace();
         }

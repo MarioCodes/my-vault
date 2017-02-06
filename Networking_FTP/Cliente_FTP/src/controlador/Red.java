@@ -115,7 +115,7 @@ public class Red {
         }catch(IOException ex) {
             ex.printStackTrace();
         }finally {
-            cabeceraFinConexion();
+//            cabeceraFinConexion();
         }
     }
     
