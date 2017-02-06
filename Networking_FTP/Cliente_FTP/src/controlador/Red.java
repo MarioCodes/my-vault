@@ -6,27 +6,23 @@
 package controlador;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.Socket;
 import javax.swing.JTree;
 
 /**
- * Recopilacion de la implementacion logica del Red.
+ * Recopilacion de la implementacion logica de Red.
+ *  Las conexiones que se abren, se cerraran automaticamente al acabar el programa mediante un ShutdownHook.
  * @author Mario Codes Sánchez
  * @since 05/02/2017
- * @todo: al cerrar la conexion del cliente directamente sin cerrar el socket y demas peta el server. Poner un Shutdown Hook.
  */
 public class Red {
     private static final int BUFFER_LENGTH = 8192;
@@ -152,8 +148,6 @@ public class Red {
             System.out.println("Tiempo de Ejecucion: " +(System.currentTimeMillis()-inicio));
         }catch(IOException ex) {
             ex.printStackTrace();
-        }finally {
-//            cabeceraFinConexion();
         }
     }
     
@@ -197,9 +191,6 @@ public class Red {
             cabeceraComienzoConexion();
             
             in = new BufferedInputStream(socket.getInputStream());
-//            out = socket.getOutputStream();
-//            oos = new ObjectOutputStream(out);
-//            ois = new ObjectInputStream(in);
             
             oos.writeInt(0);
             oos.flush();
@@ -222,8 +213,6 @@ public class Red {
             System.out.println("Problema de IO.");
             ex.printStackTrace();
             return false;
-        }finally {
-//            cabeceraFinConexion();
         }
     }
 }

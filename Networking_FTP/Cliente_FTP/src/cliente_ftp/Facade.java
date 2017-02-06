@@ -6,12 +6,13 @@
 package cliente_ftp;
 
 import controlador.Red;
+import controlador.NetShutdownHook;
 import javax.swing.JTree;
 
 /**
  * Patron de diseño Façade. Intermediario entre la vista y el controlador para separar el codigo entre ambos.
  * @author Mario Codes Sánchez
- * @since 04/02/2017
+ * @since 06/02/2017
  */
 public class Facade {
     private static Red red = null; //Propiedades de la conexion para utilizar de aqui en adelante.
@@ -22,8 +23,9 @@ public class Facade {
      * @param puerto Puerto del server por donde entra la conexion.
      * @return Estado de la conexion.
      */
-    public static boolean testearConexionCliente(String ip, int puerto) {
+    public static boolean abrirConexionCliente(String ip, int puerto) {
         red = new Red(ip, puerto);
+        Runtime.getRuntime().addShutdownHook(new NetShutdownHook());
         return red.checkConexion();
     }
     
@@ -67,5 +69,6 @@ public class Facade {
      */
     public static void cerradoConexiones() {
         red.cerrarConexiones();
+        System.out.println("Cerrado de Conexiones mediante 'Shutdown Hook'.");
     }
 }

@@ -119,7 +119,7 @@ public class MainWindow extends javax.swing.JFrame {
         this.url = this.jTextFieldInputURL.getText();
         this.puerto = Integer.parseInt(this.jTextFieldInputPuerto.getText());
         
-        Runnable runnable = () -> conexion = Facade.testearConexionCliente(url, puerto);
+        Runnable runnable = () -> conexion = Facade.abrirConexionCliente(url, puerto);
         Thread t = new Thread(runnable); //Para que no se quede colgada la GUI.
         try {
             t.start();

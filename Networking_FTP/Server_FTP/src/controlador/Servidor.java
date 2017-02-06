@@ -111,18 +111,6 @@ public class Servidor {
             byte[] bytes = new byte[BUFFER_LENGTH];
 
             in = new FileInputStream(file);
-//            out = socket.getOutputStream();
-//            oos = new ObjectOutputStream(out);
-            
-//            byte[] bytesRutaFich = rutaServer.getBytes(); //Esto es lo que creo que no hace falta.
-//            oos.writeByte(bytesRutaFich.length);
-//            oos.write(bytesRutaFich);
-//            oos.flush();
-//            
-//            byte[] bytesNombreFich = nombreFichero.getBytes();
-//            oos.writeByte(bytesNombreFich.length);
-//            oos.write(bytesNombreFich);
-//            oos.flush();
             
             int count;
             while((count = in.read(bytes)) > 0) {
@@ -181,7 +169,6 @@ public class Servidor {
             ois = new ObjectInputStream(in);
             
             byte opcion = (byte) ois.readInt();
-            System.out.println(opcion); //todo: borrar al final.
             
             switch(opcion) {
                 case 0: //Testeo de Conexion.
@@ -195,18 +182,11 @@ public class Servidor {
                     break;
                 case 3: //Envio de fichero.
                     reciboParametrosEnvioFichero();
-//                    enviarFichero();
                     break;
                 default:
-                    System.out.println("SHIT.");
+                    System.out.println("Comprobar selector de Acciones.");
                     break;
             }
-            
-//            ois.close();
-//            oos.close();
-//            out.close();
-//            in.close();
-//            socket.close();
         }catch(IOException ex) {
             ex.printStackTrace();
         }
