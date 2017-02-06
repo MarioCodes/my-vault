@@ -38,10 +38,9 @@ public class Servidor {
     private static ObjectOutputStream oos = null;
     
     /**
-     * Accion de recibir y guardar el fichero recibido.
-     * Se ejecuta en un hilo aparte.
+     * Recogida de los parametros necesarios para recibir un fichero y paso a recibo del mismo.
      */
-    private static void recibirFichero() {
+    private static void recogidaParametrosReciboFichero() {
         try {
             byte rutaLength = ois.readByte();
             StringBuilder rutaFichero = new StringBuilder();
@@ -50,7 +49,6 @@ public class Servidor {
                 rutaFichero.append((char) bit);
             }
             
-            
             byte nameLength = ois.readByte(); //Tamaño del nombre.
             StringBuilder nombreFichero = new StringBuilder();
             for (int i = 0; i < nameLength; i++) { //Operacion para sacar el nombre, con el tamaño antes obtenido.
@@ -58,6 +56,17 @@ public class Servidor {
                 nombreFichero.append((char) bit);
             }
             
+            recibirFichero(rutaFichero.toString(), nombreFichero.toString());
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    /**
+     * Accion de recibir y guardar el fichero recibido.
+     */
+    private static void recibirFichero(String rutaFichero, String nombreFichero) {
+        try {
             byte[] bytes = new byte[BUFFER_LENGTH]; //Operacion para escribir el contenido.
             out = new FileOutputStream(rutaFichero +nombreFichero.toString()); //todo: mas adelante debera ser variable. No hardcodeado.
             
@@ -160,7 +169,7 @@ public class Servidor {
                     //envioMapeoCliente(mapearServer());
                     break;
                 case 2: //Recibir fichero.
-                    recibirFichero();
+                    recogidaParametrosReciboFichero();
                     break;
                 case 3: //Envio de fichero.
                     reciboParametrosEnvioFichero();
