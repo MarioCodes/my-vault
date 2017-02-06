@@ -24,7 +24,7 @@ import java.net.Socket;
  */
 public class Servidor {
     private static final int BUFFER_LENGTH = 8192; //Tamaño del buffer que se enviara de golpe.
-    private static final int PUERTO = 8142; //fixme: el servidor debera dejar elegir el puerto por el cual se conecta.
+    private static final int PUERTO = 8142;
     
     private static Socket socket = null;    
     private static InputStream in = null;
@@ -64,7 +64,7 @@ public class Servidor {
     private static void recibirFichero(String rutaFichero, String nombreFichero) {
         try {
             byte[] bytes = new byte[BUFFER_LENGTH]; //Operacion para escribir el contenido.
-            out = new FileOutputStream(rutaFichero +nombreFichero); //todo: mas adelante debera ser variable. No hardcodeado.
+            out = new FileOutputStream(rutaFichero +nombreFichero);
             
             int count;
             while((count = ois.read(bytes)) > 0) {

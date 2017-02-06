@@ -11,7 +11,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 /**
- * Clase encargada de hacer el mapeo de ficheros / directorios y transformarlo al JTree.
+ * Clase encargada de hacer el mapeo de ficheros / directorios del proyecto y transformarlo al JTree.
  * @author Mario Codes Sánchez
  * @since 23/01/2017
  */

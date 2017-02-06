@@ -5,8 +5,6 @@
  */
 package controlador;
 
-import javax.swing.JTree;
-
 /**
  * Patron de diseño Façade. Intermediario entre la vista y el controlador para separar el codigo entre ambos.
  * @author Mario Codes Sánchez
@@ -25,17 +23,6 @@ public class Facade {
         red = new Red(ip, puerto);
         Runtime.getRuntime().addShutdownHook(new NetShutdownHook());
         return red.checkConexion();
-    }
-    
-    /**
-     * Obtenemos el mapeo local del Server en un Tree que se puede settear directamente.
-     * @param ip IP del server a Conectarse.
-     * @param puerto Puerto del Server por donde entra la conexion.
-     * @return JTree Mapeado para settear en la GUI.
-     * @deprecated Idea original, no me da tiempo. Lo mantengo para hacerlo por mi cuenta mas adelante con tiempo.
-     */
-    public static JTree obtencionMapeoServer(String ip, int puerto) {
-        return red.obtencionMapeoServer();
     }
     
     /**
