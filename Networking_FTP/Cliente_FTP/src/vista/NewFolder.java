@@ -6,13 +6,13 @@
 package vista;
 
 import java.io.File;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
  * Clase encargada de recoger el nombre del nuevo directorio y crearlo dentro de la ruta previamente seleccionada en el JTree por el User.
  * @author Mario Codes Sánchez
  * @since 23/01/2017
- * @todo: quitar que al darle a X aqui, se me cierre el programa entero.
  */
 public class NewFolder extends javax.swing.JFrame {
     private final String RUTA_SELECCIONADA;
@@ -28,6 +28,7 @@ public class NewFolder extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.RUTA_SELECCIONADA = ruta_seleccionada +"\\"; //Hace falta, tener en cuenta que debe ser una RUTA.
     }
 

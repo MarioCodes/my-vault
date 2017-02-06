@@ -14,10 +14,9 @@ import javax.swing.JTree;
 
 /**
  * @todo: hacer que cuando no haya ninguna carpeta seleccionada, tome root por defecto.
- * fixme: Al intentar borrar archivos complejos (.bmp); no me deja con la forma actual, lo entiende como si fuera un dir y !vacio.
  * Ventana principal del programa. Se encargara de la gestion grafica.
  * @author Mario Codes Sánchez
- * @since 05/02/2017
+ * @since 06/02/2017
  */
 public class MainWindow extends javax.swing.JFrame {
     private boolean conexion = false;
