@@ -33,6 +33,17 @@ public class Servidor {
     private static ObjectInputStream ois = null;
     private static ObjectOutputStream oos = null;
     
+    private static void cerrarCabecerasConexion() {
+        try {
+            if(oos != null) oos.close();
+            if(ois != null) ois.close();
+            if(out != null) out.close();
+            if(in != null) in.close();
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     /**
      * Recogida de los parametros necesarios para recibir un fichero y paso a recibo del mismo.
      */
@@ -70,7 +81,6 @@ public class Servidor {
             while((count = ois.read(bytes)) > 0) {
                 out.write(bytes, 0, count);
             }
-            
         }catch(IOException ex) {
             ex.printStackTrace();
         }
@@ -174,6 +184,8 @@ public class Servidor {
                     System.out.println("Comprobar selector de Acciones.");
                     break;
             }
+            
+            cerrarCabecerasConexion();
         }catch(IOException ex) {
             ex.printStackTrace();
         }

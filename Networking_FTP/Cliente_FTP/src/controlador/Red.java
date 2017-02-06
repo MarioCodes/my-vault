@@ -60,6 +60,17 @@ public class Red {
         ois = new ObjectInputStream(in);
     }
     
+    private void finConexion() {
+        try {
+            if(ois != null) ois.close();
+            if(oos != null) oos.close();
+            if(out != null) out.close();
+            if(in != null) in.close();
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     /**
      * Cerrado de las conexiones Abiertas, se ejecutara en el Shutdown Hook al finalizar el programa para asegurarme de que se ejecuta si o si.
      */
@@ -109,6 +120,7 @@ public class Red {
                 out.write(bytes, 0, count);
             }
          
+            finConexion();
         }catch(SocketException ex) {
         }catch (IOException ex) {
             ex.printStackTrace();
@@ -151,6 +163,7 @@ public class Red {
             }
             
             oos.flush();
+            finConexion();
         }catch(IOException ex) {
             ex.printStackTrace();
         }
@@ -202,10 +215,7 @@ public class Red {
             
             boolean estado = ois.readBoolean(); //Leemos la respuesta del server.
             
-            ois.close();
-            oos.close();
-            out.close();
-            in.close();
+            finConexion();
             
             return estado;
         }catch(ConnectException ex) {
