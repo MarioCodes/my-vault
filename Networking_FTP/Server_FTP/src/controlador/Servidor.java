@@ -111,18 +111,18 @@ public class Servidor {
             byte[] bytes = new byte[BUFFER_LENGTH];
 
             in = new FileInputStream(file);
-            out = socket.getOutputStream();
-            oos = new ObjectOutputStream(out);
+//            out = socket.getOutputStream();
+//            oos = new ObjectOutputStream(out);
             
-            byte[] bytesRutaFich = rutaServer.getBytes();
-            oos.writeByte(bytesRutaFich.length);
-            oos.write(bytesRutaFich);
-            oos.flush();
-            
-            byte[] bytesNombreFich = nombreFichero.getBytes();
-            oos.writeByte(bytesNombreFich.length);
-            oos.write(bytesNombreFich);
-            oos.flush();
+//            byte[] bytesRutaFich = rutaServer.getBytes(); //Esto es lo que creo que no hace falta.
+//            oos.writeByte(bytesRutaFich.length);
+//            oos.write(bytesRutaFich);
+//            oos.flush();
+//            
+//            byte[] bytesNombreFich = nombreFichero.getBytes();
+//            oos.writeByte(bytesNombreFich.length);
+//            oos.write(bytesNombreFich);
+//            oos.flush();
             
             int count;
             while((count = in.read(bytes)) > 0) {
