@@ -5,6 +5,7 @@
  */
 package pokernetwork;
 
+import java.util.ArrayList;
 import juego.Baraja;
 import juego.Carta;
 
@@ -20,6 +21,12 @@ public class PokerNetwork {
      */
     public static void main(String[] args) {
         Baraja b = new Baraja();
+        ArrayList<Carta> cartas = b.extraerCartas(3);
+        
+        for(Carta carta: cartas) {
+            System.out.println(carta);
+        }
+        
         System.out.println(b);
     }
     
