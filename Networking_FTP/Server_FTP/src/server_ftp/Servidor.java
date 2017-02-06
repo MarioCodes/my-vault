@@ -68,17 +68,12 @@ public class Servidor {
             
         }catch(IOException ex) {
             ex.printStackTrace();
-        }finally {
-//            try {
-//                if(out != null) out.close();
-//                if(in != null) in.close();
-//                if(socket != null) socket.close();
-//            }catch(IOException ex) {
-//                ex.printStackTrace();
-//            }
         }
     }
     
+    /**
+     * Recogida de los parametros necesarios para el envio de un fichero y paso al envio del mismo.
+     */
     private static void reciboParametrosEnvioFichero() {
         try {
             byte rutaServerLength = ois.readByte();
@@ -115,8 +110,8 @@ public class Servidor {
             while((count = in.read(bytes)) > 0) {
                 oos.write(bytes, 0, count);
             }
-            oos.flush();
             
+            oos.flush();
         }catch(IOException ex) {
             ex.printStackTrace();
         }
@@ -136,17 +131,27 @@ public class Servidor {
     }
     
     /**
-     * Recoge y lee el primer byte de los datos entrantes. Este es el que indica la accion a realizar.
+     * Ejecucion de la apertura de las cabeceras de la conexion.
      */
-    private static void gestionAcciones() {
+    private static void aperturaCabecerasConexion() {
         try {
             in = socket.getInputStream();
             out = socket.getOutputStream();
             oos = new ObjectOutputStream(out);
             ois = new ObjectInputStream(in);
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    /**
+     * Recoge y lee el primer byte de los datos entrantes. Este es el que indica la accion a realizar.
+     */
+    private static void gestionAcciones() {
+        try {
+            aperturaCabecerasConexion();
             
             byte opcion = (byte) ois.readInt();
-            
             switch(opcion) {
                 case 0: //Testeo de Conexion.
                     comprobacionConexion();
@@ -180,7 +185,6 @@ public class Servidor {
             while(true) {
                 socket = serverSocket.accept(); /* El ServerSocket me da el Socket.
                                                         Bloquea el programa en esta linea y solo avanza cuando un cliente se conecta.*/
-
                 new Thread(() -> gestionAcciones()).start(); //Comienzo de la faena en un Hilo aparte.
             }
         }catch(IOException ex) {
