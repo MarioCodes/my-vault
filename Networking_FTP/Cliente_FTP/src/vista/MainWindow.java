@@ -8,12 +8,12 @@ package vista;
 import controlador.Facade;
 import controlador.Mapeador;
 import java.io.File;
-import java.net.SocketException;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
 
 /**
+ * @todo: hacer que cuando no haya ninguna carpeta seleccionada, tome root por defecto.
  * fixme: Al intentar borrar archivos complejos (.bmp); no me deja con la forma actual, lo entiende como si fuera un dir y !vacio.
  * Ventana principal del programa. Se encargara de la gestion grafica.
  * @author Mario Codes Sánchez
