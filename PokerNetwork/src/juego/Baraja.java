@@ -88,6 +88,16 @@ public class Baraja {
         return cartas;
     }
     
+    /**
+     * Sacar una sola carta y quitarla de la baraja.
+     * @return Carta siguiente.
+     */
+    public Carta extraerCarta() {
+        Carta carta = BARAJA.get(0);
+        BARAJA.remove(0);
+        return carta;
+    }
+    
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
