@@ -17,16 +17,17 @@ import juego.Carta;
 import juego.Juego;
 
 /**
- * Proyecto Online juego Oscar -> Poker!.
+ * Proyecto Online juego Oscar -> Poker Texas Hold'em!. Parte Servidor.
  * @author Mario Codes Sánchez
- * @since 06/02/2017
+ * @since 07/02/2017
  */
 public class Servidor {
-    private static ArrayList<Boolean> acciones;
+    private static ArrayList<Boolean> accionJugador;
     
     private static Juego juego;
     private static int numeroJugadores = 0;
-    private static int identificadorJugadorActualRonda = 1;
+    
+    private static int identificadorJugadorActualRonda = 1; //todo: eliminarlo, usare la AL<> para chequeo de turnos.
     private static int jugadoresRepartidos = 0;
     
     private static final int PUERTO = 8143;
@@ -38,27 +39,9 @@ public class Servidor {
     private static ObjectInputStream ois = null;
     private static ObjectOutputStream oos = null;
     
-//    private static void cerrarCabecerasConexion() {
-//        try {
-//            if(oos != null) oos.close();
-//            if(ois != null) ois.close();
-//            if(out != null) out.close();
-//            if(in != null) in.close();
-//            if(socket != null) socket.close();
-//        }catch(IOException ex) {
-//            ex.printStackTrace();
-//        }
-//    }
-    
-    private static void iniAL() {
-        System.out.println("Numero Jugadores: " +numeroJugadores);
-        acciones = new ArrayList<>();
-        
-        for (int i = 0; i < numeroJugadores; i++) {
-            acciones.add(true);
-        }
-    }
-    
+    /**
+     * Apertura de las posibles cabeceras necesarias para la transmision de datos. ¡Se deberan cerrar despues!
+     */
     private static void aperturaCabecerasConexion() {
         try {
             in = socket.getInputStream();
@@ -67,6 +50,33 @@ public class Servidor {
             ois = new ObjectInputStream(in);
         }catch(IOException ex) {
             ex.printStackTrace();
+        }
+    }
+    
+    /**
+     * Cerrado de todas las conexiones abiertas previamente para la conexion.
+     */
+    private static void cerrarCabecerasConexion() {
+        try {
+            if(oos != null) oos.close();
+            if(ois != null) ois.close();
+            if(out != null) out.close();
+            if(in != null) in.close();
+            if(socket != null) socket.close();
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    /**
+     * (Re)inicializacion de la AL que uso para los turnos de cada jugador.
+     *  La idea es usar el identificador del jugador -1 para acceder a la AL. True si aun no ha usado su accion en el turno, false para que no pueda operar.
+     */
+    private static void iniALTurnos() {
+        accionJugador = new ArrayList<>();
+        
+        for (int i = 0; i < numeroJugadores; i++) {
+            accionJugador.add(true);
         }
     }
     
@@ -185,6 +195,10 @@ public class Servidor {
         return true;
     }
     
+    /**
+     * Aniadido de un jugador al juego. Se usara cuando este no sea el ultimo.
+     * @throws IOException
+     */
     private static void aniadirJugador() throws IOException {
         oos.writeInt(++numeroJugadores);
         oos.flush();
@@ -192,12 +206,16 @@ public class Servidor {
         System.out.println("Jugador añadido.");
     }
     
+    /**
+     * Aniadido del ultimo jugador e inicializacion de los elementos necesarios para comenzar con el Juego.
+     * @throws IOException 
+     */
     private static void aniadirUltimoJugador() throws IOException {
         oos.writeInt(++numeroJugadores);
         oos.flush();
-        System.out.println("Ultimo jugador añadido. Comenzando con " +numeroJugadores +" jugadores.");
+        System.out.println("Ultimo jugador añadido. Comenzando el Juego con " +numeroJugadores +" jugadores.");
         
-        iniAL();
+        iniALTurnos();
         juego = new Juego(numeroJugadores);
         juego.comienzoJuego();
         
@@ -209,7 +227,7 @@ public class Servidor {
             aperturaCabecerasConexion();
             
             byte opcion = (byte) ois.readInt();
-//            System.out.println(opcion);
+//            System.out.println(opcion); //fixme: borrar al final del todo.
             switch(opcion) {
                 case 0: //Join de un jugador.
                     aniadirJugador();
@@ -222,16 +240,14 @@ public class Servidor {
                     break;
                 case 3:
                     envioCartasComunes();
-                    System.out.println(jugadoresRepartidos);
-                    System.out.println(numeroJugadores);
-                    if(jugadoresRepartidos == numeroJugadores) apostar();
+                    if(jugadoresRepartidos == numeroJugadores) apostar(); //fixme: arreglar esto.
                     break;
                 default:
                     System.out.println("Comprobar selector de Acciones.");
                     break;
             }
             
-//            cerrarCabecerasConexion();
+            cerrarCabecerasConexion();
         }catch(IOException ex) {
             ex.printStackTrace();
         }
