@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class Jugador {
     private ArrayList<Carta> cartasPropias = new ArrayList<>(2);
     private ArrayList<Carta> cartasComunes = new ArrayList<>(3);
+    
     private int fichasApuestas = 1000;
     private int identificadorJugador;
 

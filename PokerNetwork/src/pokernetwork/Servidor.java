@@ -72,7 +72,7 @@ public class Servidor {
      * (Re)inicializacion de la AL que uso para los turnos de cada jugador.
      *  La idea es usar el identificador del jugador -1 para acceder a la AL. True si aun no ha usado su accion en el turno, false para que no pueda operar.
      */
-    private static void iniALTurnos() {
+    private static void inicializacionALTurnosJugada() {
         accionJugador = new ArrayList<>();
         
         for (int i = 0; i < numeroJugadores; i++) {
@@ -80,60 +80,63 @@ public class Servidor {
         }
     }
     
-    private static void repartirCartasJugadores() {
-        boolean jugadorRepartido = false;
-        int jugadoresRepartidosCorrectamente = 0;
-        identificadorJugadorActualRonda = 1;
+    /**
+     * Deconstruyo y envio la carta. No se porque, me da problemas al reconstruirla en el Cliente si envio la carta entera. 
+     * Envio sus datos y la reconstruyo en este.
+     * @param carta Carta a deconstruir y enviar.
+     * @throws IOException
+     */
+    private static void deconstruccionEnvioCarta(Carta carta) throws IOException {
+        String cartaDecons = carta.toString();
+        String valor = cartaDecons.substring(0, 1);
+        String palo = cartaDecons.substring(2);
         
-        while(jugadoresRepartidosCorrectamente < numeroJugadores) {
-            while(!jugadorRepartido) {
-                jugadorRepartido = repartirCartasJugador(identificadorJugadorActualRonda);
-                identificadorJugadorActualRonda++;
-            }
-            
-            jugadorRepartido = false;
-            jugadoresRepartidosCorrectamente++;
-        }
+        oos.writeObject(valor);
+        oos.flush();
         
-        System.out.println("Acabado de repartir manos a todos los jugadores");
+        oos.writeObject(palo);
+        oos.flush();
     }
     
-    private static boolean repartirCartasJugador(int identificadorJugadorActual) {
+    /**
+     * Accion propia de repartir cartas a un jugador especifico.
+     * @param idJugador ID unico del jugador al que repartimos.
+     */
+    private static void repartirCartasJugador(int idJugador) {
         ArrayList<Carta> cartas = juego.repartoManoJugador();
         
         try {
-            oos.writeInt(identificadorJugadorActual);
-            oos.flush();
-
-            boolean jugadorAdecuado = ois.readBoolean();
-
-            if(!jugadorAdecuado) return false;
-            else {
-                String carta1 = cartas.get(0).toString();
-                String valor1 = carta1.substring(0, 1);
-                String palo1 = carta1.substring(2);
-                
-                oos.writeObject(valor1);
-                oos.flush();
-                
-                oos.writeObject(palo1);
-                oos.flush();
-                
-                String carta2 = cartas.get(1).toString();
-                String valor2 = carta2.substring(0, 1);
-                String palo2 = carta2.substring(2);
-                
-                oos.writeObject(valor2);
-                oos.flush();
-                
-                oos.writeObject(palo2);
-                oos.flush();
+            deconstruccionEnvioCarta(cartas.get(0));
+            deconstruccionEnvioCarta(cartas.get(1));
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    /**
+     * Accion de repartir las cartas propias de los jugadores. Se repetira hasta que todos tengan su mano.
+     */
+    private static void repartirCartasJugadores() {
+        try {
+            while(accionJugador.contains(true)) {
+                int idJugador = ois.readInt();
+                if(accionJugador.get(idJugador-1)) { //Si este jugador no ha gastado su turno.
+                    oos.writeBoolean(true); //Se le indica al Jugador.
+                    oos.flush();
+                    
+                    repartirCartasJugador(idJugador);
+                    accionJugador.set(idJugador-1, false);
+                } else {
+                    oos.writeBoolean(false); //Si no, se le indica que ya lo ha gastado.
+                    oos.flush();
+                } 
             }
         }catch(IOException ex) {
             ex.printStackTrace();
         }
         
-        return true;
+        inicializacionALTurnosJugada(); //Reinicializamos para la siguiente.
+        System.out.println("Acabado de repartir manos a todos los jugadores");
     }
     
 //    private static void repartirComunesJugadores() {
@@ -215,7 +218,7 @@ public class Servidor {
         oos.flush();
         System.out.println("Ultimo jugador añadido. Comenzando el Juego con " +numeroJugadores +" jugadores.");
         
-        iniALTurnos();
+        inicializacionALTurnosJugada();
         juego = new Juego(numeroJugadores);
         juego.comienzoJuego();
         

@@ -107,21 +107,24 @@ public class Conexion {
             oos.writeInt(2);
             oos.flush();
             
-            int idJugadorServer = ois.readInt();
-            if(idJugadorServer == identificadorJugador) {
-                oos.writeBoolean(true);
-                oos.flush();
+            oos.writeInt(identificadorJugador);
+            oos.flush();
+//            int idJugadorServer = ois.readInt();
+//            if(idJugadorServer == identificadorJugador) {
+                boolean turnoDisponible = ois.readBoolean();
                 
-                String valor = ois.readObject().toString(); //Carta1
-                String palo = ois.readObject().toString();
-                mano.add(new Carta(valor, palo));
-                
-                valor = ois.readObject().toString(); //Carta2
-                palo = ois.readObject().toString();
-                mano.add(new Carta(valor, palo));
-                
-                return mano;
-            }
+                if(turnoDisponible) {
+                    String valor = ois.readObject().toString(); //Carta1
+                    String palo = ois.readObject().toString();
+                    mano.add(new Carta(valor, palo));
+
+                    valor = ois.readObject().toString(); //Carta2
+                    palo = ois.readObject().toString();
+                    mano.add(new Carta(valor, palo));
+
+                    return mano;
+                }
+//            }
         }catch(ClassNotFoundException|ClassCastException ex) {
             ex.printStackTrace();
         }catch(IOException ex) {
