@@ -30,11 +30,21 @@ public class Jugador {
     }
     
     public void obtenerMano() {
-        cartasPropias = Conexion.obtenerCartas(identificadorJugador);
+        cartasPropias = Conexion.obtenerCartas(identificadorJugador, 2);
+        
+        System.out.println("Cartas Propias: ");
+        for(Carta c : cartasPropias) {
+            System.out.println(c);
+        }
     }
     
     public void obtenerCartasComunes() {
-        cartasComunes = Conexion.obtenerCartasComunes(identificadorJugador);
+        cartasComunes = Conexion.obtenerCartas(identificadorJugador, 3);
+        
+        System.out.println("Cartas Comunes: ");
+        for(Carta c : cartasComunes) {
+            System.out.println(c);
+        }
     }
     
     /**

@@ -245,7 +245,7 @@ public class Servidor {
                     repartirCartasJugadores(juego.repartoManoJugador());
                     break;
                 case 3:
-//                    repartirCartasJugadores(juego.getCARTAS_MESA())
+                    repartirCartasJugadores(juego.getCARTAS_MESA());
 //                    envioCartasComunes();
                     if(jugadoresRepartidos == numeroJugadores) apostar(); //fixme: arreglar esto.
                     break;

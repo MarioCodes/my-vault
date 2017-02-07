@@ -126,12 +126,12 @@ public class Conexion {
         return new Carta(valor, palo);
     }
     
-    public static ArrayList<Carta> obtenerCartas(int idJugador) {
+    public static ArrayList<Carta> obtenerCartas(int idJugador, int accion) {
         ArrayList<Carta> cartas = new ArrayList<>();
         try {
             aperturasCabeceraConexion();
             
-            envioAccionEID(2, idJugador); //Obtencion de las cartas propias.
+            envioAccionEID(accion, idJugador); //Obtencion de las cartas propias.
 
             boolean turnoDisponible = ois.readBoolean();
 
