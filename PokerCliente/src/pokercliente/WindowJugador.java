@@ -6,6 +6,7 @@
 package pokercliente;
 
 /**
+ * FIXME: Bug descubierto. Si hay 2 jugadores, si comienza el primero a pillar cartas, la 1º vez le da las propias suyas pero no las comunes, al 2º le da todas y si otra vez el primero, le da todas con nuevas.
  * Ventana para Startear el juego.
  * @author Mario Codes Sánchez
  */
@@ -121,10 +122,15 @@ public class WindowJugador extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         JUGADOR.obtenerMano();
+        JUGADOR.obtenerCartasComunes();
+        
+        JUGADOR.verCartasComunes(); //fixme: borrar. testeo.
+        
+        JUGADOR.verCartasPropias();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        JUGADOR.obtenerCartasComunes();
+        
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed

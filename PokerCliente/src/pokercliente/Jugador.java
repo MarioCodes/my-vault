@@ -29,6 +29,22 @@ public class Jugador {
         return totalPool;
     }
     
+    //fixme: Para testeo mientras desarrollo. Borrar
+    public void verCartasPropias() {
+        if(cartasPropias != null) {
+            System.out.println("\nCartas Propias.");
+            for(Carta c : cartasPropias) System.out.println(c);
+        }
+    }
+    
+    //fixme: Para testeo mientras desarrollo. Borrar
+    public void verCartasComunes() {
+        if(cartasComunes != null) {
+            System.out.println("\nCartas Comunes");
+            for(Carta c : cartasComunes) System.out.println(c);
+        }
+    }
+    
     /**
      * Obtenemos las 2 cartas unicas de este Jugador (Las quitamos de la baraja Obviamente).
      */

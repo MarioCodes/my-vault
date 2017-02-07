@@ -19,7 +19,6 @@ public class Juego {
     
     /**
      * Constructor por defecto, inicializa la Baraja ya Shuffleada.
-     * @param numeroJugadores Numero total de Jugadores.
      */
     public Juego() {
         this.BARAJA = new Baraja();

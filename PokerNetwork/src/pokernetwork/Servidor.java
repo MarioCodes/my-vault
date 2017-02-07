@@ -138,7 +138,6 @@ public class Servidor {
         }
         
         inicializacionALTurnosJugada(); //Reinicializamos para la siguiente.
-        System.out.println("Acabado de repartir manos a todos los jugadores");
     }
     
     private static boolean apostar() {
@@ -202,8 +201,7 @@ public class Servidor {
                     break;
                 case 3:
                     repartirCartasJugadores(juego.getCartasComunes());
-//                    envioCartasComunes();
-                    if(jugadoresRepartidos == numeroJugadores) apostar(); //fixme: arreglar esto.
+//                    if(jugadoresRepartidos == numeroJugadores) apostar(); //fixme: arreglar esto.
                     break;
                 default:
                     System.out.println("Comprobar selector de Acciones.");

@@ -78,9 +78,6 @@ public class Conexion {
         return totalPool;
     }
     
-    
-    
-    
     /**
      * Debido a los problemas que tengo para enviar Cartas por Socket como (Object) las deconstruyo en el server a sus valores base y las reconstruyo aqui.
      * @return Carta reconstruida para aniadir.
