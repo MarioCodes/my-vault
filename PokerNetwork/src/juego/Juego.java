@@ -10,21 +10,19 @@ import java.util.ArrayList;
 /**
  * Gestion de la logica del juego.
  * @author Mario Codes Sánchez
- * @since 06/02/2017
+ * @since 07/02/2017
  */
 public class Juego {
-    private final ArrayList<Carta> CARTAS_MESA = new ArrayList<>();
+    private final ArrayList<Carta> CARTAS_COMUNES = new ArrayList<>();
     private int fichasApuestas = 0;
-    private final int NUMERO_JUGADORES;
     private final Baraja BARAJA;
     
     /**
      * Constructor por defecto, inicializa la Baraja ya Shuffleada.
      * @param numeroJugadores Numero total de Jugadores.
      */
-    public Juego(int numeroJugadores) {
+    public Juego() {
         this.BARAJA = new Baraja();
-        this.NUMERO_JUGADORES = numeroJugadores;
     }
     
     public void sumarApuesta(int fichas) {
@@ -35,7 +33,7 @@ public class Juego {
      * Extraccion de las 3 cartas de la baraja comunes para la mesa.
      */
     public void comienzoJuego() {
-        CARTAS_MESA.addAll(BARAJA.extraerCartas(3));
+        CARTAS_COMUNES.addAll(BARAJA.extraerCartas(3));
     }
 
     /**
@@ -51,8 +49,8 @@ public class Juego {
     /**
      * @return the CARTAS_MESA
      */
-    public ArrayList<Carta> getCARTAS_MESA() {
-        return CARTAS_MESA;
+    public ArrayList<Carta> getCartasComunes() {
+        return CARTAS_COMUNES;
     }
 
     /**

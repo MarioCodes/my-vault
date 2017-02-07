@@ -141,50 +141,6 @@ public class Servidor {
         System.out.println("Acabado de repartir manos a todos los jugadores");
     }
     
-//    private static void repartirComunesJugadores() {
-//        
-////        boolean jugadorRepartido = false;
-////        int jugadoresRepartidosCorrectamente = 0;
-////        identificadorJugadorActualRonda = 1;
-////        
-////        while(jugadoresRepartidosCorrectamente < numeroJugadores) {
-////            while(!jugadorRepartido) {
-////                jugadorRepartido = envioCartasComunes(identificadorJugadorActualRonda);
-////                identificadorJugadorActualRonda++;
-////            }
-////            
-////            jugadorRepartido = false;
-////            jugadoresRepartidosCorrectamente++;
-////        }
-//        
-//        System.out.println("Cartas comunes repartidas a todos los jugadores");
-//    }
-    
-//    private static boolean envioCartasComunes() {
-//        ArrayList<Carta> cartasComunes = juego.getCARTAS_MESA();
-//        
-//        try {
-//            for (int i = 0; i < cartasComunes.size(); i++) {
-//                String carta = cartasComunes.get(i).toString();
-//                String valor = carta.substring(0, 1);
-//                String palo = carta.substring(2);
-//
-//                oos.writeObject(valor);
-//                oos.flush();
-//
-//                oos.writeObject(palo);
-//                oos.flush();
-//            }
-//
-//            identificadorJugadorActualRonda++;
-//            jugadoresRepartidos++;
-//        }catch(IOException ex) {
-//            ex.printStackTrace();
-//        }
-//        
-//        return true;
-//    }
-    
     private static boolean apostar() {
         System.out.println("Comenzada parte Apuestas.");
         
@@ -222,7 +178,7 @@ public class Servidor {
         System.out.println("Ultimo jugador añadido. Comenzando el Juego con " +numeroJugadores +" jugadores.");
         
         inicializacionALTurnosJugada();
-        juego = new Juego(numeroJugadores);
+        juego = new Juego();
         juego.comienzoJuego();
         
         System.out.println("Cartas de la mesa repartidas.");
@@ -245,7 +201,7 @@ public class Servidor {
                     repartirCartasJugadores(juego.repartoManoJugador());
                     break;
                 case 3:
-                    repartirCartasJugadores(juego.getCARTAS_MESA());
+                    repartirCartasJugadores(juego.getCartasComunes());
 //                    envioCartasComunes();
                     if(jugadoresRepartidos == numeroJugadores) apostar(); //fixme: arreglar esto.
                     break;

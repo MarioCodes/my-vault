@@ -8,13 +8,13 @@ package pokercliente;
 import java.util.ArrayList;
 
 /**
- * Representacion de un Jugador.
+ * Representacion de un Jugador unico.
  * @author Mario Codes Sánchez
  * @since 07/02/2017
  */
 public class Jugador {
     private ArrayList<Carta> cartasPropias = new ArrayList<>(2);
-    private ArrayList<Carta> cartasComunes = new ArrayList<>(3);
+    private ArrayList<Carta> cartasComunes = new ArrayList<>(5);
     
     private int fichasApuestas = 1000;
     private int identificadorJugador;
@@ -29,22 +29,19 @@ public class Jugador {
         return totalPool;
     }
     
+    /**
+     * Obtenemos las 2 cartas unicas de este Jugador (Las quitamos de la baraja Obviamente).
+     */
     public void obtenerMano() {
         cartasPropias = Conexion.obtenerCartas(identificadorJugador, 2);
-        
-        System.out.println("Cartas Propias: ");
-        for(Carta c : cartasPropias) {
-            System.out.println(c);
-        }
     }
     
+    /**
+     * Obtenemos las cartas comunes que se hayan sacado hasta ahora. 
+     *      3 al principio, 4 despues y 5 al final.
+     */
     public void obtenerCartasComunes() {
         cartasComunes = Conexion.obtenerCartas(identificadorJugador, 3);
-        
-        System.out.println("Cartas Comunes: ");
-        for(Carta c : cartasComunes) {
-            System.out.println(c);
-        }
     }
     
     /**
@@ -66,13 +63,6 @@ public class Jugador {
      */
     public ArrayList<Carta> getCartas() {
         return cartasPropias;
-    }
-
-    /**
-     * @param cartas the cartasPropias to set
-     */
-    public void setCartas(ArrayList<Carta> cartas) {
-        this.cartasPropias = cartas;
     }
 
     /**

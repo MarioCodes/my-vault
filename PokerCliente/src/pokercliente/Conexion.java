@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * @since 07/02/2017
  */
 public class Conexion {
-//    private static final int BUFFER_LENGTH = 8192;
+//    private static final int BUFFER_LENGTH = 8192; //fixme: mirar si lo puedo utilizar mas adelante, de momento que le den.
     private static final int PUERTO = 8143;
     private static final String SERVER_IP = "127.0.0.1";
     
@@ -63,39 +63,6 @@ public class Conexion {
         }
     }
     
-    public static ArrayList<Carta> obtenerCartasComunes(int identificadorJugador) {
-        ArrayList<Carta> comunes = new ArrayList<>();
-        try {
-            aperturasCabeceraConexion();
-            
-            oos.writeInt(3);
-            oos.flush();
-            
-            int cartasARecibir = ois.readInt(); //Para usar mas adelante.
-            
-            String valor = ois.readObject().toString(); //Carta1
-            String palo = ois.readObject().toString();
-            comunes.add(new Carta(valor, palo));
-
-            valor = ois.readObject().toString(); //Carta2
-            palo = ois.readObject().toString();
-            comunes.add(new Carta(valor, palo));
-
-            valor = ois.readObject().toString(); //Carta3
-            palo = ois.readObject().toString();
-            comunes.add(new Carta(valor, palo));
-
-            return comunes;
-            
-        }catch(ClassNotFoundException|ClassCastException ex) {
-            ex.printStackTrace();
-        }catch(IOException ex) {
-            ex.printStackTrace();
-        }
-        
-        return null;
-    }
-    
     public static int apostarJugador(int fichas) {
         int totalPool = -1;
         
@@ -111,6 +78,28 @@ public class Conexion {
         return totalPool;
     }
     
+    
+    
+    
+    /**
+     * Debido a los problemas que tengo para enviar Cartas por Socket como (Object) las deconstruyo en el server a sus valores base y las reconstruyo aqui.
+     * @return Carta reconstruida para aniadir.
+     * @throws IOException
+     * @throws ClassNotFoundException 
+     */
+    private static Carta recibirReconstruirCarta() throws IOException, ClassNotFoundException {
+        String valor = ois.readObject().toString();
+        String palo = ois.readObject().toString();
+        
+        return new Carta(valor, palo);
+    }
+    
+    /**
+     * Envio al server de la accion que deseamos realizar y el ID unico del Jugador.
+     * @param accion Accion a realizar.
+     * @param id ID propio del Jugador.
+     * @throws IOException 
+     */
     private static void envioAccionEID(int accion, int id) throws IOException {
         oos.writeInt(accion);
         oos.flush();
@@ -119,13 +108,13 @@ public class Conexion {
         oos.flush();
     }
     
-    private static Carta recibirReconstruirCarta() throws IOException, ClassNotFoundException {
-        String valor = ois.readObject().toString();
-        String palo = ois.readObject().toString();
-        
-        return new Carta(valor, palo);
-    }
-    
+    /**
+     * Obtencion de Cartas desde el Servidor. Esta automatizado independientemente del numero de cartas.
+     *  Lo uso tanto para obtener las cartas propias del jugador como las comunes de la mesa.
+     * @param idJugador ID unico del jugador para comprobar si ya ha realizado la accion en su turno.
+     * @param accion Accion a realizar en el Server (2 recibo cartas propias, 3 recibo cartas comunes).
+     * @return ArrayList de Cartas con las Cartas segun requiera la ocasion.
+     */
     public static ArrayList<Carta> obtenerCartas(int idJugador, int accion) {
         ArrayList<Carta> cartas = new ArrayList<>();
         try {
@@ -134,7 +123,6 @@ public class Conexion {
             envioAccionEID(accion, idJugador); //Obtencion de las cartas propias.
 
             boolean turnoDisponible = ois.readBoolean();
-
             if(turnoDisponible) {
                 int cartasARecibir = ois.readInt(); //Para usar mas adelante.
                 
@@ -154,9 +142,9 @@ public class Conexion {
     }
     
     /**
-     * Realizacion de la conexion al server.
+     * Realizacion de la conexion al Server para que tenga en cuenta a este Jugador.
      * @param tipoConexion tipo de conexion. 0 = un jugador mas; 1 = ultimo jugador a añadir.
-     * @return Int. Numero propio del jugador.
+     * @return Int. Numero propio del jugador. -1 si hubiera algun tipo de problema (no deberia).
      */
     public static int realizarConexion(int tipoConexion) {
         try {
@@ -167,11 +155,10 @@ public class Conexion {
             oos.writeInt(tipoConexion);
             oos.flush();
             
-            return ois.readInt();
-//            boolean estado = ois.readBoolean(); //Leemos la respuesta del server.
+            int IDJugador = ois.readInt();
             
-//            finConexion();
-//            return estado;
+            cerradoCabecerasConexion();
+            return IDJugador;
         }catch(ConnectException ex) {
             System.out.println("Problema en la conexion. " +ex.getLocalizedMessage());
         }catch(IllegalArgumentException ex) {
