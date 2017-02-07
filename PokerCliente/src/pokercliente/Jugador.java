@@ -30,7 +30,7 @@ public class Jugador {
     }
     
     public void obtenerMano() {
-        cartasPropias = Conexion.obtenerManoJugador(identificadorJugador);
+        cartasPropias = Conexion.obtenerCartas(identificadorJugador);
     }
     
     public void obtenerCartasComunes() {
