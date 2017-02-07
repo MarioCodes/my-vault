@@ -62,7 +62,7 @@ public class Servidor {
         boolean jugadorRepartido = false;
         int jugadoresRepartidosCorrectamente = 0;
         
-        while(jugadoresRepartidosCorrectamente <= numeroJugadores) {
+        while(jugadoresRepartidosCorrectamente < numeroJugadores) {
             while(!jugadorRepartido) {
                 jugadorRepartido = repartirCartasJugador(identificadorJugadorActualRonda);
                 identificadorJugadorActualRonda++;
@@ -71,7 +71,9 @@ public class Servidor {
             jugadorRepartido = false;
             jugadoresRepartidosCorrectamente++;
         }
+        
         identificadorJugadorActualRonda = 1;
+        System.out.println("Acabado de repartir manos a todos los jugadores");
     }
     
     private static boolean repartirCartasJugador(int identificadorJugadorActual) {
@@ -122,13 +124,15 @@ public class Servidor {
                 case 0: //Join de un jugador.
                     oos.writeInt(++numeroJugadores);
                     oos.flush();
+                    System.out.println("Jugador añadido.");
                     break;
                 case 1: //Join del ultimo jugador.
                     oos.writeInt(++numeroJugadores);
                     oos.flush();
-                    
+                    System.out.println("Ultimo jugador añadido. Comenzando con " +numeroJugadores +" jugadores.");
                     juego = new Juego(numeroJugadores);
                     juego.comienzoJuego();
+                    System.out.println("Cartas de la mesa repartidas.");
                     break;
                 case 2: //Reparto cartas cada Jugador.
                     repartirCartasJugadores();
