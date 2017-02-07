@@ -25,6 +25,7 @@ public class Servidor {
     private static Juego juego;
     private static int numeroJugadores = 0;
     private static int identificadorJugadorActualRonda = 1;
+    private static int jugadoresRepartidos = 0;
     
     private static final int PUERTO = 8143;
     private static Socket socket = null;
@@ -149,6 +150,7 @@ public class Servidor {
             }
 
             identificadorJugadorActualRonda++;
+            jugadoresRepartidos++;
         }catch(IOException ex) {
             ex.printStackTrace();
         }
@@ -156,12 +158,43 @@ public class Servidor {
         return true;
     }
     
+    private static void previoFaseApuestas() {
+        System.out.println("Comenzada parte apuestas.");
+        identificadorJugadorActualRonda = 1;
+        jugadoresRepartidos = 0;
+        faseApuestas();
+    }
+    
+    private static boolean apostar() {
+        try {
+            while(jugadoresRepartidos < numeroJugadores) {
+                oos.writeBoolean(true);
+                oos.flush();
+                
+                juego.sumarApuesta(ois.readInt());
+                oos.writeInt(juego.getFichasApuestas());
+                oos.flush();
+
+                System.out.println("Apostado!");
+                jugadoresRepartidos++;
+            }
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }
+        
+        return true;
+    }
+    
+    private static void faseApuestas() {
+        apostar();
+    }
+    
     private static void gestionAcciones() {
         try {
             aperturaCabecerasConexion();
             
             byte opcion = (byte) ois.readInt();
-            System.out.println(opcion);
+//            System.out.println(opcion);
             switch(opcion) {
                 case 0: //Join de un jugador.
                     oos.writeInt(++numeroJugadores);
@@ -181,6 +214,9 @@ public class Servidor {
                     break;
                 case 3:
                     envioCartasComunes();
+                    System.out.println(jugadoresRepartidos);
+                    System.out.println(numeroJugadores);
+                    if(jugadoresRepartidos == numeroJugadores) previoFaseApuestas();
                     break;
                 default:
                     System.out.println("Comprobar selector de Acciones.");

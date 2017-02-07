@@ -83,6 +83,25 @@ public class Conexion {
         return null;
     }
     
+    public static int apostarJugador(int fichas) {
+        int totalPool = -1;
+        boolean focus = false;
+        
+        try {
+            focus = ois.readBoolean();
+            if(focus) {
+                oos.writeInt(fichas);
+                oos.flush();
+
+                totalPool = ois.readInt();
+            }
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }
+        
+        return totalPool;
+    }
+    
     public static ArrayList<Carta> obtenerManoJugador(int identificadorJugador) {
         ArrayList<Carta> mano = new ArrayList<>();
         try {

@@ -14,6 +14,7 @@ import java.util.ArrayList;
  */
 public class Juego {
     private final ArrayList<Carta> CARTAS_MESA = new ArrayList<>();
+    private int fichasApuestas = 0;
     private final int NUMERO_JUGADORES;
     private final Baraja BARAJA;
     
@@ -24,6 +25,10 @@ public class Juego {
     public Juego(int numeroJugadores) {
         this.BARAJA = new Baraja();
         this.NUMERO_JUGADORES = numeroJugadores;
+    }
+    
+    public void sumarApuesta(int fichas) {
+        fichasApuestas += fichas;
     }
     
     /**
@@ -48,5 +53,12 @@ public class Juego {
      */
     public ArrayList<Carta> getCARTAS_MESA() {
         return CARTAS_MESA;
+    }
+
+    /**
+     * @return the fichasApuestas
+     */
+    public int getFichasApuestas() {
+        return fichasApuestas;
     }
 }
