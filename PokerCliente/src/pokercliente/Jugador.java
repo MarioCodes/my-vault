@@ -13,14 +13,16 @@ import java.util.ArrayList;
  * @since 07/02/2017
  */
 public class Jugador {
-    private ArrayList<Carta> cartas = new ArrayList<>(2);
+    private ArrayList<Carta> cartasPropias = new ArrayList<>(2);
+    private ArrayList<Carta> cartasComunes = new ArrayList<>(3);
     private int identificadorJugador;
 
     public void obtenerMano() {
-        cartas = Conexion.obtenerManoJugador(identificadorJugador);
-        for(Carta carta: cartas) {
-            System.out.println(carta);
-        }
+        cartasPropias = Conexion.obtenerManoJugador(identificadorJugador);
+    }
+    
+    public void obtenerCartasComunes() {
+        cartasComunes = Conexion.obtenerCartasComunes(identificadorJugador);
     }
     
     /**
@@ -38,16 +40,16 @@ public class Jugador {
     }
 
     /**
-     * @return the cartas
+     * @return the cartasPropias
      */
     public ArrayList<Carta> getCartas() {
-        return cartas;
+        return cartasPropias;
     }
 
     /**
-     * @param cartas the cartas to set
+     * @param cartas the cartasPropias to set
      */
     public void setCartas(ArrayList<Carta> cartas) {
-        this.cartas = cartas;
+        this.cartasPropias = cartas;
     }
 }

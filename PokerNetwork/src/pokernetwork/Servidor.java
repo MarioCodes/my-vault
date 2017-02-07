@@ -61,6 +61,7 @@ public class Servidor {
     private static void repartirCartasJugadores() {
         boolean jugadorRepartido = false;
         int jugadoresRepartidosCorrectamente = 0;
+        identificadorJugadorActualRonda = 1;
         
         while(jugadoresRepartidosCorrectamente < numeroJugadores) {
             while(!jugadorRepartido) {
@@ -72,7 +73,6 @@ public class Servidor {
             jugadoresRepartidosCorrectamente++;
         }
         
-        identificadorJugadorActualRonda = 1;
         System.out.println("Acabado de repartir manos a todos los jugadores");
     }
     
@@ -114,6 +114,48 @@ public class Servidor {
         return true;
     }
     
+//    private static void repartirComunesJugadores() {
+//        boolean jugadorRepartido = false;
+//        int jugadoresRepartidosCorrectamente = 0;
+//        identificadorJugadorActualRonda = 1;
+//        
+//        while(jugadoresRepartidosCorrectamente < numeroJugadores) {
+//            while(!jugadorRepartido) {
+//                jugadorRepartido = envioCartasComunes(identificadorJugadorActualRonda);
+//                identificadorJugadorActualRonda++;
+//            }
+//            
+//            jugadorRepartido = false;
+//            jugadoresRepartidosCorrectamente++;
+//        }
+//        
+//        System.out.println("Cartas comunes repartidas a todos los jugadores");
+//    }
+    
+    private static boolean envioCartasComunes() {
+        ArrayList<Carta> cartasComunes = juego.getCARTAS_MESA();
+        
+        try {
+            for (int i = 0; i < cartasComunes.size(); i++) {
+                String carta = cartasComunes.get(i).toString();
+                String valor = carta.substring(0, 1);
+                String palo = carta.substring(2);
+
+                oos.writeObject(valor);
+                oos.flush();
+
+                oos.writeObject(palo);
+                oos.flush();
+            }
+
+            identificadorJugadorActualRonda++;
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }
+        
+        return true;
+    }
+    
     private static void gestionAcciones() {
         try {
             aperturaCabecerasConexion();
@@ -136,6 +178,9 @@ public class Servidor {
                     break;
                 case 2: //Reparto cartas cada Jugador.
                     repartirCartasJugadores();
+                    break;
+                case 3:
+                    envioCartasComunes();
                     break;
                 default:
                     System.out.println("Comprobar selector de Acciones.");

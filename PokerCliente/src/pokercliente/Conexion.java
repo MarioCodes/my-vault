@@ -52,7 +52,38 @@ public class Conexion {
         }
     }
     
-    public static ArrayList obtenerManoJugador(int identificadorJugador) {
+    public static ArrayList<Carta> obtenerCartasComunes(int identificadorJugador) {
+        ArrayList<Carta> comunes = new ArrayList<>();
+        try {
+            cabeceraComienzoConexion();
+            
+            oos.writeInt(3);
+            oos.flush();
+            
+            String valor = ois.readObject().toString(); //Carta1
+            String palo = ois.readObject().toString();
+            comunes.add(new Carta(valor, palo));
+
+            valor = ois.readObject().toString(); //Carta2
+            palo = ois.readObject().toString();
+            comunes.add(new Carta(valor, palo));
+
+            valor = ois.readObject().toString(); //Carta3
+            palo = ois.readObject().toString();
+            comunes.add(new Carta(valor, palo));
+
+            return comunes;
+            
+        }catch(ClassNotFoundException|ClassCastException ex) {
+            ex.printStackTrace();
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }
+        
+        return null;
+    }
+    
+    public static ArrayList<Carta> obtenerManoJugador(int identificadorJugador) {
         ArrayList<Carta> mano = new ArrayList<>();
         try {
             cabeceraComienzoConexion();
