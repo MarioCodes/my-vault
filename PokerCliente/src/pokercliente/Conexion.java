@@ -14,6 +14,7 @@ import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.concurrent.locks.Lock;
 import pokercliente.Carta;
 
 /**
@@ -85,16 +86,12 @@ public class Conexion {
     
     public static int apostarJugador(int fichas) {
         int totalPool = -1;
-        boolean focus = false;
         
         try {
-            focus = ois.readBoolean();
-            if(focus) {
-                oos.writeInt(fichas);
-                oos.flush();
+            oos.writeInt(fichas);
+            oos.flush();
 
-                totalPool = ois.readInt();
-            }
+            totalPool = ois.readInt();
         }catch(IOException ex) {
             ex.printStackTrace();
         }

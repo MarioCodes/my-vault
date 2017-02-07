@@ -22,6 +22,8 @@ import juego.Juego;
  * @since 06/02/2017
  */
 public class Servidor {
+    private static ArrayList<Boolean> acciones;
+    
     private static Juego juego;
     private static int numeroJugadores = 0;
     private static int identificadorJugadorActualRonda = 1;
@@ -47,6 +49,15 @@ public class Servidor {
 //            ex.printStackTrace();
 //        }
 //    }
+    
+    private static void iniAL() {
+        System.out.println("Numero Jugadores: " +numeroJugadores);
+        acciones = new ArrayList<>();
+        
+        for (int i = 0; i < numeroJugadores; i++) {
+            acciones.add(true);
+        }
+    }
     
     private static void aperturaCabecerasConexion() {
         try {
@@ -158,26 +169,15 @@ public class Servidor {
         return true;
     }
     
-    private static void previoFaseApuestas() {
-        System.out.println("Comenzada parte apuestas.");
-        identificadorJugadorActualRonda = 1;
-        jugadoresRepartidos = 0;
-        faseApuestas();
-    }
-    
     private static boolean apostar() {
+        System.out.println("Comenzada parte Apuestas.");
+        
         try {
-            while(jugadoresRepartidos < numeroJugadores) {
-                oos.writeBoolean(true);
-                oos.flush();
-                
-                juego.sumarApuesta(ois.readInt());
-                oos.writeInt(juego.getFichasApuestas());
-                oos.flush();
+            juego.sumarApuesta(ois.readInt());
+            oos.writeInt(juego.getFichasApuestas());
+            oos.flush();
 
-                System.out.println("Apostado!");
-                jugadoresRepartidos++;
-            }
+            System.out.println("Apostado!");
         }catch(IOException ex) {
             ex.printStackTrace();
         }
@@ -185,8 +185,23 @@ public class Servidor {
         return true;
     }
     
-    private static void faseApuestas() {
-        apostar();
+    private static void aniadirJugador() throws IOException {
+        oos.writeInt(++numeroJugadores);
+        oos.flush();
+        
+        System.out.println("Jugador añadido.");
+    }
+    
+    private static void aniadirUltimoJugador() throws IOException {
+        oos.writeInt(++numeroJugadores);
+        oos.flush();
+        System.out.println("Ultimo jugador añadido. Comenzando con " +numeroJugadores +" jugadores.");
+        
+        iniAL();
+        juego = new Juego(numeroJugadores);
+        juego.comienzoJuego();
+        
+        System.out.println("Cartas de la mesa repartidas.");
     }
     
     private static void gestionAcciones() {
@@ -197,17 +212,10 @@ public class Servidor {
 //            System.out.println(opcion);
             switch(opcion) {
                 case 0: //Join de un jugador.
-                    oos.writeInt(++numeroJugadores);
-                    oos.flush();
-                    System.out.println("Jugador añadido.");
+                    aniadirJugador();
                     break;
                 case 1: //Join del ultimo jugador.
-                    oos.writeInt(++numeroJugadores);
-                    oos.flush();
-                    System.out.println("Ultimo jugador añadido. Comenzando con " +numeroJugadores +" jugadores.");
-                    juego = new Juego(numeroJugadores);
-                    juego.comienzoJuego();
-                    System.out.println("Cartas de la mesa repartidas.");
+                    aniadirUltimoJugador();
                     break;
                 case 2: //Reparto cartas cada Jugador.
                     repartirCartasJugadores();
@@ -216,7 +224,7 @@ public class Servidor {
                     envioCartasComunes();
                     System.out.println(jugadoresRepartidos);
                     System.out.println(numeroJugadores);
-                    if(jugadoresRepartidos == numeroJugadores) previoFaseApuestas();
+                    if(jugadoresRepartidos == numeroJugadores) apostar();
                     break;
                 default:
                     System.out.println("Comprobar selector de Acciones.");
