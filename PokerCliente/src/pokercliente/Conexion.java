@@ -61,6 +61,8 @@ public class Conexion {
             oos.writeInt(3);
             oos.flush();
             
+            int cartasARecibir = ois.readInt(); //Para usar mas adelante.
+            
             String valor = ois.readObject().toString(); //Carta1
             String palo = ois.readObject().toString();
             comunes.add(new Carta(valor, palo));
@@ -114,6 +116,8 @@ public class Conexion {
                 boolean turnoDisponible = ois.readBoolean();
                 
                 if(turnoDisponible) {
+                    int cartasARecibir = ois.readInt(); //Para usar mas adelante.
+                    
                     String valor = ois.readObject().toString(); //Carta1
                     String palo = ois.readObject().toString();
                     mano.add(new Carta(valor, palo));

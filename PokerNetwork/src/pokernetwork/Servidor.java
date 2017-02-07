@@ -28,7 +28,7 @@ public class Servidor {
     private static int numeroJugadores = 0;
     
     private static int identificadorJugadorActualRonda = 1; //todo: eliminarlo, usare la AL<> para chequeo de turnos.
-    private static int jugadoresRepartidos = 0;
+    private static int jugadoresRepartidos = 0; //todo: eliminarlo igual.
     
     private static final int PUERTO = 8143;
     private static Socket socket = null;
@@ -100,23 +100,25 @@ public class Servidor {
     
     /**
      * Accion propia de repartir cartas a un jugador especifico.
-     * @param idJugador ID unico del jugador al que repartimos.
      */
-    private static void repartirCartasJugador(int idJugador) {
-        ArrayList<Carta> cartas = juego.repartoManoJugador();
-        
+    private static void repartirCartasJugador(ArrayList<Carta> cartas) {
         try {
-            deconstruccionEnvioCarta(cartas.get(0));
-            deconstruccionEnvioCarta(cartas.get(1));
+            oos.writeInt(cartas.size()); //Cartas a recibir en el jugador.
+            oos.flush();
+            
+            for (int i = 0; i < cartas.size(); i++) {
+                deconstruccionEnvioCarta(cartas.get(i));
+            }
         }catch(IOException ex) {
             ex.printStackTrace();
         }
     }
     
     /**
-     * Accion de repartir las cartas propias de los jugadores. Se repetira hasta que todos tengan su mano.
+     * Accion de repartir cartas a un jugador. Se repetira hasta que todos tengan su mano.
+     * Esta automatizado completamente, simplemente se le pasa la coleccion con las cartas a enviar y el mismo se encarga de todo.
      */
-    private static void repartirCartasJugadores() {
+    private static void repartirCartasJugadores(ArrayList<Carta> cartas) {
         try {
             while(accionJugador.contains(true)) {
                 int idJugador = ois.readInt();
@@ -124,7 +126,7 @@ public class Servidor {
                     oos.writeBoolean(true); //Se le indica al Jugador.
                     oos.flush();
                     
-                    repartirCartasJugador(idJugador);
+                    repartirCartasJugador(cartas);
                     accionJugador.set(idJugador-1, false);
                 } else {
                     oos.writeBoolean(false); //Si no, se le indica que ya lo ha gastado.
@@ -140,47 +142,48 @@ public class Servidor {
     }
     
 //    private static void repartirComunesJugadores() {
-//        boolean jugadorRepartido = false;
-//        int jugadoresRepartidosCorrectamente = 0;
-//        identificadorJugadorActualRonda = 1;
 //        
-//        while(jugadoresRepartidosCorrectamente < numeroJugadores) {
-//            while(!jugadorRepartido) {
-//                jugadorRepartido = envioCartasComunes(identificadorJugadorActualRonda);
-//                identificadorJugadorActualRonda++;
-//            }
-//            
-//            jugadorRepartido = false;
-//            jugadoresRepartidosCorrectamente++;
-//        }
+////        boolean jugadorRepartido = false;
+////        int jugadoresRepartidosCorrectamente = 0;
+////        identificadorJugadorActualRonda = 1;
+////        
+////        while(jugadoresRepartidosCorrectamente < numeroJugadores) {
+////            while(!jugadorRepartido) {
+////                jugadorRepartido = envioCartasComunes(identificadorJugadorActualRonda);
+////                identificadorJugadorActualRonda++;
+////            }
+////            
+////            jugadorRepartido = false;
+////            jugadoresRepartidosCorrectamente++;
+////        }
 //        
 //        System.out.println("Cartas comunes repartidas a todos los jugadores");
 //    }
     
-    private static boolean envioCartasComunes() {
-        ArrayList<Carta> cartasComunes = juego.getCARTAS_MESA();
-        
-        try {
-            for (int i = 0; i < cartasComunes.size(); i++) {
-                String carta = cartasComunes.get(i).toString();
-                String valor = carta.substring(0, 1);
-                String palo = carta.substring(2);
-
-                oos.writeObject(valor);
-                oos.flush();
-
-                oos.writeObject(palo);
-                oos.flush();
-            }
-
-            identificadorJugadorActualRonda++;
-            jugadoresRepartidos++;
-        }catch(IOException ex) {
-            ex.printStackTrace();
-        }
-        
-        return true;
-    }
+//    private static boolean envioCartasComunes() {
+//        ArrayList<Carta> cartasComunes = juego.getCARTAS_MESA();
+//        
+//        try {
+//            for (int i = 0; i < cartasComunes.size(); i++) {
+//                String carta = cartasComunes.get(i).toString();
+//                String valor = carta.substring(0, 1);
+//                String palo = carta.substring(2);
+//
+//                oos.writeObject(valor);
+//                oos.flush();
+//
+//                oos.writeObject(palo);
+//                oos.flush();
+//            }
+//
+//            identificadorJugadorActualRonda++;
+//            jugadoresRepartidos++;
+//        }catch(IOException ex) {
+//            ex.printStackTrace();
+//        }
+//        
+//        return true;
+//    }
     
     private static boolean apostar() {
         System.out.println("Comenzada parte Apuestas.");
@@ -239,10 +242,11 @@ public class Servidor {
                     aniadirUltimoJugador();
                     break;
                 case 2: //Reparto cartas cada Jugador.
-                    repartirCartasJugadores();
+                    repartirCartasJugadores(juego.repartoManoJugador());
                     break;
                 case 3:
-                    envioCartasComunes();
+//                    repartirCartasJugadores(juego.getCARTAS_MESA())
+//                    envioCartasComunes();
                     if(jugadoresRepartidos == numeroJugadores) apostar(); //fixme: arreglar esto.
                     break;
                 default:
