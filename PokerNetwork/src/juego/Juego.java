@@ -5,6 +5,7 @@
  */
 package juego;
 
+import estados.Estado;
 import java.util.ArrayList;
 
 /**
@@ -13,6 +14,8 @@ import java.util.ArrayList;
  * @since 07/02/2017
  */
 public class Juego {
+    private Estado estado;
+    
     private final ArrayList<Carta> CARTAS_COMUNES = new ArrayList<>();
     private int fichasApuestas = 0;
     private final Baraja BARAJA;
@@ -45,6 +48,11 @@ public class Juego {
         return cartas;
     }
     
+    @Override
+    public String toString() {
+        return "Juego en estado: " +this.estado.toString();
+    }
+    
     /**
      * @return the CARTAS_MESA
      */
@@ -57,5 +65,19 @@ public class Juego {
      */
     public int getFichasApuestas() {
         return fichasApuestas;
+    }
+
+    /**
+     * @return the estado
+     */
+    public Estado getEstado() {
+        return estado;
+    }
+
+    /**
+     * @param estado the estado to set
+     */
+    public void setEstado(Estado estado) {
+        this.estado = estado;
     }
 }
