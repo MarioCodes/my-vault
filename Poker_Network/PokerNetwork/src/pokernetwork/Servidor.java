@@ -5,6 +5,9 @@
  */
 package pokernetwork;
 
+import estados.Estado;
+import estados.EstadoCiegas;
+import estados.EstadoPreparacion;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -19,23 +22,18 @@ import juego.Juego;
 /**
  * Proyecto Online juego Oscar -> Poker Texas Hold'em!. Parte Servidor.
  * @author Mario Codes Sánchez
- * @since 07/02/2017
+ * @since 08/02/2017
  */
 public class Servidor {
     private static ArrayList<Boolean> accionJugador;
     
-    private static Juego juego;
-    private static int numeroJugadores = 0;
-    
-    private static int identificadorJugadorActualRonda = 1; //todo: eliminarlo, usare la AL<> para chequeo de turnos.
-    private static int jugadoresRepartidos = 0; //todo: eliminarlo igual.
+    private static Juego juego = new Juego();
     
     private static final int PUERTO = 8143;
     private static Socket socket = null;
     
     private static InputStream in = null;
     private static OutputStream out = null;
-        
     private static ObjectInputStream ois = null;
     private static ObjectOutputStream oos = null;
     
@@ -69,13 +67,29 @@ public class Servidor {
     }
     
     /**
+     * Cambiamos la Fase en la que se encuentra el Juego.
+     * @param estado Estado al cual cambiamos.
+     */
+    private static synchronized void avanzarFaseJuego(Estado estado) {
+        System.out.println("Juego en Fase: " +estado.toString());
+        estado.cambioFase(juego);
+    }
+    
+    /**
+     * Ponemos el juego cuando se acaba de crear en estado de Preparacion.
+     */
+    private static void setJuegoPrimeraFase() {
+        if(juego.getEstado() == null) avanzarFaseJuego(new EstadoPreparacion());
+    }
+    
+    /**
      * (Re)inicializacion de la AL que uso para los turnos de cada jugador.
      *  La idea es usar el identificador del jugador -1 para acceder a la AL. True si aun no ha usado su accion en el turno, false para que no pueda operar.
      */
     private static void inicializacionALTurnosJugada() {
         accionJugador = new ArrayList<>();
         
-        for (int i = 0; i < numeroJugadores; i++) {
+        for (int i = 0; i < juego.getNumeroJugadores(); i++) {
             accionJugador.add(true);
         }
     }
@@ -140,31 +154,30 @@ public class Servidor {
         inicializacionALTurnosJugada(); //Reinicializamos para la siguiente.
     }
     
-    private static boolean apostar() {
-        System.out.println("Comenzada parte Apuestas.");
-        
-        try {
-            juego.sumarApuesta(ois.readInt());
-            oos.writeInt(juego.getFichasApuestas());
-            oos.flush();
-
-            System.out.println("Apostado!");
-        }catch(IOException ex) {
-            ex.printStackTrace();
-        }
-        
-        return true;
-    }
+//    private static boolean apostar() {
+//        System.out.println("Comenzada parte Apuestas.");
+//        
+//        try {
+//            juego.sumarApuesta(ois.readInt());
+//            oos.writeInt(juego.getFichasApuestas());
+//            oos.flush();
+//
+//            System.out.println("Apostado!");
+//        }catch(IOException ex) {
+//            ex.printStackTrace();
+//        }
+//        
+//        return true;
+//    }
     
     /**
      * Aniadido de un jugador al juego. Se usara cuando este no sea el ultimo.
      * @throws IOException
      */
     private static void aniadirJugador() throws IOException {
-        oos.writeInt(++numeroJugadores);
+        juego.aniadirJugador();
+        oos.writeInt(juego.getNumeroJugadores());
         oos.flush();
-        
-        System.out.println("Jugador añadido.");
     }
     
     /**
@@ -172,15 +185,10 @@ public class Servidor {
      * @throws IOException 
      */
     private static void aniadirUltimoJugador() throws IOException {
-        oos.writeInt(++numeroJugadores);
-        oos.flush();
-        System.out.println("Ultimo jugador añadido. Comenzando el Juego con " +numeroJugadores +" jugadores.");
+        aniadirJugador();
         
         inicializacionALTurnosJugada();
-        juego = new Juego();
-        juego.comienzoJuego();
-        
-        System.out.println("Cartas de la mesa repartidas.");
+        juego.rebarajar();
     }
     
     private static void gestionAcciones() {
@@ -192,14 +200,17 @@ public class Servidor {
             switch(opcion) {
                 case 0: //Join de un jugador.
                     aniadirJugador();
+                    System.out.println("Jugador añadido.");
                     break;
                 case 1: //Join del ultimo jugador.
+                    setJuegoPrimeraFase();
                     aniadirUltimoJugador();
+                    System.out.println("Ultimo jugador añadido. Comenzando el Juego con " +juego.getNumeroJugadores() +" jugadores.");
                     break;
                 case 2: //Reparto cartas cada Jugador.
                     repartirCartasJugadores(juego.repartoManoJugador());
                     break;
-                case 3:
+                case 3: //Reparto de cartas Comunes.
                     repartirCartasJugadores(juego.getCartasComunes());
 //                    if(jugadoresRepartidos == numeroJugadores) apostar(); //fixme: arreglar esto.
                     break;

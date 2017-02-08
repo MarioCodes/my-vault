@@ -34,6 +34,16 @@ public class Baraja {
     }
     
     /**
+     * Quemamos (descartamos) el numero de cartas indicadas.
+     * @param numeroCartas 
+     */
+    public void quemarCartas(int numeroCartas) {
+        for (int i = 0; i < numeroCartas; i++) {
+            BARAJA.remove(0);
+        }
+    }
+    
+    /**
      * Inicializacion de las 13 cartas de cada palo. Se repetira 4 veces.
      * @param palo Nombre del palo a asignar.
      */
