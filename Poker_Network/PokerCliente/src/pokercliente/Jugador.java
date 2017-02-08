@@ -6,7 +6,6 @@
 package pokercliente;
 
 import estados.Estado;
-import java.util.ArrayList;
 
 /**
  * Representacion de un Jugador unico.
@@ -16,12 +15,18 @@ import java.util.ArrayList;
 public class Jugador {
     private Estado estado;
     
-    private ArrayList<Carta> cartasPropias = new ArrayList<>(2);
-    private ArrayList<Carta> cartasComunes = new ArrayList<>(5);
+    private Mano mano = null;
     
     private int fichasApuestas = 1000;
     private int identificadorJugador;
 
+    /**
+     * Constructor por defecto.
+     */
+    public void Jugador() {
+        this.mano = new Mano();
+    }
+    
     public void sumarFichas(int fichas) {
         this.fichasApuestas += fichas;
     }
@@ -38,17 +43,17 @@ public class Jugador {
     
     //fixme: Para testeo mientras desarrollo. Borrar
     public void verCartasPropias() {
-        if(cartasPropias != null) {
+        if(mano.getCartasPropias() != null) {
             System.out.println("\nCartas Propias.");
-            for(Carta c : cartasPropias) System.out.println(c);
+            for(Carta c : mano.getCartasPropias()) System.out.println(c);
         }
     }
     
     //fixme: Para testeo mientras desarrollo. Borrar
     public void verCartasComunes() {
-        if(cartasComunes != null) {
+        if(mano.getCartas_mesa() != null) {
             System.out.println("\nCartas Comunes");
-            for(Carta c : cartasComunes) System.out.println(c);
+            for(Carta c : mano.getCartas_mesa()) System.out.println(c);
         }
     }
     
@@ -56,7 +61,7 @@ public class Jugador {
      * Obtenemos las 2 cartas unicas de este Jugador (Las quitamos de la baraja Obviamente).
      */
     public void obtenerMano() {
-        cartasPropias = Conexion.obtenerCartas(identificadorJugador, 2);
+        mano.aniadirCartaPropias(Conexion.obtenerCartas(identificadorJugador, 2));
     }
     
     /**
@@ -64,7 +69,7 @@ public class Jugador {
      *      3 al principio, 4 despues y 5 al final.
      */
     public void obtenerCartasComunes() {
-        cartasComunes = Conexion.obtenerCartas(identificadorJugador, 3);
+        mano.aniadirCartaPropias(Conexion.obtenerCartas(identificadorJugador, 3));
     }
     
     /**
@@ -79,13 +84,6 @@ public class Jugador {
      */
     public void setNumeroJugador(int numeroJugador) {
         this.identificadorJugador = numeroJugador;
-    }
-
-    /**
-     * @return the cartasPropias
-     */
-    public ArrayList<Carta> getCartas() {
-        return cartasPropias;
     }
 
     /**

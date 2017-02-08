@@ -9,7 +9,7 @@ import pokercliente.Conexion;
 import pokercliente.Jugador;
 
 /**
- * Estado Pasivo. Hay otro jugador que tiene el activo.
+ * Estado Pasivo. Hay otro jugador que tiene el activo. El que se encuentra en este estado debe esperar.
  * @author Mario Codes Sánchez
  * @since 08/02/2017
  */

@@ -31,6 +31,4 @@ public class EstadoActivo implements Estado {
     public String toString() {
         return "Activo";
     }
-
-    
 }

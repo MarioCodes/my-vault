@@ -127,7 +127,6 @@ public class WindowJugador extends javax.swing.JFrame {
         JUGADOR.obtenerCartasComunes();
         
         JUGADOR.verCartasComunes(); //fixme: borrar. testeo.
-        
         JUGADOR.verCartasPropias();
     }//GEN-LAST:event_jButton3ActionPerformed
 
