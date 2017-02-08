@@ -13,6 +13,7 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.concurrent.Semaphore;
 import juego.Carta;
 import juego.Juego;
 
@@ -22,6 +23,7 @@ import juego.Juego;
  * @since 08/02/2017
  */
 public class Servidor {
+    private static Semaphore mutex = new Semaphore(1);
     private static ArrayList<Boolean> accionJugador;
     
     private static Juego juego = new Juego();
@@ -67,12 +69,22 @@ public class Servidor {
      * (Re)inicializacion de la AL que uso para los turnos de cada jugador.
      *  La idea es usar el identificador del jugador -1 para acceder a la AL. True si aun no ha usado su accion en el turno, false para que no pueda operar.
      */
-    private static void inicializacionALTurnosJugada() {
+    private static void inicializacionALTurnosJugada() throws InterruptedException {
+        mutex.acquire();
         accionJugador = new ArrayList<>();
         
         for (int i = 0; i < juego.getNumeroJugadores(); i++) {
             accionJugador.add(true);
         }
+        mutex.release();
+    }
+    
+    private static void reseteoALTurnosJugada() throws InterruptedException {
+        mutex.acquire();
+        for (int i = 0; i < juego.getNumeroJugadores(); i++) {
+            accionJugador.set(i, Boolean.TRUE);
+        }
+        mutex.release();
     }
     
     //todo: borrar al final. Testeo
@@ -129,17 +141,19 @@ public class Servidor {
                     oos.flush();
                     
                     repartirCartasJugador(cartas);
+                    mutex.acquire();
                     accionJugador.set(idJugador-1, false);
+                    mutex.release();
                 } else {
                     oos.writeBoolean(false); //Si no, se le indica que ya lo ha gastado.
                     oos.flush();
                 } 
             }
-        }catch(IOException ex) {
+            
+            inicializacionALTurnosJugada(); //Reinicializamos para la siguiente.
+        }catch(IOException|InterruptedException ex) {
             ex.printStackTrace();
         }
-        
-        inicializacionALTurnosJugada(); //Reinicializamos para la siguiente.
     }
     
     /**
@@ -156,7 +170,7 @@ public class Servidor {
      * Aniadido del ultimo jugador e inicializacion de los elementos necesarios para comenzar con el Juego.
      * @throws IOException 
      */
-    private static void aniadirUltimoJugador() throws IOException {
+    private static void aniadirUltimoJugador() throws IOException, InterruptedException {
         aniadirJugador();
         
         inicializacionALTurnosJugada();
@@ -174,15 +188,17 @@ public class Servidor {
             switch(opcion) {
                 case 2: //Reparto cartas cada Jugador.
                     repartirCartasJugadores(juego.repartoManoJugador());
+                    reseteoALTurnosJugada();
                     break;
                 case 3: //Reparto de cartas Comunes.
                     repartirCartasJugadores(juego.getCartasComunes());
+                    reseteoALTurnosJugada();
                     break;
                 default:
                     System.out.println("Comprobar selector de Acciones (version juego).");
                     break;
             }
-        }catch(IOException ex) {
+        }catch(IOException|InterruptedException ex) {
             ex.printStackTrace();
         }
     }
@@ -213,7 +229,7 @@ public class Servidor {
             }
             
             cerrarCabecerasConexion();
-        }catch(IOException ex) {
+        }catch(IOException|InterruptedException ex) {
             ex.printStackTrace();
         }
     }

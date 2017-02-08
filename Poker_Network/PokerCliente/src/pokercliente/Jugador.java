@@ -63,12 +63,7 @@ public class Jugador {
      *      3 al principio, 4 despues y 5 al final.
      */
     public void obtenerCartasComunes() {
-        try {
-            mano.aniadirCartaMesa(Conexion.obtenerCartas(identificadorJugador, 3));
-        }catch(NullPointerException ex) {
-            System.out.println("SU");
-            obtenerCartasComunes();
-        }
+        mano.aniadirCartaMesa(Conexion.obtenerCartas(identificadorJugador, 3));
     }
     
     /**
