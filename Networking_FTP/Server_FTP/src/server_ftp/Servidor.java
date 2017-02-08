@@ -17,7 +17,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * Recopilacion de la implementacion logica del Server.
+ * Recopilacion de la implementacion logica del Server. 
+ * ¡ATENCION! -> Por como opera la forma de mapear el Server desde el Cliente, los 2 se deben encontrar en la misma Carpeta Base. Intente enviar el mapeo por red pero me daba una serie de problemas que no me daba tiempo a solucionar.
  *  El servidor opera de forma multihilo para no esperar con cada conexion.
  * @author Mario Codes Sánchez
  * @since 06/02/2017
