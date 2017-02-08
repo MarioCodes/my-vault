@@ -75,6 +75,13 @@ public class Servidor {
         }
     }
     
+    //todo: borrar al final. Testeo
+    private static void soutContenidoALTurnos() {
+        for (int i = 0; i < accionJugador.size(); i++) {
+            System.out.println(accionJugador.get(i));
+        }
+    }
+    
     /**
      * Deconstruyo y envio la carta. No se porque, me da problemas al reconstruirla en el Cliente si envio la carta entera. 
      * Envio sus datos y la reconstruyo en este.
@@ -163,7 +170,7 @@ public class Servidor {
         try {
             aperturaCabecerasConexion();
             byte opcion = (byte) ois.readInt();
-            
+
             switch(opcion) {
                 case 2: //Reparto cartas cada Jugador.
                     repartirCartasJugadores(juego.repartoManoJugador());

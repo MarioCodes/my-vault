@@ -15,17 +15,10 @@ import estados.Estado;
 public class Jugador {
     private Estado estado;
     
-    private Mano mano = null;
+    private Mano mano = new Mano();
     
     private int fichasApuestas = 1000;
     private int identificadorJugador;
-
-    /**
-     * Constructor por defecto.
-     */
-    public void Jugador() {
-        this.mano = new Mano();
-    }
     
     public void sumarFichas(int fichas) {
         this.fichasApuestas += fichas;
@@ -69,7 +62,7 @@ public class Jugador {
      *      3 al principio, 4 despues y 5 al final.
      */
     public void obtenerCartasComunes() {
-        mano.aniadirCartaPropias(Conexion.obtenerCartas(identificadorJugador, 3));
+        mano.aniadirCartaMesa(Conexion.obtenerCartas(identificadorJugador, 3));
     }
     
     /**

@@ -103,7 +103,7 @@ public class Conexion {
      * @param id ID propio del Jugador.
      * @throws IOException 
      */
-    private static void envioAccionEID(int accion, int id) throws IOException {
+    private static void envioAccionEID(int id, int accion) throws IOException {
         oos.writeInt(accion);
         oos.flush();
 
@@ -123,11 +123,11 @@ public class Conexion {
         try {
             aperturasCabeceraConexion();
             
-            envioAccionEID(accion, idJugador); //Obtencion de las cartas propias.
+            envioAccionEID(idJugador, accion); //Obtencion de las cartas.
 
             boolean turnoDisponible = ois.readBoolean();
             if(turnoDisponible) {
-                int cartasARecibir = ois.readInt(); //Para usar mas adelante.
+                int cartasARecibir = ois.readInt(); //Numero de cartas a Recibir.
                 
                 for (int i = 0; i < cartasARecibir; i++) {
                     cartas.add(recibirReconstruirCarta());
@@ -140,7 +140,6 @@ public class Conexion {
         }catch(IOException ex) {
             ex.printStackTrace();
         }
-        
         return null;
     }
     

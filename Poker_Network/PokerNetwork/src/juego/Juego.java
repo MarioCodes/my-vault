@@ -46,10 +46,6 @@ public class Juego {
         sacarCartasComunes();
         System.out.println("Ronda nueva Comenzada. Cartas de la mesa repartidas.");
     }
-    
-//    public void sumarApuesta(int fichas) {
-//        fichasApuestas += fichas;
-//    }
 
     /**
      * Repartimos las 2 cartas necesarias propias para el jugador.
