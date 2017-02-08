@@ -5,7 +5,6 @@
  */
 package juego;
 
-import estados.Estado;
 import java.util.ArrayList;
 
 /**
@@ -14,7 +13,6 @@ import java.util.ArrayList;
  * @since 08/02/2017
  */
 public class Juego {
-    private Estado estado = null;
     private int numeroJugadores = 0;
     
     private Baraja baraja = null;
@@ -62,11 +60,6 @@ public class Juego {
         return cartas;
     }
     
-    @Override
-    public String toString() {
-        return "Juego en estado: " +this.estado.toString();
-    }
-    
     /**
      * @return the CARTAS_MESA
      */
@@ -79,21 +72,6 @@ public class Juego {
      */
     public int getFichasApuestas() {
         return fichasApuestas;
-    }
-
-    /**
-     * @return the estado
-     */
-    public Estado getEstado() {
-        return estado;
-    }
-
-    /**
-     * NO USARLO DIRECTAMENTE. Se debe cambiar mediante una subinterfaz.cambioEstado().
-     * @param estado the estado to set
-     */
-    public void setEstado(Estado estado) {
-        this.estado = estado;
     }
 
     /**

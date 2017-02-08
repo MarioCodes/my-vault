@@ -5,14 +5,17 @@
  */
 package pokercliente;
 
+import estados.Estado;
 import java.util.ArrayList;
 
 /**
  * Representacion de un Jugador unico.
  * @author Mario Codes Sánchez
- * @since 07/02/2017
+ * @since 08/02/2017
  */
 public class Jugador {
+    private Estado estado;
+    
     private ArrayList<Carta> cartasPropias = new ArrayList<>(2);
     private ArrayList<Carta> cartasComunes = new ArrayList<>(5);
     
@@ -23,10 +26,14 @@ public class Jugador {
         this.fichasApuestas += fichas;
     }
     
+    /**
+     * Accion de apostar mediante la interfaz puesta.
+     * @param fichas Numero de fichas a apostar.
+     * @return Numero de fichas que hay en la pool.
+     */
     public int apostar(int fichas) {
-        int totalPool = Conexion.apostarJugador(fichas);
-        this.fichasApuestas -= fichas;
-        return totalPool;
+        fichasApuestas -= fichas;
+        return estado.apostar(fichas);
     }
     
     //fixme: Para testeo mientras desarrollo. Borrar
@@ -86,5 +93,19 @@ public class Jugador {
      */
     public int getFichasApuestas() {
         return fichasApuestas;
+    }
+
+    /**
+     * @return the estado
+     */
+    public Estado getEstado() {
+        return estado;
+    }
+
+    /**
+     * @param estado the estado to set
+     */
+    public void setEstado(Estado estado) {
+        this.estado = estado;
     }
 }

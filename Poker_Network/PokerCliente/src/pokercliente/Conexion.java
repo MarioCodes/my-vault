@@ -63,6 +63,12 @@ public class Conexion {
         }
     }
     
+    //fixme: Desarrollar.
+    public static int getPoolFichasApostadas() {
+        return 0;
+    }
+    
+    //fixme: desarrollar.
     public static int apostarJugador(int fichas) {
         int totalPool = -1;
         

@@ -5,9 +5,6 @@
  */
 package pokernetwork;
 
-import estados.Estado;
-import estados.EstadoCiegas;
-import estados.EstadoPreparacion;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -64,22 +61,6 @@ public class Servidor {
         }catch(IOException ex) {
             ex.printStackTrace();
         }
-    }
-    
-    /**
-     * Cambiamos la Fase en la que se encuentra el Juego.
-     * @param estado Estado al cual cambiamos.
-     */
-    private static synchronized void avanzarFaseJuego(Estado estado) {
-        System.out.println("Juego en Fase: " +estado.toString());
-        estado.cambioFase(juego);
-    }
-    
-    /**
-     * Ponemos el juego cuando se acaba de crear en estado de Preparacion.
-     */
-    private static void setJuegoPrimeraFase() {
-        if(juego.getEstado() == null) avanzarFaseJuego(new EstadoPreparacion());
     }
     
     /**
@@ -203,7 +184,6 @@ public class Servidor {
                     System.out.println("Jugador añadido.");
                     break;
                 case 1: //Join del ultimo jugador.
-                    setJuegoPrimeraFase();
                     aniadirUltimoJugador();
                     System.out.println("Ultimo jugador añadido. Comenzando el Juego con " +juego.getNumeroJugadores() +" jugadores.");
                     break;
