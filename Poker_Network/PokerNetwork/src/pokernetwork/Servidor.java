@@ -90,7 +90,7 @@ public class Servidor {
     //todo: borrar al final. Testeo
     private static void soutContenidoALTurnos() {
         for (int i = 0; i < accionJugador.size(); i++) {
-            System.out.println(accionJugador.get(i));
+            System.out.println(i+ ", " +accionJugador.get(i));
         }
     }
     
@@ -149,8 +149,6 @@ public class Servidor {
                     oos.flush();
                 } 
             }
-            
-            inicializacionALTurnosJugada(); //Reinicializamos para la siguiente.
         }catch(IOException|InterruptedException ex) {
             ex.printStackTrace();
         }
