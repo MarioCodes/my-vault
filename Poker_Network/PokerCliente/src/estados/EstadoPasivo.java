@@ -21,7 +21,7 @@ public class EstadoPasivo implements Estado{
     }
     
     @Override
-    public int apostar(int fichas) {
+    public int apostar(int idJugador, int fichas) {
         System.out.println("Espera por Favor. No tienes el turno de Hablar."); //todo: implementar algun cambio en la interfaz grafica cuando este hecha.
         return Conexion.getPoolFichasApostadas();
     }

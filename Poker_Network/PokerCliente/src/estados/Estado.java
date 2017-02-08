@@ -17,5 +17,5 @@ import pokercliente.Jugador;
 public interface Estado {
     public void cambioEstado(Jugador jugador);
     
-    public int apostar(int fichas);
+    public int apostar(int idJugador, int fichas);
 }

@@ -23,7 +23,7 @@ import juego.Juego;
  * @since 08/02/2017
  */
 public class Servidor {
-    private static Semaphore mutex = new Semaphore(1);
+    private static Semaphore mutex = new Semaphore(1); //todo: Preguntarle a Oscar, no se si hara algo al ser Static.
     private static ArrayList<Boolean> accionJugador;
     
     private static Juego juego = new Juego();
@@ -79,19 +79,16 @@ public class Servidor {
         mutex.release();
     }
     
+    /**
+     * Reseteo de las acciones de cada jugador a True. Se hara cuando se acabe una fase.
+     * @throws InterruptedException 
+     */
     private static void reseteoALTurnosJugada() throws InterruptedException {
         mutex.acquire();
         for (int i = 0; i < juego.getNumeroJugadores(); i++) {
             accionJugador.set(i, Boolean.TRUE);
         }
         mutex.release();
-    }
-    
-    //todo: borrar al final. Testeo
-    private static void soutContenidoALTurnos() {
-        for (int i = 0; i < accionJugador.size(); i++) {
-            System.out.println(i+ ", " +accionJugador.get(i));
-        }
     }
     
     /**
@@ -135,19 +132,56 @@ public class Servidor {
     private static void repartirCartasJugadores(ArrayList<Carta> cartas) {
         try {
             while(accionJugador.contains(true)) {
-                int idJugador = ois.readInt();
-                if(accionJugador.get(idJugador-1)) { //Si este jugador no ha gastado su turno.
+                int idJugador = ois.readInt()-1;
+                if(accionJugador.get(idJugador)) { //Si este jugador no ha gastado su turno.
                     oos.writeBoolean(true); //Se le indica al Jugador.
                     oos.flush();
                     
                     repartirCartasJugador(cartas);
+                    
                     mutex.acquire();
-                    accionJugador.set(idJugador-1, false);
+                    accionJugador.set(idJugador, false);
                     mutex.release();
                 } else {
                     oos.writeBoolean(false); //Si no, se le indica que ya lo ha gastado.
                     oos.flush();
                 } 
+            }
+        }catch(IOException|InterruptedException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    /**
+     * Accion de apostar en si misma.
+     * @throws IOException 
+     */
+    private static void apostar() throws IOException {
+        int apuesta = ois.readInt();
+        oos.writeInt(juego.apostar(apuesta));
+        oos.flush();
+    }
+    
+    /**
+     * Fase de realizar apuestas por los jugadores. Estos deberan hablar por turnos.
+     */
+    private static void faseApuestas() {
+        try {
+            while(accionJugador.contains(true)) {
+                int idJugador = ois.readInt()-1;
+                if(accionJugador.get(idJugador)) {
+                    oos.writeBoolean(true);
+                    oos.flush();
+                    
+                    apostar();
+                    
+                    mutex.acquire();
+                    accionJugador.set(idJugador, false);
+                    mutex.release();
+                } else {
+                    oos.writeBoolean(false);
+                    oos.flush();
+                }
             }
         }catch(IOException|InterruptedException ex) {
             ex.printStackTrace();
@@ -177,6 +211,7 @@ public class Servidor {
     
     /**
      * Gestor de acciones una vez ya se ha comenzado el juego.
+     * Lo pongo con numeros excluyentes del otro selector por si acaso hubiera cruce (no deberia).
      */
     private static void gestorAccionesJuego() {
         try {
@@ -192,10 +227,16 @@ public class Servidor {
                     repartirCartasJugadores(juego.getCartasComunes());
                     reseteoALTurnosJugada();
                     break;
+                case 4: //Fase de Apuestas.
+                    faseApuestas();
+                    reseteoALTurnosJugada();
+                    break;
                 default:
                     System.out.println("Comprobar selector de Acciones (version juego).");
                     break;
             }
+            
+            cerrarCabecerasConexion(); //fixme: chequear si da problemas, no se si deberia estar o no.
         }catch(IOException|InterruptedException ex) {
             ex.printStackTrace();
         }

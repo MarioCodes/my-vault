@@ -32,7 +32,7 @@ public class Jugador {
      */
     public int apostar(int fichas) {
         fichasApuestas -= fichas;
-        return estado.apostar(fichas);
+        return estado.apostar(identificadorJugador, fichas);
     }
     
     //fixme: Para testeo mientras desarrollo. Borrar

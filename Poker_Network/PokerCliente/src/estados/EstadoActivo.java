@@ -21,8 +21,8 @@ public class EstadoActivo implements Estado {
     }
     
     @Override
-    public int apostar(int fichas) {
-        int totalPool = Conexion.apostarJugador(fichas);
+    public int apostar(int idJugador, int fichas) {
+        int totalPool = Conexion.apostarJugador(idJugador, fichas);
         System.out.println("Apuesta de " +fichas +" fichas realizada.");
         return totalPool;
     }

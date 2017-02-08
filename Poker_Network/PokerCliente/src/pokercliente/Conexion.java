@@ -69,14 +69,22 @@ public class Conexion {
     }
     
     //fixme: desarrollar.
-    public static int apostarJugador(int fichas) {
+    public static int apostarJugador(int idJugador, int fichas) {
         int totalPool = -1;
         
         try {
-            oos.writeInt(fichas);
+            oos.writeInt(idJugador);
             oos.flush();
-
-            totalPool = ois.readInt();
+            
+            boolean accionLeft = ois.readBoolean();
+            if(accionLeft) {
+                oos.writeInt(fichas);
+                oos.flush();
+                
+                totalPool = ois.readInt();
+            } else {
+                
+            }
         }catch(IOException ex) {
             ex.printStackTrace();
         }

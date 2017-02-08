@@ -18,7 +18,17 @@ public class Juego {
     
     private Baraja baraja = null;
     private ArrayList<Carta> CARTAS_MESA = new ArrayList<>();
-    private int fichasApuestas = 0;
+    private int poolApuestas = 0;
+    
+    /**
+     * Accion de apostar, sumamos las fichas y devolvemos el total de la pool.
+     * @param fichas Fichas que sumamos a la pool.
+     * @return Pool total hasta ahora.
+     */
+    public int apostar(int fichas) {
+        poolApuestas += fichas;
+        return poolApuestas;
+    }
     
     /**
      * Extraccion de las 3 cartas de la baraja comunes para la mesa.
@@ -32,7 +42,7 @@ public class Juego {
      */
     private void recoger() {
         CARTAS_MESA.removeAll(CARTAS_MESA);
-        fichasApuestas = 0;
+        poolApuestas = 0;
     }
     
     /**
@@ -65,10 +75,10 @@ public class Juego {
     }
 
     /**
-     * @return the fichasApuestas
+     * @return the poolApuestas
      */
     public int getFichasApuestas() {
-        return fichasApuestas;
+        return poolApuestas;
     }
 
     /**

@@ -72,6 +72,9 @@ public class WindowJugador extends javax.swing.JFrame {
             }
         });
 
+        jTextField1.setText("50");
+        jTextField1.setToolTipText("");
+
         jButton4.setText("obtener comunes");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
