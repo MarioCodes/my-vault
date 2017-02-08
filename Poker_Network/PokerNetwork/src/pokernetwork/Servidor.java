@@ -5,6 +5,7 @@
  */
 package pokernetwork;
 
+import fases.FasePreFlop;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -167,21 +168,20 @@ public class Servidor {
      */
     private static void faseApuestas() {
         try {
-            while(accionJugador.contains(true)) {
-                int idJugador = ois.readInt()-1;
-                if(accionJugador.get(idJugador)) {
-                    oos.writeBoolean(true);
-                    oos.flush();
-                    
-                    apostar();
-                    
-                    mutex.acquire();
-                    accionJugador.set(idJugador, false);
-                    mutex.release();
-                } else {
-                    oos.writeBoolean(false);
-                    oos.flush();
-                }
+            //Quitado el while(true).
+            int idJugador = ois.readInt()-1;
+            if(accionJugador.get(idJugador)) {
+                oos.writeBoolean(true);
+                oos.flush();
+
+                apostar();
+
+                mutex.acquire();
+                accionJugador.set(idJugador, false);
+                mutex.release();
+            } else {
+                oos.writeBoolean(false);
+                oos.flush();
             }
         }catch(IOException|InterruptedException ex) {
             ex.printStackTrace();
@@ -226,10 +226,13 @@ public class Servidor {
                 case 3: //Reparto de cartas Comunes.
                     repartirCartasJugadores(juego.getCartasComunes());
                     reseteoALTurnosJugada();
+                    System.out.println("Cartas Repartidas");
                     break;
                 case 4: //Fase de Apuestas.
+                    System.out.println("Comienzo con fase de apuestas");
                     faseApuestas();
                     reseteoALTurnosJugada();
+                    System.out.println("Fin de fase de apuestas");
                     break;
                 default:
                     System.out.println("Comprobar selector de Acciones (version juego).");
@@ -260,7 +263,8 @@ public class Servidor {
                 case 1: //Join del ultimo jugador.
                     aniadirUltimoJugador();
                     System.out.println("Ultimo jugador añadido. Comenzando el Juego con " +juego.getNumeroJugadores() +" jugadores.");
-                    juego.setJuegoComenzado(true);
+                    new FasePreFlop().cambioFase(juego); //Cambiamos la fase a la inicial del Juego.
+                    juego.setJuegoComenzado(true); //todo: mirar si quitarlo o no al final.
                     break;
                 default:
                     System.out.println("Comprobar selector de Acciones (version menu principal).");

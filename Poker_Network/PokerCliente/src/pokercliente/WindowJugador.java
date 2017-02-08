@@ -5,8 +5,6 @@
  */
 package pokercliente;
 
-import estados.*;
-
 /**
  * FIXME: Bug descubierto. Si hay 2 jugadores, si comienza el primero a pillar cartas, la 1º vez le da las propias suyas pero no las comunes, al 2º le da todas y si otra vez el primero, le da todas con nuevas.
  * Juego en Red Texas Hold'Em. Version sin limite de apuestas.
@@ -135,7 +133,7 @@ public class WindowJugador extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        System.out.println("Total Pool: " +JUGADOR.apostar(Integer.parseInt(jTextField1.getText())));
+//        System.out.println("Total Pool: " +JUGADOR.apostar(Integer.parseInt(jTextField1.getText())));
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed

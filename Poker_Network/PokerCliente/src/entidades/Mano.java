@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pokercliente;
+package entidades;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ public class Mano {
      * Aniadido de una unica carta a la mano personal.
      * @param carta Carta a anaidir.
      */
-    void aniadirCartaPropias(Carta carta) {
+    public void aniadirCartaPropias(Carta carta) {
         cartas_propias.add(carta);
     }
     
@@ -28,7 +28,7 @@ public class Mano {
      * Aniadido de varias cartas a la mano personal.
      * @param carta Cartas a aniadir.
      */
-    void aniadirCartaPropias(ArrayList<Carta> carta) {
+    public void aniadirCartaPropias(ArrayList<Carta> carta) {
         cartas_propias.addAll(carta);
     }
     
@@ -36,7 +36,7 @@ public class Mano {
      * Aniadido de una unica carta nueva a las comunes de la mesa.
      * @param carta Carta a aniadir.
      */
-    void aniadirCartaMesa(Carta carta) {
+    public void aniadirCartaMesa(Carta carta) {
         cartas_mesa.add(carta);
     }
     
@@ -44,14 +44,14 @@ public class Mano {
      * Aniadido de varias cartas nuevas a las comunes de la mesa.
      * @param carta Cartas a aniadir.
      */
-    void aniadirCartaMesa(ArrayList<Carta> carta) {
+    public void aniadirCartaMesa(ArrayList<Carta> carta) {
         cartas_mesa.addAll(carta);
     }
     
     /**
      * Limpiamos las cartas de la mano y la mesa para comenzar una nueva ronda.
      */
-    void limpiarCartas() {
+    public void limpiarCartas() {
         cartas_propias = new ArrayList<>();
         cartas_mesa = new ArrayList<>();
     }

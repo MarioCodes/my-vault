@@ -5,8 +5,8 @@
  */
 package pokercliente;
 
-import estados.Estado;
-import java.util.ArrayList;
+import entidades.Carta;
+import entidades.Mano;
 
 /**
  * Representacion de un Jugador unico.
@@ -14,7 +14,6 @@ import java.util.ArrayList;
  * @since 08/02/2017
  */
 public class Jugador {
-    private Estado estado;
     
     private Mano mano = new Mano();
     
@@ -30,10 +29,10 @@ public class Jugador {
      * @param fichas Numero de fichas a apostar.
      * @return Numero de fichas que hay en la pool.
      */
-    public int apostar(int fichas) {
-        fichasApuestas -= fichas;
-        return estado.apostar(identificadorJugador, fichas);
-    }
+//    public int apostar(int fichas) {
+//        fichasApuestas -= fichas;
+//        return estado.apostar(identificadorJugador, fichas);
+//    }
     
     //fixme: Para testeo mientras desarrollo. Borrar
     public void verCartasPropias() {
@@ -87,17 +86,17 @@ public class Jugador {
         return fichasApuestas;
     }
 
-    /**
-     * @return the estado
-     */
-    public Estado getEstado() {
-        return estado;
-    }
-
-    /**
-     * @param estado the estado to set
-     */
-    public void setEstado(Estado estado) {
-        this.estado = estado;
-    }
+//    /**
+//     * @return the estado
+//     */
+//    public Estado getEstado() {
+//        return estado;
+//    }
+//
+//    /**
+//     * @param estado the estado to set
+//     */
+//    public void setEstado(Estado estado) {
+//        this.estado = estado;
+//    }
 }

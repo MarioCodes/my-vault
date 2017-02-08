@@ -5,6 +5,8 @@
  */
 package juego;
 
+import fases.Fase;
+import fases.FasePreFlop;
 import java.util.ArrayList;
 
 /**
@@ -13,6 +15,7 @@ import java.util.ArrayList;
  * @since 08/02/2017
  */
 public class Juego {
+    private Fase fase = new FasePreFlop();
     private boolean juegoComenzado = false;
     private int numeroJugadores = 0;
     
@@ -107,5 +110,20 @@ public class Juego {
      */
     public void setJuegoComenzado(boolean juegoComenzado) {
         this.juegoComenzado = juegoComenzado;
+    }
+
+    /**
+     * @return the fase
+     */
+    public Fase getFase() {
+        return fase;
+    }
+
+    /**
+     * NO UTILIZAR. HACER EL CAMBIO MEDIANTE Fase.cambioFase().
+     * @param fase the fase to set
+     */
+    public void setFase(Fase fase) {
+        this.fase = fase;
     }
 }
