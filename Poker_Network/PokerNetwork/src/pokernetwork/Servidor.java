@@ -135,22 +135,6 @@ public class Servidor {
         inicializacionALTurnosJugada(); //Reinicializamos para la siguiente.
     }
     
-//    private static boolean apostar() {
-//        System.out.println("Comenzada parte Apuestas.");
-//        
-//        try {
-//            juego.sumarApuesta(ois.readInt());
-//            oos.writeInt(juego.getFichasApuestas());
-//            oos.flush();
-//
-//            System.out.println("Apostado!");
-//        }catch(IOException ex) {
-//            ex.printStackTrace();
-//        }
-//        
-//        return true;
-//    }
-    
     /**
      * Aniadido de un jugador al juego. Se usara cuando este no sea el ultimo.
      * @throws IOException
@@ -172,11 +156,39 @@ public class Servidor {
         juego.rebarajar();
     }
     
-    private static void gestionAcciones() {
+    /**
+     * Gestor de acciones una vez ya se ha comenzado el juego.
+     */
+    private static void gestorAccionesJuego() {
         try {
             aperturaCabecerasConexion();
-            
             byte opcion = (byte) ois.readInt();
+            
+            switch(opcion) {
+                case 2: //Reparto cartas cada Jugador.
+                    repartirCartasJugadores(juego.repartoManoJugador());
+                    break;
+                case 3: //Reparto de cartas Comunes.
+                    repartirCartasJugadores(juego.getCartasComunes());
+                    break;
+                default:
+                    System.out.println("Comprobar selector de Acciones (version juego).");
+                    break;
+            }
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    /**
+     * Gestor de acciones para el menu principal antes de que se comience el juego.
+     * Una vez se haya comenzado se usara el otro gestor.
+     */
+    private static void gestorAccionesMenu() {
+        try {
+            aperturaCabecerasConexion();
+            byte opcion = (byte) ois.readInt();
+            
 //            System.out.println(opcion); //fixme: borrar al final del todo.
             switch(opcion) {
                 case 0: //Join de un jugador.
@@ -186,16 +198,10 @@ public class Servidor {
                 case 1: //Join del ultimo jugador.
                     aniadirUltimoJugador();
                     System.out.println("Ultimo jugador añadido. Comenzando el Juego con " +juego.getNumeroJugadores() +" jugadores.");
-                    break;
-                case 2: //Reparto cartas cada Jugador.
-                    repartirCartasJugadores(juego.repartoManoJugador());
-                    break;
-                case 3: //Reparto de cartas Comunes.
-                    repartirCartasJugadores(juego.getCartasComunes());
-//                    if(jugadoresRepartidos == numeroJugadores) apostar(); //fixme: arreglar esto.
+                    juego.setJuegoComenzado(true);
                     break;
                 default:
-                    System.out.println("Comprobar selector de Acciones.");
+                    System.out.println("Comprobar selector de Acciones (version menu principal).");
                     break;
             }
             
@@ -215,7 +221,9 @@ public class Servidor {
             while(true) {
                 socket = serverSocket.accept(); /* El ServerSocket me da el Socket.
                                                         Bloquea el programa en esta linea y solo avanza cuando un cliente se conecta.*/
-                new Thread(() -> gestionAcciones()).start(); //Comienzo de la faena en un Hilo aparte.
+                
+                if(!juego.isJuegoComenzado()) new Thread(() -> gestorAccionesMenu()).start(); //En funcion de si el juego ha comenzado o no, se entrara en un switch u otro.
+                else new Thread(() -> gestorAccionesJuego()).start();
             }
         }catch(IOException ex) {
             ex.printStackTrace();

@@ -13,6 +13,7 @@ import java.util.ArrayList;
  * @since 08/02/2017
  */
 public class Juego {
+    private boolean juegoComenzado = false;
     private int numeroJugadores = 0;
     
     private Baraja baraja = null;
@@ -86,5 +87,19 @@ public class Juego {
      */
     public void aniadirJugador() {
         this.numeroJugadores++;
+    }
+
+    /**
+     * @return the juegoComenzado
+     */
+    public boolean isJuegoComenzado() {
+        return juegoComenzado;
+    }
+
+    /**
+     * @param juegoComenzado the juegoComenzado to set
+     */
+    public void setJuegoComenzado(boolean juegoComenzado) {
+        this.juegoComenzado = juegoComenzado;
     }
 }

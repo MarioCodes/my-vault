@@ -9,8 +9,10 @@ import estados.*;
 
 /**
  * FIXME: Bug descubierto. Si hay 2 jugadores, si comienza el primero a pillar cartas, la 1º vez le da las propias suyas pero no las comunes, al 2º le da todas y si otra vez el primero, le da todas con nuevas.
+ * Juego en Red Texas Hold'Em. Version sin limite de apuestas.
  * Ventana para Startear el juego.
  * @author Mario Codes Sánchez
+ * @see https://es.wikipedia.org/wiki/Texas_hold_'em
  */
 public class WindowJugador extends javax.swing.JFrame {
     private static final Jugador JUGADOR = new Jugador();
