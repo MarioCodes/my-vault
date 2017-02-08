@@ -6,6 +6,7 @@
 package pokercliente;
 
 import estados.Estado;
+import java.util.ArrayList;
 
 /**
  * Representacion de un Jugador unico.
@@ -62,7 +63,12 @@ public class Jugador {
      *      3 al principio, 4 despues y 5 al final.
      */
     public void obtenerCartasComunes() {
-        mano.aniadirCartaMesa(Conexion.obtenerCartas(identificadorJugador, 3));
+        try {
+            mano.aniadirCartaMesa(Conexion.obtenerCartas(identificadorJugador, 3));
+        }catch(NullPointerException ex) {
+            System.out.println("SU");
+            obtenerCartasComunes();
+        }
     }
     
     /**
