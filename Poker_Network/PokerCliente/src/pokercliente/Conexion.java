@@ -120,6 +120,13 @@ public class Conexion {
         oos.flush();
     }
     
+    public static boolean checkObtenerCartas(int idJugador) throws IOException {
+        oos.writeInt(idJugador);
+        oos.flush();
+        
+        return ois.readBoolean();
+    }
+    
     /**
      * Obtencion de Cartas desde el Servidor. Esta automatizado independientemente del numero de cartas.
      *  Lo uso tanto para obtener las cartas propias del jugador como las comunes de la mesa.

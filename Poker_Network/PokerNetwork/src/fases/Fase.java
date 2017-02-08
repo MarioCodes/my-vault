@@ -18,13 +18,21 @@ import juego.Juego;
 public interface Fase {
     public void cambioFase(Juego juego);
     
+    public boolean checkRepartoCartasPersonales();
+    
     public void repartoCartasPersonales();
+    
+    public boolean checkRepartoCartasComunes();
     
     public void repartoCartasComunes();
     
+    public boolean checkApostarCiegas();
+    
     public void apostarCiegas();
+    
+    public boolean checkApostar();
     
     public void apostar();
     
-    public void retirarse();
+    public boolean retirarse();
 }

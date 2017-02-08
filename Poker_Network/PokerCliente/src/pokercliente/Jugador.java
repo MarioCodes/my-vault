@@ -14,7 +14,6 @@ import entidades.Mano;
  * @since 08/02/2017
  */
 public class Jugador {
-    
     private Mano mano = new Mano();
     
     private int fichasApuestas = 1000;
@@ -24,11 +23,11 @@ public class Jugador {
         this.fichasApuestas += fichas;
     }
     
-    /**
-     * Accion de apostar mediante la interfaz puesta.
-     * @param fichas Numero de fichas a apostar.
-     * @return Numero de fichas que hay en la pool.
-     */
+//    /**
+//     * Accion de apostar mediante la interfaz puesta.
+//     * @param fichas Numero de fichas a apostar.
+//     * @return Numero de fichas que hay en la pool.
+//     */
 //    public int apostar(int fichas) {
 //        fichasApuestas -= fichas;
 //        return estado.apostar(identificadorJugador, fichas);
@@ -85,18 +84,4 @@ public class Jugador {
     public int getFichasApuestas() {
         return fichasApuestas;
     }
-
-//    /**
-//     * @return the estado
-//     */
-//    public Estado getEstado() {
-//        return estado;
-//    }
-//
-//    /**
-//     * @param estado the estado to set
-//     */
-//    public void setEstado(Estado estado) {
-//        this.estado = estado;
-//    }
 }

@@ -6,7 +6,6 @@
 package juego;
 
 import fases.Fase;
-import fases.FasePreFlop;
 import java.util.ArrayList;
 
 /**
@@ -15,13 +14,37 @@ import java.util.ArrayList;
  * @since 08/02/2017
  */
 public class Juego {
-    private Fase fase = new FasePreFlop();
+    private Fase fase = null;
+    
     private boolean juegoComenzado = false;
     private int numeroJugadores = 0;
     
     private Baraja baraja = null;
     private ArrayList<Carta> CARTAS_MESA = new ArrayList<>();
+    private ArrayList<Boolean> accionJugador;
     private int poolApuestas = 0;
+    
+    /**
+     * (Re)inicializacion de la AL que uso para los turnos de cada jugador.
+     *  La idea es usar el identificador del jugador -1 para acceder a la AL. True si aun no ha usado su accion en el turno, false para que no pueda operar.
+     */
+    public void inicializacionALTurnosJugada() {
+        accionJugador = new ArrayList<>();
+        
+        for (int i = 0; i < numeroJugadores; i++) {
+            accionJugador.add(true);
+        }
+    }
+    
+    /**
+     * Reseteo de las acciones de cada jugador a True. Se hara cuando se acabe una fase.
+     * @throws InterruptedException 
+     */
+    public void reseteoALTurnosJugada() {
+        for (int i = 0; i < getNumeroJugadores(); i++) {
+            accionJugador.set(i, Boolean.TRUE);
+        }
+    }
     
     /**
      * Accion de apostar, sumamos las fichas y devolvemos el total de la pool.
@@ -125,5 +148,19 @@ public class Juego {
      */
     public void setFase(Fase fase) {
         this.fase = fase;
+    }
+
+    /**
+     * @return the accionJugador
+     */
+    public ArrayList<Boolean> getAccionJugador() {
+        return accionJugador;
+    }
+
+    /**
+     * @param accionJugador the accionJugador to set
+     */
+    public void setAccionJugador(ArrayList<Boolean> accionJugador) {
+        this.accionJugador = accionJugador;
     }
 }
