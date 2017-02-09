@@ -22,8 +22,7 @@ public class Juego {
     private int idJugadorFocus = 1;
     
     private Baraja baraja = null;
-    private ArrayList<Carta> CARTAS_MESA = new ArrayList<>();
-    private ArrayList<Boolean> accionJugador;
+    private ArrayList<Carta> cartas_mesa = new ArrayList<>();
     private int poolApuestas = 0;
 
     /**
@@ -34,32 +33,10 @@ public class Juego {
     }
     
     /**
-     * Gestionamos el avanzar al siguiente Jugador.
+     * El Jugador actual termina su turno y pasamos al siguiente.
      */
-    public void avanzarJugador() {
+    public void terminarTurno() {
         if(++idJugadorFocus >= numeroJugadores) idJugadorFocus = 1;
-    }
-    
-    /**
-     * (Re)inicializacion de la AL que uso para los turnos de cada jugador.
-     *  La idea es usar el identificador del jugador -1 para acceder a la AL. True si aun no ha usado su accion en el turno, false para que no pueda operar.
-     */
-    public void inicializacionALTurnosJugada() {
-        accionJugador = new ArrayList<>();
-        
-        for (int i = 0; i < numeroJugadores; i++) {
-            accionJugador.add(true);
-        }
-    }
-    
-    /**
-     * Reseteo de las acciones de cada jugador a True. Se hara cuando se acabe una fase.
-     * @throws InterruptedException 
-     */
-    public void reseteoALTurnosJugada() {
-        for (int i = 0; i < getNumeroJugadores(); i++) {
-            accionJugador.set(i, Boolean.TRUE);
-        }
     }
     
     /**
@@ -76,14 +53,14 @@ public class Juego {
      * Extraccion de las 3 cartas de la baraja comunes para la mesa.
      */
     private void sacarCartasComunes() {
-        CARTAS_MESA.addAll(baraja.extraerCartas(3));
+        cartas_mesa.addAll(baraja.extraerCartas(3));
     }
     
     /**
      * Recogemos las cartas de la mesa y ponemos las fichas de apuestas a 0;
      */
     private void recoger() {
-        CARTAS_MESA.removeAll(CARTAS_MESA);
+        cartas_mesa.removeAll(cartas_mesa);
         poolApuestas = 0;
     }
     
@@ -122,7 +99,7 @@ public class Juego {
      * @return the CARTAS_MESA
      */
     public ArrayList<Carta> getCartasComunes() {
-        return CARTAS_MESA;
+        return cartas_mesa;
     }
 
     /**
@@ -167,20 +144,6 @@ public class Juego {
      */
     public void setFase(Fase fase) {
         this.fase = fase;
-    }
-
-    /**
-     * @return the accionJugador
-     */
-    public ArrayList<Boolean> getAccionJugador() {
-        return accionJugador;
-    }
-
-    /**
-     * @param accionJugador the accionJugador to set
-     */
-    public void setAccionJugador(ArrayList<Boolean> accionJugador) {
-        this.accionJugador = accionJugador;
     }
 
     /**

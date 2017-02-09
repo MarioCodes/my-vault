@@ -38,7 +38,7 @@ public class Servidor {
                     break;
                 case 2: //Reparto cartas cada Jugador.
                     juego.getFase().repartoCartasPersonales(juego.repartoManoJugador());
-                    juego.avanzarJugador();
+                    juego.terminarTurno();
                     break;
                 case 3: //Reparto de cartas Comunes.
 //                    Conexion.repartirCartasJugadores(juego, juego.getCartasComunes());
@@ -60,7 +60,6 @@ public class Servidor {
      * Cambios de los elementos necesarios para comenzar con el juego.
      */
     private static void preparacionJuego() {
-        juego.inicializacionALTurnosJugada();
         juego.rebarajar();
         juego.setJuegoComenzado(true);
     }
