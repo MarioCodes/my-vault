@@ -41,9 +41,9 @@ public class FasePreFlop implements Fase{
     }
 
     @Override
-    public boolean retirarse() {
+    public int retirarse() {
         Conexion.sendBooleano(false);
-        return false;
+        return -10;
     }
 
     @Override

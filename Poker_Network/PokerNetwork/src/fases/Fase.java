@@ -27,5 +27,5 @@ public interface Fase {
     
     public void apostar(Juego juego);
     
-    public boolean retirarse();
+    public int retirarse();
 }

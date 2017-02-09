@@ -159,17 +159,30 @@ public class Conexion {
     
     /**
      * Realizacion de una apuesta por parte de un jugador y devuelta del total de la Pool.
-     * @param juego Juego actual.
+     * @param juego Juego actual, necesario para obtener y enviar al cliente le total de la Pool con su apuesta.
      */
     public static void getApuesta(Juego juego) {
         try {
             juego.apostar(ois.readInt());
-            
-            oos.writeInt(juego.getFichasApuestas());
-            oos.flush();
+            sendInt(juego.getFichasApuestas());
         }catch(IOException ex) {
             ex.printStackTrace();
         }
+    }
+    
+    /**
+     * Get ID propia de un Jugador.
+     * Lo usare para cuando este se quiera retirar.
+     * @return ID del jugador o -1 si error.
+     */
+    public static int getID() {
+        try {
+            return getInt();
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }
+        
+        return -1;
     }
     
     /**

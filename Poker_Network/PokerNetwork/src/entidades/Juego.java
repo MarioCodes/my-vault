@@ -21,6 +21,7 @@ public class Juego {
     
     private int totalJugadores = 0;
     private int idFocus = 1; //ID del Jugador al cual le toca realizar accion.
+    private ArrayList<Integer> idRetirados = new ArrayList<>();
     
     private Baraja baraja = null;
     private final ArrayList<Carta> CARTAS_MESA = new ArrayList<>();
@@ -43,7 +44,12 @@ public class Juego {
         if(++idFocus >= totalJugadores) {
             idFocus = 1;
             return true;
-        } else return false;
+        } else {
+//            while(idRetirados.contains(idFocus)) {
+//                idFocus++;
+//            }
+            return false;
+        }
     }
     
     /**
@@ -157,5 +163,12 @@ public class Juego {
      */
     public int getIdFocus() {
         return idFocus;
+    }
+
+    /**
+     * @return the idRetirados
+     */
+    public ArrayList<Integer> getIdRetirados() {
+        return idRetirados;
     }
 }

@@ -41,8 +41,9 @@ public class FaseApuestas implements Fase {
     }
 
     @Override
-    public boolean retirarse() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int retirarse() {
+        Conexion.sendBooleano(true);
+        return Conexion.getID();
     }
     
     @Override

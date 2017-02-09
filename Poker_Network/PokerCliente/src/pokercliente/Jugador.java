@@ -17,11 +17,12 @@ import java.util.ArrayList;
 public class Jugador {
     private Mano mano = new Mano();
     
-    private int fichasApuestas = 1000;
-    private int identificadorJugador;
+    private int fichas = 1000;
+    private int id;
+    private boolean jugando = true;
     
     public void sumarFichas(int fichas) {
-        this.fichasApuestas += fichas;
+        this.fichas += fichas;
     }
     
     //fixme: Para testeo mientras desarrollo. Borrar
@@ -46,8 +47,19 @@ public class Jugador {
      * @return Cantidad total de la Pool.
      */
     public int apostar(int fichas) {
-        fichasApuestas -= fichas;
+        this.fichas -= fichas;
         return Conexion.apostar(fichas);
+    }
+    
+    /**
+     * Accion de retirarse del juego.
+     * @return 
+     */
+    public boolean retirarse() {
+        if(Conexion.retirarse(id)) {
+            jugando = false;
+            return true;
+        } else return false;
     }
     
     /**
@@ -55,7 +67,7 @@ public class Jugador {
      * @return True si tiene el focus en el juego.
      */
     public boolean habla() {
-        return Conexion.getIDTurno() == identificadorJugador;
+        return Conexion.getIDTurno() == id;
     }
     
     /**
@@ -78,21 +90,21 @@ public class Jugador {
      * @return the identificadorJugador
      */
     public int getNumeroJugador() {
-        return identificadorJugador;
+        return id;
     }
 
     /**
      * @param numeroJugador the identificadorJugador to set
      */
     public void setNumeroJugador(int numeroJugador) {
-        this.identificadorJugador = numeroJugador;
+        this.id = numeroJugador;
     }
 
     /**
      * @return the fichasApuestas
      */
-    public int getFichasApuestas() {
-        return fichasApuestas;
+    public int getFichas() {
+        return fichas;
     }
 
     /**

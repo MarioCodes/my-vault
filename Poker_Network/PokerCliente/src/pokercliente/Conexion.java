@@ -152,9 +152,33 @@ public class Conexion {
             }
         }catch(IOException ex) {
             ex.printStackTrace();
+        }finally {
+            cerradoCabecerasConexion();
         }
         
         return -1;
+    }
+    
+    /**
+     * Ejecucion de la accion para retirar al jugador de esta ronda.
+     * @param id ID del jugador a retirar.
+     * @return True si se ha podido retirar.
+     */
+    public static boolean retirarse(int id) {
+        try {
+            aperturasCabeceraConexion();
+            
+            if(accionMenu(5)) {
+                sendInt(id);
+                return true;
+            }
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }finally {
+            cerradoCabecerasConexion();
+        }
+        
+        return false;
     }
     
     /**

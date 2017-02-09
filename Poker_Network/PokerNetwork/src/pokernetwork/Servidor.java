@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import entidades.Juego;
-import fases.FaseApuestas;
+import fases.*;
 
 /*
     todo: idea -> al finalizar cualquier accion en el Server, hacer que lo ultimo que envie sea la Fase en la que se encuentra el Juego y adecuar la GUI en funcion.
@@ -41,6 +41,20 @@ public class Servidor {
      */
     private static void apostar() {
         juego.getFase().apostar(juego);
+//        if(juego.terminarTurno()) new FasePreFlop().cambioFase(juego); //Fixme: cambiar por Flop cuando este.
+    }
+    
+    /**
+     * Accion de retirarse, se pone su ID en la lista. @fixme: quitarlo y poner una lista con IDs positivos en vez de negativos, quitarlo de esta cuando eso.
+     */
+    private static void retirarse() {
+        int id = juego.getFase().retirarse();
+        if(id != -1) {
+            juego.getIdRetirados().add(id);
+            System.out.println("Se ha retirado al Jugador " +id);
+        } else {
+            System.out.println("Problemas con el retirar a un jugador.");
+        }
     }
     
     /**
@@ -61,8 +75,11 @@ public class Servidor {
                 case 3: //Reparto de cartas Comunes.
 //                    Conexion.repartirCartasJugadores(juego, juego.getCartasComunes());
                     break;
-                case 4: //Apuestas
+                case 4: //Apuestas.
                     apostar();
+                    break;
+                case 5: //Retirarse.
+                    retirarse();
                     break;
                 default:
                     System.out.println("Comprobar selector de Acciones (version juego).");
