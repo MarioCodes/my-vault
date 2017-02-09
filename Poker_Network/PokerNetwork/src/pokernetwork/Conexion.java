@@ -93,7 +93,7 @@ public class Conexion {
      * @throws IOException 
      */
     public static void sendFocus(Juego juego) throws IOException {
-        oos.writeInt(juego.getIdJugadorFocus());
+        oos.writeInt(juego.getIdFocus());
         oos.flush();
     }
     
@@ -150,7 +150,7 @@ public class Conexion {
      */
     public static void addJugador(Juego juego) throws IOException {
         juego.aniadirJugador();
-        oos.writeInt(juego.getNumeroJugadores());
+        oos.writeInt(juego.getTotalJugadores());
         oos.flush();
         System.out.println("Jugador añadido.");
     }
@@ -163,7 +163,7 @@ public class Conexion {
      */
     public static void addUltimoJugador(Juego juego) throws IOException, InterruptedException {
         addJugador(juego);
-        System.out.println("Ultimo jugador añadido. Comenzando el Juego con " +juego.getNumeroJugadores() +" jugadores.");
+        System.out.println("Ultimo jugador añadido. Comenzando el Juego con " +juego.getTotalJugadores() +" jugadores.");
     }
 
     /**

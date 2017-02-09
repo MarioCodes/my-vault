@@ -37,7 +37,7 @@ public class Servidor {
                     Conexion.sendFocus(juego);
                     break;
                 case 2: //Reparto cartas cada Jugador.
-                    juego.getFase().repartoCartasPersonales(juego.repartoManoJugador());
+                    juego.getFase().repartoCartasPersonales(juego.obtenerCartasJugador());
                     juego.terminarTurno();
                     break;
                 case 3: //Reparto de cartas Comunes.
@@ -61,7 +61,7 @@ public class Servidor {
      */
     private static void preparacionJuego() {
         juego.rebarajar();
-        juego.setJuegoComenzado(true);
+        juego.setComenzado(true);
     }
     
     /**
@@ -103,7 +103,7 @@ public class Servidor {
                 socket = serverSocket.accept(); /* El ServerSocket me da el Socket.
                                                         Bloquea el programa en esta linea y solo avanza cuando un cliente se conecta.*/
                 
-                if(!juego.isJuegoComenzado()) new Thread(() -> accionesMenu()).start(); //En funcion de si el juego ha comenzado o no, se entrara en un switch u otro.
+                if(!juego.isComenzado()) new Thread(() -> accionesMenu()).start(); //En funcion de si el juego ha comenzado o no, se entrara en un switch u otro.
                 else new Thread(() -> accionesJuego()).start();
             }
         }catch(IOException ex) {

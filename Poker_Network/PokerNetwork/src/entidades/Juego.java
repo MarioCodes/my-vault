@@ -17,13 +17,15 @@ import java.util.ArrayList;
 public class Juego {
     private Fase fase = null; //Fase actual en la que se encuentra el Juego.
     
-    private boolean juegoComenzado = false;
-    private int numeroJugadores = 0;
-    private int idJugadorFocus = 1;
+    private boolean comenzado = false;
+    
+    private int totalJugadores = 0;
+    private int idFocus = 1; //ID del Jugador al cual le toca realizar accion.
     
     private Baraja baraja = null;
-    private ArrayList<Carta> cartas_mesa = new ArrayList<>();
-    private int poolApuestas = 0;
+    private final ArrayList<Carta> CARTAS_MESA = new ArrayList<>();
+    
+    private int apuestas = 0;
 
     /**
      * Constructor por defecto.
@@ -36,7 +38,7 @@ public class Juego {
      * El Jugador actual termina su turno y pasamos al siguiente.
      */
     public void terminarTurno() {
-        if(++idJugadorFocus >= numeroJugadores) idJugadorFocus = 1;
+        if(++idFocus >= totalJugadores) idFocus = 1;
     }
     
     /**
@@ -45,34 +47,35 @@ public class Juego {
      * @return Pool total hasta ahora.
      */
     public int apostar(int fichas) {
-        poolApuestas += fichas;
-        return poolApuestas;
+        apuestas += fichas;
+        return apuestas;
     }
     
     /**
      * Extraccion de las 3 cartas de la baraja comunes para la mesa.
      */
-    private void sacarCartasComunes() {
-        cartas_mesa.addAll(baraja.extraerCartas(3));
+    private void obtenerCartasComunes() {
+        CARTAS_MESA.addAll(baraja.extraerCartas(3));
     }
     
     /**
-     * Recogemos las cartas de la mesa y ponemos las fichas de apuestas a 0;
+     * Recogemos las cartas de la mesa y obtenemos las fichas que habia en la pool comun.
      */
-    private void recoger() {
-        cartas_mesa.removeAll(cartas_mesa);
-        poolApuestas = 0;
+    private int recogerApuestas() {
+        CARTAS_MESA.removeAll(CARTAS_MESA);
+        int pool = apuestas;
+        apuestas = 0;
+        return pool;
     }
     
     /**
      * Creamos una baraja aleatoria nueva.
      */
     public void rebarajar() {
-        recoger();
         this.baraja = new Baraja();
         
-        baraja.quemarCartas(3);
-        sacarCartasComunes();
+        baraja.quemarCartas(3); //Segun las reglas.
+        obtenerCartasComunes();
         System.out.println("Ronda nueva Comenzada. Cartas de la mesa repartidas.");
     }
 
@@ -80,7 +83,7 @@ public class Juego {
      * Repartimos las 2 cartas necesarias propias para el jugador.
      * @return ArrayList con las 2 cartas extraidas de la baraja.
      */
-    public ArrayList<Carta> repartoManoJugador() {
+    public ArrayList<Carta> obtenerCartasJugador() {
         ArrayList<Carta> cartas = new ArrayList<>();
         cartas.addAll(baraja.extraerCartas(2));
         return cartas;
@@ -90,7 +93,7 @@ public class Juego {
      * Sumar +1 al numero de jugadores.
      */
     public void aniadirJugador() {
-        this.numeroJugadores++;
+        this.totalJugadores++;
     }
     
     
@@ -99,35 +102,35 @@ public class Juego {
      * @return the CARTAS_MESA
      */
     public ArrayList<Carta> getCartasComunes() {
-        return cartas_mesa;
+        return CARTAS_MESA;
     }
 
     /**
      * @return the poolApuestas
      */
     public int getFichasApuestas() {
-        return poolApuestas;
+        return apuestas;
     }
 
     /**
      * @return the numeroJugadores
      */
-    public int getNumeroJugadores() {
-        return numeroJugadores;
+    public int getTotalJugadores() {
+        return totalJugadores;
     }
 
     /**
      * @return the juegoComenzado
      */
-    public boolean isJuegoComenzado() {
-        return juegoComenzado;
+    public boolean isComenzado() {
+        return comenzado;
     }
 
     /**
-     * @param juegoComenzado the juegoComenzado to set
+     * @param comenzado the juegoComenzado to set
      */
-    public void setJuegoComenzado(boolean juegoComenzado) {
-        this.juegoComenzado = juegoComenzado;
+    public void setComenzado(boolean comenzado) {
+        this.comenzado = comenzado;
     }
 
     /**
@@ -149,7 +152,7 @@ public class Juego {
     /**
      * @return the idJugadorFocus
      */
-    public int getIdJugadorFocus() {
-        return idJugadorFocus;
+    public int getIdFocus() {
+        return idFocus;
     }
 }
