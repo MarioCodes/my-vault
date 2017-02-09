@@ -15,7 +15,7 @@ import pokernetwork.Conexion;
  * Es la fase en la cual se reparte dos cartas individuales a cada Jugador.
  * Despues de repartir se hace una fase para introducir las Ciegas, y despues uan ronda de Apuestas.
  * @author Mario Codes Sánchez
- * @since 08/02/2017
+ * @since 09/02/2017
  */
 public class FasePreFlop implements Fase{
 
@@ -25,7 +25,7 @@ public class FasePreFlop implements Fase{
     }
 
     @Override
-    public void repartoCartasPersonales(ArrayList<Carta> cartas) {
+    public void repartoCartasJugador(ArrayList<Carta> cartas) {
         Conexion.repartoCartas(cartas);
     }
 

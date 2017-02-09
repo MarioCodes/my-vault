@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public interface Fase {
     public void cambioFase(Juego juego);
     
-    public void repartoCartasPersonales(ArrayList<Carta> cartas);
+    public void repartoCartasJugador(ArrayList<Carta> cartas);
     
     public void repartoCartasComunes();
     

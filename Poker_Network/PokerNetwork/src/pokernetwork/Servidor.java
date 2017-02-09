@@ -13,13 +13,11 @@ import entidades.Juego;
 /**
  * Proyecto Online juego Oscar -> Poker Texas Hold'em!. Parte Servidor.
  * Funcionamiento general del Servidor:
- *  Se abre la conexion - Input si ID necesaria - Output ID Jugador Focus (si previo == true) - Input Opcion Switch : 
- *              Envio Mano Jugador: Output numero Cartas - Output Cartas - Cerrado Conexion.
  * @author Mario Codes Sánchez
- * @since 08/02/2017
+ * @since 09/02/2017
  */
 public class Servidor {
-    private static Juego juego = new Juego();
+    private static Juego juego;
     
     private static final int PUERTO = 8143;
     private static Socket socket = null;
@@ -31,13 +29,13 @@ public class Servidor {
         try {
             Conexion.aperturaConexion(socket);
 
-            int opcion = Conexion.reciboInt();
+            int opcion = Conexion.getInt();
             switch(opcion) {
                 case 1: //Get de la ID de quien Habla.
                     Conexion.sendFocus(juego);
                     break;
                 case 2: //Reparto cartas cada Jugador.
-                    juego.getFase().repartoCartasPersonales(juego.obtenerCartasJugador());
+                    juego.getFase().repartoCartasJugador(juego.obtenerCartasJugador());
                     juego.terminarTurno();
                     break;
                 case 3: //Reparto de cartas Comunes.
@@ -50,7 +48,7 @@ public class Servidor {
                     System.out.println("Comprobar selector de Acciones (version juego).");
                     break;
             }
-            Conexion.cerradoConexion(); //fixme: chequear si da problemas, no se si deberia estar o no.
+            Conexion.cerradoConexion();
         }catch(IOException ex) {
             ex.printStackTrace();
         }
@@ -59,7 +57,8 @@ public class Servidor {
     /**
      * Cambios de los elementos necesarios para comenzar con el juego.
      */
-    private static void preparacionJuego() {
+    private static void startJuego() {
+        juego = new Juego();
         juego.rebarajar();
         juego.setComenzado(true);
     }
@@ -71,7 +70,7 @@ public class Servidor {
     private static void accionesMenu() {
         try {
             Conexion.aperturaConexion(socket);
-            int opcion = Conexion.reciboInt();
+            int opcion = Conexion.getInt();
             
             switch(opcion) {
                 case 0: //Join de un jugador.
@@ -79,7 +78,7 @@ public class Servidor {
                     break;
                 case 1: //Join del ultimo jugador.
                     Conexion.addUltimoJugador(juego);
-                    preparacionJuego();
+                    startJuego();
                     break;
                 default:
                     System.out.println("Comprobar selector de Acciones (version menu principal).");

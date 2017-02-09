@@ -29,11 +29,11 @@ public class Conexion {
     private static ObjectOutputStream oos = null;
     
     /**
-     * Recibo de un int del Cliente.
+     * Recibo de un int del Cliente. Usado para la gestion de los Menus en Servidor.
      * @return Entero desde el Cliente.
      * @throws java.io.IOException
      */
-    public static int reciboInt() throws IOException {
+    public static int getInt() throws IOException {
         return ois.readInt();
     }
     
@@ -42,7 +42,7 @@ public class Conexion {
      * @param i Entero a enviar.
      * @throws IOException 
      */
-    public static void envioInt(int i) throws IOException {
+    public static void sendInt(int i) throws IOException {
         oos.writeInt(i);
         oos.flush();
     }
