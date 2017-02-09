@@ -12,8 +12,8 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import juego.Carta;
-import juego.Juego;
+import entidades.Carta;
+import entidades.Juego;
 
 /**
  * Todo lo relacionado con la conexion del Server con los clientes.
@@ -27,16 +27,6 @@ public class Conexion {
     private static OutputStream out = null;
     private static ObjectInputStream ois = null;
     private static ObjectOutputStream oos = null;
-    
-    /**
-     * Envio del check sobre si es posible realizar una accion al Cliente.
-     * @param b Booleano de la accion.
-     * @throws IOException 
-     */
-    public static void envioCheckAccion(boolean b) throws IOException {
-        oos.writeBoolean(b);
-        oos.flush();
-    }
     
     /**
      * Recibo de un int del Cliente.
@@ -53,6 +43,7 @@ public class Conexion {
      */
     public static void aperturaCabecerasConexion(Socket socket) {
         try {
+            Conexion.socket = socket;
             in = socket.getInputStream();
             out = socket.getOutputStream();
             oos = new ObjectOutputStream(out);
@@ -164,15 +155,5 @@ public class Conexion {
         juego.inicializacionALTurnosJugada();
         juego.rebarajar();
         System.out.println("Ultimo jugador añadido. Comenzando el Juego con " +juego.getNumeroJugadores() +" jugadores.");
-    }
-    
-    /**
-     * Reparto de cartas a los jugadores.
-     * @param juego
-     * @throws IOException 
-     */
-    public static void repartoCartasJugadores(Juego juego) throws IOException {
-        envioCheckAccion(juego.getFase().checkRepartoCartasPersonales());
-        juego.getFase().repartoCartasPersonales();
     }
 }

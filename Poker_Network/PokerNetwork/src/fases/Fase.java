@@ -5,11 +5,12 @@
  */
 package fases;
 
-import juego.Juego;
+import entidades.Juego;
 
 /**
  * Implementacion de una maquina de estados para saber en todo momento en que fase se encuentra el Juego.
  * De esta forma tengo control total sobre lo que se puede y lo que no se puede hacer en cada fase del juego.
+ * La forma de uso de llamado es -> Servidor -> Juego -> Instancia Fase -> Conexion.
  * @author Mario Codes Sánchez
  * @since 08/02/2017
  * @see https://en.wikipedia.org/wiki/State_pattern
@@ -18,19 +19,11 @@ import juego.Juego;
 public interface Fase {
     public void cambioFase(Juego juego);
     
-    public boolean checkRepartoCartasPersonales();
-    
     public void repartoCartasPersonales();
-    
-    public boolean checkRepartoCartasComunes();
     
     public void repartoCartasComunes();
     
-    public boolean checkApostarCiegas();
-    
     public void apostarCiegas();
-    
-    public boolean checkApostar();
     
     public void apostar();
     

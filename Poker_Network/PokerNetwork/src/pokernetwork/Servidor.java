@@ -5,11 +5,10 @@
  */
 package pokernetwork;
 
-import fases.FasePreFlop;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import juego.Juego;
+import entidades.Juego;
 
 /**
  * Proyecto Online juego Oscar -> Poker Texas Hold'em!. Parte Servidor.
@@ -33,7 +32,7 @@ public class Servidor {
 
             switch(opcion) {
                 case 2: //Reparto cartas cada Jugador.
-                    Conexion.repartoCartasJugadores(juego);
+//                    Conexion.repartoCartasJugadores(juego);
                     
 //                    Conexion.repartirCartasJugadores(juego, juego.repartoManoJugador());
                     break;
@@ -57,7 +56,6 @@ public class Servidor {
      * Cambios de los elementos necesarios para comenzar con el juego.
      */
     private static void preparacionJuego() {
-        new FasePreFlop().cambioFase(juego); //Cambiamos la fase a la inicial del Juego.
         juego.setJuegoComenzado(true); //todo: mirar si quitarlo o no al final.
     }
     

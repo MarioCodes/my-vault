@@ -5,7 +5,7 @@
  */
 package fases;
 
-import juego.Juego;
+import entidades.Juego;
 
 /**
  * Fase de Pre-Flop. 
@@ -22,18 +22,8 @@ public class FasePreFlop implements Fase{
     }
 
     @Override
-    public boolean checkRepartoCartasPersonales() {
-        return true;
-    }
-
-    @Override
     public void repartoCartasPersonales() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean checkRepartoCartasComunes() {
-        return false;
     }
 
     @Override
@@ -42,18 +32,8 @@ public class FasePreFlop implements Fase{
     }
 
     @Override
-    public boolean checkApostarCiegas() {
-        return false;
-    }
-
-    @Override
     public void apostarCiegas() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean checkApostar() {
-        return false;
     }
 
     @Override

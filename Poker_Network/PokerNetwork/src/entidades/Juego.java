@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package juego;
+package entidades;
 
 import fases.Fase;
+import fases.FasePreFlop;
 import java.util.ArrayList;
 
 /**
@@ -14,7 +15,7 @@ import java.util.ArrayList;
  * @since 08/02/2017
  */
 public class Juego {
-    private Fase fase = null;
+    private Fase fase = new FasePreFlop();
     
     private boolean juegoComenzado = false;
     private int numeroJugadores = 0;
