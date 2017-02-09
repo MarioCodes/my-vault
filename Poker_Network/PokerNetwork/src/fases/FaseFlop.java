@@ -19,8 +19,8 @@ public class FaseFlop implements Fase {
 
     @Override
     public void cambioFase(Juego juego) {
-        System.out.println("Fase de Flop");
         juego.setFase(this);
+        System.out.println("Fase de Flop");
     }
 
     @Override

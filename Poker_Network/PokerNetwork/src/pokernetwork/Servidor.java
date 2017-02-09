@@ -20,6 +20,7 @@ import fases.*;
  * La forma de uso de llamado de los metodos es -> Servidor -> Juego -> Instancia Fase -> Conexion.
  * @author Mario Codes Sánchez
  * @since 09/02/2017
+ * @see https://es.wikipedia.org/wiki/Texas_hold_'em
  */
 public class Servidor {
     private static Juego juego = new Juego();
@@ -33,7 +34,11 @@ public class Servidor {
      */
     private static void repartoCartasPropias() {
         juego.getFase().repartoCartasJugador(juego.getCartasJugador());
-        if(juego.terminarTurno()) new FaseApuestas().cambioFase(juego);
+        if(juego.terminarTurno()) {
+            FaseApuestas fa = new FaseApuestas();
+            fa.setFasePrevia("PreFlop");
+            fa.cambioFase(juego);
+        }
     }
     
     /**
@@ -41,7 +46,28 @@ public class Servidor {
      */
     private static void repartoCartasComunes() {
         juego.getFase().repartoCartasComunes(juego.getCartasComunesFlop());
-        if(juego.terminarTurno()) new FaseApuestas().cambioFase(juego);
+        if(juego.terminarTurno()) {
+            FaseApuestas fa = new FaseApuestas();
+            fa.setFasePrevia("Flop");
+            fa.cambioFase(juego);
+        }
+    }
+    
+    /**
+     * Pasamos a la siguiente fase correcta al terminar la actual de apuestas.
+     * @param fa Fase de Apuestas actual.
+     * @return Fase siguiente a la cual cambiar el estado del juego.
+     */
+    private static Fase getFaseCorrecta(FaseApuestas fa) {
+        switch(fa.getFasePrevia()) {
+                case "PreFlop":
+                    return new FaseFlop();
+                case "Flop":
+                    return new FaseTurn(); //todo: por implementar, sera la que toca creo.
+                default:
+                    System.out.println("Switch cambio fase apostar default().");
+                    return null;
+        }
     }
     
     /**
@@ -50,7 +76,10 @@ public class Servidor {
      */
     private static void apostar() {
         juego.getFase().apostar(juego);
-        if(juego.terminarTurno()) new FaseFlop().cambioFase(juego); //Fixme: cambiar por Flop cuando este.
+        if(juego.terminarTurno()) {
+            Fase fase = getFaseCorrecta((FaseApuestas) juego.getFase());
+            fase.cambioFase(juego);
+        }
     }
     
     /**
