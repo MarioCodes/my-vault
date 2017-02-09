@@ -20,7 +20,7 @@ public class Juego {
     private boolean comenzado = false;
     
     private ArrayList<String> jugadores = new ArrayList<>();
-    private int idFocus = 1; //ID del Jugador al cual le toca realizar accion.
+    private int idFocus = 1; //ID del Jugador al cual le toca realizar accion. //fixme: cambiar a String y operar mediante Strings.
     
     private Baraja baraja = null;
     private final ArrayList<Carta> CARTAS_MESA = new ArrayList<>();
@@ -54,6 +54,7 @@ public class Juego {
     /**
      * Retiramos al jugador deseado.
      * @param id ID del jugador a retirar.
+     * @return True si se ha podido retirar. 
      */
     public boolean retirarse(String id) {
         if(jugadores.contains(id)) {
@@ -156,8 +157,8 @@ public class Juego {
     /**
      * @return the idJugadorFocus
      */
-    public int getIdFocus() {
-        return idFocus;
+    public String getIdFocus() {
+        return Integer.toString(idFocus);
     }
 
     /**

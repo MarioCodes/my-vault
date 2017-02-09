@@ -123,7 +123,7 @@ public class Conexion {
      * @throws IOException 
      */
     public static void sendFocus(Juego juego) throws IOException {
-        oos.writeInt(juego.getIdFocus());
+        oos.writeObject(juego.getIdFocus());
         oos.flush();
     }
     
