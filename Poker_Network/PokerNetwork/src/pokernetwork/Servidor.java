@@ -12,6 +12,9 @@ import entidades.Juego;
 
 /**
  * Proyecto Online juego Oscar -> Poker Texas Hold'em!. Parte Servidor.
+ * Funcionamiento general del Servidor:
+ *  Se abre la conexion - Input si ID necesaria - Output ID Jugador Focus (si previo == true) - Input Opcion Switch : 
+ *              Envio Mano Jugador: Output numero Cartas - Output Cartas - Cerrado Conexion.
  * @author Mario Codes Sánchez
  * @since 08/02/2017
  */
@@ -28,8 +31,13 @@ public class Servidor {
     private static void gestorAccionesJuego() {
         try {
             Conexion.aperturaCabecerasConexion(socket);
-            Conexion.envioInt(juego.getIdJugadorFocus());
             
+            boolean idNecesaria = Conexion.getBooleano();
+            if(idNecesaria) {
+                Conexion.envioInt(juego.getIdJugadorFocus());
+                return;
+            }
+
             int opcion = Conexion.reciboInt();
             switch(opcion) {
                 case 2: //Reparto cartas cada Jugador.

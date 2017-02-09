@@ -135,6 +135,9 @@ public class Conexion {
         try {
             aperturasCabeceraConexion();
             
+            oos.writeBoolean(false);
+            oos.flush();
+            
             envioAccion(accion); //Obtencion de las cartas.
 
             int cartasARecibir = ois.readInt(); //Numero de cartas a Recibir.
@@ -190,8 +193,12 @@ public class Conexion {
     public static int getIDJugadorActual() {
         try {
             aperturasCabeceraConexion();
+            
+            oos.writeBoolean(true);
+            oos.flush();
+            
             int id = ois.readInt();
-//            cerradoCabecerasConexion();
+            cerradoCabecerasConexion();
             return id;
         }catch(IOException ex) {
             ex.printStackTrace();

@@ -48,6 +48,15 @@ public class Conexion {
     }
     
     /**
+     * Recibo de un Booleano del Clietne.
+     * @return Booleano desde el Cliente.
+     * @throws IOException 
+     */
+    public static boolean getBooleano() throws IOException {
+        return ois.readBoolean();
+    }
+    
+    /**
      * Apertura de las posibles cabeceras necesarias para la transmision de datos. ¡Se deberan cerrar despues!
      * @param socket Socket por el cual abrimos el resto de conexiones.
      */
@@ -165,5 +174,12 @@ public class Conexion {
         juego.inicializacionALTurnosJugada();
         juego.rebarajar();
         System.out.println("Ultimo jugador añadido. Comenzando el Juego con " +juego.getNumeroJugadores() +" jugadores.");
+    }
+
+    /**
+     * @return the socket
+     */
+    public static Socket getSocket() {
+        return socket;
     }
 }
