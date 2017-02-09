@@ -17,6 +17,7 @@ import fases.*;
 
 /**
  * Proyecto Online juego Oscar -> Poker Texas Hold'em!. Parte Servidor.
+ * La forma de uso de llamado de los metodos es -> Servidor -> Juego -> Instancia Fase -> Conexion.
  * @author Mario Codes Sánchez
  * @since 09/02/2017
  */
@@ -31,7 +32,15 @@ public class Servidor {
      * Cuando acaban pasamos a la primera ronda de apuestas.
      */
     private static void repartoCartasPropias() {
-        juego.getFase().repartoCartasJugador(juego.obtenerCartasJugador());
+        juego.getFase().repartoCartasJugador(juego.getCartasJugador());
+        if(juego.terminarTurno()) new FaseApuestas().cambioFase(juego);
+    }
+    
+    /**
+     * Envio de la informacion de las Cartas comunes a cada Jugador.
+     */
+    private static void repartoCartasComunes() {
+        juego.getFase().repartoCartasComunes(juego.getCartasComunesFlop());
         if(juego.terminarTurno()) new FaseApuestas().cambioFase(juego);
     }
     
@@ -41,7 +50,7 @@ public class Servidor {
      */
     private static void apostar() {
         juego.getFase().apostar(juego);
-//        if(juego.terminarTurno()) new FasePreFlop().cambioFase(juego); //Fixme: cambiar por Flop cuando este.
+        if(juego.terminarTurno()) new FaseFlop().cambioFase(juego); //Fixme: cambiar por Flop cuando este.
     }
     
     /**
@@ -75,7 +84,7 @@ public class Servidor {
                     repartoCartasPropias();
                     break;
                 case 3: //Reparto de cartas Comunes.
-//                    Conexion.repartirCartasJugadores(juego, juego.getCartasComunes());
+                    repartoCartasComunes();
                     break;
                 case 4: //Apuestas.
                     apostar();

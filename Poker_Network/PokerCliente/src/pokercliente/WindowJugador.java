@@ -77,7 +77,6 @@ public class WindowJugador extends javax.swing.JFrame {
         jTextField1.setToolTipText("");
 
         jButton4.setText("obtener comunes");
-        jButton4.setEnabled(false);
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -161,6 +160,13 @@ public class WindowJugador extends javax.swing.JFrame {
         }else System.out.println("Ya tienes tus cartas.");
     }
     
+    private void getCartasComunes() {
+        if(JUGADOR.getMano().getCartas_mesa().isEmpty()) {
+            JUGADOR.obtenerCartasComunes();
+            JUGADOR.verCartasComunes(); //fixme: borrar. testeo.
+        }else System.out.println("Ya tenias las cartas comunes.");
+    }
+    
     /**
      * Accion de apostar la cantidad que haya indicada.
      */
@@ -194,8 +200,7 @@ public class WindowJugador extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        JUGADOR.obtenerCartasComunes();
-        JUGADOR.verCartasComunes(); //fixme: borrar. testeo.
+        getCartasComunes();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed

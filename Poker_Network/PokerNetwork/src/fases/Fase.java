@@ -12,7 +12,9 @@ import java.util.ArrayList;
 /**
  * Implementacion de una maquina de estados para saber en todo momento en que fase se encuentra el Juego.
  * De esta forma tengo control total sobre lo que se puede y lo que no se puede hacer en cada fase del juego.
- * La forma de uso de llamado es -> Servidor -> Juego -> Instancia Fase -> Conexion.
+ * El orden de las fases en el Juego es -> PreFlop -> Apuestas -> Flop -> Apuestas -> Turn -> Apuestas -> River -> Apuestas.
+ *      Como a la hora de programarlas, Turn y River son Iguales, solo implemento una de las 2 y la reuso para evitar duplicidad de codigo.
+ *      'Apuestas' en si no es una fase, pero me hace mas sencillo la programacion si la implemento como tal.
  * @author Mario Codes Sánchez
  * @since 08/02/2017
  * @see https://en.wikipedia.org/wiki/State_pattern
@@ -23,7 +25,7 @@ public interface Fase {
     
     public void repartoCartasJugador(ArrayList<Carta> cartas);
     
-    public void repartoCartasComunes();
+    public void repartoCartasComunes(ArrayList<Carta> cartas);
     
     public void apostar(Juego juego);
     

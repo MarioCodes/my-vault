@@ -17,7 +17,8 @@ import pokernetwork.Conexion;
  * @since 09/02/2017
  */
 public class FaseApuestas implements Fase {
-
+    private String fasePrevia; //Como esta fase se llama durante toda la ronda, necesito saber cual ha sido la previa para saber cual es la siguiente.
+    
     @Override
     public void cambioFase(Juego juego) {
         juego.setFase(this);
@@ -30,7 +31,7 @@ public class FaseApuestas implements Fase {
     }
 
     @Override
-    public void repartoCartasComunes() {
+    public void repartoCartasComunes(ArrayList<Carta> cartas) {
         Conexion.sendBooleano(false);
     }
 
@@ -49,5 +50,19 @@ public class FaseApuestas implements Fase {
     @Override
     public String toString() {
         return "Apuestas";
+    }
+
+    /**
+     * @return the fasePrevia
+     */
+    public String getFasePrevia() {
+        return fasePrevia;
+    }
+
+    /**
+     * @param fasePrevia the fasePrevia to set
+     */
+    public void setFasePrevia(String fasePrevia) {
+        this.fasePrevia = fasePrevia;
     }
 }

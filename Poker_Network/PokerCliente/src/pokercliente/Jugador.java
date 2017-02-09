@@ -83,7 +83,8 @@ public class Jugador {
      *      3 al principio, 4 despues y 5 al final.
      */
     public void obtenerCartasComunes() {
-        mano.aniadirCartaMesa(Conexion.getCartas(3));
+        ArrayList<Carta> cartas = Conexion.getCartas(3);
+        if(cartas != null) mano.aniadirCartaMesa(cartas);
     }
     
     /**

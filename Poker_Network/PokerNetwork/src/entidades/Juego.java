@@ -73,10 +73,11 @@ public class Juego {
     }
     
     /**
-     * Extraccion de las 3 cartas de la baraja comunes para la mesa.
+     * Extraccion de las 3 cartas de la baraja comunes para la mesa en la fase de Flop..
      */
-    private void obtenerCartasComunes() {
-        CARTAS_MESA.addAll(baraja.extraerCartas(3));
+    public ArrayList<Carta> getCartasComunesFlop() {
+        if(CARTAS_MESA.isEmpty()) CARTAS_MESA.addAll(baraja.extraerCartas(3));
+        return CARTAS_MESA;
     }
     
     /**
@@ -102,7 +103,7 @@ public class Juego {
      * Repartimos las 2 cartas necesarias propias para el jugador.
      * @return ArrayList con las 2 cartas extraidas de la baraja.
      */
-    public ArrayList<Carta> obtenerCartasJugador() {
+    public ArrayList<Carta> getCartasJugador() {
         ArrayList<Carta> cartas = new ArrayList<>();
         cartas.addAll(baraja.extraerCartas(2));
         return cartas;
@@ -113,15 +114,6 @@ public class Juego {
      */
     public void aniadirJugador() {
         jugadores.add(Integer.toString(jugadores.size()+1));
-    }
-    
-    
-    
-    /**
-     * @return the CARTAS_MESA
-     */
-    public ArrayList<Carta> getCartasComunes() {
-        return CARTAS_MESA;
     }
 
     /**
