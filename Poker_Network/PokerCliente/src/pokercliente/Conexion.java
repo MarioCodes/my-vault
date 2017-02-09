@@ -19,7 +19,7 @@ import java.util.ArrayList;
 /**
  * Clase encargada de gestionar y coordinar la conexion del Programa con el Servidor.
  * @author Mario Codes Sánchez
- * @since 07/02/2017
+ * @since 09/02/2017
  */
 public class Conexion {
 //    private static final int BUFFER_LENGTH = 8192; //fixme: mirar si lo puedo utilizar mas adelante, de momento que le den.
@@ -38,7 +38,7 @@ public class Conexion {
      */
     private static void aperturasCabeceraConexion() {
         try {
-            socket = new Socket(SERVER_IP, PUERTO); //IP y PORT del Server.
+            socket = new Socket(SERVER_IP, PUERTO);
 
             in = socket.getInputStream();
             out = socket.getOutputStream();
@@ -64,34 +64,16 @@ public class Conexion {
         }
     }
     
-//    //fixme: Desarrollar.
-//    public static int getPoolFichasApostadas() {
-//        return 0;
-//    }
-//    
-//    //fixme: desarrollar.
-//    public static int apostarJugador(int idJugador, int fichas) {
-//        int totalPool = -1;
-//        
-//        try {
-//            oos.writeInt(idJugador);
-//            oos.flush();
-//            
-//            boolean accionLeft = ois.readBoolean();
-//            if(accionLeft) {
-//                oos.writeInt(fichas);
-//                oos.flush();
-//                
-//                totalPool = ois.readInt();
-//            } else {
-//                
-//            }
-//        }catch(IOException ex) {
-//            ex.printStackTrace();
-//        }
-//        
-//        return totalPool;
-//    }
+    /**
+     * Envio al server de la accion que deseamos realizar para que la lea en el Switch y actue.
+     * @param accion Accion a realizar.
+     * @param id ID propio del Jugador.
+     * @throws IOException 
+     */
+    private static void accionMenu(int accion) throws IOException {
+        oos.writeInt(accion);
+        oos.flush();
+    }
     
     /**
      * Debido a los problemas que tengo para enviar Cartas por Socket como (Object) las deconstruyo en el server a sus valores base y las reconstruyo aqui.
@@ -107,35 +89,17 @@ public class Conexion {
     }
     
     /**
-     * Envio al server de la accion que deseamos realizar y el ID unico del Jugador.
-     * @param accion Accion a realizar.
-     * @param id ID propio del Jugador.
-     * @throws IOException 
-     */
-    private static void envioAccion(int accion) throws IOException {
-        oos.writeInt(accion);
-        oos.flush();
-    }
-    
-    public static boolean checkObtenerCartas(int idJugador) throws IOException {
-        oos.writeInt(idJugador);
-        oos.flush();
-        
-        return ois.readBoolean();
-    }
-    
-    /**
      * Obtencion de Cartas desde el Servidor. Esta automatizado independientemente del numero de cartas.
      *  Lo uso tanto para obtener las cartas propias del jugador como las comunes de la mesa.
      * @param accion Accion a realizar en el Server (2 recibo cartas propias, 3 recibo cartas comunes).
      * @return ArrayList de Cartas con las Cartas segun requiera la ocasion.
      */
-    public static ArrayList<Carta> obtenerCartas(int accion) {
+    public static ArrayList<Carta> getCartas(int accion) {
         ArrayList<Carta> cartas = new ArrayList<>();
         try {
             aperturasCabeceraConexion();
             
-            envioAccion(accion); //Obtencion de las cartas.
+            accionMenu(accion); //Obtencion de las cartas.
 
             int cartasARecibir = ois.readInt(); //Numero de cartas a Recibir.
 
@@ -154,49 +118,61 @@ public class Conexion {
     }
     
     /**
-     * Realizacion de la conexion al Server para que tenga en cuenta a este Jugador.
-     * @param tipoConexion tipo de conexion. 0 = un jugador mas; 1 = ultimo jugador a añadir.
-     * @return Int. Numero propio del jugador. -1 si hubiera algun tipo de problema (no deberia).
+     * Aviso al Server para que aniada a este Jugador.
+     * @param selectorMenu Accion del Menu a ejecutar.
+     * @return ID del Jugador.
      */
-    public static int realizarConexion(int tipoConexion) {
+    private static int addJugadorServer(int selectorMenu) {
         try {
             aperturasCabeceraConexion();
-            
-            in = new BufferedInputStream(socket.getInputStream());
-            
-            oos.writeInt(tipoConexion);
-            oos.flush();
+            accionMenu(selectorMenu);
             
             int IDJugador = ois.readInt();
             
-            cerradoCabecerasConexion();
             return IDJugador;
         }catch(ConnectException ex) {
             System.out.println("Problema en la conexion. " +ex.getLocalizedMessage());
         }catch(IllegalArgumentException ex) {
             System.out.println("Numero de argumentos erroneo. Comprobar que el puerto este dentro de rango.\t" +ex.getLocalizedMessage());
         }catch(IOException ex) {
-            System.out.println("Problema de IO.");
-            ex.printStackTrace();
+            System.out.println("Problema de IO." +ex.getLocalizedMessage());
+        }finally{
+            cerradoCabecerasConexion();
         }
         
         return -1;
     }
     
     /**
-     * Obtenemos el ID del jugador a hablar. No Cierro las cabeceras. ¡Habra que cerrarlas despues de realizar la accion!
+     * Aniadido de un Jugador mas.
+     * @return ID del Jugador.
+     */
+    public static int addJugador() {
+        return addJugadorServer(0);
+    }
+    
+    /**
+     * Aniadido del ultimo Jugador.
+     * @return ID del Jugador.
+     */
+    public static int addUltimoJugador() {
+        return addJugadorServer(1);
+    }
+    
+    /**
+     * Obtenemos el ID del jugador a hablar.
      * @return ID del jugador o -1 si error.
      */
-    public static int getIDJugadorActual() {
+    public static int getIDTurno() {
         try {
             aperturasCabeceraConexion();
-            oos.writeInt(1); //Selector del Switch.
-            oos.flush();
+            accionMenu(1);
             int id = ois.readInt();
-            cerradoCabecerasConexion();
             return id;
         }catch(IOException ex) {
             ex.printStackTrace();
+        }finally {
+            cerradoCabecerasConexion();
         }
         
         return -1;

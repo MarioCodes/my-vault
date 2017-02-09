@@ -17,7 +17,7 @@ import entidades.Juego;
  * @since 09/02/2017
  */
 public class Servidor {
-    private static Juego juego;
+    private static Juego juego = new Juego();
     
     private static final int PUERTO = 8143;
     private static Socket socket = null;
@@ -58,7 +58,6 @@ public class Servidor {
      * Cambios de los elementos necesarios para comenzar con el juego.
      */
     private static void startJuego() {
-        juego = new Juego();
         juego.rebarajar();
         juego.setComenzado(true);
     }

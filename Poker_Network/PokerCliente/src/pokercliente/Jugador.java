@@ -23,16 +23,6 @@ public class Jugador {
         this.fichasApuestas += fichas;
     }
     
-//    /**
-//     * Accion de apostar mediante la interfaz puesta.
-//     * @param fichas Numero de fichas a apostar.
-//     * @return Numero de fichas que hay en la pool.
-//     */
-//    public int apostar(int fichas) {
-//        fichasApuestas -= fichas;
-//        return estado.apostar(identificadorJugador, fichas);
-//    }
-    
     //fixme: Para testeo mientras desarrollo. Borrar
     public void verCartasPropias() {
         if(mano.getCartasPropias() != null) {
@@ -54,14 +44,14 @@ public class Jugador {
      * @return True si tiene el focus en el juego.
      */
     public boolean habla() {
-        return Conexion.getIDJugadorActual() == identificadorJugador;
+        return Conexion.getIDTurno() == identificadorJugador;
     }
     
     /**
      * Obtenemos las 2 cartas unicas de este Jugador (Las quitamos de la baraja Obviamente).
      */
-    public void obtenerMano() {
-        mano.aniadirCartaPropias(Conexion.obtenerCartas(2));
+    public void obtenerCartasPersonales() {
+        mano.aniadirCartaPropias(Conexion.getCartas(2));
     }
     
     /**
@@ -69,7 +59,7 @@ public class Jugador {
      *      3 al principio, 4 despues y 5 al final.
      */
     public void obtenerCartasComunes() {
-        mano.aniadirCartaMesa(Conexion.obtenerCartas(3));
+        mano.aniadirCartaMesa(Conexion.getCartas(3));
     }
     
     /**

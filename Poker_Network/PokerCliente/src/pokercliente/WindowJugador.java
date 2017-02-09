@@ -6,11 +6,11 @@
 package pokercliente;
 
 /**
- * FIXME: Bug descubierto. Si hay 2 jugadores, si comienza el primero a pillar cartas, la 1º vez le da las propias suyas pero no las comunes, al 2º le da todas y si otra vez el primero, le da todas con nuevas.
  * Juego en Red Texas Hold'Em. Version sin limite de apuestas.
- * Ventana para Startear el juego.
+ * Ventana para Startear el juego. Cada ventana sera para un Jugador independiente.
  * Orden de uso de metodos -> this -> Jugador -> Conexion.
  * @author Mario Codes Sánchez
+ * @since 09/02/2017
  * @see https://es.wikipedia.org/wiki/Texas_hold_'em
  */
 public class WindowJugador extends javax.swing.JFrame {
@@ -57,7 +57,7 @@ public class WindowJugador extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Obtener Carats");
+        jButton3.setText("Obtener Cartas");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -65,6 +65,7 @@ public class WindowJugador extends javax.swing.JFrame {
         });
 
         jButton5.setText("apostar");
+        jButton5.setEnabled(false);
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
@@ -73,8 +74,10 @@ public class WindowJugador extends javax.swing.JFrame {
 
         jTextField1.setText("50");
         jTextField1.setToolTipText("");
+        jTextField1.setEnabled(false);
 
         jButton4.setText("obtener comunes");
+        jButton4.setEnabled(false);
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -120,19 +123,40 @@ public class WindowJugador extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Aniadido de un Jugador mas.
+     */
+    private void addJugador() {
+        JUGADOR.setNumeroJugador(Conexion.addJugador());
+    }
+    
+    /**
+     * Aniadido del Ultimo jugador y comienzo del Juego con este.
+     */
+    private void addUltimoJugador() {
+        JUGADOR.setNumeroJugador(Conexion.addUltimoJugador());
+    }
+    
+    /**
+     * Obtencion de las cartas propias exclusivas del Jugador.
+     */
+    private void getCartasPropias() {
+        if(JUGADOR.habla()) {
+            JUGADOR.obtenerCartasPersonales();
+            JUGADOR.verCartasPropias(); //fixme: borrar. testeo.
+        }
+    }
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JUGADOR.setNumeroJugador(Conexion.realizarConexion(0));
+        addJugador();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        JUGADOR.setNumeroJugador(Conexion.realizarConexion(1));
+        addUltimoJugador();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        if(JUGADOR.habla()) {
-            JUGADOR.obtenerMano();
-            JUGADOR.verCartasPropias(); //fixme: borrar. testeo.
-        }
+        getCartasPropias();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
