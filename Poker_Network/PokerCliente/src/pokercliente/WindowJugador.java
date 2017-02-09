@@ -189,6 +189,9 @@ public class WindowJugador extends javax.swing.JFrame {
         }else System.out.println("Ya tienes tus cartas.");
     }
     
+    /**
+     * Obtencion de las Cartas Comunes a todos.
+     */
     private void getCartasComunes() {
         if(JUGADOR.getMano().getCartas_mesa().isEmpty()) {
             JUGADOR.obtenerCartasComunes();
