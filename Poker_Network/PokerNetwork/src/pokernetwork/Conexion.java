@@ -194,6 +194,10 @@ public class Conexion {
         juego.aniadirJugador();
         oos.writeInt(juego.getTotalJugadores());
         oos.flush();
+        
+        oos.writeBoolean(true);
+        oos.flush();
+        
         System.out.println("Jugador añadido.");
     }
     

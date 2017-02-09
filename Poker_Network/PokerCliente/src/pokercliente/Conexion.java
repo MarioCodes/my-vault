@@ -189,6 +189,7 @@ public class Conexion {
     private static int addJugadorServer(int selectorMenu) {
         try {
             aperturasCabeceraConexion();
+            
             accionMenu(selectorMenu);
             
             int IDJugador = ois.readInt();
