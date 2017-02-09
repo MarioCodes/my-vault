@@ -25,7 +25,7 @@ public class Jugador {
         this.fichas += fichas;
     }
     
-    //fixme: Para testeo mientras desarrollo. Borrar
+    //fixme: Testeo. Sout Cartas. Borrar Cuando no sea necesario.
     public void verCartasPropias() {
         if(mano.getCartasPropias() != null) {
             System.out.println("\nCartas Propias.");
@@ -33,7 +33,7 @@ public class Jugador {
         }
     }
     
-    //fixme: Para testeo mientras desarrollo. Borrar
+    //fixme: Testeo. Sout Cartas. Borrar Cuando no sea necesario.
     public void verCartasComunes() {
         if(mano.getCartas_mesa() != null) {
             System.out.println("\nCartas Comunes");

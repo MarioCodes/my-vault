@@ -12,7 +12,9 @@ import entidades.Juego;
 import fases.*;
 
 /*
-    todo: idea -> al finalizar cualquier accion en el Server, hacer que lo ultimo que envie sea la Fase en la que se encuentra el Juego y adecuar la GUI en funcion.
+    Ideas Por Hacer:
+        //@todo: Al finalizar cualquier accion en el Server, hacer que lo ultimo que envie sea la Fase en la que se encuentra el Juego y adecuar la GUI del cliente en funcion.
+        //@todo: Mas adelante podria implementar que solo se acabe la ronda de apuestas si ninguno sube o todos pasan.
 */
 
 /**
@@ -63,7 +65,7 @@ public class Servidor {
                 case "PreFlop":
                     return new FaseFlop();
                 case "Flop":
-                    return new FaseTurn(); //todo: por implementar, sera la que toca creo.
+                    return new FaseTurn();
                 default:
                     System.out.println("Switch cambio fase apostar default().");
                     return null;
@@ -72,7 +74,6 @@ public class Servidor {
     
     /**
      * Ronda de apuestas simple.
-     * todo: Mas adelante podria implementar que solo se acabe la ronda de apuestas si ninguno sube o todos pasan.
      */
     private static void apostar() {
         juego.getFase().apostar(juego);
@@ -83,7 +84,7 @@ public class Servidor {
     }
     
     /**
-     * Accion de retirarse, se pone su ID en la lista. @fixme: quitarlo y poner una lista con IDs positivos en vez de negativos, quitarlo de esta cuando eso.
+     * Accion de retirarse, se pone su ID en la lista.
      */
     private static void retirarse() {
         String id = juego.getFase().retirarse();

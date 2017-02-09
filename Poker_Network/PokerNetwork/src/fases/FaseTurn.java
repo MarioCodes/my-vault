@@ -30,7 +30,7 @@ public class FaseTurn implements Fase {
 
     @Override
     public void repartoCartasComunes(ArrayList<Carta> cartas) {
-        //@todo: por implementar, siguiente fase a desarrollar.
+
     }
 
     @Override

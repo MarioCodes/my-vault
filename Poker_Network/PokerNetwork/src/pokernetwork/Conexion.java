@@ -16,7 +16,7 @@ import entidades.Carta;
 import entidades.Juego;
 
 /**
- * Todo lo relacionado con la conexion del Server con los clientes.
+ * Clase funcional relacionada con la conexion del Server con los clientes.
  * @author Mario Codes Sánchez
  * @since 08/02/2017
  */

@@ -156,14 +156,14 @@ public class WindowJugador extends javax.swing.JFrame {
     private void getCartasPropias() {
         if(JUGADOR.getMano().getCartasPropias().isEmpty()) {
             JUGADOR.obtenerCartasPersonales();
-            JUGADOR.verCartasPropias(); //fixme: borrar. testeo.
+            JUGADOR.verCartasPropias(); //fixme: Testeo. Sout Cartas. Borrar Cuando no sea necesario.
         }else System.out.println("Ya tienes tus cartas.");
     }
     
     private void getCartasComunes() {
         if(JUGADOR.getMano().getCartas_mesa().isEmpty()) {
             JUGADOR.obtenerCartasComunes();
-            JUGADOR.verCartasComunes(); //fixme: borrar. testeo.
+            JUGADOR.verCartasComunes(); //fixme: Testeo. Sout Cartas. Borrar Cuando no sea necesario.
         }else System.out.println("Ya tenias las cartas comunes.");
     }
     

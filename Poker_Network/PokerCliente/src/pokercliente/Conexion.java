@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * @since 09/02/2017
  */
 public class Conexion {
-//    private static final int BUFFER_LENGTH = 8192; //fixme: mirar si lo puedo utilizar mas adelante, de momento que le den.
+//    private static final int BUFFER_LENGTH = 8192; //todo: Buffer. Mirar si lo puedo utilizar mas adelante, de momento que le den.
     private static final int PUERTO = 8143;
     private static final String SERVER_IP = "127.0.0.1";
     

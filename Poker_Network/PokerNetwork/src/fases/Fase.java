@@ -10,7 +10,7 @@ import entidades.Juego;
 import java.util.ArrayList;
 
 /**
- * Implementacion de una maquina de estados para saber en todo momento en que fase se encuentra el Juego.
+ * Implementacion de una maquina de estados para saber en cada momento en que fase se encuentra el Juego.
  * De esta forma tengo control total sobre lo que se puede y lo que no se puede hacer en cada fase del juego.
  * El orden de las fases en el Juego es -> PreFlop -> Apuestas -> Flop -> Apuestas -> Turn -> Apuestas -> River -> Apuestas.
  *      Como a la hora de programarlas, Turn y River son Iguales, solo implemento una de las 2 y la reuso para evitar duplicidad de codigo.
