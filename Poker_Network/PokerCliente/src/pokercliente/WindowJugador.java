@@ -141,8 +141,10 @@ public class WindowJugador extends javax.swing.JFrame {
      * Obtencion de las cartas propias exclusivas del Jugador.
      */
     private void getCartasPropias() {
-        JUGADOR.obtenerCartasPersonales();
-        JUGADOR.verCartasPropias(); //fixme: borrar. testeo.
+        if(JUGADOR.getMano().getCartasPropias().isEmpty()) {
+            JUGADOR.obtenerCartasPersonales();
+            JUGADOR.verCartasPropias(); //fixme: borrar. testeo.
+        }else System.out.println("Ya tienes tus cartas.");
     }
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

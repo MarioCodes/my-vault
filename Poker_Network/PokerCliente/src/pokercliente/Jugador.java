@@ -82,4 +82,11 @@ public class Jugador {
     public int getFichasApuestas() {
         return fichasApuestas;
     }
+
+    /**
+     * @return the mano
+     */
+    public Mano getMano() {
+        return mano;
+    }
 }
