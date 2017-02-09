@@ -20,6 +20,7 @@ public class FaseApuestas implements Fase {
     @Override
     public void cambioFase(Juego juego) {
         juego.setFase(this);
+        System.out.println("Fase de Apuestas.");
     }
 
     @Override

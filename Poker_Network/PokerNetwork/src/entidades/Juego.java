@@ -32,6 +32,7 @@ public class Juego {
      */
     public Juego() {
         this.fase = new FasePreFlop();
+        System.out.println("Juego nuevo Creado. Fase de Pre-Flop.");
     }
     
     /**
@@ -78,7 +79,7 @@ public class Juego {
     public void rebarajar() {
         this.baraja = new Baraja();
         
-        System.out.println("\nRonda nueva Comenzada.");
+        System.out.println("\nRonda nueva Comenzada. Reparto de Cartas.");
     }
 
     /**

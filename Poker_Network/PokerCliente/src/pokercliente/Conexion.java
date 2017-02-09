@@ -6,7 +6,6 @@
 package pokercliente;
 
 import entidades.Carta;
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -69,10 +68,13 @@ public class Conexion {
      * @param accion Accion a realizar.
      * @param id ID propio del Jugador.
      * @throws IOException 
+     * @return Booleano indicando si la accion a realizar es posible.
      */
-    private static void accionMenu(int accion) throws IOException {
+    private static boolean accionMenu(int accion) throws IOException {
         oos.writeInt(accion);
         oos.flush();
+        
+        return ois.readBoolean();
     }
     
     /**
@@ -99,15 +101,15 @@ public class Conexion {
         try {
             aperturasCabeceraConexion();
             
-            accionMenu(accion); //Obtencion de las cartas.
+            if(accionMenu(accion)) {
+                int cartasARecibir = ois.readInt(); //Numero de cartas a Recibir.
 
-            int cartasARecibir = ois.readInt(); //Numero de cartas a Recibir.
+                for (int i = 0; i < cartasARecibir; i++) {
+                    cartas.add(recibirReconstruirCarta());
+                }
 
-            for (int i = 0; i < cartasARecibir; i++) {
-                cartas.add(recibirReconstruirCarta());
+                return cartas;
             }
-
-            return cartas;
         }catch(ClassNotFoundException | ClassCastException | IOException ex) {
             ex.printStackTrace();
         }finally {

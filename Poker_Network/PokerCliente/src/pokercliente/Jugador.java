@@ -7,6 +7,7 @@ package pokercliente;
 
 import entidades.Carta;
 import entidades.Mano;
+import java.util.ArrayList;
 
 /**
  * Representacion de un Jugador unico.
@@ -51,7 +52,8 @@ public class Jugador {
      * Obtenemos las 2 cartas unicas de este Jugador (Las quitamos de la baraja Obviamente).
      */
     public void obtenerCartasPersonales() {
-        mano.aniadirCartaPropias(Conexion.getCartas(2));
+        ArrayList<Carta> cartas = Conexion.getCartas(2);
+        if(cartas != null) mano.aniadirCartaPropias(cartas);
     }
     
     /**

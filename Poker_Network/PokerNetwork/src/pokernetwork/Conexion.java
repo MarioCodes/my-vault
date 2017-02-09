@@ -57,6 +57,20 @@ public class Conexion {
     }
     
     /**
+     * Envio de un booleano al Cliente.
+     * @param b Booleano a enviar.
+     * @throws IOException 
+     */
+    public static void sendBooleano(boolean b) {
+        try {
+            oos.writeBoolean(b);
+            oos.flush();
+        }catch(IOException ex){
+            ex.printStackTrace();
+        }
+    }
+    
+    /**
      * Apertura de las posibles cabeceras necesarias para la transmision de datos. ¡Se deberan cerrar despues!
      * @param socket Socket por el cual abrimos el resto de conexiones.
      */

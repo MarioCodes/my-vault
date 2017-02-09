@@ -26,6 +26,7 @@ public class FasePreFlop implements Fase{
 
     @Override
     public void repartoCartasJugador(ArrayList<Carta> cartas) {
+        Conexion.sendBooleano(true);
         Conexion.repartoCartas(cartas);
     }
 

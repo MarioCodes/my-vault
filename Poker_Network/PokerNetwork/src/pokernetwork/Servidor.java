@@ -17,7 +17,6 @@ import fases.FaseApuestas;
 
 /**
  * Proyecto Online juego Oscar -> Poker Texas Hold'em!. Parte Servidor.
- * Funcionamiento general del Servidor:
  * @author Mario Codes Sánchez
  * @since 09/02/2017
  */
@@ -34,6 +33,10 @@ public class Servidor {
     private static void repartoCartasPropias() {
         juego.getFase().repartoCartasJugador(juego.obtenerCartasJugador());
         if(juego.terminarTurno()) new FaseApuestas().cambioFase(juego);
+    }
+    
+    private static void rondaApuestas() {
+        
     }
     
     /**
@@ -105,6 +108,8 @@ public class Servidor {
     
     /**
      * Ejecucion de la accion del Server.
+     * Orden de las cabeceras:
+     *      Server Input int menu. Server Output booleano posible. -> Resto de info.
      */
     public static void ejecucionServidor() {
         try {
