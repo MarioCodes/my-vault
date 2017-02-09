@@ -77,9 +77,14 @@ public class Servidor {
      */
     private static void apostar() {
         juego.getFase().apostar(juego);
-        if(juego.terminarTurno()) {
-            Fase fase = getFaseCorrecta((FaseApuestas) juego.getFase());
-            fase.cambioFase(juego);
+        
+        try {
+            if(juego.terminarTurno()) {
+                Fase fase = getFaseCorrecta((FaseApuestas) juego.getFase());
+                fase.cambioFase(juego);
+            }
+        }catch(ClassCastException ex) {
+            System.out.println("\nCambio de Fase no correcta. Chequear Servidor.Apostar(). " +ex.getLocalizedMessage());
         }
     }
     

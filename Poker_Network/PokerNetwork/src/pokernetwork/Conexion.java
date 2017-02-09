@@ -33,7 +33,7 @@ public class Conexion {
      * @return Entero desde el Cliente.
      * @throws java.io.IOException
      */
-    public static int getInt() throws IOException {
+    static int getInt() throws IOException {
         return ois.readInt();
     }
     
@@ -42,12 +42,12 @@ public class Conexion {
      * @param i Entero a enviar.
      * @throws IOException 
      */
-    public static void sendInt(int i) throws IOException {
+    private static void sendInt(int i) throws IOException {
         oos.writeInt(i);
         oos.flush();
     }
     
-    public static Object getObject() throws IOException, ClassNotFoundException {
+    private static Object getObject() throws IOException, ClassNotFoundException {
         return ois.readObject();
     }
     
@@ -56,20 +56,32 @@ public class Conexion {
      * @return Booleano desde el Cliente.
      * @throws IOException 
      */
-    public static boolean getBooleano() throws IOException {
+    static boolean getBooleano() throws IOException {
         return ois.readBoolean();
     }
     
     /**
      * Envio de un booleano al Cliente.
      * @param b Booleano a enviar.
-     * @throws IOException 
      */
     public static void sendBooleano(boolean b) {
         try {
             oos.writeBoolean(b);
             oos.flush();
         }catch(IOException ex){
+            ex.printStackTrace();
+        }
+    }
+    
+    /**
+     * Send de Carta por Socket al Cliente.
+     * @param carta Carta a enviar.
+     */
+    private static void sendCarta(Carta carta) {
+        try {
+            oos.writeObject(carta);
+            oos.flush();
+        }catch(IOException ex) {
             ex.printStackTrace();
         }
     }
@@ -116,34 +128,6 @@ public class Conexion {
     }
     
     /**
-     * Envio de los valores de la carta a traves del Socket.
-     * @param valor Valor propio de la carta.
-     * @param palo Palo al que pertenece.
-     * @throws IOException 
-     */
-    private static void sendCarta(String valor, String palo) throws IOException {
-        oos.writeObject(valor);
-        oos.flush();
-        
-        oos.writeObject(palo);
-        oos.flush();
-    }
-    
-    /**
-     * Deconstruyo y envio la carta. No se porque, me da problemas al reconstruirla en el Cliente si envio la carta entera. 
-     * Envio sus datos y la reconstruyo en este.
-     * @param carta Carta a deconstruir y enviar.
-     * @throws IOException
-     */
-    private static void deconstruccionCarta(Carta carta) throws IOException {
-        String cartaDecons = carta.toString();
-        String valor = cartaDecons.substring(0, 1);
-        String palo = cartaDecons.substring(2);
-        
-        sendCarta(valor, palo);
-    }
-    
-    /**
      * Repartido y envio de cartas a un jugador.
      * Automatizado, primero enviar un Int con la cantidad de cartas a enviar, y luego manda los valores de estas.
      * @param cartas Cartas que queremos enviar.
@@ -153,8 +137,8 @@ public class Conexion {
             oos.writeInt(cartas.size()); //Cartas a recibir en el jugador.
             oos.flush();
             
-            for (int i = 0; i < cartas.size(); i++) {
-                deconstruccionCarta(cartas.get(i));
+            for(int i = 0; i < cartas.size(); i++) {
+                sendCarta(cartas.get(i));
             }
         }catch(IOException ex) {
             ex.printStackTrace();

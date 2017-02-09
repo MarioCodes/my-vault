@@ -122,16 +122,13 @@ public class Conexion {
     }
     
     /**
-     * Debido a los problemas que tengo para enviar Cartas por Socket como (Object) las deconstruyo en el server a sus valores base y las reconstruyo aqui.
-     * @return Carta reconstruida para aniadir.
+     * Get de la carta enviada por Socket desde el Server.
+     * @return Carta enviada desde el Server para este cliente.
      * @throws IOException
      * @throws ClassNotFoundException 
      */
-    private static Carta recibirReconstruirCarta() throws IOException, ClassNotFoundException {
-        String valor = ois.readObject().toString();
-        String palo = ois.readObject().toString();
-        
-        return new Carta(valor, palo);
+    private static Carta getCarta() throws IOException, ClassNotFoundException {
+        return (Carta) ois.readObject();
     }
     
     /**
@@ -149,7 +146,7 @@ public class Conexion {
                 int cartasARecibir = ois.readInt(); //Numero de cartas a Recibir.
 
                 for (int i = 0; i < cartasARecibir; i++) {
-                    cartas.add(recibirReconstruirCarta());
+                    cartas.add(getCarta());
                 }
 
                 return cartas;
