@@ -41,6 +41,16 @@ public class Jugador {
     }
     
     /**
+     * Accion de apostar. Restamos al Jugador la cantidad antes de mandarla.
+     * @param fichas Fichas a apostar.
+     * @return Cantidad total de la Pool.
+     */
+    public int apostar(int fichas) {
+        fichasApuestas -= fichas;
+        return Conexion.apostar(fichas);
+    }
+    
+    /**
      * Devuelve un booleano que indica si es este jugador quien debe hablar.
      * @return True si tiene el focus en el juego.
      */

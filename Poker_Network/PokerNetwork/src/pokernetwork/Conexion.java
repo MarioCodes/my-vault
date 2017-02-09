@@ -158,6 +158,21 @@ public class Conexion {
     }
     
     /**
+     * Realizacion de una apuesta por parte de un jugador y devuelta del total de la Pool.
+     * @param juego Juego actual.
+     */
+    public static void getApuesta(Juego juego) {
+        try {
+            juego.apostar(ois.readInt());
+            
+            oos.writeInt(juego.getFichasApuestas());
+            oos.flush();
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    /**
      * Aniadido de un jugador al juego. Se usara cuando este no sea el ultimo.
      * @param juego Juego para comenzar.
      * @throws IOException

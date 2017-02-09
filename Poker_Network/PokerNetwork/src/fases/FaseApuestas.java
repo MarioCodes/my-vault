@@ -8,6 +8,7 @@ package fases;
 import entidades.Carta;
 import entidades.Juego;
 import java.util.ArrayList;
+import pokernetwork.Conexion;
 
 /**
  * Fase para Ronda de Apuestas.
@@ -25,22 +26,18 @@ public class FaseApuestas implements Fase {
 
     @Override
     public void repartoCartasJugador(ArrayList<Carta> cartas) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Conexion.sendBooleano(false);
     }
 
     @Override
     public void repartoCartasComunes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Conexion.sendBooleano(false);
     }
 
     @Override
-    public int apostarCiegas(int fichas) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int apostar(int fichas) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void apostar(Juego juego) {
+        Conexion.sendBooleano(true);
+        Conexion.getApuesta(juego);
     }
 
     @Override

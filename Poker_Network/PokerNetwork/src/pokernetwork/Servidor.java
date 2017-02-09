@@ -35,8 +35,12 @@ public class Servidor {
         if(juego.terminarTurno()) new FaseApuestas().cambioFase(juego);
     }
     
-    private static void rondaApuestas() {
-        
+    /**
+     * Ronda de apuestas simple.
+     * todo: Mas adelante podria implementar que solo se acabe la ronda de apuestas si ninguno sube o todos pasan.
+     */
+    private static void apostar() {
+        juego.getFase().apostar(juego);
     }
     
     /**
@@ -58,7 +62,7 @@ public class Servidor {
 //                    Conexion.repartirCartasJugadores(juego, juego.getCartasComunes());
                     break;
                 case 4: //Apuestas
-                      //Obtencion de la apuesta.
+                    apostar();
                     break;
                 default:
                     System.out.println("Comprobar selector de Acciones (version juego).");

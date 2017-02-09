@@ -31,23 +31,19 @@ public class FasePreFlop implements Fase{
     }
 
     @Override
+    public void apostar(Juego juego) {
+        Conexion.sendBooleano(false);
+    }
+    
+    @Override
     public void repartoCartasComunes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int apostarCiegas(int fichas) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int apostar(int fichas) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Conexion.sendBooleano(false);
     }
 
     @Override
     public boolean retirarse() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Conexion.sendBooleano(false);
+        return false;
     }
 
     @Override

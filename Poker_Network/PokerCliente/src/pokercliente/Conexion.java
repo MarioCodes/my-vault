@@ -33,6 +33,23 @@ public class Conexion {
     private static ObjectInputStream ois = null;
     
     /**
+     * Envio de un int al Server.
+     * @param i Int a enviar.
+     */
+    private static void sendInt(int i) throws IOException {
+        oos.writeInt(i);
+        oos.flush();
+    }
+    
+    /**
+     * Get de un int del Server.
+     * @return Int a recibir.
+     */
+    private static int getInt() throws IOException {
+        return ois.readInt();
+    }
+    
+    /**
      * Apertura de las cabeceras necesarias para la conexion.
      */
     private static void aperturasCabeceraConexion() {
@@ -117,6 +134,27 @@ public class Conexion {
         }
         
         return null;
+    }
+    
+    /**
+     * Accion de apostar pasada al Servidor..
+     * @param fichas Fichas que queremos apostar.
+     * @return Fichas totales que hay en la pool comun. -1 si error.
+     */
+    public static int apostar(int fichas) {
+        try {
+            aperturasCabeceraConexion();
+            
+            if(accionMenu(4)) {
+                sendInt(fichas);
+                
+                return getInt();
+            }
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }
+        
+        return -1;
     }
     
     /**
