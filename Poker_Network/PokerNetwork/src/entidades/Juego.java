@@ -74,9 +74,7 @@ public class Juego {
     public void rebarajar() {
         this.baraja = new Baraja();
         
-        baraja.quemarCartas(3); //Segun las reglas.
-        obtenerCartasComunes();
-        System.out.println("Ronda nueva Comenzada. Cartas de la mesa repartidas.");
+        System.out.println("\nRonda nueva Comenzada.");
     }
 
     /**
