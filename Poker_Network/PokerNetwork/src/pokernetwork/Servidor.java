@@ -31,15 +31,12 @@ public class Servidor {
     private static void gestorAccionesJuego() {
         try {
             Conexion.aperturaCabecerasConexion(socket);
-            
-            boolean idNecesaria = Conexion.getBooleano();
-            if(idNecesaria) {
-                Conexion.envioInt(juego.getIdJugadorFocus());
-                return;
-            }
 
             int opcion = Conexion.reciboInt();
             switch(opcion) {
+                case 1: //Get de la ID de quien Habla.
+                    Conexion.getFocus(juego);
+                    break;
                 case 2: //Reparto cartas cada Jugador.
                     juego.getFase().repartoCartasPersonales(juego.repartoManoJugador());
 //                    Conexion.repartoCartasJugadores(juego);

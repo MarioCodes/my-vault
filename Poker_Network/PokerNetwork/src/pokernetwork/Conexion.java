@@ -88,6 +88,16 @@ public class Conexion {
     }
     
     /**
+     * Enviamos el ID del jugador a quien le toca hablar.
+     * @param juego Juego en curso.
+     * @throws IOException 
+     */
+    public static void getFocus(Juego juego) throws IOException {
+        oos.writeInt(juego.getIdJugadorFocus());
+        oos.flush();
+    }
+    
+    /**
      * Deconstruyo y envio la carta. No se porque, me da problemas al reconstruirla en el Cliente si envio la carta entera. 
      * Envio sus datos y la reconstruyo en este.
      * @param carta Carta a deconstruir y enviar.
