@@ -56,7 +56,7 @@ public class Jugador {
      * @return 
      */
     public boolean retirarse() {
-        if(Conexion.retirarse(id)) {
+        if(jugando && Conexion.retirarse(id)) {
             jugando = false;
             return true;
         } else return false;

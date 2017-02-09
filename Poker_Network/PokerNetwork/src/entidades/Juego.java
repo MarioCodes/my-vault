@@ -19,9 +19,8 @@ public class Juego {
     
     private boolean comenzado = false;
     
-    private int totalJugadores = 0;
+    private ArrayList<String> jugadores = new ArrayList<>();
     private int idFocus = 1; //ID del Jugador al cual le toca realizar accion.
-//    private ArrayList<Integer> idRetirados = new ArrayList<>();
     
     private Baraja baraja = null;
     private final ArrayList<Carta> CARTAS_MESA = new ArrayList<>();
@@ -37,19 +36,30 @@ public class Juego {
     }
     
     /**
-     * El Jugador actual termina su turno y pasamos al siguiente.
-     * @return Devuelve true cuando todos los jugadores hayan realizado su accion.
+     * Gestion de los turnos. Si un jugador se ha retirado se le salta el turno y pasa al siguiente.
+     * @return True si todos han terminado.
      */
     public boolean terminarTurno() {
-        if(++idFocus >= totalJugadores) {
+        if(++idFocus > jugadores.size()) {
             idFocus = 1;
             return true;
         } else {
-//            while(idRetirados.contains(idFocus)) {
-//                idFocus++;
-//            }
+            while(!jugadores.contains(Integer.toString(idFocus))) {
+                idFocus++;
+            }
             return false;
         }
+    }
+    
+    /**
+     * Retiramos al jugador deseado.
+     * @param id ID del jugador a retirar.
+     */
+    public boolean retirarse(String id) {
+        if(jugadores.contains(id)) {
+            jugadores.remove(id);
+            return true;
+        } else return false;
     }
     
     /**
@@ -102,7 +112,7 @@ public class Juego {
      * Sumar +1 al numero de jugadores.
      */
     public void aniadirJugador() {
-        this.totalJugadores++;
+        jugadores.add(Integer.toString(jugadores.size()+1));
     }
     
     
@@ -119,13 +129,6 @@ public class Juego {
      */
     public int getFichasApuestas() {
         return apuestas;
-    }
-
-    /**
-     * @return the numeroJugadores
-     */
-    public int getTotalJugadores() {
-        return totalJugadores;
     }
 
     /**
@@ -164,11 +167,11 @@ public class Juego {
     public int getIdFocus() {
         return idFocus;
     }
-//
-//    /**
-//     * @return the idRetirados
-//     */
-//    public ArrayList<Integer> getIdRetirados() {
-//        return idRetirados;
-//    }
+
+    /**
+     * @return the jugadores
+     */
+    public ArrayList<String> getJugadores() {
+        return jugadores;
+    }
 }

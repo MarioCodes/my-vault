@@ -140,6 +140,7 @@ public class WindowJugador extends javax.swing.JFrame {
      */
     private void addJugador() {
         JUGADOR.setID(Conexion.addJugador());
+        System.out.println(JUGADOR.getID());
     }
     
     /**
@@ -171,8 +172,9 @@ public class WindowJugador extends javax.swing.JFrame {
     /**
      * Accion de retirarse de la ronda actual.
      */
-    private boolean retirarse() {
-        return JUGADOR.retirarse();
+    private void retirarse() {
+        if(JUGADOR.retirarse()) System.out.println("Jugado Retirado de la ronda Actual");
+        else System.out.println("El Jugador ya se encontraba retirado.");
     }
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -197,7 +199,7 @@ public class WindowJugador extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        if(retirarse()) System.out.println("Jugador Retirado de la ronda Actual.");
+        retirarse();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     /**

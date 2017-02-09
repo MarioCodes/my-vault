@@ -50,8 +50,10 @@ public class Servidor {
     private static void retirarse() {
         String id = juego.getFase().retirarse();
         if(id != null) {
-//            juego.getIdRetirados().add(id);
-            System.out.println("Se ha retirado al Jugador " +id);
+            if(juego.retirarse(id)) {
+                System.out.println("Se ha retirado al Jugador " +id);
+            }
+            else System.out.println("El jugador ya estaba retirado.");
         } else {
             System.out.println("Problemas con el retirar a un jugador.");
         }

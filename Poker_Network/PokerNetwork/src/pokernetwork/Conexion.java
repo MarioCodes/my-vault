@@ -200,7 +200,7 @@ public class Conexion {
         oos.writeBoolean(true);
         oos.flush();
         
-        oos.writeObject(Integer.toString(juego.getTotalJugadores()));
+        oos.writeObject(Integer.toString(juego.getJugadores().size()));
         oos.flush();
         
         System.out.println("Jugador añadido.");
@@ -214,7 +214,7 @@ public class Conexion {
      */
     public static void addUltimoJugador(Juego juego) throws IOException, InterruptedException {
         addJugador(juego);
-        System.out.println("Ultimo jugador añadido. Comenzando el Juego con " +juego.getTotalJugadores() +" jugadores.");
+        System.out.println("Ultimo jugador añadido. Comenzando el Juego con " +juego.getJugadores().size() +" jugadores.");
     }
 
     /**
