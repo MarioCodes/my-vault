@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * @since 08/02/2017
  */
 public class Juego {
-    private Fase fase = new FasePreFlop();
+    private Fase fase = null; //Fase actual en la que se encuentra el Juego.
     
     private boolean juegoComenzado = false;
     private int numeroJugadores = 0;
@@ -26,6 +26,13 @@ public class Juego {
     private ArrayList<Boolean> accionJugador;
     private int poolApuestas = 0;
 
+    /**
+     * Constructor por defecto.
+     */
+    public Juego() {
+        this.fase = new FasePreFlop();
+    }
+    
     /**
      * Gestionamos el avanzar al siguiente Jugador.
      */
@@ -103,6 +110,15 @@ public class Juego {
     }
     
     /**
+     * Sumar +1 al numero de jugadores.
+     */
+    public void aniadirJugador() {
+        this.numeroJugadores++;
+    }
+    
+    
+    
+    /**
      * @return the CARTAS_MESA
      */
     public ArrayList<Carta> getCartasComunes() {
@@ -121,13 +137,6 @@ public class Juego {
      */
     public int getNumeroJugadores() {
         return numeroJugadores;
-    }
-    
-    /**
-     * Sumar +1 al numero de jugadores.
-     */
-    public void aniadirJugador() {
-        this.numeroJugadores++;
     }
 
     /**
@@ -153,6 +162,7 @@ public class Juego {
 
     /**
      * NO UTILIZAR. HACER EL CAMBIO MEDIANTE Fase.cambioFase().
+     * Me hace falta para hacer el cambio de forma interna pero no utilizarlo fuera de esto.
      * @param fase the fase to set
      */
     public void setFase(Fase fase) {
