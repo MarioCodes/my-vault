@@ -28,11 +28,9 @@ public class Juego {
 
     /**
      * Gestionamos el avanzar al siguiente Jugador.
-     * @return 
      */
-    public int terminarTurnoJugador() {
+    public void avanzarJugador() {
         if(++idJugadorFocus >= numeroJugadores) idJugadorFocus = 1;
-        return idJugadorFocus;
     }
     
     /**

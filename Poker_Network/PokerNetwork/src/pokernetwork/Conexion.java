@@ -60,7 +60,7 @@ public class Conexion {
      * Apertura de las posibles cabeceras necesarias para la transmision de datos. ¡Se deberan cerrar despues!
      * @param socket Socket por el cual abrimos el resto de conexiones.
      */
-    public static void aperturaCabecerasConexion(Socket socket) {
+    public static void aperturaConexion(Socket socket) {
         try {
             Conexion.socket = socket;
             in = socket.getInputStream();
@@ -75,7 +75,7 @@ public class Conexion {
     /**
      * Cerrado de todas las conexiones abiertas previamente para la conexion.
      */
-    public static void cerrarCabecerasConexion() {
+    public static void cerradoConexion() {
         try {
             if(oos != null) oos.close();
             if(ois != null) ois.close();
@@ -88,12 +88,26 @@ public class Conexion {
     }
     
     /**
-     * Enviamos el ID del jugador a quien le toca hablar.
+     * Envio del ID del Jugador a quien le toca Hablar.
      * @param juego Juego en curso.
      * @throws IOException 
      */
-    public static void getFocus(Juego juego) throws IOException {
+    public static void sendFocus(Juego juego) throws IOException {
         oos.writeInt(juego.getIdJugadorFocus());
+        oos.flush();
+    }
+    
+    /**
+     * Envio de los valores de la carta a traves del Socket.
+     * @param valor Valor propio de la carta.
+     * @param palo Palo al que pertenece.
+     * @throws IOException 
+     */
+    private static void sendCarta(String valor, String palo) throws IOException {
+        oos.writeObject(valor);
+        oos.flush();
+        
+        oos.writeObject(palo);
         oos.flush();
     }
     
@@ -103,70 +117,38 @@ public class Conexion {
      * @param carta Carta a deconstruir y enviar.
      * @throws IOException
      */
-    private static void deconstruccionEnvioCarta(Carta carta) throws IOException {
+    private static void deconstruccionCarta(Carta carta) throws IOException {
         String cartaDecons = carta.toString();
         String valor = cartaDecons.substring(0, 1);
         String palo = cartaDecons.substring(2);
         
-        oos.writeObject(valor);
-        oos.flush();
-        
-        oos.writeObject(palo);
-        oos.flush();
+        sendCarta(valor, palo);
     }
     
     /**
-     * Accion propia de repartir cartas a un jugador especifico.
+     * Repartido y envio de cartas a un jugador.
+     * Automatizado, primero enviar un Int con la cantidad de cartas a enviar, y luego manda los valores de estas.
+     * @param cartas Cartas que queremos enviar.
      */
-    public static void repartirCartasJugador(ArrayList<Carta> cartas) {
+    public static void repartoCartas(ArrayList<Carta> cartas) {
         try {
             oos.writeInt(cartas.size()); //Cartas a recibir en el jugador.
             oos.flush();
             
             for (int i = 0; i < cartas.size(); i++) {
-                deconstruccionEnvioCarta(cartas.get(i));
+                deconstruccionCarta(cartas.get(i));
             }
         }catch(IOException ex) {
             ex.printStackTrace();
         }
     }
     
-//    /**
-//     * Accion de repartir cartas a un jugador. Se repetira hasta que todos tengan su mano.
-//     * Esta automatizado completamente, simplemente se le pasa la coleccion con las cartas a enviar y el mismo se encarga de todo.
-//     * @param juego
-//     * @param cartas
-//     */
-//    public static void repartirCartasJugadores(Juego juego, ArrayList<Carta> cartas) {
-//        try {
-//            ArrayList<Boolean> accionJugador = juego.getAccionJugador();
-//            
-//            while(accionJugador.contains(true)) {
-//                int idJugador = ois.readInt()-1;
-//                if(accionJugador.get(idJugador)) { //Si este jugador no ha gastado su turno.
-//                    oos.writeBoolean(true); //Se le indica al Jugador.
-//                    oos.flush();
-//                    
-//                    repartirCartasJugador(cartas);
-//                    
-//                    accionJugador.set(idJugador, false);
-//                } else {
-//                    oos.writeBoolean(false); //Si no, se le indica que ya lo ha gastado.
-//                    oos.flush();
-//                } 
-//            }
-//            juego.reseteoALTurnosJugada();
-//        }catch(IOException ex) {
-//            ex.printStackTrace();
-//        }
-//    }
-    
     /**
      * Aniadido de un jugador al juego. Se usara cuando este no sea el ultimo.
-     * @param juego
+     * @param juego Juego para comenzar.
      * @throws IOException
      */
-    public static void aniadirJugador(Juego juego) throws IOException {
+    public static void addJugador(Juego juego) throws IOException {
         juego.aniadirJugador();
         oos.writeInt(juego.getNumeroJugadores());
         oos.flush();
@@ -174,15 +156,13 @@ public class Conexion {
     }
     
     /**
-     * Aniadido del ultimo jugador e inicializacion de los elementos necesarios para comenzar con el Juego.
-     * @param juego
+     * Aniadido del ultimo jugador y output al Usuario.
+     * @param juego Juego para comenzar.
      * @throws IOException 
      * @throws java.lang.InterruptedException 
      */
-    public static void aniadirUltimoJugador(Juego juego) throws IOException, InterruptedException {
-        aniadirJugador(juego);
-        juego.inicializacionALTurnosJugada();
-        juego.rebarajar();
+    public static void addUltimoJugador(Juego juego) throws IOException, InterruptedException {
+        addJugador(juego);
         System.out.println("Ultimo jugador añadido. Comenzando el Juego con " +juego.getNumeroJugadores() +" jugadores.");
     }
 

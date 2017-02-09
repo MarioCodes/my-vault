@@ -26,7 +26,7 @@ public class FasePreFlop implements Fase{
 
     @Override
     public void repartoCartasPersonales(ArrayList<Carta> cartas) {
-        Conexion.repartirCartasJugador(cartas);
+        Conexion.repartoCartas(cartas);
     }
 
     @Override
