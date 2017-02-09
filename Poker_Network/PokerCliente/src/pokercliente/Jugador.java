@@ -18,7 +18,7 @@ public class Jugador {
     private Mano mano = new Mano();
     
     private int fichas = 1000;
-    private int id;
+    private String id;
     private boolean jugando = true;
     
     public void sumarFichas(int fichas) {
@@ -67,7 +67,7 @@ public class Jugador {
      * @return True si tiene el focus en el juego.
      */
     public boolean habla() {
-        return Conexion.getIDTurno() == id;
+        return Conexion.getIDFocus() == id;
     }
     
     /**
@@ -89,15 +89,15 @@ public class Jugador {
     /**
      * @return the identificadorJugador
      */
-    public int getNumeroJugador() {
+    public String getID() {
         return id;
     }
 
     /**
-     * @param numeroJugador the identificadorJugador to set
+     * @param id the identificadorJugador to set
      */
-    public void setNumeroJugador(int numeroJugador) {
-        this.id = numeroJugador;
+    public void setID(String id) {
+        this.id = id;
     }
 
     /**

@@ -47,6 +47,10 @@ public class Conexion {
         oos.flush();
     }
     
+    public static Object getObject() throws IOException, ClassNotFoundException {
+        return ois.readObject();
+    }
+    
     /**
      * Recibo de un Booleano del Clietne.
      * @return Booleano desde el Cliente.
@@ -175,14 +179,14 @@ public class Conexion {
      * Lo usare para cuando este se quiera retirar.
      * @return ID del jugador o -1 si error.
      */
-    public static int getID() {
+    public static String getID() {
         try {
-            return getInt();
-        }catch(IOException ex) {
+            return (String) getObject();
+        }catch(IOException|ClassNotFoundException|ClassCastException ex) {
             ex.printStackTrace();
         }
         
-        return -1;
+        return null;
     }
     
     /**
@@ -192,10 +196,11 @@ public class Conexion {
      */
     public static void addJugador(Juego juego) throws IOException {
         juego.aniadirJugador();
-        oos.writeInt(juego.getTotalJugadores());
-        oos.flush();
         
         oos.writeBoolean(true);
+        oos.flush();
+        
+        oos.writeObject(Integer.toString(juego.getTotalJugadores()));
         oos.flush();
         
         System.out.println("Jugador añadido.");

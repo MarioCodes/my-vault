@@ -139,14 +139,15 @@ public class WindowJugador extends javax.swing.JFrame {
      * Aniadido de un Jugador mas.
      */
     private void addJugador() {
-        JUGADOR.setNumeroJugador(Conexion.addJugador());
+        JUGADOR.setID(Conexion.addJugador());
     }
     
     /**
      * Aniadido del Ultimo jugador y comienzo del Juego con este.
      */
     private void addUltimoJugador() {
-        JUGADOR.setNumeroJugador(Conexion.addUltimoJugador());
+        JUGADOR.setID(Conexion.addUltimoJugador());
+        System.out.println(JUGADOR.getID());
     }
     
     /**

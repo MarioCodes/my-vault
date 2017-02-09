@@ -42,6 +42,33 @@ public class Conexion {
     }
     
     /**
+     * Envio del ID al Server.
+     * @param id ID a enviar.
+     */
+    private static void sendID(String id) {
+        try {
+            oos.writeObject(id);
+            oos.flush();
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    /**
+     * Get del ID que tiene el focus para hablar.
+     * @return String ID con el focus.
+     */
+    private static String getID() {
+        try {
+            return (String) ois.readObject();
+        }catch(IOException|ClassNotFoundException|ClassCastException ex) {
+            ex.printStackTrace();
+        }
+        
+        return null;
+    }
+    
+    /**
      * Get de un int del Server.
      * @return Int a recibir.
      */
@@ -164,12 +191,12 @@ public class Conexion {
      * @param id ID del jugador a retirar.
      * @return True si se ha podido retirar.
      */
-    public static boolean retirarse(int id) {
+    public static boolean retirarse(String id) {
         try {
             aperturasCabeceraConexion();
             
             if(accionMenu(5)) {
-                sendInt(id);
+                sendID(id);
                 return true;
             }
         }catch(IOException ex) {
@@ -186,14 +213,13 @@ public class Conexion {
      * @param selectorMenu Accion del Menu a ejecutar.
      * @return ID del Jugador.
      */
-    private static int addJugadorServer(int selectorMenu) {
+    private static String addJugadorServer(int selectorMenu) {
         try {
             aperturasCabeceraConexion();
             
             accionMenu(selectorMenu);
             
-            int IDJugador = ois.readInt();
-            
+            String IDJugador = (String) ois.readObject();
             return IDJugador;
         }catch(ConnectException ex) {
             System.out.println("Problema en la conexion. " +ex.getLocalizedMessage());
@@ -201,18 +227,20 @@ public class Conexion {
             System.out.println("Numero de argumentos erroneo. Comprobar que el puerto este dentro de rango.\t" +ex.getLocalizedMessage());
         }catch(IOException ex) {
             System.out.println("Problema de IO." +ex.getLocalizedMessage());
+        }catch(ClassNotFoundException|ClassCastException ex) {
+            System.out.println("Problema de Casteo. " +ex.getLocalizedMessage());
         }finally{
             cerradoCabecerasConexion();
         }
         
-        return -1;
+        return null;
     }
     
     /**
      * Aniadido de un Jugador mas.
      * @return ID del Jugador.
      */
-    public static int addJugador() {
+    public static String addJugador() {
         return addJugadorServer(0);
     }
     
@@ -220,7 +248,7 @@ public class Conexion {
      * Aniadido del ultimo Jugador.
      * @return ID del Jugador.
      */
-    public static int addUltimoJugador() {
+    public static String addUltimoJugador() {
         return addJugadorServer(1);
     }
     
@@ -228,18 +256,17 @@ public class Conexion {
      * Obtenemos el ID del jugador a hablar.
      * @return ID del jugador o -1 si error.
      */
-    public static int getIDTurno() {
+    public static String getIDFocus() {
         try {
             aperturasCabeceraConexion();
             accionMenu(1);
-            int id = ois.readInt();
-            return id;
+            return getID();
         }catch(IOException ex) {
             ex.printStackTrace();
         }finally {
             cerradoCabecerasConexion();
         }
         
-        return -1;
+        return null;
     }
 }

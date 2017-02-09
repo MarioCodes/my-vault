@@ -48,9 +48,9 @@ public class Servidor {
      * Accion de retirarse, se pone su ID en la lista. @fixme: quitarlo y poner una lista con IDs positivos en vez de negativos, quitarlo de esta cuando eso.
      */
     private static void retirarse() {
-        int id = juego.getFase().retirarse();
-        if(id != -1) {
-            juego.getIdRetirados().add(id);
+        String id = juego.getFase().retirarse();
+        if(id != null) {
+//            juego.getIdRetirados().add(id);
             System.out.println("Se ha retirado al Jugador " +id);
         } else {
             System.out.println("Problemas con el retirar a un jugador.");

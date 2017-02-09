@@ -41,7 +41,7 @@ public class FaseApuestas implements Fase {
     }
 
     @Override
-    public int retirarse() {
+    public String retirarse() {
         Conexion.sendBooleano(true);
         return Conexion.getID();
     }
