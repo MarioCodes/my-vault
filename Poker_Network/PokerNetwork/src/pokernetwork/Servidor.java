@@ -18,6 +18,7 @@ import fases.*;
 */
 
 /**
+ * fixme: Bug - juego comenzado, cierro cliente, abro nuevo e intento unirme -> Salta selector switch primera opcion. Arreglarlo.
  * Proyecto Online juego Oscar -> Poker Texas Hold'em!. Parte Servidor.
  * La forma de uso de llamado de los metodos es -> Servidor -> Juego -> Instancia Fase -> Conexion.
  * @author Mario Codes Sánchez
@@ -84,7 +85,7 @@ public class Servidor {
                 fase.cambioFase(juego);
             }
         }catch(ClassCastException ex) {
-            System.out.println("\nCambio de Fase no correcta. Chequear Servidor.Apostar(). " +ex.getLocalizedMessage());
+            System.out.println("Cambio de Fase no correcta. Chequear Servidor.Apostar(). " +ex.getLocalizedMessage()); //@todo: arreglar la GUI para que solo se puedan realizar acciones conforme a la fase correcta.
         }
     }
     
