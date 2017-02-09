@@ -11,6 +11,10 @@ import java.net.Socket;
 import entidades.Juego;
 import fases.FaseApuestas;
 
+/*
+    todo: idea -> al finalizar cualquier accion en el Server, hacer que lo ultimo que envie sea la Fase en la que se encuentra el Juego y adecuar la GUI en funcion.
+*/
+
 /**
  * Proyecto Online juego Oscar -> Poker Texas Hold'em!. Parte Servidor.
  * Funcionamiento general del Servidor:

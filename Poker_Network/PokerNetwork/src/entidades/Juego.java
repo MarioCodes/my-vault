@@ -41,9 +41,8 @@ public class Juego {
     public boolean terminarTurno() {
         if(++idFocus >= totalJugadores) {
             idFocus = 1;
-            return false;
-        } else return true;
-        
+            return true;
+        } else return false;
     }
     
     /**
