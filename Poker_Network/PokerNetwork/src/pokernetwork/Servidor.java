@@ -114,6 +114,7 @@ public class Servidor {
             int opcion = Conexion.getInt();
             switch(opcion) {
                 case 1: //Get de la ID de quien Habla.
+                    Conexion.sendBooleano(true);
                     Conexion.sendFocus(juego);
                     break;
                 case 2: //Reparto cartas cada Jugador.

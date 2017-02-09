@@ -203,10 +203,14 @@ public class WindowJugador extends javax.swing.JFrame {
      * Accion de apostar la cantidad que haya indicada.
      */
     private void apostar() {
-        int pool = JUGADOR.apostar(Integer.parseInt(jTextField1.getText()));
-        if(pool != -1) {
-            this.jLabel1.setText(Integer.toString(pool));
-            this.jLabelJugador.setText(Integer.toString(JUGADOR.getFichas()));
+        if(JUGADOR.habla()) {
+            int pool = JUGADOR.apostar(Integer.parseInt(jTextField1.getText()));
+            if(pool != -1) {
+                this.jLabel1.setText(Integer.toString(pool));
+                this.jLabelJugador.setText(Integer.toString(JUGADOR.getFichas()));
+            }
+        } else {
+            System.out.println("Espera. No es tu turno para apostar.");
         }
     }
     

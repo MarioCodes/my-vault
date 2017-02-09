@@ -67,7 +67,7 @@ public class Jugador {
      * @return True si tiene el focus en el juego.
      */
     public boolean habla() {
-        return Conexion.getIDFocus() == id;
+        return Conexion.getIDFocus().matches(id);
     }
     
     /**
