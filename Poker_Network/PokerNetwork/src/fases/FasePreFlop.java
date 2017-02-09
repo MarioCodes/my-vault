@@ -23,6 +23,7 @@ public class FasePreFlop implements Fase{
 
     @Override
     public void repartoCartasPersonales() {
+        System.out.println("SU");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

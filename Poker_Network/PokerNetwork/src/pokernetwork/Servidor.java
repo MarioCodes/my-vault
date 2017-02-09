@@ -28,10 +28,13 @@ public class Servidor {
     private static void gestorAccionesJuego() {
         try {
             Conexion.aperturaCabecerasConexion(socket);
+            Conexion.envioInt(juego.getIdJugadorFocus());
+            
             int opcion = Conexion.reciboInt();
 
             switch(opcion) {
                 case 2: //Reparto cartas cada Jugador.
+                    System.out.println("SU"); //fixme: borrar.
 //                    Conexion.repartoCartasJugadores(juego);
                     
 //                    Conexion.repartirCartasJugadores(juego, juego.repartoManoJugador());

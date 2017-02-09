@@ -19,11 +19,21 @@ public class Juego {
     
     private boolean juegoComenzado = false;
     private int numeroJugadores = 0;
+    private int idJugadorFocus = 1;
     
     private Baraja baraja = null;
     private ArrayList<Carta> CARTAS_MESA = new ArrayList<>();
     private ArrayList<Boolean> accionJugador;
     private int poolApuestas = 0;
+
+    /**
+     * Gestionamos el avanzar al siguiente Jugador.
+     * @return 
+     */
+    public int terminarTurnoJugador() {
+        if(++idJugadorFocus >= numeroJugadores) idJugadorFocus = 1;
+        return idJugadorFocus;
+    }
     
     /**
      * (Re)inicializacion de la AL que uso para los turnos de cada jugador.
@@ -163,5 +173,12 @@ public class Juego {
      */
     public void setAccionJugador(ArrayList<Boolean> accionJugador) {
         this.accionJugador = accionJugador;
+    }
+
+    /**
+     * @return the idJugadorFocus
+     */
+    public int getIdJugadorFocus() {
+        return idJugadorFocus;
     }
 }

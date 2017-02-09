@@ -188,4 +188,21 @@ public class Conexion {
         
         return -1;
     }
+    
+    /**
+     * Obtenemos el ID del jugador a hablar.
+     * @return ID del jugador o -1 si error.
+     */
+    public static int getIDJugadorActual() {
+        try {
+            aperturasCabeceraConexion();
+            int id = ois.readInt();
+            cerradoCabecerasConexion();
+            return id;
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }
+        
+        return -1;
+    }
 }

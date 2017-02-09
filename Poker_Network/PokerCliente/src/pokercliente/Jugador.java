@@ -50,6 +50,14 @@ public class Jugador {
     }
     
     /**
+     * Devuelve un booleano que indica si es este jugador quien debe hablar.
+     * @return True si tiene el focus en el juego.
+     */
+    public boolean habla() {
+        return Conexion.getIDJugadorActual() == identificadorJugador;
+    }
+    
+    /**
      * Obtenemos las 2 cartas unicas de este Jugador (Las quitamos de la baraja Obviamente).
      */
     public void obtenerMano() {

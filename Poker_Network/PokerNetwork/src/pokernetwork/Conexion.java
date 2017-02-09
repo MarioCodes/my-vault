@@ -38,6 +38,16 @@ public class Conexion {
     }
     
     /**
+     * Envio de un int al Cliente.
+     * @param i Entero a enviar.
+     * @throws IOException 
+     */
+    public static void envioInt(int i) throws IOException {
+        oos.writeInt(i);
+        oos.flush();
+    }
+    
+    /**
      * Apertura de las posibles cabeceras necesarias para la transmision de datos. ¡Se deberan cerrar despues!
      * @param socket Socket por el cual abrimos el resto de conexiones.
      */
