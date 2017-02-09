@@ -5,7 +5,9 @@
  */
 package fases;
 
+import entidades.Carta;
 import entidades.Juego;
+import java.util.ArrayList;
 
 /**
  * Implementacion de una maquina de estados para saber en todo momento en que fase se encuentra el Juego.
@@ -19,7 +21,7 @@ import entidades.Juego;
 public interface Fase {
     public void cambioFase(Juego juego);
     
-    public void repartoCartasPersonales();
+    public void repartoCartasPersonales(ArrayList<Carta> cartas);
     
     public void repartoCartasComunes();
     

@@ -9,6 +9,7 @@ package pokercliente;
  * FIXME: Bug descubierto. Si hay 2 jugadores, si comienza el primero a pillar cartas, la 1º vez le da las propias suyas pero no las comunes, al 2º le da todas y si otra vez el primero, le da todas con nuevas.
  * Juego en Red Texas Hold'Em. Version sin limite de apuestas.
  * Ventana para Startear el juego.
+ * Orden de uso de metodos -> this -> Jugador -> Conexion.
  * @author Mario Codes Sánchez
  * @see https://es.wikipedia.org/wiki/Texas_hold_'em
  */

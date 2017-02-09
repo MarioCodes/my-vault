@@ -64,34 +64,34 @@ public class Conexion {
         }
     }
     
-    //fixme: Desarrollar.
-    public static int getPoolFichasApostadas() {
-        return 0;
-    }
-    
-    //fixme: desarrollar.
-    public static int apostarJugador(int idJugador, int fichas) {
-        int totalPool = -1;
-        
-        try {
-            oos.writeInt(idJugador);
-            oos.flush();
-            
-            boolean accionLeft = ois.readBoolean();
-            if(accionLeft) {
-                oos.writeInt(fichas);
-                oos.flush();
-                
-                totalPool = ois.readInt();
-            } else {
-                
-            }
-        }catch(IOException ex) {
-            ex.printStackTrace();
-        }
-        
-        return totalPool;
-    }
+//    //fixme: Desarrollar.
+//    public static int getPoolFichasApostadas() {
+//        return 0;
+//    }
+//    
+//    //fixme: desarrollar.
+//    public static int apostarJugador(int idJugador, int fichas) {
+//        int totalPool = -1;
+//        
+//        try {
+//            oos.writeInt(idJugador);
+//            oos.flush();
+//            
+//            boolean accionLeft = ois.readBoolean();
+//            if(accionLeft) {
+//                oos.writeInt(fichas);
+//                oos.flush();
+//                
+//                totalPool = ois.readInt();
+//            } else {
+//                
+//            }
+//        }catch(IOException ex) {
+//            ex.printStackTrace();
+//        }
+//        
+//        return totalPool;
+//    }
     
     /**
      * Debido a los problemas que tengo para enviar Cartas por Socket como (Object) las deconstruyo en el server a sus valores base y las reconstruyo aqui.
@@ -112,11 +112,8 @@ public class Conexion {
      * @param id ID propio del Jugador.
      * @throws IOException 
      */
-    private static void envioAccionEID(int id, int accion) throws IOException {
+    private static void envioAccion(int accion) throws IOException {
         oos.writeInt(accion);
-        oos.flush();
-
-        oos.writeInt(id);
         oos.flush();
     }
     
@@ -130,32 +127,29 @@ public class Conexion {
     /**
      * Obtencion de Cartas desde el Servidor. Esta automatizado independientemente del numero de cartas.
      *  Lo uso tanto para obtener las cartas propias del jugador como las comunes de la mesa.
-     * @param idJugador ID unico del jugador para comprobar si ya ha realizado la accion en su turno.
      * @param accion Accion a realizar en el Server (2 recibo cartas propias, 3 recibo cartas comunes).
      * @return ArrayList de Cartas con las Cartas segun requiera la ocasion.
      */
-    public static ArrayList<Carta> obtenerCartas(int idJugador, int accion) {
+    public static ArrayList<Carta> obtenerCartas(int accion) {
         ArrayList<Carta> cartas = new ArrayList<>();
         try {
             aperturasCabeceraConexion();
             
-            envioAccionEID(idJugador, accion); //Obtencion de las cartas.
+            envioAccion(accion); //Obtencion de las cartas.
 
-            boolean turnoDisponible = ois.readBoolean();
-            if(turnoDisponible) {
-                int cartasARecibir = ois.readInt(); //Numero de cartas a Recibir.
-                
-                for (int i = 0; i < cartasARecibir; i++) {
-                    cartas.add(recibirReconstruirCarta());
-                }
+            int cartasARecibir = ois.readInt(); //Numero de cartas a Recibir.
 
-                return cartas;
+            for (int i = 0; i < cartasARecibir; i++) {
+                cartas.add(recibirReconstruirCarta());
             }
-        }catch(ClassNotFoundException|ClassCastException ex) {
+
+            return cartas;
+        }catch(ClassNotFoundException | ClassCastException | IOException ex) {
             ex.printStackTrace();
-        }catch(IOException ex) {
-            ex.printStackTrace();
+        }finally {
+            cerradoCabecerasConexion();
         }
+        
         return null;
     }
     
@@ -190,14 +184,14 @@ public class Conexion {
     }
     
     /**
-     * Obtenemos el ID del jugador a hablar.
+     * Obtenemos el ID del jugador a hablar. No Cierro las cabeceras. ¡Habra que cerrarlas despues de realizar la accion!
      * @return ID del jugador o -1 si error.
      */
     public static int getIDJugadorActual() {
         try {
             aperturasCabeceraConexion();
             int id = ois.readInt();
-            cerradoCabecerasConexion();
+//            cerradoCabecerasConexion();
             return id;
         }catch(IOException ex) {
             ex.printStackTrace();

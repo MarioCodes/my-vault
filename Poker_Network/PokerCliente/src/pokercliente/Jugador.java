@@ -61,7 +61,7 @@ public class Jugador {
      * Obtenemos las 2 cartas unicas de este Jugador (Las quitamos de la baraja Obviamente).
      */
     public void obtenerMano() {
-        mano.aniadirCartaPropias(Conexion.obtenerCartas(identificadorJugador, 2));
+        mano.aniadirCartaPropias(Conexion.obtenerCartas(2));
     }
     
     /**
@@ -69,7 +69,7 @@ public class Jugador {
      *      3 al principio, 4 despues y 5 al final.
      */
     public void obtenerCartasComunes() {
-        mano.aniadirCartaMesa(Conexion.obtenerCartas(identificadorJugador, 3));
+        mano.aniadirCartaMesa(Conexion.obtenerCartas(3));
     }
     
     /**

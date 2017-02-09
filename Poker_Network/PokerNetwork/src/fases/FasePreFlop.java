@@ -5,7 +5,10 @@
  */
 package fases;
 
+import entidades.Carta;
 import entidades.Juego;
+import java.util.ArrayList;
+import pokernetwork.Conexion;
 
 /**
  * Fase de Pre-Flop. 
@@ -22,9 +25,8 @@ public class FasePreFlop implements Fase{
     }
 
     @Override
-    public void repartoCartasPersonales() {
-        System.out.println("SU");
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void repartoCartasPersonales(ArrayList<Carta> cartas) {
+        Conexion.repartirCartasJugador(cartas);
     }
 
     @Override

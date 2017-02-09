@@ -99,7 +99,7 @@ public class Conexion {
     /**
      * Accion propia de repartir cartas a un jugador especifico.
      */
-    private static void repartirCartasJugador(ArrayList<Carta> cartas) {
+    public static void repartirCartasJugador(ArrayList<Carta> cartas) {
         try {
             oos.writeInt(cartas.size()); //Cartas a recibir en el jugador.
             oos.flush();
@@ -112,35 +112,35 @@ public class Conexion {
         }
     }
     
-    /**
-     * Accion de repartir cartas a un jugador. Se repetira hasta que todos tengan su mano.
-     * Esta automatizado completamente, simplemente se le pasa la coleccion con las cartas a enviar y el mismo se encarga de todo.
-     * @param juego
-     * @param cartas
-     */
-    public static void repartirCartasJugadores(Juego juego, ArrayList<Carta> cartas) {
-        try {
-            ArrayList<Boolean> accionJugador = juego.getAccionJugador();
-            
-            while(accionJugador.contains(true)) {
-                int idJugador = ois.readInt()-1;
-                if(accionJugador.get(idJugador)) { //Si este jugador no ha gastado su turno.
-                    oos.writeBoolean(true); //Se le indica al Jugador.
-                    oos.flush();
-                    
-                    repartirCartasJugador(cartas);
-                    
-                    accionJugador.set(idJugador, false);
-                } else {
-                    oos.writeBoolean(false); //Si no, se le indica que ya lo ha gastado.
-                    oos.flush();
-                } 
-            }
-            juego.reseteoALTurnosJugada();
-        }catch(IOException ex) {
-            ex.printStackTrace();
-        }
-    }
+//    /**
+//     * Accion de repartir cartas a un jugador. Se repetira hasta que todos tengan su mano.
+//     * Esta automatizado completamente, simplemente se le pasa la coleccion con las cartas a enviar y el mismo se encarga de todo.
+//     * @param juego
+//     * @param cartas
+//     */
+//    public static void repartirCartasJugadores(Juego juego, ArrayList<Carta> cartas) {
+//        try {
+//            ArrayList<Boolean> accionJugador = juego.getAccionJugador();
+//            
+//            while(accionJugador.contains(true)) {
+//                int idJugador = ois.readInt()-1;
+//                if(accionJugador.get(idJugador)) { //Si este jugador no ha gastado su turno.
+//                    oos.writeBoolean(true); //Se le indica al Jugador.
+//                    oos.flush();
+//                    
+//                    repartirCartasJugador(cartas);
+//                    
+//                    accionJugador.set(idJugador, false);
+//                } else {
+//                    oos.writeBoolean(false); //Si no, se le indica que ya lo ha gastado.
+//                    oos.flush();
+//                } 
+//            }
+//            juego.reseteoALTurnosJugada();
+//        }catch(IOException ex) {
+//            ex.printStackTrace();
+//        }
+//    }
     
     /**
      * Aniadido de un jugador al juego. Se usara cuando este no sea el ultimo.

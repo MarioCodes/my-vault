@@ -31,16 +31,14 @@ public class Servidor {
             Conexion.envioInt(juego.getIdJugadorFocus());
             
             int opcion = Conexion.reciboInt();
-
             switch(opcion) {
                 case 2: //Reparto cartas cada Jugador.
-                    System.out.println("SU"); //fixme: borrar.
+                    juego.getFase().repartoCartasPersonales(juego.repartoManoJugador());
 //                    Conexion.repartoCartasJugadores(juego);
-                    
 //                    Conexion.repartirCartasJugadores(juego, juego.repartoManoJugador());
                     break;
                 case 3: //Reparto de cartas Comunes.
-                    Conexion.repartirCartasJugadores(juego, juego.getCartasComunes());
+//                    Conexion.repartirCartasJugadores(juego, juego.getCartasComunes());
                     break;
                 case 4: //Fase de Apuestas.
 //                    faseApuestas();
