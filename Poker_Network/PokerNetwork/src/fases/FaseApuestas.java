@@ -8,16 +8,14 @@ package fases;
 import entidades.Carta;
 import entidades.Juego;
 import java.util.ArrayList;
-import pokernetwork.Conexion;
 
 /**
- * Fase de Pre-Flop. 
- * Es la fase en la cual se reparte dos cartas individuales a cada Jugador.
- * Despues de repartir se hace una fase para introducir las Ciegas, y despues uan ronda de Apuestas.
+ * Fase para Ronda de Apuestas.
+ * Realmente no es considerada una fase en el Juego en si. Pero me simplifica la reutilizacion de codigo y establece la forma para considerar cuando se debe apostar.
  * @author Mario Codes Sánchez
  * @since 09/02/2017
  */
-public class FasePreFlop implements Fase{
+public class FaseApuestas implements Fase {
 
     @Override
     public void cambioFase(Juego juego) {
@@ -26,7 +24,7 @@ public class FasePreFlop implements Fase{
 
     @Override
     public void repartoCartasJugador(ArrayList<Carta> cartas) {
-        Conexion.repartoCartas(cartas);
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -48,9 +46,9 @@ public class FasePreFlop implements Fase{
     public boolean retirarse() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public String toString() {
-        return "PreFlop";
+        return "Apuestas";
     }
 }

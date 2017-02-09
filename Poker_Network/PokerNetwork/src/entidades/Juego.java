@@ -36,9 +36,14 @@ public class Juego {
     
     /**
      * El Jugador actual termina su turno y pasamos al siguiente.
+     * @return Devuelve true cuando todos los jugadores hayan realizado su accion.
      */
-    public void terminarTurno() {
-        if(++idFocus >= totalJugadores) idFocus = 1;
+    public boolean terminarTurno() {
+        if(++idFocus >= totalJugadores) {
+            idFocus = 1;
+            return false;
+        } else return true;
+        
     }
     
     /**

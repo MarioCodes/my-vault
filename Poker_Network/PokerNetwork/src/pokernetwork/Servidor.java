@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import entidades.Juego;
+import fases.FaseApuestas;
 
 /**
  * Proyecto Online juego Oscar -> Poker Texas Hold'em!. Parte Servidor.
@@ -23,6 +24,15 @@ public class Servidor {
     private static Socket socket = null;
     
     /**
+     * Reparto de las cartas propias a cada Jugador.
+     * Cuando acaban pasamos a la primera ronda de apuestas.
+     */
+    private static void repartoCartasPropias() {
+        juego.getFase().repartoCartasJugador(juego.obtenerCartasJugador());
+        if(juego.terminarTurno()) new FaseApuestas().cambioFase(juego);
+    }
+    
+    /**
      * Gestor de acciones una vez ya se ha comenzado el juego.
      */
     private static void accionesJuego() {
@@ -35,14 +45,13 @@ public class Servidor {
                     Conexion.sendFocus(juego);
                     break;
                 case 2: //Reparto cartas cada Jugador.
-                    juego.getFase().repartoCartasJugador(juego.obtenerCartasJugador());
-                    juego.terminarTurno();
+                    repartoCartasPropias();
                     break;
                 case 3: //Reparto de cartas Comunes.
 //                    Conexion.repartirCartasJugadores(juego, juego.getCartasComunes());
                     break;
-                case 4: //Fase de Apuestas.
-//                    faseApuestas();
+                case 4: //Apuestas
+                      //Obtencion de la apuesta.
                     break;
                 default:
                     System.out.println("Comprobar selector de Acciones (version juego).");

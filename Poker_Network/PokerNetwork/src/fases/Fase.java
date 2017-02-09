@@ -25,9 +25,9 @@ public interface Fase {
     
     public void repartoCartasComunes();
     
-    public void apostarCiegas();
+    public int apostarCiegas(int fichas);
     
-    public void apostar();
+    public int apostar(int fichas);
     
     public boolean retirarse();
 }
