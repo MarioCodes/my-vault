@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-ene-2017 13:00:46 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="dto.Habitacion" table="HABITACION" schema="MARIO" optimistic-lock="version">
+        <id name="idHabitacion" type="int">
+            <column name="ID_HABITACION" precision="7" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <property name="extrasHabitacion" type="string">
+            <column name="EXTRAS_HABITACION" length="200" />
+        </property>
+        <property name="precio" type="long">
+            <column name="PRECIO" precision="7" />
+        </property>
+        <property name="tipoHabitacion" type="string">
+            <column name="TIPO_HABITACION" length="100" />
+        </property>
+        <property name="resenias" type="string">
+            <column name="RESENIAS" length="200" />
+        </property>
+        <property name="alojamientoIdAlojamiento" type="int">
+            <column name="ALOJAMIENTO_ID_ALOJAMIENTO" precision="7" scale="0" not-null="true" />
+        </property>
+        <property name="reservaIdReserva" type="java.lang.Integer">
+            <column name="RESERVA_ID_RESERVA" precision="7" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>
