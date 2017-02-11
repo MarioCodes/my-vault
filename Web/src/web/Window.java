@@ -98,7 +98,10 @@ public class Window extends javax.swing.JFrame {
     private static void iniElementos(String url) {
         try {
             document = Jsoup.connect(url).get(); //Selecciona el documento entero.
-            tabla = document.select("table"); //De ese documento, pilla la tabla. Contiene los datos que nos interesan.
+            tabla = document.select("table tbody"); //De ese documento, pilla la tabla. Contiene los datos que nos interesan.
+            for(int i = 0; i < 4; i++) { //Eliminacion de paja que hay por enmedio, con esto lo dejo listo para tratar.
+                tabla.remove(tabla.get(0));
+            }
             headersWeb = document.select("thead tr th");
             datos = document.select("tr");
         }catch(IOException ex) {
