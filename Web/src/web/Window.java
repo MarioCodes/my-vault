@@ -15,6 +15,7 @@ import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
 /**
+ * fixme: hay algunos casos en los que dentro de 'volumen' se cuela grafico. mirar porque es y apañarlo.
  * Proyecto de proceso de una pagina web.
  * Clase Principal y unica.
  * @author Mario Codes Sánchez
@@ -60,8 +61,8 @@ public class Window extends javax.swing.JFrame {
         ArrayList<String> headersTmp = new ArrayList<>();
         String[] headers;
         
-        for(Element element: elements) {
-            headersTmp.add(limpiezaHeaders(element));
+        for (int i = 0; i < elements.size()-1; i++) { //-1 para quitar lo de 'informacion relacionada'.
+            headersTmp.add(limpiezaHeaders(elements.get(i)));
         }
         
         headers = new String[headersTmp.size()];
@@ -132,11 +133,7 @@ public class Window extends javax.swing.JFrame {
         datos[4] = convertNode(element.childNode(8).unwrap());
         
         
-//        System.out.println(convertNode(element.childNode(3).unwrap())); //2, 3
-        
-        for(String s: datos) System.out.println(s);
-        
-        return null;
+        return datos;
     }
     
     /**
@@ -145,12 +142,14 @@ public class Window extends javax.swing.JFrame {
      * @return String[][] con los datos convertidos.
      */
     private static String[][] getData(Elements elements) {
-        String[][] datos;
+        int size = elements.get(0).childNodeSize();
         
-        convertElement(elements.first().child(0));
-//        System.out.println(elements);
-        
-        return null;
+        String[][] datos = new String[size][];
+        for(int i = 0; i < size; i++) {
+            datos[i] = convertElement(elements.get(0).child(i));
+        }
+            
+        return datos;
     }
     
     /**
@@ -159,6 +158,9 @@ public class Window extends javax.swing.JFrame {
     private static void adecuacionDatos() {
         modelHeaders = getHeaders(headersWeb);
         modelData = getData(tabla);
+        
+        model = new DefaultTableModel(modelData, modelHeaders);
+        Window.jTable.setModel(model);
     }
     
     /**
@@ -197,17 +199,22 @@ public class Window extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroupDatos = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jRadioButtonMenuItemActivos = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItemSubidas = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItemBajadas = new javax.swing.JRadioButtonMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("jLabel1");
+        jLabel1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        jLabel1.setText("Valores mas Activos");
 
         jTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -217,19 +224,37 @@ public class Window extends javax.swing.JFrame {
 
             }
         ));
+        jTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable.setShowHorizontalLines(true);
         jScrollPane1.setViewportView(jTable);
 
-        jButton1.setText("Cerrar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jMenu1.setText("File");
+
+        jMenuItem1.setText("Salir");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jMenuItem1ActionPerformed(evt);
             }
         });
+        jMenu1.add(jMenuItem1);
 
-        jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu2.setText("Datos");
+
+        buttonGroupDatos.add(jRadioButtonMenuItemActivos);
+        jRadioButtonMenuItemActivos.setSelected(true);
+        jRadioButtonMenuItemActivos.setText("Valores mas Activos");
+        jMenu2.add(jRadioButtonMenuItemActivos);
+
+        buttonGroupDatos.add(jRadioButtonMenuItemSubidas);
+        jRadioButtonMenuItemSubidas.setText("Mayores Subidas de Precio");
+        jMenu2.add(jRadioButtonMenuItemSubidas);
+
+        buttonGroupDatos.add(jRadioButtonMenuItemBajadas);
+        jRadioButtonMenuItemBajadas.setText("Bajan de Precio");
+        jMenu2.add(jRadioButtonMenuItemBajadas);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -240,38 +265,29 @@ public class Window extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 167, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addGap(164, 164, 164))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(173, 173, 173))))))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(218, 218, 218)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(12, 12, 12)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         System.exit(0);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -304,18 +320,22 @@ public class Window extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-//                new Window().setVisible(true);
+                new Window().setVisible(true);
                 tratamiento("https://es.finance.yahoo.com/actives?e=mc");
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.ButtonGroup buttonGroupDatos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItemActivos;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItemBajadas;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItemSubidas;
     private javax.swing.JScrollPane jScrollPane1;
     private static javax.swing.JTable jTable;
     // End of variables declaration//GEN-END:variables
