@@ -72,6 +72,24 @@ public class Window extends javax.swing.JFrame {
     }
     
     /**
+     * Conversion de un element suelto a String[] para aniadirlo a la Tabla.
+     * @param element Element a convertir.
+     * @return String[] convertida.
+     */
+    private static String[] convertElement(Element element) {
+        String[] datos;
+        
+        for(int i = 0; i < element.childNodeSize(); i++){
+//            System.out.println(element.); //todo: lo dejo aqui, completar el recorte de HTML extra.
+        }
+        
+//        if(element.toString().startsWith("<td")) 
+            System.out.println(element);
+        
+        return null;
+    }
+    
+    /**
      * Conversion de Elements a String[][] que usare directamente como Datos de JTable.mode().
      * @param elements Elements con los datos raw.
      * @return String[][] con los datos convertidos.
@@ -79,7 +97,8 @@ public class Window extends javax.swing.JFrame {
     private static String[][] getData(Elements elements) {
         String[][] datos;
         
-        System.out.println(elements);
+        convertElement(elements.first().child(0));
+//        System.out.println(elements);
         
         return null;
     }
