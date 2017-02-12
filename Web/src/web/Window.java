@@ -116,21 +116,25 @@ public class Window extends javax.swing.JFrame {
     
     /**
      * Conversion de un element suelto a String[] para aniadirlo a la Tabla.
+     * Hago la conversion a mano. Son valores tan irregulares que no puedo automatizarlos.
      * @param element Element a convertir.
      * @return String[] convertida.
      */
     private static String[] convertElement(Element element) {
         String[] datos = new String[5];
-        Node node = null;
         
-//        for(int i = 0; i < datos.length; i++){ //Hasta 4, el resto de elementos me sobra.
-            node = element.childNode(5);
-            datos[0] = convertNode(node.unwrap());
-            System.out.println(datos[0]);
-//        }
+        for(int i = 0; i < 2; i++){
+            datos[i] = convertNode(element.childNode(i));
+        }
         
-//          System.out.println(datos[4]);
-//        for(String s: datos) System.out.println(s);
+        datos[2] = convertNode(element.childNode(2).unwrap()) +"; " +convertNode(element.childNode(4).unwrap());
+        datos[3] = convertNode(element.childNode(5).unwrap()) +"; " +convertNode(element.childNode(7).unwrap()).trim();
+        datos[4] = convertNode(element.childNode(8).unwrap());
+        
+        
+//        System.out.println(convertNode(element.childNode(3).unwrap())); //2, 3
+        
+        for(String s: datos) System.out.println(s);
         
         return null;
     }
