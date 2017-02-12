@@ -73,6 +73,32 @@ public class Window extends javax.swing.JFrame {
     }
     
     /**
+     * Comprueba si queda alguna tag en al string que eliminar.
+     * @param string String a chequear.
+     * @return True si aun quedan tags por eliminar.
+     */
+    private static boolean tagsLeft(String string) {
+        return string.contains("</") || string.contains(">");
+    }
+    
+    /**
+     * Le quitamos una tag a la String pasada.
+     * @param string String sobre la que operar.
+     * @return String con una tag menos.
+     */
+    private static String quitarTag(String string) {
+        try {
+            string = string.substring(string.indexOf('>')+1, string.lastIndexOf('<'));
+        }catch(StringIndexOutOfBoundsException ex) {
+            string = string.substring(string.indexOf('>')+1);
+        }
+        
+            
+        
+        return string;
+    }
+    
+    /**
      * Conversion de un Nodo para obtener la String que nos interesa.
      * @param node Nodo del cual extraemos la informacion.
      * @return String con la informacion limpia.
@@ -80,11 +106,11 @@ public class Window extends javax.swing.JFrame {
     private static String convertNode(Node node) {
         String nodo = node.toString();
         
-        System.out.println(nodo);
-        nodo = nodo.substring(nodo.indexOf('>')+1, nodo.lastIndexOf('<')); //Operaciones de limpieza necesarias para quitar la paja.
-        nodo = nodo.substring(nodo.indexOf('>')+1, nodo.lastIndexOf('<'));
-        nodo = nodo.substring(nodo.indexOf('>')+1, nodo.lastIndexOf('<'));
+        while(tagsLeft(nodo)) {
+            nodo = quitarTag(nodo);
+        }
         
+//        System.out.println(nodo);
         return nodo;
     }
     
@@ -94,16 +120,17 @@ public class Window extends javax.swing.JFrame {
      * @return String[] convertida.
      */
     private static String[] convertElement(Element element) {
-        String[] datos = new String[element.childNodeSize()];
+        String[] datos = new String[5];
         Node node = null;
         
-//        for(int i = 0; i < element.childNodeSize(); i++){
-//            node = element.childNode(i);
-//            datos[i] = convertNode(node);
+//        for(int i = 0; i < datos.length; i++){ //Hasta 4, el resto de elementos me sobra.
+            node = element.childNode(5);
+            datos[0] = convertNode(node.unwrap());
+            System.out.println(datos[0]);
 //        }
-
-        System.out.println(node = element.childNode(0));
-        System.out.println(node = element.childNode(1));
+        
+//          System.out.println(datos[4]);
+//        for(String s: datos) System.out.println(s);
         
         return null;
     }
@@ -273,7 +300,7 @@ public class Window extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Window().setVisible(true);
+//                new Window().setVisible(true);
                 tratamiento("https://es.finance.yahoo.com/actives?e=mc");
             }
         });
