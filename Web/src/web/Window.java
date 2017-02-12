@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
 /**
@@ -72,19 +73,37 @@ public class Window extends javax.swing.JFrame {
     }
     
     /**
+     * Conversion de un Nodo para obtener la String que nos interesa.
+     * @param node Nodo del cual extraemos la informacion.
+     * @return String con la informacion limpia.
+     */
+    private static String convertNode(Node node) {
+        String nodo = node.toString();
+        
+        System.out.println(nodo);
+        nodo = nodo.substring(nodo.indexOf('>')+1, nodo.lastIndexOf('<')); //Operaciones de limpieza necesarias para quitar la paja.
+        nodo = nodo.substring(nodo.indexOf('>')+1, nodo.lastIndexOf('<'));
+        nodo = nodo.substring(nodo.indexOf('>')+1, nodo.lastIndexOf('<'));
+        
+        return nodo;
+    }
+    
+    /**
      * Conversion de un element suelto a String[] para aniadirlo a la Tabla.
      * @param element Element a convertir.
      * @return String[] convertida.
      */
     private static String[] convertElement(Element element) {
-        String[] datos;
+        String[] datos = new String[element.childNodeSize()];
+        Node node = null;
         
-        for(int i = 0; i < element.childNodeSize(); i++){
-//            System.out.println(element.); //todo: lo dejo aqui, completar el recorte de HTML extra.
-        }
-        
-//        if(element.toString().startsWith("<td")) 
-            System.out.println(element);
+//        for(int i = 0; i < element.childNodeSize(); i++){
+//            node = element.childNode(i);
+//            datos[i] = convertNode(node);
+//        }
+
+        System.out.println(node = element.childNode(0));
+        System.out.println(node = element.childNode(1));
         
         return null;
     }
