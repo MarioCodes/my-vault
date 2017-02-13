@@ -5,26 +5,16 @@
  */
 package vista;
 
-import controlador.Facade;
 import controlador.Mapeador;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 import org.apache.commons.net.ftp.*;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.net.util.Base64;
 
 /**
  * Ventana principal del programa. Se encargara de la gestion grafica.
@@ -81,42 +71,86 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
     
-//    /**
-//     * Borra el Fichero o Directorio (debe estar vacio) seleccionado en el JTree.
-//     */
-//    private void accionBorrar(boolean isServer, JTree tree) {
-//        try {
-//            String rutaSeleccionada = conversionJTreePath.conversion(isServer, tree.getSelectionPath().toString());
-//            if(!new File(rutaSeleccionada).delete()) JOptionPane.showMessageDialog(this, "No se puede borrar el elemento. Comprueba que esta vacio.");
-//            setArbolCliente(); //Refresco del contenido del JTree hacia el usuario.
-//        }catch(NullPointerException ex) {
-//            System.out.println("INFO: NullPointerException al borrar sin especificar capturado.");
-//        }
-//    }
+    /**
+     * Borra el Fichero o Directorio (debe estar vacio) seleccionado en el JTree.
+     */
+    private void accionBorrar(boolean isServer, JTree tree) {
+        try {
+            String rutaSeleccionada = conversionJTreePath.conversion(isServer, tree.getSelectionPath().toString());
+            if(!new File(rutaSeleccionada).delete()) JOptionPane.showMessageDialog(this, "No se puede borrar el elemento. Comprueba que esta vacio.");
+            setArbolCliente(); //Refresco del contenido del JTree hacia el usuario.
+        }catch(NullPointerException ex) {
+            System.out.println("INFO: NullPointerException al borrar sin especificar capturado.");
+        }
+    }
     
-//    /**
-//     * Metodo principal para borrar.
-//     *  Comprueba si el usuario quiere que se pida confirmacion al borrar, si es asi la pide antes de ejecutar la accion propiamente dicha.
-//     */
-//    private void borrarFile(boolean isServer, JTree tree) {
-//        boolean pedirConfirmacion = this.jCheckBoxMenuItemConfBorrar.getState();
-//        
-//        if(pedirConfirmacion) {
-//            if(JOptionPane.showConfirmDialog(this, "¿Seguro?") == 0) accionBorrar(isServer, tree);
-//        } else accionBorrar(isServer, tree);
-//    }
+    /**
+     * Metodo principal para borrar.
+     *  Comprueba si el usuario quiere que se pida confirmacion al borrar, si es asi la pide antes de ejecutar la accion propiamente dicha.
+     */
+    private void borrarFile(boolean isServer, JTree tree) {
+        boolean pedirConfirmacion = this.jCheckBoxMenuItemConfBorrar.getState();
+        
+        if(pedirConfirmacion) {
+            if(JOptionPane.showConfirmDialog(this, "¿Seguro?") == 0) accionBorrar(isServer, tree);
+        } else accionBorrar(isServer, tree);
+    }
     
-//    /**
-//     * Crea un directorio dentro del item seleccionado en el JTree pasado como parametro.
-//     */
-//    private void crearDirectorio(boolean isServer, JTree jtree) {
-//        try {
-//            String rutaSeleccionada = conversionJTreePath.conversion(isServer, jtree.getSelectionPath().toString());
-//            new NewFolder(rutaSeleccionada);
-//        }catch(NullPointerException ex) {
-//            System.out.println("INFO: NullPointerException al crear directorio sin ruta capturado.");
-//        }
-//    }
+    private void borrarFileFTP(JTree tree) {
+        try {
+            String name = conversionJTreePath.conversion(false, tree.getSelectionPath().toString());
+            name = name.substring(name.lastIndexOf('\\')+1);
+            System.out.println(name);
+            boolean res = false;
+            
+            if(name.contains("(Directorio)")) {
+                res = FTP.removeDirectory(name.substring(0, name.indexOf('('))); //Para quitar [...](Directorio)
+                if(res) System.out.println("Directorio Borrado con Exito.");
+            }
+            else {
+                res = FTP.deleteFile(name);
+                if(res) System.out.println("Fichero Borrado con Exito.");
+            }
+            
+            if(!res) System.out.println("Problemas para encontrar o borrar el elemento.");
+            
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    /**
+     * Version para crear Directorios en la ruta seleccionada mediante FTP.
+     * Ahora mismo solo lo hace en la carpeta principal, no crea dentro de subcarpetas o directorios.
+     * @param jtree JTree de donde obtener la ruta seleccionada.
+     */
+    private void crearDirectorioFTP(JTree jtree) {
+        try {
+            //String ruta = conversionJTreePath.conversion(false, jtree.getSelectionPath().toString());
+            String name = JOptionPane.showInputDialog("Introduce el nombre de la Carpeta");
+            
+            if(name != null) {
+                boolean res = FTP.makeDirectory(name);
+
+                if(res) System.out.println("¡Directorio Creado con Exito!");
+                else System.out.println("Problema para crear el Directorio.");
+            }
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    /**
+     * Crea un directorio dentro del item seleccionado en el JTree pasado como parametro.
+     */
+    private void crearDirectorio(boolean isServer, JTree jtree) {
+        try {
+            String rutaSeleccionada = conversionJTreePath.conversion(isServer, jtree.getSelectionPath().toString());
+            new NewFolder(rutaSeleccionada);
+        }catch(NullPointerException ex) {
+            System.out.println("INFO: NullPointerException al crear directorio sin ruta capturado.");
+        }
+    }
     
     /**
      * (Des)activacion de los botones segun el estado de la conexion, asi como cambio del icono de estado.
@@ -130,8 +164,8 @@ public class MainWindow extends javax.swing.JFrame {
         
         else this.jLabelEstadoConexion.setIcon(new ImageIcon(getClass().getResource("../imagenes/Cross.png")));
         
-//        this.jButtonBorrarServer.setEnabled(conexion);
-//        this.jButtonCrearCarpetaServer.setEnabled(conexion);
+        this.jButtonBorrarServer.setEnabled(conexion);
+        this.jButtonCrearCarpetaServer.setEnabled(conexion);
 //        this.jButtonRefrescarServer.setEnabled(conexion);
 //        this.jPanel2.setEnabled(conexion);
         this.jPanel4.setEnabled(conexion);
@@ -572,11 +606,11 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonRefrescarClienteActionPerformed
 
     private void jButtonCrearCarpetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearCarpetaActionPerformed
-//        crearDirectorio(false, MainWindow.jTreeCliente);
+        crearDirectorio(false, MainWindow.jTreeCliente);
     }//GEN-LAST:event_jButtonCrearCarpetaActionPerformed
 
     private void jButtonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBorrarActionPerformed
-//        borrarFile(false, MainWindow.jTreeCliente);
+        borrarFile(false, MainWindow.jTreeCliente);
     }//GEN-LAST:event_jButtonBorrarActionPerformed
 
     private void jMenuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalirActionPerformed
@@ -588,11 +622,11 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonRefrescarServerActionPerformed
 
     private void jButtonCrearCarpetaServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearCarpetaServerActionPerformed
-//        crearDirectorio(true, this.jTreeServer);
+        crearDirectorioFTP(this.jTreeServer);
     }//GEN-LAST:event_jButtonCrearCarpetaServerActionPerformed
 
     private void jButtonBorrarServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBorrarServerActionPerformed
-//        borrarFile(true, this.jTreeServer);
+        borrarFileFTP(this.jTreeServer);
 //        setArbolServer();
     }//GEN-LAST:event_jButtonBorrarServerActionPerformed
 

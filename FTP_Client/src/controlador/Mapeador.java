@@ -65,7 +65,7 @@ public class Mapeador {
             String linea = null;
             int contador = 0;
 
-            DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("rootFTP");
+            DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("FTProot");
             DefaultTreeModel modelServer = new DefaultTreeModel(raiz);
 
             while((linea = br.readLine()) != null) {
