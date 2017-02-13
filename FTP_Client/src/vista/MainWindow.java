@@ -8,6 +8,7 @@ package vista;
 import controlador.Mapeador;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -18,10 +19,12 @@ import javax.swing.JTree;
 import org.apache.commons.net.ftp.*;
 
 /**
+ * todo: la confirmacion al borrar en el cliente funciona, pero en el server no. Arreglarlo.
+ * todo: ahora mismo solo utilizo la pass para la conexion iniciar creo, pero no para la conexion de transferencia. Chequear y arreglar.
  * Ventana principal del programa. Se encargara de la gestion grafica.
  * Implemento una libreria de apache commons que me soluciona bastante la vida.
  * @author Mario Codes Sánchez
- * @since 06/02/2017
+ * @since 13/02/2017
  * @see http://www.codejava.net/java-se/networking/ftp
  */
 public class MainWindow extends javax.swing.JFrame {
@@ -150,7 +153,12 @@ public class MainWindow extends javax.swing.JFrame {
     private void crearDirectorio(boolean isServer, JTree jtree) {
         try {
             String rutaSeleccionada = conversionJTreePath.conversion(isServer, jtree.getSelectionPath().toString());
-            new NewFolder(rutaSeleccionada);
+            String nombre = JOptionPane.showInputDialog("Introduce el nombre de la Carpeta.");
+            if(nombre != null) {
+                boolean res = new File(rutaSeleccionada +"\\" +nombre).mkdir();
+                if(res) System.out.println("Directorio Local Creado con Exito.");
+                else System.out.println("Problemas con la creacion de un directorio local.");
+            }
         }catch(NullPointerException ex) {
             System.out.println("INFO: NullPointerException al crear directorio sin ruta capturado.");
         }
@@ -174,7 +182,7 @@ public class MainWindow extends javax.swing.JFrame {
         this.jPanel2.setEnabled(conexion);
         this.jPanel4.setEnabled(conexion);
         this.jTreeServer.setEnabled(conexion);
-//        this.jButtonPasarACliente.setEnabled(conexion);
+        this.jButtonPasarACliente.setEnabled(conexion);
         this.jButtonPasarAServer.setEnabled(conexion);
     }
     
@@ -213,8 +221,8 @@ public class MainWindow extends javax.swing.JFrame {
         String nombreFichero = rutaLocalEntera.substring(rutaLocalEntera.lastIndexOf('\\')+1);
         
         try {
-            FileInputStream is = new FileInputStream(new File(rutaLocalRecortada +nombreFichero));
-            boolean res = FTP.storeFile(nombreFichero, is);
+            FileInputStream fis = new FileInputStream(new File(rutaLocalRecortada +nombreFichero));
+            boolean res = FTP.storeFile(nombreFichero, fis);
             if(res) System.out.println("Fichero Copiado al Server Correctamente.");
             else System.out.println("Ha habido algun problema al mover el fichero.");
         }catch(IOException|ClassCastException ex) {
@@ -222,17 +230,23 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
     
-//    /**
-//     * Recoleccion de datos necesarios para recibir un fichero desde el Server al Cliente.
-//     */
-//    private void recoleccionDatosRecibimientoFichero() {
-//        String rutaServerCompleta = conversionJTreePath.conversion(true, this.jTreeServer.getSelectionPath().toString());
-//        String rutaServerRecortada = rutaServerCompleta.substring(0, rutaServerCompleta.lastIndexOf('\\')+1);
-//        String rutaLocal = conversionJTreePath.conversion(false, MainWindow.jTreeCliente.getSelectionPath().toString()) +'\\';
-//        String nombreFichero = rutaServerCompleta.substring(rutaServerCompleta.lastIndexOf('\\')+1);
-//
-//        Facade.envioFicheroServerCliente(url, puerto, rutaServerRecortada, rutaLocal, nombreFichero);
-//    }
+    /**
+     * Recoleccion de datos necesarios para recibir un fichero desde el Server al Cliente.
+     */
+    private void recoleccionDatosRecibimientoFichero() {
+        String rutaServerCompleta = conversionJTreePath.conversion(true, this.jTreeServer.getSelectionPath().toString());
+        String rutaLocal = conversionJTreePath.conversion(false, MainWindow.jTreeCliente.getSelectionPath().toString()) +'\\';
+        String nombreFichero = rutaServerCompleta.substring(rutaServerCompleta.lastIndexOf('\\')+1);
+
+        try {
+            FileOutputStream fos = new FileOutputStream(rutaLocal +nombreFichero);
+            boolean res = FTP.retrieveFile(nombreFichero, fos);
+            if(res) System.out.println("Elemento recibido del Server Correctamente.");
+            else System.out.println("Problema en el recibo del elemento desde el Server.");
+        }catch(IOException ex) {
+            System.out.println("Problema en el recibimiento del fichero: " +ex.getLocalizedMessage());
+        }
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -648,8 +662,8 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonPasarAServerActionPerformed
 
     private void jButtonPasarAClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPasarAClienteActionPerformed
-//        Runnable r = () -> recoleccionDatosRecibimientoFichero();
-//        new Thread(r).start();
+        Runnable r = () -> recoleccionDatosRecibimientoFichero();
+        new Thread(r).start();
     }//GEN-LAST:event_jButtonPasarAClienteActionPerformed
 
     private void jTextFieldUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldUserActionPerformed
