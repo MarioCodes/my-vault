@@ -76,11 +76,13 @@ public class MainWindow extends javax.swing.JFrame {
             
             DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("rootFTP");
             DefaultTreeModel modelServer = new DefaultTreeModel(raiz);
+            
             while((linea = reader.readLine()) != null) {
-//                String l = linea.substring(62, linea.length());
-                modelServer.insertNodeInto(new DefaultMutableTreeNode(new File(linea)), raiz, contador);
+                DefaultMutableTreeNode nodo = new DefaultMutableTreeNode(new File(linea));
+                modelServer.insertNodeInto(nodo, raiz, contador);
             }
             
+            is.close();
             this.jTreeServer.setModel(modelServer);
             this.jTreeServer.setSelectionRow(0);
             this.jTreeServer.setShowsRootHandles(false);
