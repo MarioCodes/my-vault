@@ -14,12 +14,16 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeModel;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
 
 /**
  * Ventana principal del programa. Se encargara de la gestion grafica.
+ * Implemento una libreria de apache commons que me soluciona bastante la vida.
  * @author Mario Codes Sánchez
  * @since 06/02/2017
+ * @see http://www.codejava.net/java-se/networking/ftp
  */
 public class MainWindow extends javax.swing.JFrame {
     private String url, user, pwd;
@@ -48,16 +52,21 @@ public class MainWindow extends javax.swing.JFrame {
         jTreeCliente.setShowsRootHandles(false);
     }
     
-//    /**
-//     * Setteo del model del tree de la GUI por el obtenido mediante el mapeo del server.
-//     * @param treeServer JTree obtenido del server.
-//     */
-//    private void setArbolServer() {
-//        JTree treeServer = new Mapeador().mapearServer();
-//        this.jTreeServer.setModel(treeServer.getModel());
-//        this.jTreeServer.setSelectionRow(0);
-//        this.jTreeServer.setShowsRootHandles(false);
-//    }
+    /**
+     * Setteo del model del tree de la GUI por el obtenido mediante el mapeo del server.
+     * @param treeServer JTree obtenido del server.
+     */
+    private void setArbolServer() { //todo: estoy arreglando este metodo para hacer el nuevo mapeo con el server FTP.
+        try {
+            FTPFile[] files = FTP.listFiles();
+            JTree treeServer = new Mapeador().mapearServer(files);
+            this.jTreeServer.setModel(treeServer.getModel());
+            this.jTreeServer.setSelectionRow(0);
+            this.jTreeServer.setShowsRootHandles(false);
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }
+    }
     
 //    /**
 //     * Borra el Fichero o Directorio (debe estar vacio) seleccionado en el JTree.
@@ -103,7 +112,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void gestionControlesConexion(boolean conexion) {
         if(conexion) {
             this.jLabelEstadoConexion.setIcon(new ImageIcon(getClass().getResource("../imagenes/Tick.png")));
-//            setArbolServer();
+            setArbolServer();
         }
         
         else this.jLabelEstadoConexion.setIcon(new ImageIcon(getClass().getResource("../imagenes/Cross.png")));
@@ -242,8 +251,6 @@ public class MainWindow extends javax.swing.JFrame {
                 jTextFieldUserActionPerformed(evt);
             }
         });
-
-        jPasswordFieldPassword.setText("mario");
 
         javax.swing.GroupLayout jPanelParametrosLayout = new javax.swing.GroupLayout(jPanelParametros);
         jPanelParametros.setLayout(jPanelParametrosLayout);

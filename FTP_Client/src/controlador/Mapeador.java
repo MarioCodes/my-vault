@@ -9,6 +9,7 @@ import java.io.File;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import org.apache.commons.net.ftp.FTPFile;
 
 /**
  * Clase encargada de hacer el mapeo de ficheros / directorios del proyecto y transformarlo al JTree.
@@ -39,10 +40,16 @@ public class Mapeador {
     
     /**
      * Como sabemos donde va a estar el server, lo hacemos mediante rutas relativas, no me gusta pero no me da tiempo a hacerlo como queria.
+     * @param files FTPFile[] con toda la informacion.
      * @return JTree mapeado.
      */
-    public JTree mapearServer() {
-        File fileRoot = new File("../Server_FTP/root/"); //Directorio 'root' a partir del cual se mapeara.
+    public JTree mapearServer(FTPFile[] files) {
+        File fileRoot = new File("root/"); //Directorio 'root' en el cual meto el resto.
+        
+        for(FTPFile f: files) {
+            
+        }
+        
         root = new DefaultMutableTreeNode(new FileNode(fileRoot));
         treeModel = new DefaultTreeModel(root);
         
