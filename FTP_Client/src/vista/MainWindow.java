@@ -66,7 +66,7 @@ public class MainWindow extends javax.swing.JFrame {
      */
     private void setArbolServer() { //todo: estoy arreglando este metodo para hacer el nuevo mapeo con el server FTP.
         try {
-            URL url = new URL("ftp://mario: @127.0.0.1:6598");
+            URL url = new URL("ftp://" +user +": " +"@127.0.0.1");
             URLConnection conn = url.openConnection();
             InputStream is = conn.getInputStream();
             
@@ -130,14 +130,14 @@ public class MainWindow extends javax.swing.JFrame {
         
         else this.jLabelEstadoConexion.setIcon(new ImageIcon(getClass().getResource("../imagenes/Cross.png")));
         
-        this.jButtonBorrarServer.setEnabled(conexion);
-        this.jButtonCrearCarpetaServer.setEnabled(conexion);
-        this.jButtonRefrescarServer.setEnabled(conexion);
-        this.jPanel2.setEnabled(conexion);
+//        this.jButtonBorrarServer.setEnabled(conexion);
+//        this.jButtonCrearCarpetaServer.setEnabled(conexion);
+//        this.jButtonRefrescarServer.setEnabled(conexion);
+//        this.jPanel2.setEnabled(conexion);
         this.jPanel4.setEnabled(conexion);
         this.jTreeServer.setEnabled(conexion);
-        this.jButtonPasarACliente.setEnabled(conexion);
-        this.jButtonPasarAServer.setEnabled(conexion);
+//        this.jButtonPasarACliente.setEnabled(conexion);
+//        this.jButtonPasarAServer.setEnabled(conexion);
     }
     
     /**
@@ -149,6 +149,7 @@ public class MainWindow extends javax.swing.JFrame {
         this.puerto = Integer.parseInt(this.jTextFieldInputPuerto.getText());
         this.user = this.jTextFieldUser.getText();
         this.pwd = this.jPasswordFieldPassword.getPassword().toString();
+        if(this.pwd.matches("")) this.pwd = " ";
         
         System.out.println("Conectando...");
         
@@ -243,7 +244,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabelPuerto.setText("Puerto");
 
-        jTextFieldInputPuerto.setText("6598");
+        jTextFieldInputPuerto.setText("21");
 
         jButtonConectar.setText("<html><i>Iniciar Conexión</i></html>");
         jButtonConectar.addActionListener(new java.awt.event.ActionListener() {
@@ -313,7 +314,7 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(jPasswordFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelParametrosLayout.createSequentialGroup()
-                .addContainerGap(13, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabelEstadoConexion)
                     .addComponent(jButtonConectar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
