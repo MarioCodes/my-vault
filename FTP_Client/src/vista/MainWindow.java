@@ -149,7 +149,6 @@ public class MainWindow extends javax.swing.JFrame {
         this.puerto = Integer.parseInt(this.jTextFieldInputPuerto.getText());
         this.user = this.jTextFieldUser.getText();
         this.pwd = this.jPasswordFieldPassword.getPassword().toString();
-        if(this.pwd.matches("")) this.pwd = " ";
         
         System.out.println("Conectando...");
         
