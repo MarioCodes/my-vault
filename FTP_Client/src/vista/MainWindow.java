@@ -9,6 +9,8 @@ import controlador.Facade;
 import controlador.Mapeador;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -17,6 +19,7 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeModel;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
+import org.apache.commons.io.FileUtils;
 
 /**
  * Ventana principal del programa. Se encargara de la gestion grafica.
@@ -59,10 +62,26 @@ public class MainWindow extends javax.swing.JFrame {
     private void setArbolServer() { //todo: estoy arreglando este metodo para hacer el nuevo mapeo con el server FTP.
         try {
             FTPFile[] files = FTP.listFiles();
-            JTree treeServer = new Mapeador().mapearServer(files);
-            this.jTreeServer.setModel(treeServer.getModel());
-            this.jTreeServer.setSelectionRow(0);
-            this.jTreeServer.setShowsRootHandles(false);
+            ArrayList<File> alFile = new ArrayList<>();
+            
+            File file = new File("root/");
+            this.jTreeServer.setModel(new FileTreeModel(file).getTree().getModel());
+//            for(FTPFile file: files) {
+//                System.out.println(file);
+////                InputStream is = FTP.retrieveFileStream(file.getName());
+////                File fileTmp = File.createTempFile("tmp", url);
+////                FileUtils.copyInputStreamToFile(is, fileTmp);
+////                alFile.add(fileTmp);
+//            }
+//            
+//            for(File a: alFile) {
+//                System.out.println(a.getName());
+//            }
+            
+//            JTree treeServer = new Mapeador().mapearServer(files);
+//            this.jTreeServer.setModel(treeServer.getModel());
+//            this.jTreeServer.setSelectionRow(0);
+//            this.jTreeServer.setShowsRootHandles(false);
         }catch(IOException ex) {
             ex.printStackTrace();
         }

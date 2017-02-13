@@ -38,14 +38,16 @@ public class Mapeador {
         return tree;
     }
     
-    /**
-     * Recursividad. Creacion del Arbol de directorios mediante los nombres obtenidos del listado mediante FTP.
-     * @param file File actual a comprobar.
-     * @return Booleano para saber cuando un file es hoja.
-     */
-    private boolean creacionArbol(FTPFile file) {
-        
-    }
+//    /**
+//     * Recursividad. Creacion del Arbol de directorios mediante los nombres obtenidos del listado mediante FTP.
+//     * @param file File actual a comprobar.
+//     * @return Booleano para saber cuando un file es hoja.
+//     */
+//    private boolean creacionArbol(FTPFile file) {
+//        if(file.isFile()) return true;
+//        
+//        
+//    }
     
     /**
      * Como sabemos donde va a estar el server, lo hacemos mediante rutas relativas, no me gusta pero no me da tiempo a hacerlo como queria.
@@ -54,17 +56,18 @@ public class Mapeador {
      */
     public JTree mapearServer(FTPFile[] files) {
         File fileRoot = new File("root/"); //Directorio 'root' en el cual meto el resto.
-        
+
         for(FTPFile f: files) {
             
         }
         
         root = new DefaultMutableTreeNode(new FileNode(fileRoot));
+        
         treeModel = new DefaultTreeModel(root);
         
         tree = new JTree(treeModel);
         tree.setShowsRootHandles(true);
-//        new CreateChildNodes(fileRoot, root).createChildrenStart();
+        new CreateChildNodes(fileRoot, root).createChildrenStart();
         
         return tree;
     }
