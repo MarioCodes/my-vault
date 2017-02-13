@@ -6,6 +6,7 @@
 package vista;
 
 import controlador.Mapeador;
+import controlador.Red;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -17,7 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import org.apache.commons.net.ftp.*;
- 
+
 /**
  * todo: la confirmacion al borrar en el cliente funciona, pero en el server no. Arreglarlo.
  * todo: ahora mismo solo utilizo la pass para la conexion iniciar creo, pero no para la conexion de transferencia. Chequear y arreglar.
@@ -29,7 +30,7 @@ import org.apache.commons.net.ftp.*;
  */
 public class MainWindow extends javax.swing.JFrame {
     private String url, user, pwd;
-    private final FTPClient FTP = new FTPClient();
+    private final FTPClient FTP = new FTPClient(); //todo: quitar para cuando acabe de pasar el codigo de FTP a 'Red'.
     private boolean conexion;
     private int puerto;
     
@@ -41,6 +42,8 @@ public class MainWindow extends javax.swing.JFrame {
         this.setTitle("Cliente FTP");
         this.setVisible(true);
         this.setLocationRelativeTo(null);
+        
+        Red.setFtp(FTP);
     }
     
     /**
@@ -61,12 +64,8 @@ public class MainWindow extends javax.swing.JFrame {
     private void setArbolServer() {
         try {
             URL url = new URL("ftp://" +user +": " +"@127.0.0.1");
-            URLConnection conn = url.openConnection();
-            InputStream is = conn.getInputStream();
+            JTree tree = Red.setArbolFTP(url);
             
-            JTree tree = new Mapeador().mapearServer(is);
-            
-            is.close();
             this.jTreeServer.setModel(tree.getModel());
             this.jTreeServer.setSelectionRow(0);
             this.jTreeServer.setShowsRootHandles(false);
@@ -102,7 +101,7 @@ public class MainWindow extends javax.swing.JFrame {
      *  Comprueba si el usuario quiere que se pida confirmacion al borrar, si es asi la pide antes de ejecutar la accion propiamente dicha.
      * @return Estado de la operacion.
      */
-    private boolean borrarFile(JTree tree) {
+    private boolean borrarLocal(JTree tree) {
         boolean pedirConfirmacion = this.jCheckBoxMenuItemConfBorrar.getState();
         
         if(pedirConfirmacion) {
@@ -117,29 +116,10 @@ public class MainWindow extends javax.swing.JFrame {
      * @param tree JTree de donde obtenemos el elemento seleccionado para eliminar.
      * @return Estado de la operacion
      */
-    private boolean borrarFileFTP(JTree tree) {
-        try {
-            String name = conversionJTreePath.conversion(false, tree.getSelectionPath().toString());
-            name = name.substring(name.lastIndexOf('\\')+1);
-            boolean res = false;
-            
-            if(name.contains("(Directorio)")) {
-                res = FTP.removeDirectory(name.substring(0, name.indexOf('('))); //Para quitar [...](Directorio)
-                if(res) System.out.println("Directorio remoto Borrado con Exito.");
-            }
-            else {
-                res = FTP.deleteFile(name);
-                if(res) System.out.println("Fichero remoto Borrado con Exito.");
-            }
-            
-            if(!res) System.out.println("Problemas para encontrar o borrar el elemento remoto. Comprueba que no exista.");
-            
-            return res;
-        }catch(IOException ex) {
-            ex.printStackTrace();
-        }
-        
-        return false;
+    private boolean borrarFTP(JTree tree) {
+        String name = conversionJTreePath.conversion(false, tree.getSelectionPath().toString());
+        name = name.substring(name.lastIndexOf('\\')+1);
+        return Red.borrarFTP(name);
     }
     
     /**
@@ -660,7 +640,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonCrearCarpetaActionPerformed
 
     private void jButtonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBorrarActionPerformed
-        if(borrarFile(MainWindow.jTreeCliente)) setArbolCliente();
+        if(borrarLocal(MainWindow.jTreeCliente)) setArbolCliente();
     }//GEN-LAST:event_jButtonBorrarActionPerformed
 
     private void jMenuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalirActionPerformed
@@ -676,7 +656,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonCrearCarpetaServerActionPerformed
 
     private void jButtonBorrarServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBorrarServerActionPerformed
-        if(borrarFileFTP(this.jTreeServer)) setArbolServer();
+        if(borrarFTP(this.jTreeServer)) setArbolServer();
     }//GEN-LAST:event_jButtonBorrarServerActionPerformed
 
     private void jButtonPasarAServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPasarAServerActionPerformed
