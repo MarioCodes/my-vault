@@ -115,8 +115,9 @@ public class MainWindow extends javax.swing.JFrame {
     /**
      * Borrado de un Archivo o Fichero mediante FTP.
      * @param tree JTree de donde obtenemos el elemento seleccionado para eliminar.
+     * @return Estado de la operacion
      */
-    private void borrarFileFTP(JTree tree) {
+    private boolean borrarFileFTP(JTree tree) {
         try {
             String name = conversionJTreePath.conversion(false, tree.getSelectionPath().toString());
             name = name.substring(name.lastIndexOf('\\')+1);
@@ -124,26 +125,30 @@ public class MainWindow extends javax.swing.JFrame {
             
             if(name.contains("(Directorio)")) {
                 res = FTP.removeDirectory(name.substring(0, name.indexOf('('))); //Para quitar [...](Directorio)
-                if(res) System.out.println("Directorio Borrado con Exito.");
+                if(res) System.out.println("Directorio remoto Borrado con Exito.");
             }
             else {
                 res = FTP.deleteFile(name);
-                if(res) System.out.println("Fichero Borrado con Exito.");
+                if(res) System.out.println("Fichero remoto Borrado con Exito.");
             }
             
-            if(!res) System.out.println("Problemas para encontrar o borrar el elemento.");
+            if(!res) System.out.println("Problemas para encontrar o borrar el elemento remoto. Comprueba que no exista.");
             
+            return res;
         }catch(IOException ex) {
             ex.printStackTrace();
         }
+        
+        return false;
     }
     
     /**
      * Version para crear Directorios en la ruta seleccionada mediante FTP.
      * Ahora mismo solo lo hace en la carpeta principal, no crea dentro de subcarpetas o directorios.
      * @param jtree JTree de donde obtener la ruta seleccionada.
+     * @return Estado de la operacion.
      */
-    private void crearDirectorioFTP(JTree jtree) {
+    private boolean crearDirectorioFTP(JTree jtree) {
         try {
             //String ruta = conversionJTreePath.conversion(false, jtree.getSelectionPath().toString());
             String name = JOptionPane.showInputDialog("Introduce el nombre de la Carpeta");
@@ -151,12 +156,18 @@ public class MainWindow extends javax.swing.JFrame {
             if(name != null) {
                 boolean res = FTP.makeDirectory(name);
 
-                if(res) System.out.println("¡Directorio Creado con Exito!");
-                else System.out.println("Problema para crear el Directorio.");
+                if(res) System.out.println("¡Directorio remoto Creado con Exito!");
+                else System.out.println("Problema para crear el Directorio remoto.");
+                
+                return res;
             }
+            
+            return false;
         }catch(IOException ex) {
             ex.printStackTrace();
         }
+        
+        return false;
     }
     
     /**
@@ -243,7 +254,7 @@ public class MainWindow extends javax.swing.JFrame {
             FileInputStream fis = new FileInputStream(new File(rutaLocalRecortada +nombreFichero));
             boolean res = FTP.storeFile(nombreFichero, fis);
             if(res) System.out.println("Fichero Copiado al Server Correctamente.");
-            else System.out.println("Ha habido algun problema al mover el fichero.");
+            else System.out.println("Ha habido algun problema al mover el fichero de Local al Server.");
         }catch(IOException|ClassCastException ex) {
             System.out.println("Problema en el envio: " +ex.getLocalizedMessage());
         }
@@ -261,7 +272,7 @@ public class MainWindow extends javax.swing.JFrame {
             FileOutputStream fos = new FileOutputStream(rutaLocal +nombreFichero);
             boolean res = FTP.retrieveFile(nombreFichero, fos);
             if(res) System.out.println("Elemento recibido del Server Correctamente.");
-            else System.out.println("Problema en el recibo del elemento desde el Server.");
+            else System.out.println("Problema en el recibo del elemento desde el Server a Local.");
         }catch(IOException ex) {
             System.out.println("Problema en el recibimiento del fichero: " +ex.getLocalizedMessage());
         }
@@ -337,11 +348,6 @@ public class MainWindow extends javax.swing.JFrame {
         jLabelPassword.setText("Password");
 
         jTextFieldUser.setText("mario");
-        jTextFieldUser.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldUserActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanelParametrosLayout = new javax.swing.GroupLayout(jPanelParametros);
         jPanelParametros.setLayout(jPanelParametrosLayout);
@@ -666,13 +672,11 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonRefrescarServerActionPerformed
 
     private void jButtonCrearCarpetaServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearCarpetaServerActionPerformed
-        crearDirectorioFTP(this.jTreeServer);
-        setArbolServer();
+        if(crearDirectorioFTP(this.jTreeServer)) setArbolServer();
     }//GEN-LAST:event_jButtonCrearCarpetaServerActionPerformed
 
     private void jButtonBorrarServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBorrarServerActionPerformed
-        borrarFileFTP(this.jTreeServer);
-        setArbolServer();
+        if(borrarFileFTP(this.jTreeServer)) setArbolServer();
     }//GEN-LAST:event_jButtonBorrarServerActionPerformed
 
     private void jButtonPasarAServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPasarAServerActionPerformed
@@ -684,10 +688,6 @@ public class MainWindow extends javax.swing.JFrame {
         Runnable r = () -> recoleccionDatosRecibimientoFichero();
         new Thread(r).start();
     }//GEN-LAST:event_jButtonPasarAClienteActionPerformed
-
-    private void jTextFieldUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldUserActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldUserActionPerformed
 
     /**
      * @param args the command line arguments
