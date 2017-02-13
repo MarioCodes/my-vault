@@ -205,19 +205,13 @@ public class MainWindow extends javax.swing.JFrame {
      * Recoleccion de datos necesarios para el envio de un fichero desde el Cliente al Server.
      */
     private void recoleccionDatosEnvioFicheroFTP() {
-//        String rutaServerSeleccionada = conversionJTreePath.conversion(true, this.jTreeServer.getSelectionPath().toString()) +"\\";
         String rutaLocalEntera = conversionJTreePath.conversion(false, MainWindow.jTreeCliente.getSelectionPath().toString());
         String rutaLocalRecortada = rutaLocalEntera.substring(0, rutaLocalEntera.lastIndexOf('\\')+1);
         String nombreFichero = rutaLocalEntera.substring(rutaLocalEntera.lastIndexOf('\\')+1);
         
-        try {
-            FileInputStream fis = new FileInputStream(new File(rutaLocalRecortada +nombreFichero));
-            boolean res = FTP.storeFile(nombreFichero, fis);
-            if(res) System.out.println("Fichero Copiado al Server Correctamente.");
-            else System.out.println("Ha habido algun problema al mover el fichero de Local al Server.");
-        }catch(IOException|ClassCastException ex) {
-            System.out.println("Problema en el envio: " +ex.getLocalizedMessage());
-        }
+        boolean res = Red.sendFile(rutaLocalRecortada, nombreFichero);
+        if(res) System.out.println("Fichero Copiado al Server Correctamente.");
+        else System.out.println("Ha habido algun problema al mover el fichero de Local al Server.");
     }
     
     /**

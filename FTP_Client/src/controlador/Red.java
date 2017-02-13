@@ -5,6 +5,8 @@
  */
 package controlador;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -102,6 +104,23 @@ public class Red {
             return res;
         }catch(IOException ex) {
             System.out.println("Problemas para crear el directorio remoto: " +ex.getLocalizedMessage());
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Envio de un fichero desde el Cliente Local al Server FTP.
+     * @param rutaLocal Ruta del Cliente donde se buscara el fichero.
+     * @param name Nombre con el cual se buscara y creara el fichero.
+     * @return Estado de la operacion.
+     */
+    public static boolean sendFile(String rutaLocal, String name) {
+        try {
+            FileInputStream fis = new FileInputStream(new File(rutaLocal +name));
+            return ftp.storeFile(name, fis);
+        }catch(IOException ex) {
+            System.out.println("Problema al enviar un fichero al server: " +ex.getLocalizedMessage());
         }
         
         return false;
