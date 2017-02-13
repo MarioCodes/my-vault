@@ -21,6 +21,25 @@ public class Red {
     private static FTPClient ftp;
     
     /**
+     * Conexion y login mediante FTP al server pasado como parametro con los datos requeridos.
+     * @param url URL del Server.
+     * @param puerto Puerto por el cual entra la conexion.
+     * @param user Usuario que se conecta.
+     * @param pwd Password del Usuario a conectar.
+     * @return Estado de la operacion.
+     */
+    public static boolean login(String url, int puerto, String user, String pwd) {
+        try {
+            ftp.connect(url, puerto);
+            return ftp.login(user, pwd);
+        }catch(IOException ex) {
+            System.out.println("Problema en la conexion o login: " +ex.getLocalizedMessage());
+        }
+        
+        return false;
+    }
+    
+    /**
      * Obtencion de un JTree mapeado pasandole una URL de un server FTP.
      * @param url URL formateada de la siguiente manera: protocolo://user:pwd@ip:puerto".
      * @return JTree formateado para hacer un set directamente.

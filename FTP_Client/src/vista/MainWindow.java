@@ -139,7 +139,7 @@ public class MainWindow extends javax.swing.JFrame {
      * Crea un directorio dentro del item seleccionado en el JTree pasado como parametro.
      * @return Estado de la operacion.
      */
-    private boolean crearDirectorio(JTree jtree) {
+    private boolean crearDirectorioLocal(JTree jtree) {
         try {
             String rutaSeleccionada = conversionJTreePath.conversion(false, jtree.getSelectionPath().toString());
             String nombre = JOptionPane.showInputDialog("Introduce el nombre de la Carpeta.");
@@ -193,12 +193,7 @@ public class MainWindow extends javax.swing.JFrame {
         
         System.out.println("Conectando...");
         
-        try {
-            FTP.connect(url, puerto);
-            conexion = FTP.login(user, pwd);
-        }catch(IOException ex) {
-            ex.printStackTrace();
-        }
+        conexion = Red.login(url, puerto, user, pwd);
         
         if(conexion) System.out.println("¡Conexion Realizada!");
         else System.out.println("Credenciales no Correctas.");
@@ -621,7 +616,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonRefrescarClienteActionPerformed
 
     private void jButtonCrearCarpetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearCarpetaActionPerformed
-        if(crearDirectorio(MainWindow.jTreeCliente)) setArbolCliente();
+        if(crearDirectorioLocal(MainWindow.jTreeCliente)) setArbolCliente();
     }//GEN-LAST:event_jButtonCrearCarpetaActionPerformed
 
     private void jButtonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBorrarActionPerformed
