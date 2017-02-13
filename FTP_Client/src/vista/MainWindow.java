@@ -70,20 +70,10 @@ public class MainWindow extends javax.swing.JFrame {
             URLConnection conn = url.openConnection();
             InputStream is = conn.getInputStream();
             
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            String linea = null;
-            int contador = 0;
-            
-            DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("rootFTP");
-            DefaultTreeModel modelServer = new DefaultTreeModel(raiz);
-            
-            while((linea = reader.readLine()) != null) {
-                DefaultMutableTreeNode nodo = new DefaultMutableTreeNode(new File(linea));
-                modelServer.insertNodeInto(nodo, raiz, contador);
-            }
+            JTree tree = new Mapeador().mapearServer(is);
             
             is.close();
-            this.jTreeServer.setModel(modelServer);
+            this.jTreeServer.setModel(tree.getModel());
             this.jTreeServer.setSelectionRow(0);
             this.jTreeServer.setShowsRootHandles(false);
         }catch(IOException ex) {

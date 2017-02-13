@@ -5,7 +5,11 @@
  */
 package controlador;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -36,6 +40,28 @@ public class Mapeador {
         new CreateChildNodes(fileRoot, root).createChildrenStart();
         
         return tree;
+    }
+    
+    public JTree mapearServer(InputStream is) {
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            String linea = null;
+            int contador = 0;
+
+            DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("rootFTP");
+            DefaultTreeModel modelServer = new DefaultTreeModel(raiz);
+
+            while((linea = reader.readLine()) != null) {
+                DefaultMutableTreeNode nodo = new DefaultMutableTreeNode(new File(linea));
+                modelServer.insertNodeInto(nodo, raiz, contador);
+            }
+            
+            return new JTree(modelServer);
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }
+        
+        return null;
     }
     
     /**
