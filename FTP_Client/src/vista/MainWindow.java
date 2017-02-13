@@ -22,6 +22,7 @@ import org.apache.commons.net.ftp.*;
 /**
  * todo: la confirmacion al borrar en el cliente funciona, pero en el server no. Arreglarlo.
  * todo: ahora mismo solo utilizo la pass para la conexion iniciar creo, pero no para la conexion de transferencia. Chequear y arreglar.
+ * fixme: asegurarme de sobreescribir las variables que contienen usuario, contraseña y todo eso despues de usarlas para que no se queden en memoria (peligroso).
  * Ventana principal del programa. Se encargara de la gestion grafica.
  * Implemento una libreria de apache commons que me soluciona bastante la vida.
  * @author Mario Codes Sánchez
@@ -30,7 +31,6 @@ import org.apache.commons.net.ftp.*;
  */
 public class MainWindow extends javax.swing.JFrame {
     private String url, user, pwd;
-    private final FTPClient FTP = new FTPClient(); //todo: quitar para cuando acabe de pasar el codigo de FTP a 'Red'.
     private boolean conexion;
     private int puerto;
     
@@ -43,7 +43,7 @@ public class MainWindow extends javax.swing.JFrame {
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         
-        Red.setFtp(FTP);
+        Red.setFtp(new FTPClient());
     }
     
     /**
@@ -222,14 +222,9 @@ public class MainWindow extends javax.swing.JFrame {
         String rutaLocal = conversionJTreePath.conversion(false, MainWindow.jTreeCliente.getSelectionPath().toString()) +'\\';
         String nombreFichero = rutaServerCompleta.substring(rutaServerCompleta.lastIndexOf('\\')+1);
 
-        try {
-            FileOutputStream fos = new FileOutputStream(rutaLocal +nombreFichero);
-            boolean res = FTP.retrieveFile(nombreFichero, fos);
+            boolean res = Red.getFile(rutaLocal, nombreFichero);
             if(res) System.out.println("Elemento recibido del Server Correctamente.");
             else System.out.println("Problema en el recibo del elemento desde el Server a Local.");
-        }catch(IOException ex) {
-            System.out.println("Problema en el recibimiento del fichero: " +ex.getLocalizedMessage());
-        }
     }
     
     /**

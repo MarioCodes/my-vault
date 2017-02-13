@@ -7,6 +7,7 @@ package controlador;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -121,6 +122,25 @@ public class Red {
             return ftp.storeFile(name, fis);
         }catch(IOException ex) {
             System.out.println("Problema al enviar un fichero al server: " +ex.getLocalizedMessage());
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Get de un fichero desde el Server al Cliente Local.
+     * @param rutaLocal Ruta en la cual se creara el fichero.
+     * @param name Nombre con el cual se busca el fichero en el server y se crea en local.
+     * @return Estado de la operacion.
+     */
+    public static boolean getFile(String rutaLocal, String name) {
+        try {
+            FileOutputStream fos = new FileOutputStream(rutaLocal +name);
+            boolean res = ftp.retrieveFile(name, fos);
+            fos.close();
+            return res;
+        }catch(IOException ex) {
+            System.out.println("Problema al recibir un fichero desde el Server: " +ex.getLocalizedMessage());
         }
         
         return false;
