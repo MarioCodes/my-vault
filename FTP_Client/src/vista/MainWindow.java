@@ -81,8 +81,9 @@ public class MainWindow extends javax.swing.JFrame {
     private void accionBorrar(boolean isServer, JTree tree) {
         try {
             String rutaSeleccionada = conversionJTreePath.conversion(isServer, tree.getSelectionPath().toString());
-            if(!new File(rutaSeleccionada).delete()) JOptionPane.showMessageDialog(this, "No se puede borrar el elemento. Comprueba que esta vacio.");
-            setArbolCliente(); //Refresco del contenido del JTree hacia el usuario.
+            boolean res = new File(rutaSeleccionada).delete();
+            if(res) System.out.println("Elemento local borrado con Exito.");
+            else System.out.println("No se puede borrar el Elemento local, comprueba que esta vacio.");
         }catch(NullPointerException ex) {
             System.out.println("INFO: NullPointerException al borrar sin especificar capturado.");
         }
@@ -92,12 +93,12 @@ public class MainWindow extends javax.swing.JFrame {
      * Metodo principal para borrar.
      *  Comprueba si el usuario quiere que se pida confirmacion al borrar, si es asi la pide antes de ejecutar la accion propiamente dicha.
      */
-    private void borrarFile(boolean isServer, JTree tree) {
+    private void borrarFile(JTree tree) {
         boolean pedirConfirmacion = this.jCheckBoxMenuItemConfBorrar.getState();
         
         if(pedirConfirmacion) {
-            if(JOptionPane.showConfirmDialog(this, "¿Seguro?") == 0) accionBorrar(isServer, tree);
-        } else accionBorrar(isServer, tree);
+            if(JOptionPane.showConfirmDialog(this, "¿Seguro?") == 0) accionBorrar(false, tree);
+        } else accionBorrar(false, tree);
     }
     
     /**
@@ -635,7 +636,8 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonCrearCarpetaActionPerformed
 
     private void jButtonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBorrarActionPerformed
-        borrarFile(false, MainWindow.jTreeCliente);
+        borrarFile(MainWindow.jTreeCliente);
+        setArbolCliente();
     }//GEN-LAST:event_jButtonBorrarActionPerformed
 
     private void jMenuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalirActionPerformed
