@@ -7,6 +7,7 @@ package vista;
 
 import controlador.Mapeador;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -174,7 +175,7 @@ public class MainWindow extends javax.swing.JFrame {
         this.jPanel4.setEnabled(conexion);
         this.jTreeServer.setEnabled(conexion);
 //        this.jButtonPasarACliente.setEnabled(conexion);
-//        this.jButtonPasarAServer.setEnabled(conexion);
+        this.jButtonPasarAServer.setEnabled(conexion);
     }
     
     /**
@@ -202,17 +203,24 @@ public class MainWindow extends javax.swing.JFrame {
         gestionControlesConexion(conexion);
     }
     
-//    /**
-//     * Recoleccion de datos necesarios para el envio de un fichero desde el Cliente al Server.
-//     */
-//    private void recoleccionDatosEnvioFichero() {
+    /**
+     * Recoleccion de datos necesarios para el envio de un fichero desde el Cliente al Server.
+     */
+    private void recoleccionDatosEnvioFicheroFTP() {
 //        String rutaServerSeleccionada = conversionJTreePath.conversion(true, this.jTreeServer.getSelectionPath().toString()) +"\\";
-//        String rutaLocalEntera = conversionJTreePath.conversion(false, MainWindow.jTreeCliente.getSelectionPath().toString());
-//        String rutaLocalRecortada = rutaLocalEntera.substring(0, rutaLocalEntera.lastIndexOf('\\')+1);
-//        String nombreFichero = rutaLocalEntera.substring(rutaLocalEntera.lastIndexOf('\\')+1);
-//        
-//        Facade.envioFicheroClienteServer(url, puerto, rutaServerSeleccionada, rutaLocalRecortada, nombreFichero);
-//    }
+        String rutaLocalEntera = conversionJTreePath.conversion(false, MainWindow.jTreeCliente.getSelectionPath().toString());
+        String rutaLocalRecortada = rutaLocalEntera.substring(0, rutaLocalEntera.lastIndexOf('\\')+1);
+        String nombreFichero = rutaLocalEntera.substring(rutaLocalEntera.lastIndexOf('\\')+1);
+        
+        try {
+            FileInputStream is = new FileInputStream(new File(rutaLocalRecortada +nombreFichero));
+            boolean res = FTP.storeFile(nombreFichero, is);
+            if(res) System.out.println("Fichero Copiado al Server Correctamente.");
+            else System.out.println("Ha habido algun problema al mover el fichero.");
+        }catch(IOException|ClassCastException ex) {
+            System.out.println("Problema en el envio: " +ex.getLocalizedMessage());
+        }
+    }
     
 //    /**
 //     * Recoleccion de datos necesarios para recibir un fichero desde el Server al Cliente.
@@ -635,8 +643,8 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonBorrarServerActionPerformed
 
     private void jButtonPasarAServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPasarAServerActionPerformed
-//        Runnable r = () -> recoleccionDatosEnvioFichero();
-//        new Thread(r).start();
+        Runnable r = () -> recoleccionDatosEnvioFicheroFTP();
+        new Thread(r).start();
     }//GEN-LAST:event_jButtonPasarAServerActionPerformed
 
     private void jButtonPasarAClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPasarAClienteActionPerformed
