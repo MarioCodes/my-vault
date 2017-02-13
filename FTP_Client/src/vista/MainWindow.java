@@ -17,7 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import org.apache.commons.net.ftp.*;
-
+ 
 /**
  * todo: la confirmacion al borrar en el cliente funciona, pero en el server no. Arreglarlo.
  * todo: ahora mismo solo utilizo la pass para la conexion iniciar creo, pero no para la conexion de transferencia. Chequear y arreglar.
