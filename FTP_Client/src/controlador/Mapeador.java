@@ -39,6 +39,15 @@ public class Mapeador {
     }
     
     /**
+     * Recursividad. Creacion del Arbol de directorios mediante los nombres obtenidos del listado mediante FTP.
+     * @param file File actual a comprobar.
+     * @return Booleano para saber cuando un file es hoja.
+     */
+    private boolean creacionArbol(FTPFile file) {
+        
+    }
+    
+    /**
      * Como sabemos donde va a estar el server, lo hacemos mediante rutas relativas, no me gusta pero no me da tiempo a hacerlo como queria.
      * @param files FTPFile[] con toda la informacion.
      * @return JTree mapeado.
@@ -55,7 +64,7 @@ public class Mapeador {
         
         tree = new JTree(treeModel);
         tree.setShowsRootHandles(true);
-        new CreateChildNodes(fileRoot, root).createChildrenStart();
+//        new CreateChildNodes(fileRoot, root).createChildrenStart();
         
         return tree;
     }
