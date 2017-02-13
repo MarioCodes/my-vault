@@ -129,24 +129,9 @@ public class MainWindow extends javax.swing.JFrame {
      * @return Estado de la operacion.
      */
     private boolean crearDirectorioFTP(JTree jtree) {
-        try {
-            //String ruta = conversionJTreePath.conversion(false, jtree.getSelectionPath().toString());
-            String name = JOptionPane.showInputDialog("Introduce el nombre de la Carpeta");
-            
-            if(name != null) {
-                boolean res = FTP.makeDirectory(name);
+        String name = JOptionPane.showInputDialog("Introduce el nombre de la Carpeta");
+        if(name != null) return Red.mkdirFTP(name);
 
-                if(res) System.out.println("¡Directorio remoto Creado con Exito!");
-                else System.out.println("Problema para crear el Directorio remoto.");
-                
-                return res;
-            }
-            
-            return false;
-        }catch(IOException ex) {
-            ex.printStackTrace();
-        }
-        
         return false;
     }
     

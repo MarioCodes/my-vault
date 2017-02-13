@@ -69,6 +69,26 @@ public class Red {
     }
 
     /**
+     * Creacion de un directorio con el nombre pasado como parametro.
+     * @param name String que sera el nombre del directorio.
+     * @return Resultado de la operacion.
+     */
+    public static boolean mkdirFTP(String name) {
+        try {
+           boolean res = ftp.makeDirectory(name);
+
+            if(res) System.out.println("¡Directorio remoto Creado con Exito!");
+            else System.out.println("Problema para crear el Directorio remoto.");
+
+            return res;
+        }catch(IOException ex) {
+            System.out.println("Problemas para crear el directorio remoto: " +ex.getLocalizedMessage());
+        }
+        
+        return false;
+    }
+    
+    /**
      * @param aFtp the ftp to set
      */
     public static void setFtp(FTPClient aFtp) {
