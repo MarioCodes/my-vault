@@ -8,19 +8,14 @@ package vista;
 import controlador.Mapeador;
 import controlador.Red;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.net.URLConnection;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import org.apache.commons.net.ftp.*;
 
 /**
- * todo: la confirmacion al borrar en el cliente funciona, pero en el server no. Arreglarlo.
  * todo: ahora mismo solo utilizo la pass para la conexion iniciar creo, pero no para la conexion de transferencia. Chequear y arreglar.
  * fixme: asegurarme de sobreescribir las variables que contienen usuario, contraseña y todo eso despues de usarlas para que no se queden en memoria (peligroso).
  * Ventana principal del programa. Se encargara de la gestion grafica.
@@ -117,9 +112,15 @@ public class MainWindow extends javax.swing.JFrame {
      * @return Estado de la operacion
      */
     private boolean borrarFTP(JTree tree) {
+        boolean pedirConfirmacion = this.jCheckBoxMenuItemConfBorrar.getState();
         String name = conversionJTreePath.conversion(false, tree.getSelectionPath().toString());
         name = name.substring(name.lastIndexOf('\\')+1);
-        return Red.borrarFTP(name);
+        
+        if(pedirConfirmacion) {
+            if(JOptionPane.showConfirmDialog(this, "¿Seguro?") == 0) return Red.borrarFTP(name);
+        } else return Red.borrarFTP(name);
+        
+        return false;
     }
     
     /**
