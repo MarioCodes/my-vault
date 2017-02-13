@@ -54,7 +54,7 @@ public class MainWindow extends javax.swing.JFrame {
      * Setteo del model del tree de la GUI por el obtenido mediante el mapeo del server.
      * @param treeServer JTree obtenido del server.
      */
-    private void setArbolServer() { //todo: estoy arreglando este metodo para hacer el nuevo mapeo con el server FTP.
+    private void setArbolServer() {
         try {
             URL url = new URL("ftp://" +user +": " +"@127.0.0.1");
             URLConnection conn = url.openConnection();
@@ -96,11 +96,14 @@ public class MainWindow extends javax.swing.JFrame {
         } else accionBorrar(isServer, tree);
     }
     
+    /**
+     * Borrado de un Archivo o Fichero mediante FTP.
+     * @param tree JTree de donde obtenemos el elemento seleccionado para eliminar.
+     */
     private void borrarFileFTP(JTree tree) {
         try {
             String name = conversionJTreePath.conversion(false, tree.getSelectionPath().toString());
             name = name.substring(name.lastIndexOf('\\')+1);
-            System.out.println(name);
             boolean res = false;
             
             if(name.contains("(Directorio)")) {
@@ -166,8 +169,8 @@ public class MainWindow extends javax.swing.JFrame {
         
         this.jButtonBorrarServer.setEnabled(conexion);
         this.jButtonCrearCarpetaServer.setEnabled(conexion);
-//        this.jButtonRefrescarServer.setEnabled(conexion);
-//        this.jPanel2.setEnabled(conexion);
+        this.jButtonRefrescarServer.setEnabled(conexion);
+        this.jPanel2.setEnabled(conexion);
         this.jPanel4.setEnabled(conexion);
         this.jTreeServer.setEnabled(conexion);
 //        this.jButtonPasarACliente.setEnabled(conexion);
@@ -618,16 +621,17 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemSalirActionPerformed
 
     private void jButtonRefrescarServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefrescarServerActionPerformed
-//        setArbolServer();
+        setArbolServer();
     }//GEN-LAST:event_jButtonRefrescarServerActionPerformed
 
     private void jButtonCrearCarpetaServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearCarpetaServerActionPerformed
         crearDirectorioFTP(this.jTreeServer);
+        setArbolServer();
     }//GEN-LAST:event_jButtonCrearCarpetaServerActionPerformed
 
     private void jButtonBorrarServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBorrarServerActionPerformed
         borrarFileFTP(this.jTreeServer);
-//        setArbolServer();
+        setArbolServer();
     }//GEN-LAST:event_jButtonBorrarServerActionPerformed
 
     private void jButtonPasarAServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPasarAServerActionPerformed
