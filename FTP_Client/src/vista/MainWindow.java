@@ -78,27 +78,38 @@ public class MainWindow extends javax.swing.JFrame {
     /**
      * Borra el Fichero o Directorio (debe estar vacio) seleccionado en el JTree.
      */
-    private void accionBorrar(boolean isServer, JTree tree) {
+    private boolean accionBorrar(boolean isServer, JTree tree) {
         try {
             String rutaSeleccionada = conversionJTreePath.conversion(isServer, tree.getSelectionPath().toString());
             boolean res = new File(rutaSeleccionada).delete();
-            if(res) System.out.println("Elemento local borrado con Exito.");
-            else System.out.println("No se puede borrar el Elemento local, comprueba que esta vacio.");
+            if(res) {
+                System.out.println("Elemento local borrado con Exito.");
+                return true;
+            }
+            else {
+                System.out.println("No se puede borrar el Elemento local, comprueba que esta vacio.");
+                return false;
+            }
         }catch(NullPointerException ex) {
             System.out.println("INFO: NullPointerException al borrar sin especificar capturado.");
         }
+        
+        return false;
     }
     
     /**
      * Metodo principal para borrar.
      *  Comprueba si el usuario quiere que se pida confirmacion al borrar, si es asi la pide antes de ejecutar la accion propiamente dicha.
+     * @return Estado de la operacion.
      */
-    private void borrarFile(JTree tree) {
+    private boolean borrarFile(JTree tree) {
         boolean pedirConfirmacion = this.jCheckBoxMenuItemConfBorrar.getState();
         
         if(pedirConfirmacion) {
-            if(JOptionPane.showConfirmDialog(this, "¿Seguro?") == 0) accionBorrar(false, tree);
-        } else accionBorrar(false, tree);
+            if(JOptionPane.showConfirmDialog(this, "¿Seguro?") == 0) return accionBorrar(false, tree);
+        } else return accionBorrar(false, tree);
+        
+        return false;
     }
     
     /**
@@ -150,19 +161,26 @@ public class MainWindow extends javax.swing.JFrame {
     
     /**
      * Crea un directorio dentro del item seleccionado en el JTree pasado como parametro.
+     * @return Estado de la operacion.
      */
-    private void crearDirectorio(boolean isServer, JTree jtree) {
+    private boolean crearDirectorio(JTree jtree) {
         try {
-            String rutaSeleccionada = conversionJTreePath.conversion(isServer, jtree.getSelectionPath().toString());
+            String rutaSeleccionada = conversionJTreePath.conversion(false, jtree.getSelectionPath().toString());
             String nombre = JOptionPane.showInputDialog("Introduce el nombre de la Carpeta.");
             if(nombre != null) {
                 boolean res = new File(rutaSeleccionada +"\\" +nombre).mkdir();
                 if(res) System.out.println("Directorio Local Creado con Exito.");
                 else System.out.println("Problemas con la creacion de un directorio local.");
+                
+                return res;
             }
+            
+            return false;
         }catch(NullPointerException ex) {
             System.out.println("INFO: NullPointerException al crear directorio sin ruta capturado.");
         }
+        
+        return false;
     }
     
     /**
@@ -632,12 +650,11 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonRefrescarClienteActionPerformed
 
     private void jButtonCrearCarpetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearCarpetaActionPerformed
-        crearDirectorio(false, MainWindow.jTreeCliente);
+        if(crearDirectorio(MainWindow.jTreeCliente)) setArbolCliente();
     }//GEN-LAST:event_jButtonCrearCarpetaActionPerformed
 
     private void jButtonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBorrarActionPerformed
-        borrarFile(MainWindow.jTreeCliente);
-        setArbolCliente();
+        if(borrarFile(MainWindow.jTreeCliente)) setArbolCliente();
     }//GEN-LAST:event_jButtonBorrarActionPerformed
 
     private void jMenuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalirActionPerformed
