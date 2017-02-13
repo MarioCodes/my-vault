@@ -1,21 +1,30 @@
 package vista;
 
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.event.TreeModelListener;
+import javax.swing.event.TreeModelEvent;
 import javax.swing.event.EventListenerList;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import java.io.File;
 import java.io.Serializable;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
+
 
 /** Example of a simple static TreeModel. It contains a
     (java.io.File) directory structure.
     (C) 2001 Christian Kaufhold (ch-kaufhold@gmx.de)
 */
+
 public class FileTreeModel implements TreeModel, Serializable, Cloneable {
     protected EventListenerList listeners;
 

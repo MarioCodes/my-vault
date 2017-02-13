@@ -7,19 +7,24 @@ package vista;
 
 import controlador.Facade;
 import controlador.Mapeador;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPFile;
+import org.apache.commons.net.ftp.*;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.net.util.Base64;
 
 /**
  * Ventana principal del programa. Se encargara de la gestion grafica.
@@ -61,27 +66,24 @@ public class MainWindow extends javax.swing.JFrame {
      */
     private void setArbolServer() { //todo: estoy arreglando este metodo para hacer el nuevo mapeo con el server FTP.
         try {
-            FTPFile[] files = FTP.listFiles();
-            ArrayList<File> alFile = new ArrayList<>();
+            URL url = new URL("ftp://mario: @127.0.0.1:6598");
+            URLConnection conn = url.openConnection();
+            InputStream is = conn.getInputStream();
             
-            File file = new File("root/");
-            this.jTreeServer.setModel(new FileTreeModel(file).getTree().getModel());
-//            for(FTPFile file: files) {
-//                System.out.println(file);
-////                InputStream is = FTP.retrieveFileStream(file.getName());
-////                File fileTmp = File.createTempFile("tmp", url);
-////                FileUtils.copyInputStreamToFile(is, fileTmp);
-////                alFile.add(fileTmp);
-//            }
-//            
-//            for(File a: alFile) {
-//                System.out.println(a.getName());
-//            }
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            String linea = null;
+            int contador = 0;
             
-//            JTree treeServer = new Mapeador().mapearServer(files);
-//            this.jTreeServer.setModel(treeServer.getModel());
-//            this.jTreeServer.setSelectionRow(0);
-//            this.jTreeServer.setShowsRootHandles(false);
+            DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("rootFTP");
+            DefaultTreeModel modelServer = new DefaultTreeModel(raiz);
+            while((linea = reader.readLine()) != null) {
+//                String l = linea.substring(62, linea.length());
+                modelServer.insertNodeInto(new DefaultMutableTreeNode(new File(linea)), raiz, contador);
+            }
+            
+            this.jTreeServer.setModel(modelServer);
+            this.jTreeServer.setSelectionRow(0);
+            this.jTreeServer.setShowsRootHandles(false);
         }catch(IOException ex) {
             ex.printStackTrace();
         }
