@@ -7,8 +7,6 @@ package web;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -321,28 +319,22 @@ public class Window extends javax.swing.JFrame {
 //        System.out.printf("Valor viejo: %d, Valor Nuevo: %d, Cambio: %d, CambioLimite: %d, Limite superado: %s\n" ,valorViejo, valorNuevo, cambio, cambioLimite, res); //Para testeo.        
     }
     
+    /**
+     * Ejecucion del escaneo en si mismo. Vuelve a obtener los datos de la pagina y compara los valores totales nuevos contra los anteriores.
+     * Divide la carga de trabajo en 4 hilos, aunque no hacia mucha falta ya que es poca cantidad de datos a tratar, algo de tiempo si que gana.
+     * @param url url sobre la que esta operando el programa.
+     */
     private synchronized static void escanear(String url) {
         escanear = true;
         while(escanear) {
             try {
                 tratamiento(url);
                 System.out.println("Escaneo realizado sobre: " +url);
-                long tiempo = System.currentTimeMillis();
                 
-                Thread t1 = new Thread(() -> comparacion(oldModelData, modelData, 0, 25));
-                Thread t2 = new Thread(() -> comparacion(oldModelData, modelData, 25, 50));
-                Thread t3 = new Thread(() -> comparacion(oldModelData, modelData, 50, 75));
-                Thread t4 = new Thread(() -> comparacion(oldModelData, modelData, 75, 100));
-                
-                t1.start();
-                t2.start();
-                t3.start();
-                t4.start();
-                
-                
-                t2.join();
-                t3.join();
-                t4.join();
+                new Thread(() -> comparacion(oldModelData, modelData, 0, 25)).start();
+                new Thread(() -> comparacion(oldModelData, modelData, 25, 50)).start();
+                new Thread(() -> comparacion(oldModelData, modelData, 50, 75)).start();
+                new Thread(() -> comparacion(oldModelData, modelData, 75, 100)).start();
                 
                 Thread.sleep(ESPERA);
             } catch (InterruptedException ex) {
