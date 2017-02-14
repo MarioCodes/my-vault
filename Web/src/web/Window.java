@@ -7,6 +7,8 @@ package web;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,20 +17,21 @@ import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
 /**
- * fixme: hay algunos casos en los que dentro de 'volumen' se cuela grafico. mirar porque es y apañarlo.
  * Proyecto de proceso de una pagina web.
  * Clase Principal y unica.
  * @author Mario Codes Sánchez
- * @since 11/02/2017
+ * @since 14/02/2017
  */
 public class Window extends javax.swing.JFrame {
+    private static boolean escanear = true;
+    private static final float DIFERENCIA = 0.5f;
     private static DefaultTableModel model = new DefaultTableModel(); //Model donde cargare los datos e implementare.
     
     private static Document document;
     private static Elements tabla, headersWeb, datos;
     
     private static String[] modelHeaders;
-    private static String[][] modelData;
+    private static String[][] modelData, oldModelData;
     
     /**
      * Creates new form in
@@ -177,7 +180,7 @@ public class Window extends javax.swing.JFrame {
             else datos[3] = "-" +cambioValor +"; " +porcentaje;
 
             datos[4] = convertNode(element.childNode(6));
-        }catch(ArrayIndexOutOfBoundsException ex) {
+        }catch(IndexOutOfBoundsException ex) {
             System.out.println("ArrayIndex en convertElement(Element element) capturado: " +ex.getLocalizedMessage());
         }
         
@@ -205,7 +208,15 @@ public class Window extends javax.swing.JFrame {
      */
     private static void adecuacionDatos() {
         modelHeaders = getHeaders(headersWeb);
-        modelData = getData(tabla);
+        
+        if(oldModelData == null) { //Para la primera iteracion del programa.
+            modelData = getData(tabla);
+            oldModelData = modelData;
+        }
+        else {
+            oldModelData = modelData;
+            modelData = getData(tabla);
+        }
         
         model = new DefaultTableModel(modelData, modelHeaders);
         Window.jTable.setModel(model);
@@ -231,11 +242,24 @@ public class Window extends javax.swing.JFrame {
     /**
      * Proceso entero de recoleccion y filtrado de los datos.
      * @param url Url a la que nos conectamos.
-     * todo: que al final devuelva 
      */
     private static void tratamiento(String url) {
         iniElementos(url);
         adecuacionDatos();
+    }
+    
+    private synchronized static void escanear(String url) {
+        escanear = true;
+        while(escanear) {
+            try {
+                tratamiento(url);
+                System.out.println("Escaneo realizado sobre: " +url);
+                Thread.sleep(7000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if(!escanear) System.out.println("Escaneo sobre :" +url +" parado.");
+        }
     }
     
     /**
@@ -243,6 +267,7 @@ public class Window extends javax.swing.JFrame {
      * @param url URL de donde sacar los datos.
      */
     private static void cambioDatos(String url) {
+        escanear = false;
         tratamiento(url);
         switch(url) {
             case "https://es.finance.yahoo.com/actives?e=mc":
@@ -257,6 +282,9 @@ public class Window extends javax.swing.JFrame {
             default:
                 break;
         }
+        
+        Runnable r = () -> escanear(url);
+        new Thread(r).start();
     }
     
     /**
