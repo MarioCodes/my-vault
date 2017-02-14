@@ -6,12 +6,6 @@
 package web;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +17,7 @@ import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
 /**
+ * todo: poner un spinner en la GUI para introducir el porcentaje a partir del cual se quiere dar el aviso.
  * Proyecto de proceso de una pagina web.
  * Clase Principal y unica.
  * @author Mario Codes Sánchez
@@ -254,11 +249,23 @@ public class Window extends javax.swing.JFrame {
         adecuacionDatos();
     }
     
-    private synchronized static long getPorcentaje(float porcentaje, double valor) {
+    /**
+     * Obtencion del numero limite mediante el cual si se sobrepasa habra que dar aviso al usuario.
+     * @param porcentaje Porcentaje establecido por el usuario para dar aviso.
+     * @param valor Valor el cual chequeamos.
+     * @return Valor limite para avisar.
+     */
+    private synchronized static long getLimite(float porcentaje, long valor) {
         System.out.println(valor);
         return (long) (valor*porcentaje/100);
     }
     
+    /**
+     * Parse de numero estilo "###.###.###"
+     * Java no entiende que los .'s son para separar grupos de numero y se cree que son decimales. No encuentro nada que me solucione la vida, asi que lo creo yo.
+     * @param string String a parsear.
+     * @return Long correctamente formado.
+     */
     private synchronized static long parseLong(String string) {
         String parse = "";
         while(string.contains(".")) {
@@ -266,29 +273,21 @@ public class Window extends javax.swing.JFrame {
             string = string.substring(string.indexOf('.')+1);
         }
         
-        parse += string; //Para el ultimo resto.
+        parse += string; //Para el ultimo resto y numeros sin punto.
         System.out.println(parse);
         return Long.parseLong(parse);
     }
     
+    /**
+     * Comparacion de los valores anteriores con los nuevos escaneados. Si hay un cambio por arriba o abajo superior al porcentaje establecido, da aviso.
+     * @param datosViejos Datos del escaneo anterior para tener una base sobre la cual comparar.
+     * @param datosNuevos Datos del escaneo nuevo.
+     */
     private synchronized static void comparacion(String[][] datosViejos, String[][] datosNuevos) {
-//        String f = "";
-//        String s = datosNuevos[0][4];
-//        f += s.substring(0, s.indexOf('.'));
-//        s = s.substring(s.indexOf('.')+1);
-//        
-//        f += s.substring(0, s.indexOf('.'));
-//        s = s.substring(s.indexOf('.')+1);
-//        
-//        f += s;
-//        
-//        long l = Long.parseLong(f);
-//        
-//        System.out.println(l);
+        long nuevoValor = parseLong(datosNuevos[1][4]); //TODO: ME QUEDO AQUI. Ahora mismo tengo el nuevo valor en long y el valor con el cual deberia dar el aviso. Crear un metodo que compruebe si el nuevo se pasa por arriba o abajo del limite y avise si lo hace.
+        long cambioLimite = getLimite(PORCENTAJE, nuevoValor);
         
-//        float cambio = getPorcentaje(PORCENTAJE, Float.parseFloat(datosNuevos[0][4].replace('.', '\u0000')));
-//        System.out.println("Cambio: " +cambio);
-//        System.out.println(datosViejos[0][4] +", " +datosNuevos[0][4]);
+        System.out.println(cambioLimite);
     }
     
     private synchronized static void escanear(String url) {
