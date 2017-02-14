@@ -116,11 +116,21 @@ public class Window extends javax.swing.JFrame {
         return nodo;
     }
     
+    /**
+     * Quita una etiqueta HTML de la String que se le pasa.
+     * @param string String a la cual se quiere quitar una etiqueta.
+     * @return String sin esa etiqueta.
+     */
     private static String quitarLayerNormal(String string) {
         string = string.substring(string.indexOf('>')+1, string.lastIndexOf('<'));
         return string;
     }
     
+    /**
+     * Quitado expreso de la etiqueta <img />. Hay algunos valores que no la contienen, por lo que es necesario buscarla expresamente.
+     * @param string String a chequear.
+     * @return String sin la etiqueta imagen si la contenia.
+     */
     private static String quitarLayerImg(String string) {
         if(string.contains("<img")) {
             string = string.substring(string.indexOf('>')+1, string.lastIndexOf('<'));
@@ -128,6 +138,11 @@ public class Window extends javax.swing.JFrame {
         return string;
     }
     
+    /**
+     * Chequea la String para comprobar si es un valor que sube o baja. Si se mantiene se marca como baja.
+     * @param string String a chequear.
+     * @return True si sube, false si no.
+     */
     private static boolean getTipo(String string) {
         return string.contains("\"Sube\"");
     }
@@ -141,24 +156,30 @@ public class Window extends javax.swing.JFrame {
     private static String[] convertElement(Element element) {
         String[] datos = new String[5];
         
-        for(int i = 0; i < 2; i++){
-            datos[i] = convertNode(element.childNode(i));
+        try {
+            for(int i = 0; i < 2; i++){
+                datos[i] = convertNode(element.childNode(i));
+            }
+
+            datos[2] = convertNode(element.childNode(2).unwrap()) +"; " +convertNode(element.childNode(4)) +"h";
+            
+            //No me gusta dejar esto asi pero hay demasiados cambios como para meterlos en metodos independientes, se deberia poder automatizar los recortes pero me da demasiados probremas. Ahora mismo esta manual para cada caso en concreto.
+            String s = quitarLayerNormal(element.childNode(5).toString());
+            s = quitarLayerNormal(s);
+            boolean sube = getTipo(s);
+            s = quitarLayerImg(s);
+            
+            String cambioValor = s.substring(s.indexOf('>')+1, s.indexOf('>')+5);
+            String porcentaje = s.substring(s.lastIndexOf('>')+1).trim();
+            if(porcentaje.isEmpty()) porcentaje = "(0,00%)"; //Tengo problemas para capturar los 0% porque la pagina lo estructura de otra manera. Solo esta vacio cuando es 0%.
+
+            if(sube) datos[3] = "+" +cambioValor +"; " +porcentaje;
+            else datos[3] = "-" +cambioValor +"; " +porcentaje;
+
+            datos[4] = convertNode(element.childNode(6));
+        }catch(ArrayIndexOutOfBoundsException ex) {
+            System.out.println("ArrayIndex en convertElement(Element element) capturado: " +ex.getLocalizedMessage());
         }
-        
-        datos[2] = convertNode(element.childNode(2).unwrap()) +"; " +convertNode(element.childNode(4)) +"h";
-        
-        String s = quitarLayerNormal(element.childNode(5).toString()); //fixme: limpiar un poco esto.
-        s = quitarLayerNormal(s);
-        boolean sube = getTipo(s);
-        s = quitarLayerImg(s);
-        String cambioValor = s.substring(s.indexOf('>')+1, s.indexOf('>')+5);
-        String porcentaje = s.substring(s.lastIndexOf('>')+1).trim();
-        if(porcentaje.isEmpty()) porcentaje = "(0,00%)"; //Tengo problemas para capturar los 0% porque la pagina lo estructura de otra manera. Solo esta vacio cuando es 0%.
-        
-        if(sube) datos[3] = "+" +cambioValor +"; " +porcentaje;
-        else datos[3] = "-" +cambioValor +"; " +porcentaje;
-        
-        datos[4] = convertNode(element.childNode(6));
         
         return datos;
     }
