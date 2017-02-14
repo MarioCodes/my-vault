@@ -16,6 +16,9 @@ import org.jsoup.select.Elements;
 
 /**
  * todo: poner un spinner en la GUI para introducir el porcentaje a partir del cual se quiere dar el aviso.
+ * todo: poner tambien el numero de segundos a hacer los Thread.Sleep().
+ * todo: que el scaneo comience directamente al abrir el programa.
+ * todo: implementar la forma de cambios aleatorios, aunque sea un cambio radical siempre en la misma empresa.
  * Proyecto de proceso de una pagina web.
  * Clase Principal y unica.
  * @author Mario Codes Sánchez
@@ -389,6 +392,8 @@ public class Window extends javax.swing.JFrame {
         jRadioButtonMenuItemActivos = new javax.swing.JRadioButtonMenuItem();
         jRadioButtonMenuItemSubidas = new javax.swing.JRadioButtonMenuItem();
         jRadioButtonMenuItemBajadas = new javax.swing.JRadioButtonMenuItem();
+        jMenuTesteo = new javax.swing.JMenu();
+        jCheckBoxMenuItemCambioAleatorio = new javax.swing.JCheckBoxMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -450,6 +455,13 @@ public class Window extends javax.swing.JFrame {
         jMenuValores.add(jRadioButtonMenuItemBajadas);
 
         jMenuBar1.add(jMenuValores);
+
+        jMenuTesteo.setText("Testing");
+
+        jCheckBoxMenuItemCambioAleatorio.setText("Cambio Aleatorio");
+        jMenuTesteo.add(jCheckBoxMenuItemCambioAleatorio);
+
+        jMenuBar1.add(jMenuTesteo);
 
         setJMenuBar(jMenuBar1);
 
@@ -534,10 +546,12 @@ public class Window extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupDatos;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemCambioAleatorio;
     private static javax.swing.JLabel jLabelTitulo;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuFile;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenu jMenuTesteo;
     private javax.swing.JMenu jMenuValores;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItemActivos;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItemBajadas;

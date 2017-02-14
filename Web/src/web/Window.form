@@ -62,6 +62,18 @@
             </MenuItem>
           </SubComponents>
         </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenuTesteo">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Testing"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="jCheckBoxMenuItemCambioAleatorio">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Cambio Aleatorio"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
       </SubComponents>
     </Menu>
   </NonVisualComponents>
