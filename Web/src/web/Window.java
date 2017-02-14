@@ -130,11 +130,15 @@ public class Window extends javax.swing.JFrame {
             datos[i] = convertNode(element.childNode(i));
         }
         
-        datos[2] = convertNode(element.childNode(2).unwrap()) +"; " +convertNode(element.childNode(4).unwrap());
-        String s = convertNode(element.childNode(5).unwrap()) +"; " +convertNode(element.childNode(7).unwrap()).trim();
-        System.out.println(s);
-        datos[3] = s;
-        datos[4] = convertNode(element.childNode(8).unwrap());
+//        System.out.println(element.childNode(3).unwrap());
+//        System.out.println(convertNode(element.childNode(4)));
+        datos[4] = convertNode(element.childNode(4));
+        datos[3] = convertNode(element.childNode(3).unwrap());
+//        datos[2] = convertNode(element.childNode(2).unwrap()) +"; " +convertNode(element.childNode(4).unwrap());
+        datos[2] = convertNode(element.childNode(2).unwrap());
+        
+//        datos[3] = convertNode(element.childNode(5).unwrap()) +"; " +convertNode(element.childNode(7)).trim();
+//        datos[4] = convertNode(element.childNode(8).unwrap());
         
         
         return datos;
