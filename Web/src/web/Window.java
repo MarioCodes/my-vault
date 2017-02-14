@@ -26,6 +26,7 @@ import org.jsoup.select.Elements;
 public class Window extends javax.swing.JFrame {
     private static boolean escanear = true;
     private static final float PORCENTAJE = 0.05f;
+    private static final long ESPERA = 3000; //ms de esperas entre escaneos en el programa.
     private static DefaultTableModel model = new DefaultTableModel(); //Model donde cargare los datos e implementare.
     
     private static Document document;
@@ -310,7 +311,6 @@ public class Window extends javax.swing.JFrame {
         long valorNuevo, valorViejo, cambio, cambioLimite;
         
         for (int indiceEmpresa = comienzoHilo; indiceEmpresa < limiteHilo; indiceEmpresa++) {
-            System.out.println(indiceEmpresa); //todo: Borrar. Testeo.
             valorNuevo = parseLong(datosNuevos[indiceEmpresa][4]);
             valorViejo = parseLong(datosViejos[indiceEmpresa][4]);
             cambioLimite = getLimite(PORCENTAJE, valorNuevo);
@@ -318,14 +318,6 @@ public class Window extends javax.swing.JFrame {
             boolean over = checkLimite(cambio, cambioLimite);
             if(over) System.out.printf("¡ATENCION! ¡Cambio que ha sobrepasado el limite! Empresa %S. Valor anterior: %d. Cambio de: %d. Valor actual: %d", datosNuevos[indiceEmpresa][0], valorViejo, cambio, valorNuevo);
         }
-        
-//        valorNuevo = parseLong(datosNuevos[99][4]); //TODO: ME QUEDO AQUI. Hacer que compruebe todo el array, iria bien implementar hilos por eficiencia.
-//        valorNuevo = 20049;
-//        valorViejo = parseLong(datosViejos[99][4]);
-//        cambioLimite = getLimite(PORCENTAJE, valorNuevo);
-//        cambio = valorNuevo-valorViejo;
-        
-//        boolean res = checkLimite(valorNuevo-valorViejo, cambioLimite);
 //        System.out.printf("Valor viejo: %d, Valor Nuevo: %d, Cambio: %d, CambioLimite: %d, Limite superado: %s\n" ,valorViejo, valorNuevo, cambio, cambioLimite, res); //Para testeo.        
     }
     
@@ -335,6 +327,8 @@ public class Window extends javax.swing.JFrame {
             try {
                 tratamiento(url);
                 System.out.println("Escaneo realizado sobre: " +url);
+                long tiempo = System.currentTimeMillis();
+                
                 Thread t1 = new Thread(() -> comparacion(oldModelData, modelData, 0, 25));
                 Thread t2 = new Thread(() -> comparacion(oldModelData, modelData, 25, 50));
                 Thread t3 = new Thread(() -> comparacion(oldModelData, modelData, 50, 75));
@@ -345,12 +339,12 @@ public class Window extends javax.swing.JFrame {
                 t3.start();
                 t4.start();
                 
-                t1.join();
+                
                 t2.join();
                 t3.join();
                 t4.join();
                 
-                Thread.sleep(3000);
+                Thread.sleep(ESPERA);
             } catch (InterruptedException ex) {
                 System.out.println("Problema con Thread.sleep en escanear(String url). " +ex.getLocalizedMessage());
             }
