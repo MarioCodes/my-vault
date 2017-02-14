@@ -255,8 +255,7 @@ public class Window extends javax.swing.JFrame {
      * @param valor Valor el cual chequeamos.
      * @return Valor limite para avisar.
      */
-    private synchronized static long getLimite(float porcentaje, long valor) {
-        System.out.println(valor);
+    private static long getLimite(float porcentaje, long valor) {
         return (long) (valor*porcentaje/100);
     }
     
@@ -266,7 +265,7 @@ public class Window extends javax.swing.JFrame {
      * @param string String a parsear.
      * @return Long correctamente formado.
      */
-    private synchronized static long parseLong(String string) {
+    private static long parseLong(String string) {
         String parse = "";
         while(string.contains(".")) {
             parse += string.substring(0, string.indexOf('.'));
@@ -274,20 +273,40 @@ public class Window extends javax.swing.JFrame {
         }
         
         parse += string; //Para el ultimo resto y numeros sin punto.
-        System.out.println(parse);
         return Long.parseLong(parse);
     }
     
     /**
+     * Comprobacion de si un valor se pasa del limite establecido por el porcentaje indicado.
+     * @param cambio Cambio realizado entre el escaneo viejo y el actual.
+     * @param limite Limite del cual si se pasa hay que dar aviso.
+     * @return True si el  cambio se pasa de, o iguala el limite.
+     */
+    private static boolean checkLimite(long cambio, long limite) {
+        boolean isOver;
+        
+        if(cambio >= 0) isOver = cambio >= limite;
+        else {
+            limite -= limite*2;
+            isOver = cambio <= limite;
+        }
+        
+        return isOver;
+    }
+    
+    /**
      * Comparacion de los valores anteriores con los nuevos escaneados. Si hay un cambio por arriba o abajo superior al porcentaje establecido, da aviso.
+     * El porcentaje lo tengo en cuenta a traves del valor Viejo.
      * @param datosViejos Datos del escaneo anterior para tener una base sobre la cual comparar.
      * @param datosNuevos Datos del escaneo nuevo.
      */
-    private synchronized static void comparacion(String[][] datosViejos, String[][] datosNuevos) {
-        long nuevoValor = parseLong(datosNuevos[1][4]); //TODO: ME QUEDO AQUI. Ahora mismo tengo el nuevo valor en long y el valor con el cual deberia dar el aviso. Crear un metodo que compruebe si el nuevo se pasa por arriba o abajo del limite y avise si lo hace.
-        long cambioLimite = getLimite(PORCENTAJE, nuevoValor);
-        
-        System.out.println(cambioLimite);
+    private static void comparacion(String[][] datosViejos, String[][] datosNuevos) {
+        long valorViejo = parseLong(datosNuevos[99][4]); //TODO: ME QUEDO AQUI. Hacer que compruebe todo el array, iria bien implementar hilos por eficiencia.
+        long valorNuevo = parseLong(datosViejos[99][4]);
+        long cambioLimite = getLimite(PORCENTAJE, valorViejo);
+            
+        boolean res = checkLimite(valorNuevo-valorViejo, cambioLimite);
+//        System.out.printf("Valor viejo: %d, Valor Nuevo: %d, CambioLimite: %d\n" ,valorViejo, valorNuevo, cambioLimite); //Para testeo.        
     }
     
     private synchronized static void escanear(String url) {
@@ -297,9 +316,9 @@ public class Window extends javax.swing.JFrame {
                 tratamiento(url);
                 System.out.println("Escaneo realizado sobre: " +url);
                 comparacion(oldModelData, modelData);
-                Thread.sleep(7000);
+                Thread.sleep(3000);
             } catch (InterruptedException ex) {
-                Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("Problema con Thread.sleep en escanear(String url). " +ex.getLocalizedMessage());
             }
             if(!escanear) System.out.println("Escaneo sobre :" +url +" parado.");
         }
