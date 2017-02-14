@@ -6,6 +6,12 @@
 package web;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +30,7 @@ import org.jsoup.select.Elements;
  */
 public class Window extends javax.swing.JFrame {
     private static boolean escanear = true;
-    private static final float DIFERENCIA = 0.5f;
+    private static final float PORCENTAJE = 0.05f;
     private static DefaultTableModel model = new DefaultTableModel(); //Model donde cargare los datos e implementare.
     
     private static Document document;
@@ -248,12 +254,50 @@ public class Window extends javax.swing.JFrame {
         adecuacionDatos();
     }
     
+    private synchronized static long getPorcentaje(float porcentaje, double valor) {
+        System.out.println(valor);
+        return (long) (valor*porcentaje/100);
+    }
+    
+    private synchronized static long parseLong(String string) {
+        String parse = "";
+        while(string.contains(".")) {
+            parse += string.substring(0, string.indexOf('.'));
+            string = string.substring(string.indexOf('.')+1);
+        }
+        
+        parse += string; //Para el ultimo resto.
+        System.out.println(parse);
+        return Long.parseLong(parse);
+    }
+    
+    private synchronized static void comparacion(String[][] datosViejos, String[][] datosNuevos) {
+//        String f = "";
+//        String s = datosNuevos[0][4];
+//        f += s.substring(0, s.indexOf('.'));
+//        s = s.substring(s.indexOf('.')+1);
+//        
+//        f += s.substring(0, s.indexOf('.'));
+//        s = s.substring(s.indexOf('.')+1);
+//        
+//        f += s;
+//        
+//        long l = Long.parseLong(f);
+//        
+//        System.out.println(l);
+        
+//        float cambio = getPorcentaje(PORCENTAJE, Float.parseFloat(datosNuevos[0][4].replace('.', '\u0000')));
+//        System.out.println("Cambio: " +cambio);
+//        System.out.println(datosViejos[0][4] +", " +datosNuevos[0][4]);
+    }
+    
     private synchronized static void escanear(String url) {
         escanear = true;
         while(escanear) {
             try {
                 tratamiento(url);
                 System.out.println("Escaneo realizado sobre: " +url);
+                comparacion(oldModelData, modelData);
                 Thread.sleep(7000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
