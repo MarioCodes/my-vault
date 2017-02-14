@@ -113,8 +113,23 @@ public class Window extends javax.swing.JFrame {
             nodo = quitarTag(nodo);
         }
         
-//        System.out.println(nodo);
         return nodo;
+    }
+    
+    private static String quitarLayerNormal(String string) {
+        string = string.substring(string.indexOf('>')+1, string.lastIndexOf('<'));
+        return string;
+    }
+    
+    private static String quitarLayerImg(String string) {
+        if(string.contains("<img")) {
+            string = string.substring(string.indexOf('>')+1, string.lastIndexOf('<'));
+        }
+        return string;
+    }
+    
+    private static boolean getTipo(String string) {
+        return string.contains("\"Sube\"");
     }
     
     /**
@@ -130,16 +145,20 @@ public class Window extends javax.swing.JFrame {
             datos[i] = convertNode(element.childNode(i));
         }
         
-//        System.out.println(element.childNode(3).unwrap());
-//        System.out.println(convertNode(element.childNode(4)));
-        datos[4] = convertNode(element.childNode(4));
-        datos[3] = convertNode(element.childNode(3).unwrap());
-//        datos[2] = convertNode(element.childNode(2).unwrap()) +"; " +convertNode(element.childNode(4).unwrap());
-        datos[2] = convertNode(element.childNode(2).unwrap());
+        datos[2] = convertNode(element.childNode(2).unwrap()) +"; " +convertNode(element.childNode(4)) +"h";
         
-//        datos[3] = convertNode(element.childNode(5).unwrap()) +"; " +convertNode(element.childNode(7)).trim();
-//        datos[4] = convertNode(element.childNode(8).unwrap());
+        String s = quitarLayerNormal(element.childNode(5).toString()); //fixme: limpiar un poco esto.
+        s = quitarLayerNormal(s);
+        boolean sube = getTipo(s);
+        s = quitarLayerImg(s);
+        String cambioValor = s.substring(s.indexOf('>')+1, s.indexOf('>')+5);
+        String porcentaje = s.substring(s.lastIndexOf('>')+1).trim();
+        if(porcentaje.isEmpty()) porcentaje = "(0,00%)"; //Tengo problemas para capturar los 0% porque la pagina lo estructura de otra manera. Solo esta vacio cuando es 0%.
         
+        if(sube) datos[3] = "+" +cambioValor +"; " +porcentaje;
+        else datos[3] = "-" +cambioValor +"; " +porcentaje;
+        
+        datos[4] = convertNode(element.childNode(6));
         
         return datos;
     }
