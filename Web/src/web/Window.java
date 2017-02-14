@@ -267,12 +267,18 @@ public class Window extends javax.swing.JFrame {
      */
     private static long parseLong(String string) {
         String parse = "";
-        while(string.contains(".")) {
-            parse += string.substring(0, string.indexOf('.'));
-            string = string.substring(string.indexOf('.')+1);
+        
+        try {
+            while(string.contains(".")) {
+                parse += string.substring(0, string.indexOf('.'));
+                string = string.substring(string.indexOf('.')+1);
+            }
+
+            parse += string; //Para el ultimo resto y numeros sin punto.
+        }catch(NullPointerException ex) {
+            System.out.println("Problema con el parseo custom del Long. " +ex.getLocalizedMessage());
         }
         
-        parse += string; //Para el ultimo resto y numeros sin punto.
         return Long.parseLong(parse);
     }
     
@@ -300,13 +306,27 @@ public class Window extends javax.swing.JFrame {
      * @param datosViejos Datos del escaneo anterior para tener una base sobre la cual comparar.
      * @param datosNuevos Datos del escaneo nuevo.
      */
-    private static void comparacion(String[][] datosViejos, String[][] datosNuevos) {
-        long valorViejo = parseLong(datosNuevos[99][4]); //TODO: ME QUEDO AQUI. Hacer que compruebe todo el array, iria bien implementar hilos por eficiencia.
-        long valorNuevo = parseLong(datosViejos[99][4]);
-        long cambioLimite = getLimite(PORCENTAJE, valorViejo);
-            
-        boolean res = checkLimite(valorNuevo-valorViejo, cambioLimite);
-//        System.out.printf("Valor viejo: %d, Valor Nuevo: %d, CambioLimite: %d\n" ,valorViejo, valorNuevo, cambioLimite); //Para testeo.        
+    private static void comparacion(String[][] datosViejos, String[][] datosNuevos, int comienzoHilo, int limiteHilo) {
+        long valorNuevo, valorViejo, cambio, cambioLimite;
+        
+        for (int indiceEmpresa = comienzoHilo; indiceEmpresa < limiteHilo; indiceEmpresa++) {
+            System.out.println(indiceEmpresa); //todo: Borrar. Testeo.
+            valorNuevo = parseLong(datosNuevos[indiceEmpresa][4]);
+            valorViejo = parseLong(datosViejos[indiceEmpresa][4]);
+            cambioLimite = getLimite(PORCENTAJE, valorNuevo);
+            cambio = valorNuevo-valorViejo;
+            boolean over = checkLimite(cambio, cambioLimite);
+            if(over) System.out.printf("¡ATENCION! ¡Cambio que ha sobrepasado el limite! Empresa %S. Valor anterior: %d. Cambio de: %d. Valor actual: %d", datosNuevos[indiceEmpresa][0], valorViejo, cambio, valorNuevo);
+        }
+        
+//        valorNuevo = parseLong(datosNuevos[99][4]); //TODO: ME QUEDO AQUI. Hacer que compruebe todo el array, iria bien implementar hilos por eficiencia.
+//        valorNuevo = 20049;
+//        valorViejo = parseLong(datosViejos[99][4]);
+//        cambioLimite = getLimite(PORCENTAJE, valorNuevo);
+//        cambio = valorNuevo-valorViejo;
+        
+//        boolean res = checkLimite(valorNuevo-valorViejo, cambioLimite);
+//        System.out.printf("Valor viejo: %d, Valor Nuevo: %d, Cambio: %d, CambioLimite: %d, Limite superado: %s\n" ,valorViejo, valorNuevo, cambio, cambioLimite, res); //Para testeo.        
     }
     
     private synchronized static void escanear(String url) {
@@ -315,7 +335,21 @@ public class Window extends javax.swing.JFrame {
             try {
                 tratamiento(url);
                 System.out.println("Escaneo realizado sobre: " +url);
-                comparacion(oldModelData, modelData);
+                Thread t1 = new Thread(() -> comparacion(oldModelData, modelData, 0, 25));
+                Thread t2 = new Thread(() -> comparacion(oldModelData, modelData, 25, 50));
+                Thread t3 = new Thread(() -> comparacion(oldModelData, modelData, 50, 75));
+                Thread t4 = new Thread(() -> comparacion(oldModelData, modelData, 75, 100));
+                
+                t1.start();
+                t2.start();
+                t3.start();
+                t4.start();
+                
+                t1.join();
+                t2.join();
+                t3.join();
+                t4.join();
+                
                 Thread.sleep(3000);
             } catch (InterruptedException ex) {
                 System.out.println("Problema con Thread.sleep en escanear(String url). " +ex.getLocalizedMessage());
