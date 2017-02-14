@@ -119,7 +119,9 @@ public class Red {
     public static boolean sendFile(String rutaLocal, String name) {
         try {
             FileInputStream fis = new FileInputStream(new File(rutaLocal +name));
-            return ftp.storeFile(name, fis);
+            boolean res = ftp.storeFile(name, fis);
+            fis.close();
+            return res;
         }catch(IOException ex) {
             System.out.println("Problema al enviar un fichero al server: " +ex.getLocalizedMessage());
         }

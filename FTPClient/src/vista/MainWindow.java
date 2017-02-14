@@ -16,8 +16,6 @@ import javax.swing.JTree;
 import org.apache.commons.net.ftp.*;
 
 /**
- * todo: ahora mismo solo utilizo la pass para la conexion iniciar creo, pero no para la conexion de transferencia. Chequear y arreglar.
- * fixme: asegurarme de sobreescribir las variables que contienen usuario, contraseña y todo eso despues de usarlas para que no se queden en memoria (peligroso).
  * Ventana principal del programa. Se encargara de la gestion grafica.
  * Implemento una libreria de apache commons que me soluciona bastante la vida.
  * @author Mario Codes Sánchez
