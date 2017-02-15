@@ -29,8 +29,17 @@ public class FaseTurn implements Fase {
     }
 
     @Override
-    public void repartoCartasComunes(ArrayList<Carta> cartas) {
-
+    public void repartoCartasComunes(Juego juego) {
+        if(juego.getCartasComunes().size() == 3) juego.extraerCartaComun();
+        ArrayList<Carta> cartas = juego.getCartasComunes();
+        Conexion.sendBooleano(true);
+        Conexion.repartoCartas(cartas);
+        
+        if(juego.terminarTurno()) {
+            FaseApuestas fa = new FaseApuestas();
+            fa.setFasePrevia("Turn");
+            fa.cambioFase(juego);
+        }
     }
 
     @Override

@@ -31,7 +31,7 @@ public class FaseApuestas implements Fase {
     }
 
     @Override
-    public void repartoCartasComunes(ArrayList<Carta> cartas) {
+    public void repartoCartasComunes(Juego juego) {
         Conexion.sendBooleano(false);
     }
 

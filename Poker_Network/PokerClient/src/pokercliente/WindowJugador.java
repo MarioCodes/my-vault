@@ -141,18 +141,17 @@ public class WindowJugador extends javax.swing.JFrame {
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3)
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(7, 7, 7)
                         .addComponent(jLabelJugador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton5)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jLabel2)))
                 .addGap(53, 53, 53)
                 .addComponent(jButton4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -193,10 +192,10 @@ public class WindowJugador extends javax.swing.JFrame {
      * Obtencion de las Cartas Comunes a todos.
      */
     private void getCartasComunes() {
-        if(JUGADOR.getMano().getCartas_mesa().isEmpty()) {
+//        if(JUGADOR.getMano().getCartas_mesa().isEmpty()) { //fixme: de momento lo quito o no me deja pillar de nuevo las cartas en fase de turn. Cambiarlo cuando implemente fases en el cliente.
             JUGADOR.obtenerCartasComunes();
             JUGADOR.verCartasComunes(); //fixme: Testeo. Sout Cartas. Borrar Cuando no sea necesario.
-        }else System.out.println("Ya tenias las cartas comunes.");
+//        }else System.out.println("Ya tenias las cartas comunes.");
     }
     
     /**

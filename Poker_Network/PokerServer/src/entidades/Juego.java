@@ -74,9 +74,17 @@ public class Juego {
     }
     
     /**
-     * Extraccion de las 3 cartas de la baraja comunes para la mesa en la fase de Flop..
+     * Extrae y aniade una Carta a las comunes.
      */
-    public ArrayList<Carta> getCartasComunesFlop() {
+    public void extraerCartaComun() {
+        CARTAS_MESA.add(baraja.extraerCarta());
+    }
+    
+    /**
+     * Extraccion de las 3 cartas de la baraja comunes para la mesa en la fase de Flop..
+     * @return ArrayList de Carta con las Cartas Comunes.
+     */
+    public ArrayList<Carta> getCartasComunes() {
         if(CARTAS_MESA.isEmpty()) CARTAS_MESA.addAll(baraja.extraerCartas(3));
         return CARTAS_MESA;
     }

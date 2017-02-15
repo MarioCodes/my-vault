@@ -29,9 +29,16 @@ public class FaseFlop implements Fase {
     }
 
     @Override
-    public void repartoCartasComunes(ArrayList<Carta> cartas) {
+    public void repartoCartasComunes(Juego juego) {
+        ArrayList<Carta> cartas = juego.getCartasComunes();
         Conexion.sendBooleano(true);
         Conexion.repartoCartas(cartas);
+        
+        if(juego.terminarTurno()) {
+            FaseApuestas fa = new FaseApuestas();
+            fa.setFasePrevia("Flop");
+            fa.cambioFase(juego);
+        }
     }
 
     @Override

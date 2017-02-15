@@ -45,18 +45,6 @@ public class Servidor {
     }
     
     /**
-     * Envio de la informacion de las Cartas comunes a cada Jugador.
-     */
-    private static void repartoCartasComunes() {
-        juego.getFase().repartoCartasComunes(juego.getCartasComunesFlop());
-        if(juego.terminarTurno()) {
-            FaseApuestas fa = new FaseApuestas();
-            fa.setFasePrevia("Flop");
-            fa.cambioFase(juego);
-        }
-    }
-    
-    /**
      * Pasamos a la siguiente fase correcta al terminar la actual de apuestas.
      * @param fa Fase de Apuestas actual.
      * @return Fase siguiente a la cual cambiar el estado del juego.
@@ -67,6 +55,8 @@ public class Servidor {
                     return new FaseFlop();
                 case "Flop":
                     return new FaseTurn();
+                case "Turn":
+                    return new FaseRiver();
                 default:
                     System.out.println("Switch cambio fase apostar default().");
                     return null;
@@ -121,7 +111,7 @@ public class Servidor {
                     repartoCartasPropias();
                     break;
                 case 3: //Reparto de cartas Comunes.
-                    repartoCartasComunes();
+                    juego.getFase().repartoCartasComunes(juego);
                     break;
                 case 4: //Apuestas.
                     apostar();

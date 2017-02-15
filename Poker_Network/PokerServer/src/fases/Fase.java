@@ -25,7 +25,11 @@ public interface Fase {
     
     public void repartoCartasJugador(ArrayList<Carta> cartas);
     
-    public void repartoCartasComunes(ArrayList<Carta> cartas);
+    /**
+     * Le voy a pasar juego como parametro, porque en funcion de la fase en la que se encuentre, debere pasar 3, 4 o 5 cartas como comunes.
+     * @param juego Juego actual.
+     */
+    public void repartoCartasComunes(Juego juego);
     
     public void apostar(Juego juego);
     
