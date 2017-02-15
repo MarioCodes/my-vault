@@ -16,9 +16,6 @@ import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
 /**
- * todo: poner un spinner en la GUI para introducir el porcentaje a partir del cual se quiere dar el aviso.
- * todo: poner tambien el numero de segundos a hacer los Thread.Sleep().
- * todo: que el scaneo comience directamente al abrir el programa.
  * todo: implementar la forma de cambios aleatorios, aunque sea un cambio radical siempre en la misma empresa.
  * Proyecto de proceso de una pagina web.
  * Clase Principal y unica.
@@ -329,6 +326,28 @@ public class Window extends javax.swing.JFrame {
 //        System.out.printf("Valor viejo: %d, Valor Nuevo: %d, Cambio: %d, CambioLimite: %d, Limite superado: %s\n" ,valorViejo, valorNuevo, cambio, cambioLimite, res); //Para testeo.
     }
     
+    private static int[][] getLimitesHilo(String[][] datosViejos, String[][] datosNuevos) {
+        int numHilos = 4;
+        int[][] limites = new int[numHilos][2]; //[x][0] limite comienzo. [x][1] limite fin.
+        int limiteMinimo = datosViejos.length < datosNuevos.length ? datosViejos.length : datosNuevos.length;
+        int division = limiteMinimo/numHilos;
+        int maximo = division;
+        
+        for (int i = 0; i < 3; i++) {
+            limites[i][0] = maximo-division;
+            limites[i][1] = maximo;
+            maximo += division;
+            
+            System.out.printf("%n#Hilos: %d. Limite total menor: %d. Limite del hilo #%d: %d(intefior), %d(superior)", numHilos, limiteMinimo, i, limites[i][0], limites[i][1]);
+        }
+        
+        limites[3][0] = maximo-(division);
+        limites[3][1] = maximo;
+        System.out.printf("%n#Hilos: %d. Limite total menor: %d. Limite del hilo #%d: %d(intefior), %d(superior)", numHilos, limiteMinimo, 3, limites[3][0], limites[3][1]);
+        
+        return limites;
+    }
+    
     /**
      * Ejecucion del escaneo en si mismo. Vuelve a obtener los datos de la pagina y compara los valores totales nuevos contra los anteriores.
      * Divide la carga de trabajo en 4 hilos, aunque no hacia mucha falta ya que es poca cantidad de datos a tratar, algo de tiempo si que gana.
@@ -341,6 +360,8 @@ public class Window extends javax.swing.JFrame {
                 tratamientoDatos(url);
                 System.out.printf("%nEscaneo realizado sobre %s buscando un %.2f%% de cambio.", url, porcentaje);
                 
+                getLimitesHilo(oldModelData, modelData);
+                
                 new Thread(() -> comparacion(oldModelData, modelData, 0, 25)).start(); //fixme: cambiar la forma de repartir la carga de trabajo para que sea mas dinamico.
                 new Thread(() -> comparacion(oldModelData, modelData, 25, 50)).start();
                 new Thread(() -> comparacion(oldModelData, modelData, 50, 75)).start();
@@ -350,8 +371,8 @@ public class Window extends javax.swing.JFrame {
             } catch (InterruptedException ex) {
                 System.out.println("Problema con Thread.sleep en escanear(String url). " +ex.getLocalizedMessage());
             }
-            if(!escanear) System.out.println("Escaneo sobre :" +url +" parado.");
         }
+        System.out.printf("%nEscaneo anterior sobre %s parado.", url);
     }
     
     /**
