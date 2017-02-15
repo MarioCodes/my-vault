@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import javax.swing.JTree;
@@ -22,18 +23,21 @@ import org.apache.commons.net.ftp.FTPClient;
  */
 public class Red {
     private static FTPClient ftp;
+    private static String conexion;
+    private static URL url;
     
     /**
      * Conexion y login mediante FTP al server pasado como parametro con los datos requeridos.
-     * @param url URL del Server.
+     * @param ip URL del Server.
      * @param puerto Puerto por el cual entra la conexion.
      * @param user Usuario que se conecta.
      * @param pwd Password del Usuario a conectar.
      * @return Estado de la operacion.
      */
-    public static boolean login(String url, int puerto, String user, String pwd) {
+    public static boolean login(String ip, int puerto, String user, String pwd) {
         try {
-            ftp.connect(url, puerto);
+            conexion = "ftp://" +user +": @" +ip +"/";
+            ftp.connect(ip, puerto);
             return ftp.login(user, pwd);
         }catch(IOException ex) {
             System.out.println("Problema en la conexion o login: " +ex.getLocalizedMessage());
@@ -118,11 +122,22 @@ public class Red {
      */
     public static boolean sendFile(String rutaLocal, String name) {
         try {
+            url = new URL(conexion +name);
+            URLConnection urlConn = url.openConnection();
+            OutputStream os = urlConn.getOutputStream();
             FileInputStream fis = new FileInputStream(new File(rutaLocal +name));
-            boolean res = ftp.storeFile(name, fis);
+            
+            int c;
+            while((c = fis.read()) != -1) {
+                os.write(c);
+            }
+            os.flush();
+            os.close();
             fis.close();
-            return res;
+            
+            return true;
         }catch(IOException ex) {
+            ex.printStackTrace();
             System.out.println("Problema al enviar un fichero al server: " +ex.getLocalizedMessage());
         }
         
