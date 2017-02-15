@@ -26,7 +26,7 @@ import org.jsoup.select.Elements;
  * @since 14/02/2017
  */
 public class Window extends javax.swing.JFrame {
-    private static boolean escanear = true;
+    private static boolean escanear;
     private static final float PORCENTAJE = 0.05f;
     private static final long ESPERA = 3000; //ms de esperas entre escaneos en el programa.
     private static DefaultTableModel model = new DefaultTableModel(); //Model donde cargare los datos e implementare.
@@ -249,7 +249,6 @@ public class Window extends javax.swing.JFrame {
      * @param url Url a la que nos conectamos.
      */
     private static void tratamientoDatos(String url) {
-        Window.escanear = false;
         Window.url = url;
         iniElementos(url);
         adecuacionDatos();
@@ -261,8 +260,8 @@ public class Window extends javax.swing.JFrame {
      * @param valor Valor el cual chequeamos.
      * @return Valor limite para avisar.
      */
-    private static long getLimite(float porcentaje, long valor) {
-        return (long) (valor*porcentaje/100);
+    private static long getLimite(long valor) {
+        return (long) (valor*Window.PORCENTAJE/100);
     }
     
     /**
@@ -318,10 +317,10 @@ public class Window extends javax.swing.JFrame {
         for (int indiceEmpresa = comienzoHilo; indiceEmpresa < limiteHilo; indiceEmpresa++) {
             valorNuevo = parseLong(datosNuevos[indiceEmpresa][4]);
             valorViejo = parseLong(datosViejos[indiceEmpresa][4]);
-            cambioLimite = getLimite(PORCENTAJE, valorNuevo);
+            cambioLimite = getLimite(valorNuevo);
             cambio = valorNuevo-valorViejo;
             boolean over = checkLimite(cambio, cambioLimite);
-            if(over) System.out.printf("¡ATENCION! ¡Cambio que ha sobrepasado el limite! Empresa %S. Valor anterior: %d. Cambio de: %d. Valor actual: %d", datosNuevos[indiceEmpresa][0], valorViejo, cambio, valorNuevo);
+            if(over) System.out.printf("%n¡ATENCION! ¡Cambio que ha sobrepasado el limite! Empresa %S. Valor anterior: %d. Limite de: %d. Cambio de: %d. Valor actual: %d", datosNuevos[indiceEmpresa][0], valorViejo, cambioLimite, cambio, valorNuevo);
         }
 //        System.out.printf("Valor viejo: %d, Valor Nuevo: %d, Cambio: %d, CambioLimite: %d, Limite superado: %s\n" ,valorViejo, valorNuevo, cambio, cambioLimite, res); //Para testeo.        
     }
@@ -331,14 +330,14 @@ public class Window extends javax.swing.JFrame {
      * Divide la carga de trabajo en 4 hilos, aunque no hacia mucha falta ya que es poca cantidad de datos a tratar, algo de tiempo si que gana.
      * @param url url sobre la que esta operando el programa.
      */
-    private synchronized static void escanear(String url) {
-        escanear = true;
-        while(escanear) {
+    private static void escanear(String url) {
+        setEscanear(true);
+        while(isEscanear()) {
             try {
                 tratamientoDatos(url);
-                System.out.println("Escaneo realizado sobre: " +url);
+                System.out.printf("%nEscaneo realizado sobre %s buscando un %.2f de cambio.", url, PORCENTAJE);
                 
-                new Thread(() -> comparacion(oldModelData, modelData, 0, 25)).start();
+                new Thread(() -> comparacion(oldModelData, modelData, 0, 25)).start(); //fixme: cambiar la forma de repartir la carga de trabajo para que sea mas dinamico.
                 new Thread(() -> comparacion(oldModelData, modelData, 25, 50)).start();
                 new Thread(() -> comparacion(oldModelData, modelData, 50, 75)).start();
                 new Thread(() -> comparacion(oldModelData, modelData, 75, 100)).start();
@@ -357,6 +356,7 @@ public class Window extends javax.swing.JFrame {
      * @param url URL de donde sacar los datos.
      */
     private static void cambioDatos(String url) {
+        setEscanear(false);
         tratamientoDatos(url);
         switch(url) {
             case "https://es.finance.yahoo.com/actives?e=mc":
@@ -447,7 +447,7 @@ public class Window extends javax.swing.JFrame {
             }
         });
 
-        jSpinnerPorcentaje.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.05f), Float.valueOf(0.01f), Float.valueOf(500.0f), Float.valueOf(0.05f)));
+        jSpinnerPorcentaje.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.2f), Float.valueOf(0.01f), Float.valueOf(500.0f), Float.valueOf(0.05f)));
 
         jSpinnerTiempoMS.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(3000L), Long.valueOf(1000L), Long.valueOf(60000L), Long.valueOf(500L)));
 
@@ -615,6 +615,20 @@ public class Window extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * @return the escanear
+     */
+    public static synchronized boolean isEscanear() {
+        return escanear;
+    }
+
+    /**
+     * @param aEscanear the escanear to set
+     */
+    public static synchronized void setEscanear(boolean aEscanear) {
+        escanear = aEscanear;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupDatos;
     private javax.swing.JButton jButtonEscaner;
