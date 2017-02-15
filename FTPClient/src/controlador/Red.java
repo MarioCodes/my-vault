@@ -22,6 +22,7 @@ import org.apache.commons.net.ftp.FTPClient;
  * @since 13/02/2017
  */
 public class Red {
+    private static final int BUFFER_LENGTH = 8192;
     private static FTPClient ftp;
     private static String conexion;
     private static URL url;
@@ -126,10 +127,11 @@ public class Red {
             URLConnection urlConn = url.openConnection();
             OutputStream os = urlConn.getOutputStream();
             FileInputStream fis = new FileInputStream(new File(rutaLocal +name));
+            byte[] buffer = new byte[BUFFER_LENGTH];
             
-            int c;
-            while((c = fis.read()) != -1) {
-                os.write(c);
+            int count;
+            while((count = fis.read(buffer)) >0) {
+                os.write(buffer, 0, count);
             }
             os.flush();
             os.close();
@@ -156,10 +158,11 @@ public class Red {
             URLConnection urlConn = url.openConnection();
             InputStream is = urlConn.getInputStream();
             FileOutputStream fos = new FileOutputStream(rutaLocal +name);
+            byte[] buffer = new byte[BUFFER_LENGTH];
             
-            int c;
-            while((c = is.read()) != -1) {
-                fos.write(c);
+            int count;
+            while((count = is.read(buffer)) > 0) {
+                fos.write(buffer, 0, count);
             }
             fos.flush();
             
