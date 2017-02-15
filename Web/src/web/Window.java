@@ -7,6 +7,7 @@ package web;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
 import javax.swing.table.DefaultTableModel;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -247,7 +248,9 @@ public class Window extends javax.swing.JFrame {
      * Proceso entero de recoleccion y filtrado de los datos.
      * @param url Url a la que nos conectamos.
      */
-    private static void tratamiento(String url) {
+    private static void tratamientoDatos(String url) {
+        Window.escanear = false;
+        Window.url = url;
         iniElementos(url);
         adecuacionDatos();
     }
@@ -332,7 +335,7 @@ public class Window extends javax.swing.JFrame {
         escanear = true;
         while(escanear) {
             try {
-                tratamiento(url);
+                tratamientoDatos(url);
                 System.out.println("Escaneo realizado sobre: " +url);
                 
                 new Thread(() -> comparacion(oldModelData, modelData, 0, 25)).start();
@@ -350,24 +353,24 @@ public class Window extends javax.swing.JFrame {
     
     /**
      * Cambio de la fuente de datos junto a la Label que informa al usuario.
+     * La diferencia con tratamientoDatos(String url) es que cuando se llama a este, tambien cambia el titulo del Panel de informacion.
      * @param url URL de donde sacar los datos.
      */
     private static void cambioDatos(String url) {
-        escanear = false;
-        tratamiento(url);
+        tratamientoDatos(url);
         switch(url) {
             case "https://es.finance.yahoo.com/actives?e=mc":
+                Window.jPanelInformacion.setBorder(BorderFactory.createTitledBorder("Informacion: Valores mas Activos."));
                 break;
             case "https://es.finance.yahoo.com/gainers?e=mc":
+                Window.jPanelInformacion.setBorder(BorderFactory.createTitledBorder("Informacion: Mayores Subidas de Precio."));
                 break;
             case "https://es.finance.yahoo.com/losers?e=mc":
+                Window.jPanelInformacion.setBorder(BorderFactory.createTitledBorder("Informacion: Bajan de Precio."));
                 break;
             default:
                 break;
         }
-        
-        Runnable r = () -> escanear(url);
-        new Thread(r).start();
     }
     
     /**
@@ -380,10 +383,10 @@ public class Window extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroupDatos = new javax.swing.ButtonGroup();
-        jPanel1 = new javax.swing.JPanel();
+        jPanelInformacion = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable = new javax.swing.JTable();
-        jPanel2 = new javax.swing.JPanel();
+        jPanelParametros = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jButtonEscaner = new javax.swing.JButton();
@@ -401,7 +404,7 @@ public class Window extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Informacion"));
+        jPanelInformacion.setBorder(javax.swing.BorderFactory.createTitledBorder("Informacion: Valores mas Activos."));
 
         jTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -414,24 +417,24 @@ public class Window extends javax.swing.JFrame {
         jTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(jTable);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelInformacionLayout = new javax.swing.GroupLayout(jPanelInformacion);
+        jPanelInformacion.setLayout(jPanelInformacionLayout);
+        jPanelInformacionLayout.setHorizontalGroup(
+            jPanelInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelInformacionLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1)
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jPanelInformacionLayout.setVerticalGroup(
+            jPanelInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelInformacionLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1)
                 .addGap(9, 9, 9))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Parametros"));
+        jPanelParametros.setBorder(javax.swing.BorderFactory.createTitledBorder("Parametros"));
 
         jLabel1.setText("Porcentaje de Aviso");
 
@@ -448,11 +451,11 @@ public class Window extends javax.swing.JFrame {
 
         jSpinnerTiempoMS.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(3000L), Long.valueOf(1000L), Long.valueOf(60000L), Long.valueOf(500L)));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelParametrosLayout = new javax.swing.GroupLayout(jPanelParametros);
+        jPanelParametros.setLayout(jPanelParametrosLayout);
+        jPanelParametrosLayout.setHorizontalGroup(
+            jPanelParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelParametrosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
@@ -465,11 +468,11 @@ public class Window extends javax.swing.JFrame {
                 .addComponent(jButtonEscaner)
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        jPanelParametrosLayout.setVerticalGroup(
+            jPanelParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelParametrosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
                     .addComponent(jButtonEscaner)
@@ -538,17 +541,17 @@ public class Window extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanelInformacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelParametros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelParametros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelInformacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -572,7 +575,7 @@ public class Window extends javax.swing.JFrame {
     }//GEN-LAST:event_jRadioButtonMenuItemBajadasActionPerformed
 
     private void jButtonEscanerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEscanerActionPerformed
-        // TODO add your handling code here:
+        new Thread(() -> escanear(url)).start();
     }//GEN-LAST:event_jButtonEscanerActionPerformed
 
     /**
@@ -607,7 +610,7 @@ public class Window extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Window().setVisible(true);
-                tratamiento("https://es.finance.yahoo.com/actives?e=mc");
+                tratamientoDatos("https://es.finance.yahoo.com/actives?e=mc");
             }
         });
     }
@@ -623,8 +626,8 @@ public class Window extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenu jMenuTesteo;
     private javax.swing.JMenu jMenuValores;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private static javax.swing.JPanel jPanelInformacion;
+    private javax.swing.JPanel jPanelParametros;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItemActivos;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItemBajadas;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItemSubidas;
