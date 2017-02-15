@@ -152,10 +152,21 @@ public class Red {
      */
     public static boolean getFile(String rutaLocal, String name) {
         try {
+            url = new URL(conexion +name);
+            URLConnection urlConn = url.openConnection();
+            InputStream is = urlConn.getInputStream();
             FileOutputStream fos = new FileOutputStream(rutaLocal +name);
-            boolean res = ftp.retrieveFile(name, fos);
+            
+            int c;
+            while((c = is.read()) != -1) {
+                fos.write(c);
+            }
+            fos.flush();
+            
+            is.close();
             fos.close();
-            return res;
+            
+            return true;
         }catch(IOException ex) {
             System.out.println("Problema al recibir un fichero desde el Server: " +ex.getLocalizedMessage());
         }
