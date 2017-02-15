@@ -326,7 +326,14 @@ public class Window extends javax.swing.JFrame {
 //        System.out.printf("Valor viejo: %d, Valor Nuevo: %d, Cambio: %d, CambioLimite: %d, Limite superado: %s\n" ,valorViejo, valorNuevo, cambio, cambioLimite, res); //Para testeo.
     }
     
-    private static int[][] getLimitesHilo(String[][] datosViejos, String[][] datosNuevos) {
+    /**
+     * Calculo del limite de calculo de cada hilo, dividiendo la carga de trabajo en 4 hilos. Si hay 2 Arrays de diferente tamanio, se toma en cunta la de menor.
+     * Se divide equitativamente y el ultimo hilo se lleva el resto.
+     * @param datosViejos Escaneo de los datos viejos.
+     * @param datosNuevos Escaneo del ultimo juego de datos.
+     * @return int[numeroHilo][0] = limite inferior; [1] = limite superior;
+     */
+    private static int[][] calculoLimitesHilo(String[][] datosViejos, String[][] datosNuevos) {
         int numHilos = 4;
         int[][] limites = new int[numHilos][2]; //[x][0] limite comienzo. [x][1] limite fin.
         int limiteMinimo = datosViejos.length < datosNuevos.length ? datosViejos.length : datosNuevos.length;
@@ -338,12 +345,12 @@ public class Window extends javax.swing.JFrame {
             limites[i][1] = maximo;
             maximo += division;
             
-            System.out.printf("%n#Hilos: %d. Limite total menor: %d. Limite del hilo #%d: %d(intefior), %d(superior)", numHilos, limiteMinimo, i, limites[i][0], limites[i][1]);
+//            System.out.printf("%n#Hilos: %d. Limite total menor: %d. Limite del hilo #%d: %d(inferior), %d(superior)", numHilos, limiteMinimo, i+1, limites[i][0], limites[i][1]);
         }
         
-        limites[3][0] = maximo-(division);
-        limites[3][1] = maximo;
-        System.out.printf("%n#Hilos: %d. Limite total menor: %d. Limite del hilo #%d: %d(intefior), %d(superior)", numHilos, limiteMinimo, 3, limites[3][0], limites[3][1]);
+        limites[3][0] = limites[2][1];
+        limites[3][1] = limiteMinimo;
+//        System.out.printf("%n#Hilos: %d. Limite total menor: %d. Limite del hilo #%d: %d(inferior), %d(superior)", numHilos, limiteMinimo, 4, limites[3][0], limites[3][1]);
         
         return limites;
     }
@@ -360,12 +367,11 @@ public class Window extends javax.swing.JFrame {
                 tratamientoDatos(url);
                 System.out.printf("%nEscaneo realizado sobre %s buscando un %.2f%% de cambio.", url, porcentaje);
                 
-                getLimitesHilo(oldModelData, modelData);
-                
-                new Thread(() -> comparacion(oldModelData, modelData, 0, 25)).start(); //fixme: cambiar la forma de repartir la carga de trabajo para que sea mas dinamico.
-                new Thread(() -> comparacion(oldModelData, modelData, 25, 50)).start();
-                new Thread(() -> comparacion(oldModelData, modelData, 50, 75)).start();
-                new Thread(() -> comparacion(oldModelData, modelData, 75, 100)).start();
+                int[][] limites = calculoLimitesHilo(oldModelData, modelData);
+                new Thread(() -> comparacion(oldModelData, modelData, limites[0][0], limites[0][1])).start();
+                new Thread(() -> comparacion(oldModelData, modelData, limites[1][0], limites[1][1])).start();
+                new Thread(() -> comparacion(oldModelData, modelData, limites[2][0], limites[2][1])).start();
+                new Thread(() -> comparacion(oldModelData, modelData, limites[3][0], limites[3][1])).start();
                 
                 Thread.sleep(espera);
             } catch (InterruptedException ex) {
