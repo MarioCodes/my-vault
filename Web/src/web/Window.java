@@ -33,6 +33,7 @@ public class Window extends javax.swing.JFrame {
     private static Document document;
     private static Elements tabla, headersWeb, datos;
     
+    private static String url;
     private static String[] modelHeaders;
     private static String[][] modelData, oldModelData;
     
@@ -356,13 +357,10 @@ public class Window extends javax.swing.JFrame {
         tratamiento(url);
         switch(url) {
             case "https://es.finance.yahoo.com/actives?e=mc":
-                Window.jLabelTitulo.setText("Valores mas Activos");
                 break;
             case "https://es.finance.yahoo.com/gainers?e=mc":
-                Window.jLabelTitulo.setText("Mayores Subidas de Precio");
                 break;
             case "https://es.finance.yahoo.com/losers?e=mc":
-                Window.jLabelTitulo.setText("Bajan de Precio");
                 break;
             default:
                 break;
@@ -382,9 +380,15 @@ public class Window extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroupDatos = new javax.swing.ButtonGroup();
-        jLabelTitulo = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jButtonEscaner = new javax.swing.JButton();
+        jSpinnerPorcentaje = new javax.swing.JSpinner();
+        jSpinnerTiempoMS = new javax.swing.JSpinner();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuFile = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -397,8 +401,7 @@ public class Window extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabelTitulo.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
-        jLabelTitulo.setText("Valores mas Activos");
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Informacion"));
 
         jTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -409,8 +412,71 @@ public class Window extends javax.swing.JFrame {
             }
         ));
         jTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTable.setShowHorizontalLines(true);
         jScrollPane1.setViewportView(jTable);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addGap(9, 9, 9))
+        );
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Parametros"));
+
+        jLabel1.setText("Porcentaje de Aviso");
+
+        jLabel2.setText("Tiempo entre Escaneos (ms)");
+
+        jButtonEscaner.setText("Escanear");
+        jButtonEscaner.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEscanerActionPerformed(evt);
+            }
+        });
+
+        jSpinnerPorcentaje.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.05f), Float.valueOf(0.01f), Float.valueOf(500.0f), Float.valueOf(0.05f)));
+
+        jSpinnerTiempoMS.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(3000L), Long.valueOf(1000L), Long.valueOf(60000L), Long.valueOf(500L)));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jSpinnerPorcentaje, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(jSpinnerTiempoMS, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addComponent(jButtonEscaner)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jButtonEscaner)
+                    .addComponent(jSpinnerPorcentaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSpinnerTiempoMS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         jMenuFile.setText("File");
 
@@ -471,20 +537,18 @@ public class Window extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabelTitulo)
-                .addGap(217, 217, 217))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jLabelTitulo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -506,6 +570,10 @@ public class Window extends javax.swing.JFrame {
     private void jRadioButtonMenuItemBajadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItemBajadasActionPerformed
         cambioDatos("https://es.finance.yahoo.com/losers?e=mc");
     }//GEN-LAST:event_jRadioButtonMenuItemBajadasActionPerformed
+
+    private void jButtonEscanerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEscanerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonEscanerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -546,17 +614,23 @@ public class Window extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupDatos;
+    private javax.swing.JButton jButtonEscaner;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemCambioAleatorio;
-    private static javax.swing.JLabel jLabelTitulo;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuFile;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenu jMenuTesteo;
     private javax.swing.JMenu jMenuValores;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItemActivos;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItemBajadas;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItemSubidas;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner jSpinnerPorcentaje;
+    private javax.swing.JSpinner jSpinnerTiempoMS;
     private static javax.swing.JTable jTable;
     // End of variables declaration//GEN-END:variables
 }
