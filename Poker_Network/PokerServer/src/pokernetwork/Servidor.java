@@ -18,6 +18,8 @@ import fases.*;
 */
 
 /**
+ * todo: implementar comparacion de cartas, palos y demas para saber quien gana o que tiene cada jugador.
+ * todo: implementar forma de repartir las fichas y que se sumen al jugador que gana.
  * fixme: Bug - juego comenzado, cierro cliente, abro nuevo e intento unirme -> Salta selector switch primera opcion. Arreglarlo.
  * Proyecto Online juego Oscar -> Poker Texas Hold'em!. Parte Servidor.
  * La forma de uso de llamado de los metodos es -> Servidor -> Juego -> Instancia Fase -> Conexion.

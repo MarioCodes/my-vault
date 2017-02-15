@@ -8,6 +8,7 @@ package fases;
 import entidades.Carta;
 import entidades.Juego;
 import java.util.ArrayList;
+import pokernetwork.Conexion;
 
 /**
  * Fase de River, seguida de la Fase de Turn; Es la ultima fase del juego antes de una de apuestas.
@@ -19,27 +20,42 @@ public class FaseRiver implements Fase {
 
     @Override
     public void cambioFase(Juego juego) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        juego.setFase(this);
+        System.out.println("Fase de River");
     }
 
     @Override
     public void repartoCartasJugador(ArrayList<Carta> cartas) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Conexion.sendBooleano(false);
     }
 
     @Override
     public void repartoCartasComunes(Juego juego) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(juego.getCartasComunes().size() == 4) juego.extraerCartaComun();
+        ArrayList<Carta> cartas = juego.getCartasComunes();
+        Conexion.sendBooleano(true);
+        Conexion.repartoCartas(cartas);
+        
+        if(juego.terminarTurno()) {
+            FaseApuestas fa = new FaseApuestas();
+            fa.setFasePrevia("River");
+            fa.cambioFase(juego);
+        }
     }
 
     @Override
     public void apostar(Juego juego) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Conexion.sendBooleano(false);
     }
 
     @Override
     public String retirarse() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Conexion.sendBooleano(false);
+        return null;
     }
     
+    @Override
+    public String toString() {
+        return "River";
+    }
 }
