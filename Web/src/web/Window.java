@@ -27,8 +27,8 @@ import org.jsoup.select.Elements;
  */
 public class Window extends javax.swing.JFrame {
     private static boolean escanear;
-    private static final float PORCENTAJE = 0.05f;
-    private static final long ESPERA = 3000; //ms de esperas entre escaneos en el programa.
+    private static float porcentaje;
+    private static long espera; //ms de esperas entre escaneos en el programa.
     private static DefaultTableModel model = new DefaultTableModel(); //Model donde cargare los datos e implementare.
     
     private static Document document;
@@ -261,7 +261,7 @@ public class Window extends javax.swing.JFrame {
      * @return Valor limite para avisar.
      */
     private static long getLimite(long valor) {
-        return (long) (valor*Window.PORCENTAJE/100);
+        return (long) (valor*Window.porcentaje/100);
     }
     
     /**
@@ -335,14 +335,14 @@ public class Window extends javax.swing.JFrame {
         while(isEscanear()) {
             try {
                 tratamientoDatos(url);
-                System.out.printf("%nEscaneo realizado sobre %s buscando un %.2f de cambio.", url, PORCENTAJE);
+                System.out.printf("%nEscaneo realizado sobre %s buscando un %.2f%% de cambio.", url, porcentaje);
                 
                 new Thread(() -> comparacion(oldModelData, modelData, 0, 25)).start(); //fixme: cambiar la forma de repartir la carga de trabajo para que sea mas dinamico.
                 new Thread(() -> comparacion(oldModelData, modelData, 25, 50)).start();
                 new Thread(() -> comparacion(oldModelData, modelData, 50, 75)).start();
                 new Thread(() -> comparacion(oldModelData, modelData, 75, 100)).start();
                 
-                Thread.sleep(ESPERA);
+                Thread.sleep(espera);
             } catch (InterruptedException ex) {
                 System.out.println("Problema con Thread.sleep en escanear(String url). " +ex.getLocalizedMessage());
             }
@@ -447,7 +447,7 @@ public class Window extends javax.swing.JFrame {
             }
         });
 
-        jSpinnerPorcentaje.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.2f), Float.valueOf(0.01f), Float.valueOf(500.0f), Float.valueOf(0.05f)));
+        jSpinnerPorcentaje.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.1f), Float.valueOf(0.01f), Float.valueOf(500.0f), Float.valueOf(0.05f)));
 
         jSpinnerTiempoMS.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(3000L), Long.valueOf(1000L), Long.valueOf(60000L), Long.valueOf(500L)));
 
@@ -575,6 +575,8 @@ public class Window extends javax.swing.JFrame {
     }//GEN-LAST:event_jRadioButtonMenuItemBajadasActionPerformed
 
     private void jButtonEscanerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEscanerActionPerformed
+        Window.porcentaje = (float) Window.jSpinnerPorcentaje.getValue();
+        Window.espera = (long) Window.jSpinnerTiempoMS.getValue();
         new Thread(() -> escanear(url)).start();
     }//GEN-LAST:event_jButtonEscanerActionPerformed
 
@@ -646,8 +648,8 @@ public class Window extends javax.swing.JFrame {
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItemBajadas;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItemSubidas;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSpinner jSpinnerPorcentaje;
-    private javax.swing.JSpinner jSpinnerTiempoMS;
+    private static javax.swing.JSpinner jSpinnerPorcentaje;
+    private static javax.swing.JSpinner jSpinnerTiempoMS;
     private static javax.swing.JTable jTable;
     // End of variables declaration//GEN-END:variables
 }
