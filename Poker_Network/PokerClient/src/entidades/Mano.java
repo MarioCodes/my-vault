@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Mano del Jugador, se compone de sus 2 cartas personales y las 3 mas altas de las 5 de la mesa.
  * @author Mario Codes Sánchez
- * @since 08/02/2017
+ * @since 15/02/2017
  */
 public class Mano {
     private ArrayList<Carta> cartas_propias = new ArrayList<>();
@@ -22,6 +22,48 @@ public class Mano {
      */
     public void aniadirCartaPropias(Carta carta) {
         cartas_propias.add(carta);
+    }
+    
+    /**
+     * Obtener el valor numerico de una carta. A = 14, K = 13...
+     * @param carta Carta de la cual obtenemos el valor.
+     * @return Valor numerico de la Carta.
+     */
+    private int getValor(Carta carta) {
+        int valor = -1;
+        String v = carta.toString().substring(0, 1);
+        
+        try {
+            valor = Integer.parseInt(v);
+        }catch(ClassCastException|NumberFormatException ex) {
+            switch(v) {
+                case "A":
+                    valor = 14;
+                case "K":
+                    valor = 13;
+                case "Q":
+                    valor = 12;
+                case "J":
+                    valor = 11;
+            }
+        }
+        
+        return valor;
+    }
+    
+    private ArrayList<Carta> compararCartas(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
+        ArrayList<Carta> mejorCombinacion = new ArrayList<>();
+        
+        return null;
+    }
+    
+    public ArrayList<Carta> mejorCombinacion() {
+        ArrayList<Carta> propias = cartas_propias, comunes = cartas_mesa;
+        ArrayList<Carta> mejorCombinacion = null;
+        
+        compararCartas(propias, comunes);
+        
+        return mejorCombinacion;
     }
     
     /**

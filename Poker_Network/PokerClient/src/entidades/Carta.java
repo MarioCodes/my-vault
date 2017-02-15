@@ -29,11 +29,14 @@ public class Carta implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         
-        sb.append("Carta con valor: ");
         sb.append(VALOR);
-        sb.append(", Palo: ");
+        sb.append(",");
         sb.append(PALO);
-        sb.append(" ");
+//        sb.append("Carta con valor: ");
+//        sb.append(VALOR);
+//        sb.append(", Palo: ");
+//        sb.append(PALO);
+//        sb.append(" ");
         
         return sb.toString();
     }

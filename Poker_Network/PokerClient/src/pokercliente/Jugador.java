@@ -38,6 +38,8 @@ public class Jugador {
         if(mano.getCartas_mesa() != null) {
             System.out.println("\nCartas Comunes");
             for(Carta c : mano.getCartas_mesa()) System.out.println(c);
+            System.out.println("\n\nTesteo: "); //fixme: borrar. Testeo.
+            this.mano.mejorCombinacion(); //fixme: borrar. Testeo.
         }
     }
     
