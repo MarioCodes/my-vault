@@ -296,7 +296,7 @@ public class Window extends javax.swing.JFrame {
     private static boolean checkLimite(long cambio, long limite) {
         boolean isOver;
         
-        if(cambio >= 0) isOver = cambio >= limite;
+        if(cambio >= 0) isOver = cambio > limite;
         else {
             limite -= limite*2;
             isOver = cambio <= limite;
@@ -315,14 +315,18 @@ public class Window extends javax.swing.JFrame {
         long valorNuevo, valorViejo, cambio, cambioLimite;
         
         for (int indiceEmpresa = comienzoHilo; indiceEmpresa < limiteHilo; indiceEmpresa++) {
-            valorNuevo = parseLong(datosNuevos[indiceEmpresa][4]);
-            valorViejo = parseLong(datosViejos[indiceEmpresa][4]);
-            cambioLimite = getLimite(valorNuevo);
-            cambio = valorNuevo-valorViejo;
-            boolean over = checkLimite(cambio, cambioLimite);
-            if(over) System.out.printf("%n¡ATENCION! ¡Cambio que ha sobrepasado el limite! Empresa %S. Valor anterior: %d. Limite de: %d. Cambio de: %d. Valor actual: %d", datosNuevos[indiceEmpresa][0], valorViejo, cambioLimite, cambio, valorNuevo);
+            try {
+                valorNuevo = parseLong(datosNuevos[indiceEmpresa][4]);
+                valorViejo = parseLong(datosViejos[indiceEmpresa][4]);
+                cambioLimite = getLimite(valorNuevo);
+                cambio = valorNuevo-valorViejo;
+                boolean over = checkLimite(cambio, cambioLimite);
+                if(over) System.out.printf("%n¡ATENCION! ¡Cambio que ha sobrepasado el limite! Empresa %S.  Valor anterior: %d.  Limite de: %d.  Cambio de: %d.  Valor actual: %d", datosNuevos[indiceEmpresa][0], valorViejo, cambioLimite, cambio, valorNuevo);
+            }catch(ArrayIndexOutOfBoundsException ex) {
+                System.out.println("Capturado error de ArrayIndexOut en comparacion(). " +ex.getLocalizedMessage()); //Cosas raras que pasan al trabajar con hilos. Auqnue el limite esta establecido en < (NO <=!) se pasa igualmente y revienta.
+            }
         }
-//        System.out.printf("Valor viejo: %d, Valor Nuevo: %d, Cambio: %d, CambioLimite: %d, Limite superado: %s\n" ,valorViejo, valorNuevo, cambio, cambioLimite, res); //Para testeo.        
+//        System.out.printf("Valor viejo: %d, Valor Nuevo: %d, Cambio: %d, CambioLimite: %d, Limite superado: %s\n" ,valorViejo, valorNuevo, cambio, cambioLimite, res); //Para testeo.
     }
     
     /**
@@ -449,7 +453,7 @@ public class Window extends javax.swing.JFrame {
 
         jSpinnerPorcentaje.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.1f), Float.valueOf(0.01f), Float.valueOf(500.0f), Float.valueOf(0.05f)));
 
-        jSpinnerTiempoMS.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(3000L), Long.valueOf(1000L), Long.valueOf(60000L), Long.valueOf(500L)));
+        jSpinnerTiempoMS.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(5000L), Long.valueOf(1000L), Long.valueOf(60000L), Long.valueOf(1000L)));
 
         javax.swing.GroupLayout jPanelParametrosLayout = new javax.swing.GroupLayout(jPanelParametros);
         jPanelParametros.setLayout(jPanelParametrosLayout);
