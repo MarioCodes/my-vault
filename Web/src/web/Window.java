@@ -16,20 +16,19 @@ import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
 /**
- * todo: implementar la forma de cambios aleatorios, aunque sea un cambio radical siempre en la misma empresa.
- * Proyecto de proceso de una pagina web.
- * Clase Principal y unica.
+ * Proyecto de proceso de informacion sobre una pagina web. En concreto de la bolsa.
+ * Saca un aviso al usuario cuando el valor se pasa del porcentaje establecido por usuario.
  * @author Mario Codes Sánchez
- * @since 14/02/2017
+ * @since 15/02/2017
  */
 public class Window extends javax.swing.JFrame {
-    private static boolean escanear;
+    private static boolean escanear, testear;
     private static float porcentaje;
     private static long espera; //ms de esperas entre escaneos en el programa.
     private static DefaultTableModel model = new DefaultTableModel(); //Model donde cargare los datos e implementare.
     
     private static Document document;
-    private static Elements tabla, headersWeb, datos;
+    private static Elements tabla, headersWeb;
     
     private static String url;
     private static String[] modelHeaders;
@@ -235,7 +234,6 @@ public class Window extends javax.swing.JFrame {
                 tabla.remove(tabla.get(0));
             }
             headersWeb = document.select("thead tr th");
-            datos = document.select("tr");
         }catch(IOException ex) {
             ex.printStackTrace();
         }
@@ -269,6 +267,7 @@ public class Window extends javax.swing.JFrame {
      */
     private static long parseLong(String string) {
         String parse = "";
+        long num = Long.MIN_VALUE;
         
         try {
             while(string.contains(".")) {
@@ -277,11 +276,12 @@ public class Window extends javax.swing.JFrame {
             }
 
             parse += string; //Para el ultimo resto y numeros sin punto.
-        }catch(NullPointerException ex) {
+            num = Long.parseLong(parse);
+        }catch(NullPointerException|NumberFormatException ex) {
             System.out.println("Problema con el parseo custom del Long. " +ex.getLocalizedMessage());
         }
         
-        return Long.parseLong(parse);
+        return num;
     }
     
     /**
@@ -317,6 +317,7 @@ public class Window extends javax.swing.JFrame {
                 valorViejo = parseLong(datosViejos[indiceEmpresa][4]);
                 cambioLimite = getLimite(valorNuevo);
                 cambio = valorNuevo-valorViejo;
+                if(testear) cambio += cambioLimite*2; //Para testing si esta seleccionado en la GUI.
                 boolean over = checkLimite(cambio, cambioLimite);
                 if(over) System.out.printf("%n¡ATENCION! ¡Cambio que ha sobrepasado el limite! Empresa %S.  Valor anterior: %d.  Limite de: %d.  Cambio de: %d.  Valor actual: %d", datosNuevos[indiceEmpresa][0], valorViejo, cambioLimite, cambio, valorNuevo);
             }catch(ArrayIndexOutOfBoundsException ex) {
@@ -606,6 +607,7 @@ public class Window extends javax.swing.JFrame {
     }//GEN-LAST:event_jRadioButtonMenuItemBajadasActionPerformed
 
     private void jButtonEscanerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEscanerActionPerformed
+        Window.testear = Window.jCheckBoxMenuItemCambioAleatorio.isSelected();
         Window.porcentaje = (float) Window.jSpinnerPorcentaje.getValue();
         Window.espera = (long) Window.jSpinnerTiempoMS.getValue();
         new Thread(() -> escanear(url)).start();
@@ -660,12 +662,16 @@ public class Window extends javax.swing.JFrame {
      */
     public static synchronized void setEscanear(boolean aEscanear) {
         escanear = aEscanear;
+        if(aEscanear == false) {
+            oldModelData = null;
+            modelData = null;
+        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupDatos;
     private javax.swing.JButton jButtonEscaner;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemCambioAleatorio;
+    private static javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemCambioAleatorio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;

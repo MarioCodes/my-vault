@@ -71,6 +71,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cambio Aleatorio"/>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
+              </AuxValues>
             </MenuItem>
           </SubComponents>
         </Menu>
