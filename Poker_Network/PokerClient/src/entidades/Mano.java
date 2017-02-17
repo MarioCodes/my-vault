@@ -27,124 +27,45 @@ public class Mano {
         cartas_propias.add(carta);
     }
     
-    /**
-     * Obtener el valor numerico de una carta. A = 14, K = 13...
-     * @param carta Carta de la cual obtenemos el valor.
-     * @return Valor numerico de la Carta.
-     */
-    private int getValor(Carta carta) {
-        int valor = -1;
-        String v = carta.toString().substring(0, 1);
-        
-        try {
-            valor = Integer.parseInt(v);
-        }catch(ClassCastException|NumberFormatException ex) {
-            switch(v) {
-                case "A":
-                    valor = 14;
-                    break;
-                case "K":
-                    valor = 13;
-                    break;
-                case "Q":
-                    valor = 12;
-                    break;
-                case "J":
-                    valor = 11;
-                    break;
-            }
-        }
-        
-        return valor;
-    }
+//    /**
+//     * Para los casos en los que las 5 cartas de la mesa hagan escalera.
+//     * @param valoresComunes 5 cartas de la mesa transformadas en su valor int.
+//     * @return True si las 5 hacen escalera.
+//     */
+//    private boolean checkEscaleraComunes(ArrayList<Integer> valoresComunes) {
+//        if(valoresComunes.size() == 5) {
+//            int firstNum = valoresComunes.get(0);
+//            for (int i = 1; i < valoresComunes.size(); i++) {
+//                if(valoresComunes.get(i) != firstNum+1) return false;
+//                else firstNum++;
+//            }
+//            return true;
+//        } else return false;
+//    }
     
-    /**
-     * Obtencion del palo de la carta para comprobar escaleras, fulls y demas.
-     * @param carta Carta a obtener el palo.
-     * @return Palo de la carta introducida.
-     */
-    private String getPalo(Carta carta) {
-        return carta.toString().substring(2);
-    }
-    
-    /**
-     * Para los casos en los que las 5 cartas de la mesa hagan escalera.
-     * @param valoresComunes 5 cartas de la mesa transformadas en su valor int.
-     * @return True si las 5 hacen escalera.
-     */
-    private boolean checkEscaleraComunes(ArrayList<Integer> valoresComunes) {
-        if(valoresComunes.size() == 5) {
-            int firstNum = valoresComunes.get(0);
-            for (int i = 1; i < valoresComunes.size(); i++) {
-                if(valoresComunes.get(i) != firstNum+1) return false;
-                else firstNum++;
-            }
-            return true;
-        } else return false;
-    }
-    
-    private boolean checkEscalera(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
-        ArrayList<Carta> tmp = new ArrayList<>();
-        tmp.addAll(propias);
-        
-        ArrayList<Integer> valoresPropias = new ArrayList<>();
-        for(Carta c: propias) valoresPropias.add(getValor(c));
-        valoresPropias.sort(Comparator.naturalOrder());
-//        for(int i : valoresPropias) System.out.println(i);
-        
-        ArrayList<Integer> valoresComunes = new ArrayList<>();
-        for(Carta c: comunes) valoresComunes.add(getValor(c));
-        valoresComunes.sort(Comparator.naturalOrder());
-//        for(int i : valoresComunes) System.out.println(i);
-        
-        if(checkEscaleraComunes(valoresComunes)) return true;
-        
-        int primerValor = getValor(comunes.get(0));
-        for (int i = 0; i < comunes.size()+2; i++) {
-            
-        }
-        
-        return false;
-    }
-    
-    private boolean checkPareja(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
-        int primerValor = getValor(propias.get(0));
-        if(getValor(propias.get(1)) == primerValor) return true;
-        else {
-            for(Carta c: comunes) {
-                if(getValor(c) == primerValor) return true;
-            }
-        }
-        
-        return false;
-    }
-    
-    private boolean cartaAlta(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
-        int primerValor = getValor(propias.get(0));
-        if(getValor(propias.get(1)) > primerValor) return true;
-        else {
-            for(Carta c: comunes) {
-                if(getValor(c) >= primerValor) return true;
-            }
-        }
-        
-        return true;
-    }
-    
-    private ArrayList<Carta> compararCartas(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
-        checkEscalera(propias, comunes);
-        
-        return null;
-    }
-    
-    public ArrayList<Carta> mejorCombinacion() {
-        ArrayList<Carta> propias = cartas_propias, comunes = cartas_mesa;
-        ArrayList<Carta> mejorCombinacion = null;
-        
-        compararCartas(propias, comunes);
-        
-        return mejorCombinacion;
-    }
+//    private boolean checkEscalera(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
+//        ArrayList<Carta> tmp = new ArrayList<>();
+//        tmp.addAll(propias);
+//        
+//        ArrayList<Integer> valoresPropias = new ArrayList<>();
+//        for(Carta c: propias) valoresPropias.add(getValor(c));
+//        valoresPropias.sort(Comparator.naturalOrder());
+////        for(int i : valoresPropias) System.out.println(i);
+//        
+//        ArrayList<Integer> valoresComunes = new ArrayList<>();
+//        for(Carta c: comunes) valoresComunes.add(getValor(c));
+//        valoresComunes.sort(Comparator.naturalOrder());
+////        for(int i : valoresComunes) System.out.println(i);
+//        
+//        if(checkEscaleraComunes(valoresComunes)) return true;
+//        
+//        int primerValor = getValor(comunes.get(0));
+//        for (int i = 0; i < comunes.size()+2; i++) {
+//            
+//        }
+//        
+//        return false;
+//    }
     
     /**
      * Aniadido de varias cartas a la mano personal.
