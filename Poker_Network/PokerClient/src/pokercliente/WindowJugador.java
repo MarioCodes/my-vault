@@ -284,15 +284,15 @@ public class WindowJugador extends javax.swing.JFrame {
                 
                 Mano m = new Mano();
                 ArrayList<Carta> mesa = new ArrayList<>();
-                mesa.add(new Carta("8", "Picas"));
-                mesa.add(new Carta("8", "Picas"));
-                mesa.add(new Carta("8", "Picas"));
-//                mesa.add(new Carta("5", "Picas"));
-//                mesa.add(new Carta("K", "Picas"));
+                mesa.add(new Carta("2", "Picas"));
+                mesa.add(new Carta("2", "Picas"));
+                mesa.add(new Carta("2", "Picas"));
+                mesa.add(new Carta("4", "Picas"));
+                mesa.add(new Carta("4", "Picas"));
                 
                 ArrayList<Carta> propias = new ArrayList<>();
-                propias.add(new Carta("10", "Treboles"));
-                propias.add(new Carta("J", "Treboles"));
+                propias.add(new Carta("3", "Treboles"));
+                propias.add(new Carta("3", "Treboles"));
                 
                 Jugadas.checkJugada(propias, mesa);
                 System.out.println("\n" +Jugadas.jugada +", " +Jugadas.valor);

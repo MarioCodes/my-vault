@@ -63,10 +63,49 @@ public class Jugadas {
     }
     
     private static boolean checkFull(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
-        boolean trio = checkTrio(propias, comunes);
-        boolean pareja = checkPareja(propias, comunes);
+        ArrayList<Integer> valores = getValores(propias, comunes);
+        boolean parejaEncontrada = false;
+        boolean trioEncontrado = false;
+        int valorTrio = 0;
         
-        return trio && pareja;
+        for (int i = 0; i < valores.size() && !parejaEncontrada; i++) { //Buscado de trio.
+            int valor1 = valores.get(i);
+//            System.out.println("\tValor1: " +valor1 +", Indice: " +i);
+            for (int j = 0; j < valores.size() && !parejaEncontrada; j++) {
+                int valor2 = valores.get(j);
+//                System.out.println("\tValor2: " +valor2 +", Indice: " +j);
+                if(j != i) {
+                    for (int q = 0; q < valores.size() && !parejaEncontrada; q++) {
+                        int valor3 = valores.get(q);
+//                        System.out.println("\tValor3 " +valor3 +", Indice: " +q);
+                        if(q != j && q != i) {
+                            if(valor3 == valor2 && valor3 == valor1) {
+                                Jugadas.valor = valor3+valor2+valor1;
+                                trioEncontrado = true;
+                                valorTrio = valor1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        if(trioEncontrado) {
+            for (int i = 0; i < valores.size(); i++) { //Buscado de pareja.
+                int valor = valores.get(i);
+                for (int j = 0; j < valores.size(); j++) {
+                    int valor2 = valores.get(j);
+                    if(j != i) {
+                        if(valor == valor2 && valor != valorTrio) {
+                            Jugadas.valor += valor+valor2;
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        
+        return false;
     }
     
     /**
@@ -175,7 +214,6 @@ public class Jugadas {
                     }
                 }
             }
-            System.out.println("");
         }
         
         return false;
