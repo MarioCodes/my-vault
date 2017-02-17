@@ -26,7 +26,7 @@ public class Jugadas {
     private static int getValor(Carta carta) {
         int valor = -1;
         String v = carta.toString().substring(0, 1);
-        
+        if(v.matches("1")) v = "10";
         try {
             valor = Integer.parseInt(v);
         }catch(ClassCastException|NumberFormatException ex) {
@@ -43,6 +43,10 @@ public class Jugadas {
                 case "J":
                     valor = 11;
                     break;
+                default:
+                    valor = -1;
+                    System.out.println("Valor por defecto en getValor().");
+                    break;
             }
         }
         
@@ -56,6 +60,27 @@ public class Jugadas {
      */
     private static String getPalo(Carta carta) {
         return carta.toString().substring(2);
+    }
+    
+    private static boolean checkEscalera(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
+        ArrayList<Integer> valores = getValores(propias, comunes);
+        
+        for (int i = 0; i < valores.size(); i++) {
+            int valor = valores.get(i);
+            System.out.println("Valor: " +valor);
+            if(valores.contains((Integer) valor+1)) {
+                if(valores.contains((Integer) valor+2)) {
+                    if(valores.contains((Integer) valor+3)) {
+                        if(valores.contains((Integer) valor+4)) {
+                            Jugadas.valor = valor+(valor+1)+(valor+2)+(valor+3)+(valor+4);
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        
+        return false;
     }
     
     /**
@@ -200,13 +225,16 @@ public class Jugadas {
      * @param comunes Cartas comunes a todos, pueden ser 3, 4 o 5.
      */
     public static void checkJugada(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
-        if(checkTrio(propias, comunes)) Jugadas.jugada = "Trio";
+        if(checkEscalera(propias, comunes)) Jugadas.jugada = "Escalera";
         else {
-            if(checkDoblePareja(propias, comunes)) Jugadas.jugada = "Doble Pareja";
+            if(checkTrio(propias, comunes)) Jugadas.jugada = "Trio";
             else {
-                if(checkPareja(propias, comunes)) Jugadas.jugada = "Pareja";
+                if(checkDoblePareja(propias, comunes)) Jugadas.jugada = "Doble Pareja";
                 else {
-                    if(checkCartaAlta(propias, comunes)) Jugadas.jugada = "Carta Alta";
+                    if(checkPareja(propias, comunes)) Jugadas.jugada = "Pareja";
+                    else {
+                        if(checkCartaAlta(propias, comunes)) Jugadas.jugada = "Carta Alta";
+                    }
                 }
             }
         }
