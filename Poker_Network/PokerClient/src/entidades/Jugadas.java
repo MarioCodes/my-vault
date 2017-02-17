@@ -15,7 +15,7 @@ import java.util.Comparator;
  */
 public class Jugadas {
     public static int valor; //fixme: cambiar a private.
-    private static String jugada;
+    public static String jugada;
     
     /**
      * Obtener el valor numerico de una carta. A = 14, K = 13...
@@ -66,21 +66,21 @@ public class Jugadas {
     public static boolean checkPareja(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
         ArrayList<Integer> valores = getValores(propias, comunes);
         
-        for(Integer i: valores) {
-            int valor = i;
-            for(Integer c: valores) {
-               if(c == i) return true; 
+        for (int i = 0; i < valores.size(); i++) {
+            int valor = valores.get(i);
+            System.out.println("Valor1: " +valor);
+            for (int j = 0; j < valores.size(); j++) {
+                int valor2 = valores.get(j);
+                if(j != i) {
+                    System.out.println("Check contra: " +valores.get(j));
+                    if(valor == valor2) {
+                        Jugadas.valor = valor+valor2;
+                        return true;
+                    }
+                }
             }
         }
         
-//        int primerValor = getValor(propias.get(0));
-//        if(getValor(propias.get(1)) == primerValor) return true;
-//        else {
-//            for(Carta c: comunes) {
-//                if(getValor(c) == primerValor) return true;
-//            }
-//        }
-//        
         return false;
     }
     
@@ -103,5 +103,12 @@ public class Jugadas {
         for(Carta c: comunes) valores.add(getValor(c));
         valores.sort(Comparator.naturalOrder());
         return valores;
+    }
+    
+    public static void checkJugada(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
+        if(checkPareja(propias, comunes)) Jugadas.jugada = "Pareja";
+        else {
+            if(checkCartaAlta(propias, comunes)) Jugadas.jugada = "Carta Alta";
+        }
     }
 }
