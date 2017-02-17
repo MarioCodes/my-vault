@@ -62,6 +62,12 @@ public class Jugadas {
         return carta.toString().substring(2);
     }
     
+    /**
+     * Check de si existe escalera Normal. (5 cartas consecutivas de distinto palo).
+     * @param propias Cartas exclusivas del jugador.
+     * @param comunes Cartas comunes a todos los jugadores.
+     * @return True si existe escalera.
+     */
     private static boolean checkEscalera(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
         ArrayList<Integer> valores = getValores(propias, comunes);
         
@@ -71,8 +77,16 @@ public class Jugadas {
             if(valores.contains((Integer) valor+1)) {
                 if(valores.contains((Integer) valor+2)) {
                     if(valores.contains((Integer) valor+3)) {
-                        if(valores.contains((Integer) valor+4)) {
+                        if(valores.contains((Integer) valor+4)) { //A partir de aqui ya hay escalera existente. El resto es por si existe escalera de +5 cartas, que pille los valores mas altos.
                             Jugadas.valor = valor+(valor+1)+(valor+2)+(valor+3)+(valor+4);
+                            if(valores.contains((Integer) valor+5)) {
+                                Jugadas.valor -= valor;
+                                Jugadas.valor += (valor+5);
+                                if(valores.contains((Integer) valor+6)) { //Mas de 7 Cartas nunca habra en Juego.
+                                    Jugadas.valor -= valor+1;
+                                    Jugadas.valor += (valor+6);
+                                }
+                            }
                             return true;
                         }
                     }
