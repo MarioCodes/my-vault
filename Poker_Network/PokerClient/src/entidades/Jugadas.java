@@ -58,23 +58,29 @@ public class Jugadas {
         return carta.toString().substring(2);
     }
     
+    /**
+     * Comprobacion de si hay trio. Tres cartas iguales.
+     * @param propias Cartas propias del Jugador.
+     * @param comunes Cartas comunes a todos.
+     * @return True si hay trio.
+     */
     private static boolean checkTrio(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
         ArrayList<Integer> valores = getValores(propias, comunes);
         boolean parejaEncontrada = false;
         
         for (int i = 0; i < valores.size() && !parejaEncontrada; i++) { //Buscado de una primera pareja.
-            int valor = valores.get(i);
-            System.out.println("\tValor1: " +valor +", Indice: " +i);
+            int valor1 = valores.get(i);
+//            System.out.println("\tValor1: " +valor1 +", Indice: " +i);
             for (int j = 0; j < valores.size() && !parejaEncontrada; j++) {
                 int valor2 = valores.get(j);
-                System.out.println("\tValor2: " +valor2 +", Indice: " +j);
+//                System.out.println("\tValor2: " +valor2 +", Indice: " +j);
                 if(j != i) {
-                    for (int q = 0; j < valores.size() && !parejaEncontrada; j++) {
+                    for (int q = 0; q < valores.size() && !parejaEncontrada; q++) {
                         int valor3 = valores.get(q);
-                        System.out.println("\tValor3 " +valor3 +", Indice: " +q);
+//                        System.out.println("\tValor3 " +valor3 +", Indice: " +q);
                         if(q != j && q != i) {
-                            if(valor3 == valor2 && valor3 == valor) {
-                                Jugadas.valor = valor3+valor2+valor;
+                            if(valor3 == valor2 && valor3 == valor1) {
+                                Jugadas.valor = valor3+valor2+valor1;
                                 return true;
                             }
                         }
