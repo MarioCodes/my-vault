@@ -59,7 +59,49 @@ public class Jugadas {
      * @return Palo de la carta introducida.
      */
     private static String getPalo(Carta carta) {
-        return carta.toString().substring(2);
+        return carta.toString().substring(carta.toString().indexOf(',')+1);
+    }
+    
+    /**
+     * Check de si existe color.
+     * @param propias Cartas propias del jugador.
+     * @param comunes Cartas comunes a todos.
+     * @return True si existe color.
+     */
+    private static boolean checkColor(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
+        ArrayList<Carta> cartas = new ArrayList<>();
+        cartas.addAll(propias);
+        cartas.addAll(comunes);
+        
+        ArrayList<String> palos = getPalos(propias, comunes);
+        boolean existe = false;
+        String paloColor = "";
+        int iguales = 1;
+        
+        for (int i = 0; i < palos.size(); i++) {
+            String palo = palos.get(i);
+            System.out.println("Palo a comprobar: " +palo);
+            for (int j = 0; j < palos.size(); j++) {
+                if(j != i) {
+                    if(palos.get(j).matches(palo)) iguales++;
+                    if(iguales == 5) {
+                        existe = true;
+                        paloColor = palo;
+                    }
+                }
+            }
+            iguales = 1;
+        }
+        
+        if(existe) {
+            int valor = 0;
+            for (int i = 0; i < cartas.size(); i++) {
+                if(getPalo(cartas.get(i)).matches(paloColor) && getValor(cartas.get(i)) > valor) valor = getValor(cartas.get(i));
+            }
+            Jugadas.valor = valor;
+        }
+        
+        return existe;
     }
     
     /**
@@ -73,7 +115,7 @@ public class Jugadas {
         
         for (int i = 0; i < valores.size(); i++) {
             int valor = valores.get(i);
-            System.out.println("Valor: " +valor);
+//            System.out.println("Valor: " +valor);
             if(valores.contains((Integer) valor+1)) {
                 if(valores.contains((Integer) valor+2)) {
                     if(valores.contains((Integer) valor+3)) {
@@ -219,10 +261,24 @@ public class Jugadas {
     }
     
     /**
+     * Mezcla de todas las cartas para chequear palos en una unica ArrayList.
+     * @param propias Cartas propias del Jugador.
+     * @param comunes Cartas comunes a todos los jugadores.
+     * @return ArrayList conjunta de todos los palos existentes.
+     */
+    private static ArrayList<String> getPalos(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
+        ArrayList<String> palos = new ArrayList<>();
+        for(Carta c: propias) palos.add(getPalo(c));
+        for(Carta c: comunes) palos.add(getPalo(c));
+        palos.sort(Comparator.naturalOrder());
+        return palos;
+    }
+    
+    /**
      * Mezcla de todas las cartas para chequear combinaciones posibles en una unica ArrayList.
      * @param propias Cartas propias del Jugador.
      * @param comunes Cartas comunes a todos.
-     * @return ArrayList conjunta a todos los jugadores.
+     * @return ArrayList conjunta a todas las cartas.
      */
     private static ArrayList<Integer> getValores(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
         ArrayList<Integer> valores = new ArrayList<>();
@@ -239,15 +295,18 @@ public class Jugadas {
      * @param comunes Cartas comunes a todos, pueden ser 3, 4 o 5.
      */
     public static void checkJugada(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
-        if(checkEscalera(propias, comunes)) Jugadas.jugada = "Escalera";
+        if(checkColor(propias, comunes)) Jugadas.jugada = "Color";
         else {
-            if(checkTrio(propias, comunes)) Jugadas.jugada = "Trio";
+            if(checkEscalera(propias, comunes)) Jugadas.jugada = "Escalera";
             else {
-                if(checkDoblePareja(propias, comunes)) Jugadas.jugada = "Doble Pareja";
+                if(checkTrio(propias, comunes)) Jugadas.jugada = "Trio";
                 else {
-                    if(checkPareja(propias, comunes)) Jugadas.jugada = "Pareja";
+                    if(checkDoblePareja(propias, comunes)) Jugadas.jugada = "Doble Pareja";
                     else {
-                        if(checkCartaAlta(propias, comunes)) Jugadas.jugada = "Carta Alta";
+                        if(checkPareja(propias, comunes)) Jugadas.jugada = "Pareja";
+                        else {
+                            if(checkCartaAlta(propias, comunes)) Jugadas.jugada = "Carta Alta";
+                        }
                     }
                 }
             }
