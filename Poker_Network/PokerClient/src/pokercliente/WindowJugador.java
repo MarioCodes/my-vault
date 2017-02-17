@@ -5,6 +5,11 @@
  */
 package pokercliente;
 
+import entidades.Carta;
+import entidades.Jugadas;
+import entidades.Mano;
+import java.util.ArrayList;
+
 /**
  * fixme: Hay problemas de nuevo al retirar a un Jugador. Chequear y testear.
  * Juego en Red Texas Hold'Em. Version sin limite de apuestas.
@@ -275,7 +280,20 @@ public class WindowJugador extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new WindowJugador().setVisible(true);
+//                new WindowJugador().setVisible(true);
+                
+                Mano m = new Mano();
+                ArrayList<Carta> mesa = new ArrayList<>();
+                mesa.add(new Carta("1", "Trebol"));
+                mesa.add(new Carta("2", "Trebol"));
+                mesa.add(new Carta("4", "Trebol"));
+                
+                ArrayList<Carta> propias = new ArrayList<>();
+                propias.add(new Carta("8", "Trebol"));
+                propias.add(new Carta("A", "Trebol"));
+                
+                System.out.println(Jugadas.cartaAlta(propias, mesa));
+                System.out.println(Jugadas.valor);
             }
         });
     }

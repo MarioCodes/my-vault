@@ -6,6 +6,7 @@
 package entidades;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * Clase estatica para recopilar las comprobaciones de la mano que tiene cada jugador.
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  * @since 17/02/2017
  */
 public class Jugadas {
-    private static int valor;
+    public static int valor;
     private static String jugada;
     
     /**
@@ -56,27 +57,51 @@ public class Jugadas {
         return carta.toString().substring(2);
     }
     
+//    private static boolean checkDoblePareja(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
+//        int parejas = 0;
+//        int primerValor = getValor(propias.get(0));
+//        if(getValor(propias.get(1)) == primerValor)
+//    }
+    
     private static boolean checkPareja(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
-        int primerValor = getValor(propias.get(0));
-        if(getValor(propias.get(1)) == primerValor) return true;
-        else {
-            for(Carta c: comunes) {
-                if(getValor(c) == primerValor) return true;
+        ArrayList<Integer> valores = getValores(propias, comunes);
+        
+        for(Integer i: valores) {
+            int valor = i;
+            for(Integer c: valores) {
+               if(c == i) return true; 
             }
         }
         
+//        int primerValor = getValor(propias.get(0));
+//        if(getValor(propias.get(1)) == primerValor) return true;
+//        else {
+//            for(Carta c: comunes) {
+//                if(getValor(c) == primerValor) return true;
+//            }
+//        }
+//        
         return false;
     }
     
-    private static boolean cartaAlta(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
-        int primerValor = getValor(propias.get(0));
-        if(getValor(propias.get(1)) > primerValor) return true;
+    public static boolean cartaAlta(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
+        int maxValor = getValor(propias.get(0));
+        if(getValor(propias.get(1)) > maxValor) maxValor = getValor(propias.get(1));
         else {
             for(Carta c: comunes) {
-                if(getValor(c) >= primerValor) return true;
+                if(getValor(c) > maxValor) maxValor = getValor(c);
             }
         }
         
+        Jugadas.valor = maxValor;
         return true;
+    }
+    
+    private static ArrayList<Integer> getValores(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
+        ArrayList<Integer> valores = new ArrayList<>();
+        for(Carta c: propias) valores.add(getValor(c));
+        for(Carta c: comunes) valores.add(getValor(c));
+        valores.sort(Comparator.naturalOrder());
+        return valores;
     }
 }
