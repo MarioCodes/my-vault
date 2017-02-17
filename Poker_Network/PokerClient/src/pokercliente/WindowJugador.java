@@ -292,7 +292,7 @@ public class WindowJugador extends javax.swing.JFrame {
                 propias.add(new Carta("8", "Trebol"));
                 propias.add(new Carta("A", "Trebol"));
                 
-                System.out.println(Jugadas.cartaAlta(propias, mesa));
+                System.out.println(Jugadas.checkPareja(propias, mesa));
                 System.out.println(Jugadas.valor);
             }
         });

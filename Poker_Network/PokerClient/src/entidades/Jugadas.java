@@ -14,7 +14,7 @@ import java.util.Comparator;
  * @since 17/02/2017
  */
 public class Jugadas {
-    public static int valor;
+    public static int valor; //fixme: cambiar a private.
     private static String jugada;
     
     /**
@@ -63,7 +63,7 @@ public class Jugadas {
 //        if(getValor(propias.get(1)) == primerValor)
 //    }
     
-    private static boolean checkPareja(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
+    public static boolean checkPareja(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
         ArrayList<Integer> valores = getValores(propias, comunes);
         
         for(Integer i: valores) {
@@ -84,7 +84,7 @@ public class Jugadas {
         return false;
     }
     
-    public static boolean cartaAlta(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
+    private static boolean checkCartaAlta(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
         int maxValor = getValor(propias.get(0));
         if(getValor(propias.get(1)) > maxValor) maxValor = getValor(propias.get(1));
         else {
