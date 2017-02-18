@@ -62,8 +62,53 @@ public class Jugadas {
         return carta.toString().substring(carta.toString().indexOf(',')+1);
     }
     
-    private static boolean checkEscaleraColor(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
+    private static boolean checkValorYPalo(ArrayList<Carta> cartas, String palo, int valor) {
+        boolean match = false;
         
+        for(Carta c: cartas) {
+            if(getPalo(c).matches(palo) && getValor(c) == valor) match = true;
+        }
+        
+        return match;
+    }
+    
+    /**
+     * Comprobacion de si hay Escalera de Color. Escalera, todas del mismo palo.
+     * @param propias Cartas propias del jugador.
+     * @param comunes Cartas comunes a todos. 
+     * @return True si hay escalera.
+     */
+    private static boolean checkEscaleraColor(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
+        ArrayList<Integer> valores = getValores(propias, comunes);
+        ArrayList<Carta> cartas = new ArrayList<>();
+        cartas.addAll(propias);
+        cartas.addAll(comunes);
+        
+        for (int i = 0; i < valores.size(); i++) {
+            int valor = valores.get(i);
+            String palo = getPalo(cartas.get(i));
+//            System.out.println("Valor: " +valor);
+            if(valores.contains((Integer) valor+1) && checkValorYPalo(cartas, palo, valor+1)) {
+                if(valores.contains((Integer) valor+2) && checkValorYPalo(cartas, palo, valor+2)) {
+                    if(valores.contains((Integer) valor+3) && checkValorYPalo(cartas, palo, valor+3)) {
+                        if(valores.contains((Integer) valor+4) && checkValorYPalo(cartas, palo, valor+4)) { //A partir de aqui ya hay escalera existente. El resto es por si existe escalera de +5 cartas, que pille los valores mas altos.
+                            Jugadas.valor = valor+(valor+1)+(valor+2)+(valor+3)+(valor+4);
+                            if(valores.contains((Integer) valor+5)) {
+                                Jugadas.valor -= valor;
+                                Jugadas.valor += (valor+5);
+                                if(valores.contains((Integer) valor+6)) { //Mas de 7 Cartas nunca habra en Juego.
+                                    Jugadas.valor -= valor+1;
+                                    Jugadas.valor += (valor+6);
+                                }
+                            }
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        
+        return false;
     }
     
     /**
@@ -397,7 +442,7 @@ public class Jugadas {
         ArrayList<Integer> valores = new ArrayList<>();
         for(Carta c: propias) valores.add(getValor(c));
         for(Carta c: comunes) valores.add(getValor(c));
-        valores.sort(Comparator.naturalOrder());
+//        valores.sort(Comparator.naturalOrder());
         return valores;
     }
     
@@ -408,21 +453,24 @@ public class Jugadas {
      * @param comunes Cartas comunes a todos, pueden ser 3, 4 o 5.
      */
     public static void checkJugada(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
-        if(checkPoker(propias, comunes)) Jugadas.jugada = "Poker";
+        if(checkEscaleraColor(propias, comunes)) Jugadas.jugada = "Escalera de Color";
         else {
-            if(checkFull(propias, comunes)) Jugadas.jugada = "Full";
+            if(checkPoker(propias, comunes)) Jugadas.jugada = "Poker";
             else {
-                if(checkColor(propias, comunes)) Jugadas.jugada = "Color";
+                if(checkFull(propias, comunes)) Jugadas.jugada = "Full";
                 else {
-                    if(checkEscalera(propias, comunes)) Jugadas.jugada = "Escalera";
+                    if(checkColor(propias, comunes)) Jugadas.jugada = "Color";
                     else {
-                        if(checkTrio(propias, comunes)) Jugadas.jugada = "Trio";
+                        if(checkEscalera(propias, comunes)) Jugadas.jugada = "Escalera";
                         else {
-                            if(checkDoblePareja(propias, comunes)) Jugadas.jugada = "Doble Pareja";
+                            if(checkTrio(propias, comunes)) Jugadas.jugada = "Trio";
                             else {
-                                if(checkPareja(propias, comunes)) Jugadas.jugada = "Pareja";
+                                if(checkDoblePareja(propias, comunes)) Jugadas.jugada = "Doble Pareja";
                                 else {
-                                    if(checkCartaAlta(propias, comunes)) Jugadas.jugada = "Carta Alta";
+                                    if(checkPareja(propias, comunes)) Jugadas.jugada = "Pareja";
+                                    else {
+                                        if(checkCartaAlta(propias, comunes)) Jugadas.jugada = "Carta Alta";
+                                    }
                                 }
                             }
                         }
