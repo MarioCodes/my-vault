@@ -51,6 +51,8 @@ public class WindowJugador extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabelJugador = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabelJugada = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -103,6 +105,8 @@ public class WindowJugador extends javax.swing.JFrame {
 
         jLabel3.setText("Jugador");
 
+        jLabel4.setText("Jugada:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -133,7 +137,12 @@ public class WindowJugador extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jButton1)
                                     .addComponent(jButton3)
-                                    .addComponent(jButton2))
+                                    .addComponent(jButton2)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(jLabel4)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabelJugada, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
@@ -157,7 +166,11 @@ public class WindowJugador extends javax.swing.JFrame {
                         .addComponent(jButton5)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2)))
-                .addGap(53, 53, 53)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabelJugada, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jButton4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton6)
@@ -226,6 +239,12 @@ public class WindowJugador extends javax.swing.JFrame {
         else System.out.println("El Jugador ya se encontraba retirado.");
     }
     
+    private void comprobarJugada() {
+        Jugadas.checkJugada(JUGADOR.getMano().getCartasPropias(), JUGADOR.getMano().getCartas_mesa());
+        String jugada = Jugadas.jugada;
+        this.jLabelJugada.setText(jugada);
+    }
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         addJugador();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -236,6 +255,7 @@ public class WindowJugador extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         getCartasPropias();
+        comprobarJugada();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -244,6 +264,7 @@ public class WindowJugador extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         getCartasComunes();
+        comprobarJugada();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -280,22 +301,22 @@ public class WindowJugador extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-//                new WindowJugador().setVisible(true);
+                new WindowJugador().setVisible(true);
                 
-                Mano m = new Mano();
-                ArrayList<Carta> mesa = new ArrayList<>();
-                mesa.add(new Carta("10", "Picas"));
-                mesa.add(new Carta("J", "Picas"));
-                mesa.add(new Carta("Q", "Picas"));
-                mesa.add(new Carta("K", "Picas"));
-                mesa.add(new Carta("A", "Picas"));
-                
-                ArrayList<Carta> propias = new ArrayList<>();
-                propias.add(new Carta("7", "Treboles"));
-                propias.add(new Carta("8", "Treboles"));
-                
-                Jugadas.checkJugada(propias, mesa);
-                System.out.println("\n" +Jugadas.jugada +", " +Jugadas.valor);
+//                Mano m = new Mano();
+//                ArrayList<Carta> mesa = new ArrayList<>();
+//                mesa.add(new Carta("10", "Picas"));
+//                mesa.add(new Carta("J", "Picas"));
+//                mesa.add(new Carta("Q", "Picas"));
+//                mesa.add(new Carta("K", "Picas"));
+//                mesa.add(new Carta("A", "Picas"));
+//                
+//                ArrayList<Carta> propias = new ArrayList<>();
+//                propias.add(new Carta("7", "Treboles"));
+//                propias.add(new Carta("8", "Treboles"));
+//                
+//                Jugadas.checkJugada(propias, mesa);
+//                System.out.println("\n" +Jugadas.jugada +", " +Jugadas.valor);
             }
         });
     }
@@ -310,6 +331,8 @@ public class WindowJugador extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabelJugada;
     private javax.swing.JLabel jLabelJugador;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables

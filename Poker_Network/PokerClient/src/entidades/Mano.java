@@ -112,4 +112,11 @@ public class Mano {
     public ArrayList<Carta> getCartas_mesa() {
         return cartas_mesa;
     }
+
+    /**
+     * @param cartas_mesa the cartas_mesa to set
+     */
+    public void setCartas_mesa(ArrayList<Carta> cartas_mesa) {
+        this.cartas_mesa = cartas_mesa;
+    }
 }

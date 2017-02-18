@@ -15,7 +15,7 @@ import java.util.Comparator;
  * @since 18/02/2017
  */
 public class Jugadas {
-    public static int valor; //fixme: cambiar a private.
+    public static int valor; //fixme: 0,5. Cambiar a private.
     public static String jugada;
     
     /**
@@ -218,7 +218,7 @@ public class Jugadas {
                                 Jugadas.valor = valor3+valor2+valor1;
                                 trioEncontrado = true;
                                 valorTrio = valor1;
-//                                System.out.println("Trio de: " +valor1); //fixme: esta mal, aqui llega 6 veces, deberia 1.
+//                                System.out.println("Trio de: " +valor1); //fixme: 0,5. Esta mal, aqui llega 6 veces, deberia 1. No se porque, lo he testeado y funciona bien de todos modos. Mirarlo mas adelante si sobra tiempo.
                             }
                         }
                     }
