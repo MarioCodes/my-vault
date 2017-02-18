@@ -286,8 +286,8 @@ public class WindowJugador extends javax.swing.JFrame {
                 ArrayList<Carta> mesa = new ArrayList<>();
                 mesa.add(new Carta("2", "Picas"));
                 mesa.add(new Carta("2", "Picas"));
-                mesa.add(new Carta("2", "Picas"));
-                mesa.add(new Carta("4", "Picas"));
+                mesa.add(new Carta("3", "Picas"));
+                mesa.add(new Carta("3", "Picas"));
                 mesa.add(new Carta("4", "Picas"));
                 
                 ArrayList<Carta> propias = new ArrayList<>();

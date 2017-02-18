@@ -62,6 +62,50 @@ public class Jugadas {
         return carta.toString().substring(carta.toString().indexOf(',')+1);
     }
     
+    private static boolean checkEscaleraColor(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
+        
+    }
+    
+    /**
+     * Check de Poker.
+     * @param propias Cartas propias del jugador.
+     * @param comunes Cartas comunes a todos.
+     * @return True si hay poker.
+     */
+    private static boolean checkPoker(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
+        ArrayList<Integer> valores = getValores(propias, comunes);
+        
+        for (int i = 0; i < valores.size(); i++) { //Buscado de una primera pareja.
+            int valor1 = valores.get(i);
+//            System.out.println("\tValor1: " +valor1 +", Indice: " +i);
+            for (int j = 0; j < valores.size(); j++) {
+                int valor2 = valores.get(j);
+//                System.out.println("\tValor2: " +valor2 +", Indice: " +j);
+                if(j != i) {
+                    for (int q = 0; q < valores.size(); q++) {
+                        int valor3 = valores.get(q);
+//                        System.out.println("\tValor3 " +valor3 +", Indice: " +q);
+                        if(q != j && q != i) { 
+                            if(valor3 == valor2 && valor3 == valor1) { //Trio encontrado
+                                for (int k = 0; k < valores.size(); k++) {
+                                    int valor4 = valores.get(k);
+                                    if(k != q && k != j && k != i) { //Poker Encontrado.
+                                        if(valor4 == valor3) {
+                                            Jugadas.valor = valor4+valor3+valor2+valor1;
+                                            return true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        return false;
+    }
+    
     /**
      * Check de si existe un full.
      * @param propias Cartas propias del jugador.
@@ -364,19 +408,22 @@ public class Jugadas {
      * @param comunes Cartas comunes a todos, pueden ser 3, 4 o 5.
      */
     public static void checkJugada(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
-        if(checkFull(propias, comunes)) Jugadas.jugada = "Full";
+        if(checkPoker(propias, comunes)) Jugadas.jugada = "Poker";
         else {
-            if(checkColor(propias, comunes)) Jugadas.jugada = "Color";
+            if(checkFull(propias, comunes)) Jugadas.jugada = "Full";
             else {
-                if(checkEscalera(propias, comunes)) Jugadas.jugada = "Escalera";
+                if(checkColor(propias, comunes)) Jugadas.jugada = "Color";
                 else {
-                    if(checkTrio(propias, comunes)) Jugadas.jugada = "Trio";
+                    if(checkEscalera(propias, comunes)) Jugadas.jugada = "Escalera";
                     else {
-                        if(checkDoblePareja(propias, comunes)) Jugadas.jugada = "Doble Pareja";
+                        if(checkTrio(propias, comunes)) Jugadas.jugada = "Trio";
                         else {
-                            if(checkPareja(propias, comunes)) Jugadas.jugada = "Pareja";
+                            if(checkDoblePareja(propias, comunes)) Jugadas.jugada = "Doble Pareja";
                             else {
-                                if(checkCartaAlta(propias, comunes)) Jugadas.jugada = "Carta Alta";
+                                if(checkPareja(propias, comunes)) Jugadas.jugada = "Pareja";
+                                else {
+                                    if(checkCartaAlta(propias, comunes)) Jugadas.jugada = "Carta Alta";
+                                }
                             }
                         }
                     }
