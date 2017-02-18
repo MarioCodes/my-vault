@@ -168,7 +168,6 @@ public class Conexion {
     public static int apostar(int fichas) {
         try {
             aperturasCabeceraConexion();
-            
             if(accionMenu(4)) {
                 sendInt(fichas);
                 

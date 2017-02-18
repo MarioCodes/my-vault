@@ -18,8 +18,6 @@ import pokernetwork.Conexion;
  * @since 18/02/2017
  */
 public class FasePreFlop implements Fase{
-    private boolean apostar = false; //Para tener en cuenta si ya se ha realizado la accion propia de la Fase y se puede apostar.
-    
     @Override
     public void cambioFase(Juego juego) {
         juego.setFase(this);
@@ -31,11 +29,6 @@ public class FasePreFlop implements Fase{
         ArrayList<Carta> cartas = juego.getCartasJugador();
         Conexion.sendBooleano(true);
         Conexion.repartoCartas(cartas);
-        
-        if(juego.isFaseRealizada()) {
-            apostar = true;
-            System.out.println("Rondas de Apuestas.");
-        }
     }
 
     @Override
@@ -45,7 +38,7 @@ public class FasePreFlop implements Fase{
     
     @Override
     public void apostar(Juego juego) {
-        if(!apostar) Conexion.sendBooleano(false);
+        if(!juego.isFaseRealizada()) Conexion.sendBooleano(false);
         else {
             Conexion.sendBooleano(true);
             Conexion.getApuesta(juego);

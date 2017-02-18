@@ -151,7 +151,8 @@ public class Conexion {
      */
     public static void getApuesta(Juego juego) {
         try {
-            juego.apostar(ois.readInt());
+            int i = ois.readInt();
+            juego.apostar(i);
             sendInt(juego.getFichasApuestas());
         }catch(IOException ex) {
             ex.printStackTrace();
