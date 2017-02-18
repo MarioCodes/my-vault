@@ -12,7 +12,7 @@ import java.util.Comparator;
  * Clase estatica para recopilar las comprobaciones de la mano que tiene cada jugador.
  * Se va recorriendo desde la mas alta, y en cuanto detecta una se devuelve esa.
  * @author Mario Codes Sánchez
- * @since 17/02/2017
+ * @since 18/02/2017
  */
 public class Jugadas {
     public static int valor; //fixme: cambiar a private.
@@ -62,6 +62,13 @@ public class Jugadas {
         return carta.toString().substring(carta.toString().indexOf(',')+1);
     }
     
+    /**
+     * Comprobacion para la escalera de color. Le paso una arraylist de cartas y compruebo si la carta con el valor que me interesa, es del palo que busco.
+     * @param cartas Cartas totales en juego para rebuscar.
+     * @param palo Palo que me tiene la carta que busco.
+     * @param valor Valor que tiene la carta que debo encontrar.
+     * @return True si la carta con valor x es del palo interesado.
+     */
     private static boolean checkValorYPalo(ArrayList<Carta> cartas, String palo, int valor) {
         boolean match = false;
         
@@ -70,6 +77,39 @@ public class Jugadas {
         }
         
         return match;
+    }
+    
+    /**
+     * Comprobacion de si hay escalera real. A - K - Q - J - 10; todos del mismo palo.
+     * @param propias Cartas propias de cada jugador.
+     * @param comunes Cartas comunes a todos los jugadores.
+     * @return True si hay escalera real.
+     */
+    private static boolean checkEscaleraReal(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
+        ArrayList<Integer> valores = getValores(propias, comunes);
+        ArrayList<Carta> cartas = new ArrayList<>();
+        cartas.addAll(propias);
+        cartas.addAll(comunes);
+        
+        for (int i = 0; i < valores.size(); i++) {
+            int valor = valores.get(i);
+            String palo = getPalo(cartas.get(i));
+//            System.out.println("Valor: " +valor);
+            if(valor == 10) { //Siempre tiene que empezar en 10.
+                if(valores.contains((Integer) valor+1) && checkValorYPalo(cartas, palo, valor+1)) {
+                    if(valores.contains((Integer) valor+2) && checkValorYPalo(cartas, palo, valor+2)) {
+                        if(valores.contains((Integer) valor+3) && checkValorYPalo(cartas, palo, valor+3)) {
+                            if(valores.contains((Integer) valor+4) && checkValorYPalo(cartas, palo, valor+4)) { //A partir de aqui, escalera real encontrada. No hace falta los otros metodos ya que la real son 5 max y las mas altas.
+                                Jugadas.valor = valor+(valor+1)+(valor+2)+(valor+3)+(valor+4);
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        return false;
     }
     
     /**
@@ -447,29 +487,33 @@ public class Jugadas {
     }
     
     /**
+     * Metodo a utilizar Externamente.
      * Comprobacion de la jugada posible que tiene un jugador, dado el conjunto de cartas.
-     * Modifica la String para saber la jugada, y el valor por si hay empate de jugadas.
+     * Modifica la String para saber la jugada, y el valor por si hay empate de jugadas para desempatar.
      * @param propias Cartas propias. Siempre son 2.
      * @param comunes Cartas comunes a todos, pueden ser 3, 4 o 5.
      */
     public static void checkJugada(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
-        if(checkEscaleraColor(propias, comunes)) Jugadas.jugada = "Escalera de Color";
+        if(checkEscaleraReal(propias, comunes)) Jugadas.jugada = "Escalera Real";
         else {
-            if(checkPoker(propias, comunes)) Jugadas.jugada = "Poker";
+            if(checkEscaleraColor(propias, comunes)) Jugadas.jugada = "Escalera de Color";
             else {
-                if(checkFull(propias, comunes)) Jugadas.jugada = "Full";
+                if(checkPoker(propias, comunes)) Jugadas.jugada = "Poker";
                 else {
-                    if(checkColor(propias, comunes)) Jugadas.jugada = "Color";
+                    if(checkFull(propias, comunes)) Jugadas.jugada = "Full";
                     else {
-                        if(checkEscalera(propias, comunes)) Jugadas.jugada = "Escalera";
+                        if(checkColor(propias, comunes)) Jugadas.jugada = "Color";
                         else {
-                            if(checkTrio(propias, comunes)) Jugadas.jugada = "Trio";
+                            if(checkEscalera(propias, comunes)) Jugadas.jugada = "Escalera";
                             else {
-                                if(checkDoblePareja(propias, comunes)) Jugadas.jugada = "Doble Pareja";
+                                if(checkTrio(propias, comunes)) Jugadas.jugada = "Trio";
                                 else {
-                                    if(checkPareja(propias, comunes)) Jugadas.jugada = "Pareja";
+                                    if(checkDoblePareja(propias, comunes)) Jugadas.jugada = "Doble Pareja";
                                     else {
-                                        if(checkCartaAlta(propias, comunes)) Jugadas.jugada = "Carta Alta";
+                                        if(checkPareja(propias, comunes)) Jugadas.jugada = "Pareja";
+                                        else {
+                                            if(checkCartaAlta(propias, comunes)) Jugadas.jugada = "Carta Alta";
+                                        }
                                     }
                                 }
                             }
