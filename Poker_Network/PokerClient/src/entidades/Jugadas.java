@@ -62,6 +62,12 @@ public class Jugadas {
         return carta.toString().substring(carta.toString().indexOf(',')+1);
     }
     
+    /**
+     * Check de si existe un full.
+     * @param propias Cartas propias del jugador.
+     * @param comunes Cartas comunes a todos.
+     * @return True si hay full.
+     */
     private static boolean checkFull(ArrayList<Carta> propias, ArrayList<Carta> comunes) {
         ArrayList<Integer> valores = getValores(propias, comunes);
         boolean parejaEncontrada = false;
@@ -83,12 +89,14 @@ public class Jugadas {
                                 Jugadas.valor = valor3+valor2+valor1;
                                 trioEncontrado = true;
                                 valorTrio = valor1;
+//                                System.out.println("Trio de: " +valor1); //fixme: esta mal, aqui llega 6 veces, deberia 1.
                             }
                         }
                     }
                 }
             }
         }
+//        System.out.println("Trio de: " +valorTrio);
         
         if(trioEncontrado) {
             for (int i = 0; i < valores.size(); i++) { //Buscado de pareja.
@@ -96,8 +104,24 @@ public class Jugadas {
                 for (int j = 0; j < valores.size(); j++) {
                     int valor2 = valores.get(j);
                     if(j != i) {
-                        if(valor == valor2 && valor != valorTrio) {
+                        if(valor == valor2 && valor != valorTrio) { //Full encontrado.
                             Jugadas.valor += valor+valor2;
+                            
+                            for (int k = 0; k < valores.size(); k++) { //Buscado de otra pareja con mas valor que la actual;
+                                int valorSegunda = valores.get(k);
+                                for (int l = 0; l < valores.size(); l++) {
+                                    int valorSegunda2 = valores.get(l);
+                                    if(l != k && l != j && l != i) {
+                                        if(valorSegunda == valorSegunda2 && valorSegunda != valor && valorSegunda != valorTrio) {
+                                            Jugadas.valor -= valor+valor2;
+                                            Jugadas.valor += valorSegunda*2;
+                                            valor = valorSegunda;
+                                        }
+                                    }
+                                }
+                            }
+                            
+//                            System.out.println("Pareja de valor: " +valor);
                             return true;
                         }
                     }
