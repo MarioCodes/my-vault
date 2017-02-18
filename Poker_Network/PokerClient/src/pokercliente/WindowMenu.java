@@ -6,8 +6,9 @@
 package pokercliente;
 
 /**
- *
- * @author Mario
+ * Menu antes de entrar en el juego en si.
+ * @author Mario Codes Sánchez
+ * @since 18/02/2017
  */
 public class WindowMenu extends javax.swing.JFrame {
 
@@ -15,9 +16,26 @@ public class WindowMenu extends javax.swing.JFrame {
      * Creates new form WindowMenu
      */
     public WindowMenu() {
+        this.setLocationRelativeTo(null);
         initComponents();
     }
 
+    /**
+     * Aniadido de un Jugador mas.
+     */
+    private void addJugador() {
+        new WindowJugador(Conexion.addJugador());
+        this.dispose();
+    }
+    
+    /**
+     * Aniadido del Ultimo jugador y comienzo del Juego con este.
+     */
+    private void addUltimoJugador() {
+        new WindowJugador(Conexion.addUltimoJugador());
+        this.dispose();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,8 +56,18 @@ public class WindowMenu extends javax.swing.JFrame {
         jLabel1.setText("Poker");
 
         jButton1.setText("Jugador+");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("U. Jugador");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Salir");
 
@@ -75,6 +103,14 @@ public class WindowMenu extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        addJugador();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        addUltimoJugador();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
