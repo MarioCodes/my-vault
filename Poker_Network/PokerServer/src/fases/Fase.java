@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public interface Fase {
     public void cambioFase(Juego juego);
     
-    public void repartoCartasJugador(ArrayList<Carta> cartas);
+    public void repartoCartasJugador(Juego juego);
     
     /**
      * Le voy a pasar juego como parametro, porque en funcion de la fase en la que se encuentre, debere pasar 3, 4 o 5 cartas como comunes.

@@ -27,11 +27,15 @@ public class FasePreFlop implements Fase{
     }
 
     @Override
-    public void repartoCartasJugador(ArrayList<Carta> cartas) {
+    public void repartoCartasJugador(Juego juego) {
+        ArrayList<Carta> cartas = juego.getCartasJugador();
         Conexion.sendBooleano(true);
         Conexion.repartoCartas(cartas);
-        apostar = true;
-        System.out.println("Rondas de Apuestas.");
+        
+        if(juego.isFinRonda()) {
+            apostar = true;
+            System.out.println("Rondas de Apuestas.");
+        }
     }
 
     @Override

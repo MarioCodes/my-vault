@@ -24,7 +24,7 @@ import fases.*;
  * Proyecto Online juego Oscar -> Poker Texas Hold'em!. Parte Servidor.
  * La forma de uso de llamado de los metodos es -> Servidor -> Juego -> Instancia Fase -> Conexion.
  * @author Mario Codes Sánchez
- * @since 09/02/2017
+ * @since 18/02/2017
  * @see https://es.wikipedia.org/wiki/Texas_hold_'em
  */
 public class Servidor {
@@ -38,9 +38,10 @@ public class Servidor {
      * Cuando acaban pasamos a la primera ronda de apuestas.
      */
     private static void repartoCartasPropias() {
-        juego.getFase().repartoCartasJugador(juego.getCartasJugador());
+        juego.getFase().repartoCartasJugador(juego);
         if(juego.terminarTurno()) {
-            cambioFase(juego);
+            juego.setFinRonda(true);
+            System.out.println("Ronda de Apuestas.");
         }
     }
     
@@ -75,7 +76,9 @@ public class Servidor {
      */
     private static void apostar() {
         juego.getFase().apostar(juego);
-        cambioFase(juego);
+        if(juego.terminarTurno()) {
+            cambioFase(juego);
+        }
 //        
 //        try {
 //            if(juego.terminarTurno() && !juego.isFinRonda()) {

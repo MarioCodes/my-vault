@@ -26,7 +26,7 @@ public class FaseRiver implements Fase {
     }
 
     @Override
-    public void repartoCartasJugador(ArrayList<Carta> cartas) {
+    public void repartoCartasJugador(Juego juego) {
         Conexion.sendBooleano(false);
     }
 

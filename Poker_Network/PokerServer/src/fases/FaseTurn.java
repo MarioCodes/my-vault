@@ -13,7 +13,7 @@ import pokernetwork.Conexion;
 /**
  * Fase de Turn.
  * @author Mario Codes Sánchez
- * @since 09/02/2017
+ * @since 18/02/2017
  */
 public class FaseTurn implements Fase {
     private boolean apostar = false;
@@ -25,7 +25,7 @@ public class FaseTurn implements Fase {
     }
 
     @Override
-    public void repartoCartasJugador(ArrayList<Carta> cartas) {
+    public void repartoCartasJugador(Juego juego) {
         Conexion.sendBooleano(false);
     }
 
