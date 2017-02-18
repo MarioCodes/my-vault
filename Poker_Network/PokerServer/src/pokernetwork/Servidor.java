@@ -40,29 +40,34 @@ public class Servidor {
     private static void repartoCartasPropias() {
         juego.getFase().repartoCartasJugador(juego.getCartasJugador());
         if(juego.terminarTurno()) {
-            FaseApuestas fa = new FaseApuestas();
-            fa.setFasePrevia("PreFlop");
-            fa.cambioFase(juego);
+            cambioFase(juego);
         }
     }
     
     /**
      * Pasamos a la siguiente fase correcta al terminar la actual de apuestas.
-     * @param fa Fase de Apuestas actual.
+     * @param f Fase de Apuestas actual.
      * @return Fase siguiente a la cual cambiar el estado del juego.
      */
-    private static Fase getFaseCorrecta(FaseApuestas fa) {
-        switch(fa.getFasePrevia()) {
+    private static Fase getFaseCorrecta(Fase f) {
+        switch(f.toString()) {
                 case "PreFlop":
                     return new FaseFlop();
                 case "Flop":
                     return new FaseTurn();
                 case "Turn":
                     return new FaseRiver();
+                case "River":
+                    return new FasePreFlop();
                 default:
                     System.out.println("Switch cambio fase apostar default().");
                     return null;
         }
+    }
+    
+    private static void cambioFase(Juego juego) {
+        Fase fase = getFaseCorrecta(juego.getFase());
+        fase.cambioFase(juego);
     }
     
     /**
@@ -70,17 +75,18 @@ public class Servidor {
      */
     private static void apostar() {
         juego.getFase().apostar(juego);
-        
-        try {
-            if(juego.terminarTurno() && !juego.isFinRonda()) {
-                Fase fase = getFaseCorrecta((FaseApuestas) juego.getFase());
-                fase.cambioFase(juego);
-            } else {
-//                if(juego.isFinRonda()) juego.finRonda();
-            }
-        }catch(ClassCastException ex) {
-            System.out.println("Cambio de Fase no correcta. Chequear Servidor.Apostar(). " +ex.getLocalizedMessage()); //@todo: arreglar la GUI para que solo se puedan realizar acciones conforme a la fase correcta.
-        }
+        cambioFase(juego);
+//        
+//        try {
+//            if(juego.terminarTurno() && !juego.isFinRonda()) {
+//                Fase fase = getFaseCorrecta((FaseApuestas) juego.getFase());
+//                fase.cambioFase(juego);
+//            } else {
+////                if(juego.isFinRonda()) juego.finRonda();
+//            }
+//        }catch(ClassCastException ex) {
+//            System.out.println("Cambio de Fase no correcta. Chequear Servidor.Apostar(). " +ex.getLocalizedMessage()); //@todo: arreglar la GUI para que solo se puedan realizar acciones conforme a la fase correcta.
+//        }
     }
     
     /**
