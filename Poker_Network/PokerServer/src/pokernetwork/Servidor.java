@@ -59,11 +59,21 @@ public class Servidor {
                 case "Turn":
                     return new FaseRiver();
                 case "River":
-                    return new FasePreFlop();
+                    finRonda();
+//                    return new FasePreFlop();
                 default:
                     System.out.println("Switch cambio fase apostar default().");
                     return null;
         }
+    }
+    
+    private static void finRonda() {
+        System.out.println("SUUU");
+        String[] jugadas = juego.getJugadas();
+        int[] valores = juego.getValores();
+        String id = juego.getGanador(jugadas, valores);
+        
+        System.out.println("ID: " +id);
     }
     
     /**

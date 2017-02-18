@@ -121,6 +121,34 @@ public class Conexion {
         return ois.readBoolean();
     }
     
+    public static void sendJugada(String id, String jugada) {
+        try {
+            String idServer = (String) ois.readObject();
+            if(id.matches(idServer)) {
+                oos.writeObject(jugada);
+                oos.flush();
+            }
+        }catch(IOException|ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }finally {
+            cerradoCabecerasConexion();
+        }
+    }
+    
+    public static void sendValor(String id, int valor) {
+        try {
+            String idServer = (String) ois.readObject();
+            if(id.matches(idServer)) {
+                oos.writeInt(valor);
+                oos.flush();
+            }
+        }catch(IOException|ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }finally{
+            cerradoCabecerasConexion();
+        }
+    }
+    
     /**
      * Get de la carta enviada por Socket desde el Server.
      * @return Carta enviada desde el Server para este cliente.

@@ -6,6 +6,7 @@
 package pokercliente;
 
 import entidades.Carta;
+import entidades.Jugadas;
 import entidades.Mano;
 import java.util.ArrayList;
 
@@ -60,6 +61,11 @@ public class Jugador {
             jugando = false;
             return true;
         } else return false;
+    }
+    
+    public void enviarJugada() {
+        Jugadas.checkJugada(mano.getCartasPropias(), mano.getCartas_mesa());
+        Conexion.sendJugada(id, Jugadas.jugada);
     }
     
     /**

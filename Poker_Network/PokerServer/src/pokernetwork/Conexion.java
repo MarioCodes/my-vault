@@ -160,6 +160,41 @@ public class Conexion {
     }
     
     /**
+     * Obtencion del valor de las cartas del jugador.
+     * @param id ID del jugador a obtener su valor.
+     * @return Valor de la jugada de ese jugador.
+     */
+    public static int getValor(String id) {
+        try {
+            oos.writeObject(id);
+            oos.flush();
+            return ois.readInt();
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }
+        
+        System.out.println("Fallo en catch de valor de jugada.");
+        return -5000;
+    }
+    
+    /**
+     * Obtenemos la jugada del jugador con el id deseado.
+     * @param id ID del jugador del cual queremos la jugada.
+     * @return String con la jugada.
+     */
+    public static String getJugada(String id) {
+        try {
+            oos.writeObject(id);
+            oos.flush();
+            return (String) ois.readObject();
+        }catch(IOException|ClassNotFoundException|ClassCastException ex) {
+            ex.printStackTrace();
+        }
+        
+        return null;
+    }
+    
+    /**
      * Get ID propia de un Jugador.
      * Lo usare para cuando este se quiera retirar.
      * @return ID del jugador o -1 si error.

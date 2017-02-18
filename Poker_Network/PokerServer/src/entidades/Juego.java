@@ -8,6 +8,7 @@ package entidades;
 import fases.Fase;
 import fases.FasePreFlop;
 import java.util.ArrayList;
+import pokernetwork.Conexion;
 
 /**
  * Gestion de la logica del juego.
@@ -34,6 +35,92 @@ public class Juego {
     public Juego() {
         this.fase = new FasePreFlop();
         System.out.println("Juego nuevo Creado. Fase de Pre-Flop.");
+    }
+    
+    /**
+     * Calculo de la puntuacion de cada jugada.
+     * @param s String con la jugada.
+     * @return Valor numerico de esa jugada.
+     */
+    private int getPuntuacion(String s) {
+        switch(s) {
+            case "Escalera Real":
+                return 2000;
+            case "Escalera de Color":
+                return 1800;
+            case "Poker":
+                return 1600;
+            case "Full":
+                return 1400;
+            case "Color":
+                return 1200;
+            case "Escalera":
+                return 1000;
+            case "Trio":
+                return 800;
+            case "Doble Pareja":
+                return 600;
+            case "Pareja":
+                return 400;
+            case "Carta Alta":
+                return 200;
+            default:
+                System.out.println("Default Switch en puntuacionJugada().");
+                return 0;
+        }
+    }
+    
+    /**
+     * Obtencion de todos los valores de cada jugador. ID == indice de acceso +1.
+     * @return int[] con todos los valores.
+     */
+    public int[] getValores() {
+        int[] valores = new int[JUGADORES.size()];
+        for (int i = 0; i < JUGADORES.size(); i++) {
+            valores[i] = Conexion.getValor(Integer.toString(i+1));
+        }
+        
+        return valores;
+    }
+    
+    /**
+     * Obtencion de todas  las jugadas de todos los jugadores.
+     * @return String[] con las jugadas de cada uno (ID = indice de acceso).
+     */
+    public String[] getJugadas() {
+        String[] jugadas = new String[JUGADORES.size()];
+        for (int i = 0; i < JUGADORES.size(); i++) {
+            jugadas[i] = Conexion.getJugada(Integer.toString(i+1));
+        }
+        
+        return jugadas;
+    }
+    
+    /**
+     * Obtiene el ID del ganador, pasandole como parametro una String[] con las jugadas de cada uno y una int[] con el valor de la jugada propio (desempates).
+     * @param jugadas String[] con el nombre de la jugada que tiene cada jugador.
+     * @param puntuacionJugador int[] con la puntuacion que suman las cartas de ese jugador.
+     * @return ID del ganador.
+     */
+    public String getGanador(String[] jugadas, int[] puntuacionJugador) {
+        String idGanador;
+        int[] puntuacion = new int[jugadas.length];
+        
+        for (int i = 0; i < jugadas.length; i++) {
+            puntuacion[i] = getPuntuacion(jugadas[i]);
+            puntuacion[i] += puntuacionJugador[i];
+        }
+        
+        idGanador = "0";
+        int puntuacionGanador = puntuacion[0];
+        for (int i = 0; i < puntuacion.length; i++) {
+            if(puntuacion[i] > puntuacionGanador) {
+                idGanador = Integer.toString(i);
+                puntuacionGanador = puntuacion[i];
+            }
+        }
+        
+        return idGanador;
     }
     
     /**
