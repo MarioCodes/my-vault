@@ -93,10 +93,10 @@ public class Jugadas {
                     if(valores.contains((Integer) valor+3) && checkValorYPalo(cartas, palo, valor+3)) {
                         if(valores.contains((Integer) valor+4) && checkValorYPalo(cartas, palo, valor+4)) { //A partir de aqui ya hay escalera existente. El resto es por si existe escalera de +5 cartas, que pille los valores mas altos.
                             Jugadas.valor = valor+(valor+1)+(valor+2)+(valor+3)+(valor+4);
-                            if(valores.contains((Integer) valor+5)) {
+                            if(valores.contains((Integer) valor+5) && checkValorYPalo(cartas, palo, valor+5)) {
                                 Jugadas.valor -= valor;
                                 Jugadas.valor += (valor+5);
-                                if(valores.contains((Integer) valor+6)) { //Mas de 7 Cartas nunca habra en Juego.
+                                if(valores.contains((Integer) valor+6) && checkValorYPalo(cartas, palo, valor+6)) { //Mas de 7 Cartas nunca habra en Juego.
                                     Jugadas.valor -= valor+1;
                                     Jugadas.valor += (valor+6);
                                 }
