@@ -29,7 +29,7 @@ public class WindowJugador extends javax.swing.JFrame {
         this.setVisible(true);
         
         JUGADOR.setID(id);
-        System.out.printf("%nJugador con ID: %s", id);
+        this.jLabelJugador.setText(id);
     }
     
     /**
