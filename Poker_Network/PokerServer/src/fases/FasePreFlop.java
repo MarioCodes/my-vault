@@ -32,7 +32,7 @@ public class FasePreFlop implements Fase{
         Conexion.sendBooleano(true);
         Conexion.repartoCartas(cartas);
         
-        if(juego.isFinRonda()) {
+        if(juego.isFaseRealizada()) {
             apostar = true;
             System.out.println("Rondas de Apuestas.");
         }

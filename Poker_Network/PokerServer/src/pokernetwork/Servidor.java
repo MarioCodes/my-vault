@@ -40,7 +40,7 @@ public class Servidor {
     private static void repartoCartasPropias() {
         juego.getFase().repartoCartasJugador(juego);
         if(juego.terminarTurno()) {
-            juego.setFinRonda(true);
+            juego.setFaseRealizada(true);
             System.out.println("Ronda de Apuestas.");
         }
     }
@@ -66,46 +66,41 @@ public class Servidor {
         }
     }
     
+    /**
+     * Cambio a la siguiente fase correspondiente del juego.
+     * @param juego Juego sobre el que operamos.
+     */
     private static void cambioFase(Juego juego) {
         Fase fase = getFaseCorrecta(juego.getFase());
         fase.cambioFase(juego);
+        juego.setFaseRealizada(false);
     }
     
     /**
      * Ronda de apuestas simple.
+     * Cuando terminan de apostar todos, se pasa a la siguiente fasa.
      */
     private static void apostar() {
         juego.getFase().apostar(juego);
         if(juego.terminarTurno()) {
             cambioFase(juego);
         }
-//        
-//        try {
-//            if(juego.terminarTurno() && !juego.isFinRonda()) {
-//                Fase fase = getFaseCorrecta((FaseApuestas) juego.getFase());
-//                fase.cambioFase(juego);
-//            } else {
-////                if(juego.isFinRonda()) juego.finRonda();
-//            }
-//        }catch(ClassCastException ex) {
-//            System.out.println("Cambio de Fase no correcta. Chequear Servidor.Apostar(). " +ex.getLocalizedMessage()); //@todo: arreglar la GUI para que solo se puedan realizar acciones conforme a la fase correcta.
-//        }
     }
     
-    /**
-     * Accion de retirarse, se pone su ID en la lista.
-     */
-    private static void retirarse() {
-        String id = juego.getFase().retirarse();
-        if(id != null) {
-            if(juego.retirarse(id)) {
-                System.out.println("Se ha retirado al Jugador " +id);
-            }
-            else System.out.println("El jugador ya estaba retirado.");
-        } else {
-            System.out.println("Problemas con el retirar a un jugador.");
-        }
-    }
+//    /** //fixme: ahora mismo no funciona. Chequear y solucionar.
+//     * Accion de retirarse, se pone su ID en la lista.
+//     */
+//    private static void retirarse() {
+//        String id = juego.getFase().retirarse();
+//        if(id != null) {
+//            if(juego.retirarse(id)) {
+//                System.out.println("Se ha retirado al Jugador " +id);
+//            }
+//            else System.out.println("El jugador ya estaba retirado.");
+//        } else {
+//            System.out.println("Problemas con el retirar a un jugador.");
+//        }
+//    }
     
     /**
      * Gestor de acciones una vez ya se ha comenzado el juego.
@@ -130,7 +125,7 @@ public class Servidor {
                     apostar();
                     break;
                 case 5: //Retirarse.
-                    retirarse();
+//                    retirarse();
                     break;
                 default:
                     System.out.println("Comprobar selector de Acciones (version juego).");

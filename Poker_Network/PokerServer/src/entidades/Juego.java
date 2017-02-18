@@ -17,10 +17,10 @@ import java.util.ArrayList;
 public class Juego {
     private Fase fase = null; //Fase actual en la que se encuentra el Juego.
     
-    private boolean finRonda;
-    private boolean comenzado = false;
+    private boolean faseRealizada; //Accion propia de la fase realizada. Para saber cuando pasar a apuestas.
+    private boolean comenzado = false; //Se usa para no volver a pasar por el primer menu.
     
-    private ArrayList<String> jugadores = new ArrayList<>();
+    private final ArrayList<String> JUGADORES = new ArrayList<>();
     private int idFocus = 1; //ID del Jugador al cual le toca realizar accion. //fixme: cambiar a String y operar mediante Strings.
     
     private Baraja baraja = null;
@@ -41,11 +41,11 @@ public class Juego {
      * @return True si todos han terminado.
      */
     public boolean terminarTurno() {
-        if(++idFocus > jugadores.size()) {
+        if(++idFocus > JUGADORES.size()) {
             idFocus = 1;
             return true;
         } else {
-            while(!jugadores.contains(Integer.toString(idFocus))) {
+            while(!JUGADORES.contains(Integer.toString(idFocus))) {
                 idFocus++;
             }
             return false;
@@ -58,8 +58,8 @@ public class Juego {
      * @return True si se ha podido retirar. 
      */
     public boolean retirarse(String id) {
-        if(jugadores.contains(id)) {
-            jugadores.remove(id);
+        if(JUGADORES.contains(id)) {
+            JUGADORES.remove(id);
             return true;
         } else return false;
     }
@@ -120,10 +120,10 @@ public class Juego {
     }
     
     /**
-     * Sumar +1 al numero de jugadores.
+     * Sumar +1 al numero de JUGADORES.
      */
     public void aniadirJugador() {
-        jugadores.add(Integer.toString(jugadores.size()+1));
+        JUGADORES.add(Integer.toString(JUGADORES.size()+1));
     }
 
     /**
@@ -171,23 +171,23 @@ public class Juego {
     }
 
     /**
-     * @return the jugadores
+     * @return the JUGADORES
      */
-    public ArrayList<String> getJugadores() {
-        return jugadores;
+    public ArrayList<String> getJUGADORES() {
+        return JUGADORES;
     }
 
     /**
-     * @return the finRonda
+     * @return the faseRealizada
      */
-    public boolean isFinRonda() {
-        return finRonda;
+    public boolean isFaseRealizada() {
+        return faseRealizada;
     }
 
     /**
-     * @param finRonda the finRonda to set
+     * @param faseRealizada the faseRealizada to set
      */
-    public void setFinRonda(boolean finRonda) {
-        this.finRonda = finRonda;
+    public void setFaseRealizada(boolean faseRealizada) {
+        this.faseRealizada = faseRealizada;
     }
 }
