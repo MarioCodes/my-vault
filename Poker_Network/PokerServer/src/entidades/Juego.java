@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class Juego {
     private Fase fase = null; //Fase actual en la que se encuentra el Juego.
     
+    private boolean finRonda;
     private boolean comenzado = false;
     
     private ArrayList<String> jugadores = new ArrayList<>();
@@ -174,5 +175,19 @@ public class Juego {
      */
     public ArrayList<String> getJugadores() {
         return jugadores;
+    }
+
+    /**
+     * @return the finRonda
+     */
+    public boolean isFinRonda() {
+        return finRonda;
+    }
+
+    /**
+     * @param finRonda the finRonda to set
+     */
+    public void setFinRonda(boolean finRonda) {
+        this.finRonda = finRonda;
     }
 }

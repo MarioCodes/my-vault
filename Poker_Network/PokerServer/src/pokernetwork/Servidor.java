@@ -72,9 +72,11 @@ public class Servidor {
         juego.getFase().apostar(juego);
         
         try {
-            if(juego.terminarTurno()) {
+            if(juego.terminarTurno() && !juego.isFinRonda()) {
                 Fase fase = getFaseCorrecta((FaseApuestas) juego.getFase());
                 fase.cambioFase(juego);
+            } else {
+//                if(juego.isFinRonda()) juego.finRonda();
             }
         }catch(ClassCastException ex) {
             System.out.println("Cambio de Fase no correcta. Chequear Servidor.Apostar(). " +ex.getLocalizedMessage()); //@todo: arreglar la GUI para que solo se puedan realizar acciones conforme a la fase correcta.
