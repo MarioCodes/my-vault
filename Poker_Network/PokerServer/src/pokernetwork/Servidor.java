@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * Proyecto Online juego Oscar -> Poker Texas Hold'em!. Parte Servidor.
  * La forma de uso de llamado de los metodos es -> Servidor -> Juego -> Instancia Fase -> Conexion.
  * @author Mario Codes Sánchez
- * @since 18/02/2017
+ * @since 19/02/2017
  * @see https://es.wikipedia.org/wiki/Texas_hold_'em
  */
 public class Servidor {
@@ -69,57 +69,20 @@ public class Servidor {
         }
     }
     
-    private static void recoleccionJugadas() {
-        while(juego.getJUGADAS().size() < juego.getJUGADORES().size()) {
-            recoleccionJugada(null);
-        }
-        
-        System.out.println("Fin de recoleccion.");
-        
-        for(ArrayList a: juego.getJUGADAS()) {
-            for(Object o: a) {
-                System.out.println(o.toString());
-            }
-        }
+    private static void getGanador() {
+        String s = juego.getGanador(juego.getJUGADAS());
+        System.out.println("Ha ganado: " +s);
     }
     
     private static void recoleccionJugada(ArrayList<ArrayList> jugadas) {
-//        if(juego.getFase().toString().matches("River")) {
             System.out.println("Chequeando input de jugada.");
             juego.getJUGADAS().add(juego.getJugadas());
             
-            
             if(juego.getJUGADAS().size() == juego.getJUGADORES().size()) {
-                ArrayList<ArrayList> l = juego.getJUGADAS();
-                for(ArrayList a: l) {
-                    for(Object o: a) {
-                        System.out.println(o.toString());
-                    }
-                }
+                getGanador();
+                cambioFase(juego);
             }
-            //Aqui habra que añadir los checks de ganador
-            
-            cambioFase(juego);
-//        }
     }
-    
-//    private static void finRonda() {
-//        System.out.println("Entrado en fin de ronda.");
-//        ArrayList<ArrayList> jugadas = new ArrayList<>();
-//        
-//        ArrayList lista = jugadas.get(0);
-////        System.out.printf("Indice 0 %s indice 1 %s indice 2 %d", lista.get(0), lista.get(1), lista.get(2));
-//        for(ArrayList l: jugadas) {
-//            for(Object o: l) {
-//                System.out.println(o.toString());
-//            }
-//        }
-//        
-////        int[] valores = juego.getValores();
-////        String id = juego.getGanador(jugadas, valores);
-////        
-////        System.out.println("ID: " +id);
-//    }
     
     /**
      * Cambio a la siguiente fase correspondiente del juego.

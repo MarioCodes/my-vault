@@ -18,7 +18,7 @@ import java.util.ArrayList;
 /**
  * Clase encargada de gestionar y coordinar la conexion del Programa con el Servidor.
  * @author Mario Codes Sánchez
- * @since 09/02/2017
+ * @since 19/02/2017
  */
 public class Conexion {
 //    private static final int BUFFER_LENGTH = 8192; //todo: Buffer. Mirar si lo puedo utilizar mas adelante, de momento que le den.

@@ -99,11 +99,18 @@ public class Juego {
     
     /**
      * Obtiene el ID del ganador, pasandole como parametro una String[] con las jugadas de cada uno y una int[] con el valor de la jugada propio (desempates).
-     * @param jugadas String[] con el nombre de la jugada que tiene cada jugador.
-     * @param puntuacionJugador int[] con la puntuacion que suman las cartas de ese jugador.
+     * @param lista lista de las jugadas [0] = id; [1] = jugada; [2] puntuacion sin tener en cuenta la jugada.
      * @return ID del ganador.
      */
-    public String getGanador(String[] jugadas, int[] puntuacionJugador) {
+    public String getGanador(ArrayList<ArrayList> lista) {
+        String[] jugadas = new String[lista.size()];
+        int[] puntuacionJugador = new int[jugadas.length];
+        
+        for (int i = 0; i < lista.size(); i++) {
+            jugadas[i] = lista.get(i).get(1).toString();
+            puntuacionJugador[i] = (int) lista.get(i).get(2);
+        }
+        
         String idGanador;
         int[] puntuacion = new int[jugadas.length];
         
@@ -112,17 +119,44 @@ public class Juego {
             puntuacion[i] += puntuacionJugador[i];
         }
         
-        idGanador = "0";
+        idGanador = "1";
         int puntuacionGanador = puntuacion[0];
         for (int i = 0; i < puntuacion.length; i++) {
             if(puntuacion[i] > puntuacionGanador) {
-                idGanador = Integer.toString(i);
+                idGanador = Integer.toString(i+1);
                 puntuacionGanador = puntuacion[i];
             }
         }
         
         return idGanador;
     }
+    
+//    /**
+//     * Obtiene el ID del ganador, pasandole como parametro una String[] con las jugadas de cada uno y una int[] con el valor de la jugada propio (desempates).
+//     * @param jugadas String[] con el nombre de la jugada que tiene cada jugador.
+//     * @param puntuacionJugador int[] con la puntuacion que suman las cartas de ese jugador.
+//     * @return ID del ganador.
+//     */
+//    public String getGanador(String[] jugadas, int[] puntuacionJugador) {
+//        String idGanador;
+//        int[] puntuacion = new int[jugadas.length];
+//        
+//        for (int i = 0; i < jugadas.length; i++) {
+//            puntuacion[i] = getPuntuacion(jugadas[i]);
+//            puntuacion[i] += puntuacionJugador[i];
+//        }
+//        
+//        idGanador = "0";
+//        int puntuacionGanador = puntuacion[0];
+//        for (int i = 0; i < puntuacion.length; i++) {
+//            if(puntuacion[i] > puntuacionGanador) {
+//                idGanador = Integer.toString(i);
+//                puntuacionGanador = puntuacion[i];
+//            }
+//        }
+//        
+//        return idGanador;
+//    }
     
     /**
      * Gestion de los turnos. Si un jugador se ha retirado se le salta el turno y pasa al siguiente.
