@@ -177,17 +177,23 @@ public class Conexion {
         return -5000;
     }
     
-    /**
-     * Obtenemos la jugada del jugador con el id deseado.
-     * @param id ID del jugador del cual queremos la jugada.
-     * @return String con la jugada.
-     */
-    public static String getJugada(String id) {
+    public static ArrayList getJugada() {
+        ArrayList jugada = new ArrayList();
         try {
-            oos.writeObject(id);
+            jugada.add((String) ois.readObject());
+            jugada.add((String) ois.readObject());
+            jugada.add(ois.readInt());
+            
+            oos.writeBoolean(true);
             oos.flush();
-            return (String) ois.readObject();
+            return jugada;
         }catch(IOException|ClassNotFoundException|ClassCastException ex) {
+            ex.printStackTrace();
+        }
+        
+        try {
+            oos.writeBoolean(false);
+        }catch(IOException ex) {
             ex.printStackTrace();
         }
         

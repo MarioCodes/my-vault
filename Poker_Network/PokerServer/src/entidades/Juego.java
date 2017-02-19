@@ -83,17 +83,16 @@ public class Juego {
         return valores;
     }
     
+//    public String getJugada() {
+//        return Conexion.getJugada();
+//    }
+    
     /**
      * Obtencion de todas  las jugadas de todos los jugadores.
      * @return String[] con las jugadas de cada uno (ID = indice de acceso).
      */
-    public String[] getJugadas() {
-        String[] jugadas = new String[JUGADORES.size()];
-        for (int i = 0; i < JUGADORES.size(); i++) {
-            jugadas[i] = Conexion.getJugada(Integer.toString(i+1));
-        }
-        
-        return jugadas;
+    public ArrayList getJugadas() {
+        return Conexion.getJugada();
     }
     
     /**

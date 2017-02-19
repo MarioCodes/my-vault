@@ -65,7 +65,7 @@ public class Jugador {
     
     public void enviarJugada() {
         Jugadas.checkJugada(mano.getCartasPropias(), mano.getCartas_mesa());
-        Conexion.sendJugada(id, Jugadas.jugada);
+        Conexion.sendJugada(id, Jugadas.jugada, Jugadas.valor);
     }
     
     /**

@@ -121,33 +121,38 @@ public class Conexion {
         return ois.readBoolean();
     }
     
-    public static void sendJugada(String id, String jugada) {
+    public static void sendJugada(String id, String jugada, int valor) {
         try {
-            String idServer = (String) ois.readObject();
-            if(id.matches(idServer)) {
-                oos.writeObject(jugada);
-                oos.flush();
-            }
-        }catch(IOException|ClassNotFoundException ex) {
+            oos.writeObject(id);
+            oos.flush();
+            
+            oos.writeObject(jugada);
+            oos.flush();
+            
+            oos.writeInt(valor);
+            oos.flush();
+            
+            boolean res = ois.readBoolean();
+        }catch(IOException ex) {
             ex.printStackTrace();
         }finally {
             cerradoCabecerasConexion();
         }
     }
     
-    public static void sendValor(String id, int valor) {
-        try {
-            String idServer = (String) ois.readObject();
-            if(id.matches(idServer)) {
-                oos.writeInt(valor);
-                oos.flush();
-            }
-        }catch(IOException|ClassNotFoundException ex) {
-            ex.printStackTrace();
-        }finally{
-            cerradoCabecerasConexion();
-        }
-    }
+//    public static void sendValor(String id, int valor) {
+//        try {
+//            String idServer = (String) ois.readObject();
+//            if(id.matches(idServer)) {
+//                oos.writeInt(valor);
+//                oos.flush();
+//            }
+//        }catch(IOException|ClassNotFoundException ex) {
+//            ex.printStackTrace();
+//        }finally{
+//            cerradoCabecerasConexion();
+//        }
+//    }
     
     /**
      * Get de la carta enviada por Socket desde el Server.
@@ -204,7 +209,7 @@ public class Conexion {
         }catch(IOException ex) {
             ex.printStackTrace();
         }finally {
-            cerradoCabecerasConexion();
+//            cerradoCabecerasConexion(); //todo: testear, si cierro aqui peta en el server cuando termina la fase river y espera inputs de cartas.
         }
         
         return -1;

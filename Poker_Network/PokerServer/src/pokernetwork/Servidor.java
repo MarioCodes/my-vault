@@ -10,6 +10,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import entidades.Juego;
 import fases.*;
+import java.util.ArrayList;
 
 /*
     Ideas Por Hacer:
@@ -60,7 +61,7 @@ public class Servidor {
                     return new FaseRiver();
                 case "River":
                     finRonda();
-//                    return new FasePreFlop();
+                    return new FasePreFlop();
                 default:
                     System.out.println("Switch cambio fase apostar default().");
                     return null;
@@ -68,12 +69,30 @@ public class Servidor {
     }
     
     private static void finRonda() {
-        System.out.println("SUUU");
-        String[] jugadas = juego.getJugadas();
-        int[] valores = juego.getValores();
-        String id = juego.getGanador(jugadas, valores);
+        System.out.println("Entrado en fin de ronda.");
+        ArrayList<ArrayList> jugadas = new ArrayList<>();
+        while(jugadas.size() < juego.getJUGADORES().size()) {
+            System.out.println("Chequeando input de jugada.");
+            try {
+                jugadas.add(juego.getJugadas());
+                ArrayList lista = jugadas.get(0);
+                Thread.sleep(500);
+                System.out.println("Bucle esperando realizado.");
+            }catch(InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }
+//        System.out.printf("Indice 0 %s indice 1 %s indice 2 %d", lista.get(0), lista.get(1), lista.get(2));
+        for(ArrayList l: jugadas) {
+            for(Object o: l) {
+                System.out.println(o.toString());
+            }
+        }
         
-        System.out.println("ID: " +id);
+//        int[] valores = juego.getValores();
+//        String id = juego.getGanador(jugadas, valores);
+//        
+//        System.out.println("ID: " +id);
     }
     
     /**
@@ -136,6 +155,9 @@ public class Servidor {
                     break;
                 case 5: //Retirarse.
 //                    retirarse();
+                    break;
+                case 6:
+                    finRonda();
                     break;
                 default:
                     System.out.println("Comprobar selector de Acciones (version juego).");
