@@ -60,40 +60,66 @@ public class Servidor {
                 case "Turn":
                     return new FaseRiver();
                 case "River":
-                    finRonda();
-                    return new FasePreFlop();
+//                    recoleccionJugadas();
+                    if(juego.getJUGADAS().size() == juego.getJUGADORES().size()) return new FasePreFlop();
+                    else return null;
                 default:
                     System.out.println("Switch cambio fase apostar default().");
                     return null;
         }
     }
     
-    private static void finRonda() {
-        System.out.println("Entrado en fin de ronda.");
-        ArrayList<ArrayList> jugadas = new ArrayList<>();
-        while(jugadas.size() < juego.getJUGADORES().size()) {
-            System.out.println("Chequeando input de jugada.");
-            try {
-                jugadas.add(juego.getJugadas());
-                ArrayList lista = jugadas.get(0);
-                Thread.sleep(500);
-                System.out.println("Bucle esperando realizado.");
-            }catch(InterruptedException ex) {
-                ex.printStackTrace();
-            }
+    private static void recoleccionJugadas() {
+        while(juego.getJUGADAS().size() < juego.getJUGADORES().size()) {
+            recoleccionJugada(null);
         }
-//        System.out.printf("Indice 0 %s indice 1 %s indice 2 %d", lista.get(0), lista.get(1), lista.get(2));
-        for(ArrayList l: jugadas) {
-            for(Object o: l) {
+        
+        System.out.println("Fin de recoleccion.");
+        
+        for(ArrayList a: juego.getJUGADAS()) {
+            for(Object o: a) {
                 System.out.println(o.toString());
             }
         }
-        
-//        int[] valores = juego.getValores();
-//        String id = juego.getGanador(jugadas, valores);
-//        
-//        System.out.println("ID: " +id);
     }
+    
+    private static void recoleccionJugada(ArrayList<ArrayList> jugadas) {
+//        if(juego.getFase().toString().matches("River")) {
+            System.out.println("Chequeando input de jugada.");
+            juego.getJUGADAS().add(juego.getJugadas());
+            
+            
+            if(juego.getJUGADAS().size() == juego.getJUGADORES().size()) {
+                ArrayList<ArrayList> l = juego.getJUGADAS();
+                for(ArrayList a: l) {
+                    for(Object o: a) {
+                        System.out.println(o.toString());
+                    }
+                }
+            }
+            //Aqui habra que añadir los checks de ganador
+            
+            cambioFase(juego);
+//        }
+    }
+    
+//    private static void finRonda() {
+//        System.out.println("Entrado en fin de ronda.");
+//        ArrayList<ArrayList> jugadas = new ArrayList<>();
+//        
+//        ArrayList lista = jugadas.get(0);
+////        System.out.printf("Indice 0 %s indice 1 %s indice 2 %d", lista.get(0), lista.get(1), lista.get(2));
+//        for(ArrayList l: jugadas) {
+//            for(Object o: l) {
+//                System.out.println(o.toString());
+//            }
+//        }
+//        
+////        int[] valores = juego.getValores();
+////        String id = juego.getGanador(jugadas, valores);
+////        
+////        System.out.println("ID: " +id);
+//    }
     
     /**
      * Cambio a la siguiente fase correspondiente del juego.
@@ -101,8 +127,10 @@ public class Servidor {
      */
     private static void cambioFase(Juego juego) {
         Fase fase = getFaseCorrecta(juego.getFase());
-        fase.cambioFase(juego);
-        juego.setFaseRealizada(false);
+        if(fase != null) {
+            fase.cambioFase(juego);
+            juego.setFaseRealizada(false);
+        }
     }
     
     /**
@@ -157,7 +185,7 @@ public class Servidor {
 //                    retirarse();
                     break;
                 case 6:
-                    finRonda();
+                    recoleccionJugada(juego.getJUGADAS());
                     break;
                 default:
                     System.out.println("Comprobar selector de Acciones (version juego).");

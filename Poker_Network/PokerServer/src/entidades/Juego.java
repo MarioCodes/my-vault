@@ -18,9 +18,11 @@ import pokernetwork.Conexion;
 public class Juego {
     private Fase fase = null; //Fase actual en la que se encuentra el Juego.
     
+    private boolean finRonda = false;
     private boolean faseRealizada; //Accion propia de la fase realizada. Para saber cuando pasar a apuestas.
     private boolean comenzado = false; //Se usa para no volver a pasar por el primer menu.
     
+    private final ArrayList<ArrayList> JUGADAS = new ArrayList<>();
     private final ArrayList<String> JUGADORES = new ArrayList<>();
     private int idFocus = 1; //ID del Jugador al cual le toca realizar accion. //fixme: cambiar a String y operar mediante Strings.
     
@@ -275,5 +277,26 @@ public class Juego {
      */
     public void setFaseRealizada(boolean faseRealizada) {
         this.faseRealizada = faseRealizada;
+    }
+
+    /**
+     * @return the finRonda
+     */
+    public boolean isFinRonda() {
+        return finRonda;
+    }
+
+    /**
+     * @param finRonda the finRonda to set
+     */
+    public void setFinRonda(boolean finRonda) {
+        this.finRonda = finRonda;
+    }
+
+    /**
+     * @return the JUGADAS
+     */
+    public ArrayList<ArrayList> getJUGADAS() {
+        return JUGADAS;
     }
 }

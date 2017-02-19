@@ -123,6 +123,11 @@ public class Conexion {
     
     public static void sendJugada(String id, String jugada, int valor) {
         try {
+            aperturasCabeceraConexion();
+            
+            oos.writeInt(6);
+            oos.flush();
+            
             oos.writeObject(id);
             oos.flush();
             
