@@ -107,6 +107,23 @@ public class Conexion {
         }
     }
     
+    public static int getFichas(String id) {
+        try {
+//            aperturasCabeceraConexion();
+            
+            String idServer = ois.readObject().toString();
+            if(id.matches(idServer)) {
+                return ois.readInt();
+            }
+        }catch(IOException|ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }finally {
+//            cerradoCabecerasConexion();
+        }
+        
+        return 0;
+    }
+    
     /**
      * Envio al server de la accion que deseamos realizar para que la lea en el Switch y actue.
      * @param accion Accion a realizar.
@@ -141,7 +158,7 @@ public class Conexion {
         }catch(IOException ex) {
             ex.printStackTrace();
         }finally {
-            cerradoCabecerasConexion();
+//            cerradoCabecerasConexion();
         }
     }
     

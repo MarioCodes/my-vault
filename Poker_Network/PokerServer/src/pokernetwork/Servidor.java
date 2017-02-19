@@ -69,9 +69,9 @@ public class Servidor {
         }
     }
     
-    private static void getGanador() {
+    private static String getGanador() {
         String s = juego.getGanador(juego.getJUGADAS());
-        System.out.println("Ha ganado: " +s);
+        return s;
     }
     
     private static void recoleccionJugada(ArrayList<ArrayList> jugadas) {
@@ -79,7 +79,8 @@ public class Servidor {
             juego.getJUGADAS().add(juego.getJugadas());
             
             if(juego.getJUGADAS().size() == juego.getJUGADORES().size()) {
-                getGanador();
+                String id = getGanador();
+                juego.recogerMesa(id);
                 cambioFase(juego);
             }
     }

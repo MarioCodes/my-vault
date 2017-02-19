@@ -131,6 +131,12 @@ public class Juego {
         return idGanador;
     }
     
+    public void recogerMesa(String id) {
+        int pool = apuestas;
+        apuestas = 0;
+        Conexion.sendPool(id, pool);
+    }
+    
 //    /**
 //     * Obtiene el ID del ganador, pasandole como parametro una String[] con las jugadas de cada uno y una int[] con el valor de la jugada propio (desempates).
 //     * @param jugadas String[] con el nombre de la jugada que tiene cada jugador.

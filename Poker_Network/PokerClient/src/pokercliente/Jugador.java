@@ -68,6 +68,10 @@ public class Jugador {
         Conexion.sendJugada(id, Jugadas.jugada, Jugadas.valor);
     }
     
+    public void recogerPool() {
+        this.fichas += Conexion.getFichas(id);
+    }
+    
     /**
      * Devuelve un booleano que indica si es este jugador quien debe hablar.
      * @return True si tiene el focus en el juego.

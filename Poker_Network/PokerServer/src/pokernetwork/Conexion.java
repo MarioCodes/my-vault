@@ -127,6 +127,18 @@ public class Conexion {
         oos.flush();
     }
     
+    public static void sendPool(String id, int pool) {
+        try {
+            oos.writeObject(id);
+            oos.flush();
+            
+            oos.writeInt(pool);
+            oos.flush();
+        }catch(IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     /**
      * Repartido y envio de cartas a un jugador.
      * Automatizado, primero enviar un Int con la cantidad de cartas a enviar, y luego manda los valores de estas.

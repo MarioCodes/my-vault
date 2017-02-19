@@ -238,6 +238,8 @@ public class WindowJugador extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JUGADOR.enviarJugada();
+        JUGADOR.recogerPool();
+        this.jLabelJugador.setText(Integer.toString(JUGADOR.getFichas()));
     }//GEN-LAST:event_jButton1ActionPerformed
 
 //    /**
