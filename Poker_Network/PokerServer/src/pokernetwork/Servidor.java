@@ -84,7 +84,7 @@ public class Servidor {
                 cambioFase(juego);
             }
     }
-    
+   
     /**
      * Cambio a la siguiente fase correspondiente del juego.
      * @param juego Juego sobre el que operamos.
