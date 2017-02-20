@@ -5,6 +5,12 @@
  */
 package vista.swing.vista;
 
+import aplicacion.facade.Facade;
+import dto.VistaActividadesAlojamiento;
+import dto.VistaActividadesAlojamientoId;
+import javax.swing.JOptionPane;
+import org.hibernate.Session;
+
 /**
  *
  * @author Alumno
@@ -12,7 +18,6 @@ package vista.swing.vista;
 public class VentanaAltaAlojamientoVista extends javax.swing.JFrame {
     /**
      * Creates new form VentanaAltaAlojamiento
-     * @param VS
      */
     public VentanaAltaAlojamientoVista() {
         initComponents();
@@ -22,6 +27,33 @@ public class VentanaAltaAlojamientoVista extends javax.swing.JFrame {
         this.setVisible(true);
     }
 
+    private VistaActividadesAlojamientoId getDatos() {
+        String nombre = this.jTextFieldInputNombreAloj.getText();
+        String telefono = this.jTextFieldInputTelefono.getText();
+        String dirSoc = this.jTextFieldInputDirSocial.getText();
+        String razSoc = this.jTextFieldInputRazonSocial.getText();
+        int valoracion = (int) this.jSpinnerValoracion.getValue();
+        String apertura = this.jTextFieldInputFechaApertura.getText();
+        int habitaciones = (int) this.jSpinnerHabitaciones.getValue();
+        String provincia = this.jComboBoxProvincia.getSelectedItem().toString();
+        String descripcion = this.jTextPaneInputDescripcionAloj.getText();
+        
+        return new VistaActividadesAlojamientoId(0, 6, nombre, descripcion, dirSoc, razSoc, telefono, valoracion, apertura, habitaciones, provincia, "", "", "", "", "", "", "", 0, "", "");
+    }
+    
+    private boolean alta(VistaActividadesAlojamientoId id) {
+        Session s = Facade.abrirSessionHibernate();
+        
+        VistaActividadesAlojamiento vaa = new VistaActividadesAlojamiento(id);
+        s.save(vaa);
+        
+        return Facade.cerrarSessionHibernate(s);
+    }
+    
+    private boolean checkObligatorios() {
+        return !(this.jTextFieldInputNombreAloj.getText().isEmpty() && this.jTextFieldInputDirSocial.getText().isEmpty());
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -52,7 +84,7 @@ public class VentanaAltaAlojamientoVista extends javax.swing.JFrame {
         jTextPaneInputDescripcionAloj = new javax.swing.JTextPane();
         jLabelDescripcion = new javax.swing.JLabel();
         jLabelMainTitulo = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jButtonAceptar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -75,7 +107,7 @@ public class VentanaAltaAlojamientoVista extends javax.swing.JFrame {
 
         jLabelHabitaciones.setText("Habitaciones");
 
-        jSpinnerHabitaciones.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        jSpinnerHabitaciones.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
 
         jLabelProvincia.setText("Provincia");
 
@@ -167,7 +199,12 @@ public class VentanaAltaAlojamientoVista extends javax.swing.JFrame {
         jLabelMainTitulo.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabelMainTitulo.setText("Alta Alojamiento");
 
-        jButton1.setText("Añadir");
+        jButtonAceptar.setText("Añadir");
+        jButtonAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAceptarActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Cancelar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -188,7 +225,7 @@ public class VentanaAltaAlojamientoVista extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(jButtonAceptar)
                         .addGap(27, 27, 27)
                         .addComponent(jButton2)
                         .addGap(110, 110, 110))))
@@ -206,7 +243,7 @@ public class VentanaAltaAlojamientoVista extends javax.swing.JFrame {
                 .addComponent(jPanelDatosAlojamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(jButtonAceptar)
                     .addComponent(jButton2))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -218,9 +255,23 @@ public class VentanaAltaAlojamientoVista extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
+        if(checkObligatorios()) {
+            VistaActividadesAlojamientoId id = getDatos();
+            if(id != null) {
+                if(alta(id)) {
+                    JOptionPane.showMessageDialog(this, "Alojamiento dado de alta satisfactoriamente.");
+                    this.dispose();
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Hay algun campo obligatorio vacio.");
+        }
+    }//GEN-LAST:event_jButtonAceptarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonAceptar;
     private javax.swing.JComboBox jComboBoxProvincia;
     private javax.swing.JLabel jLabelDescripcion;
     private javax.swing.JLabel jLabelDirSocial;
