@@ -6,27 +6,58 @@
 package vista.swing.vista;
 
 import aplicacion.facade.Facade;
+import dto.Alojamiento;
 import dto.VistaActividadesAlojamiento;
 import dto.VistaActividadesAlojamientoId;
 import javax.swing.JOptionPane;
 import org.hibernate.Session;
 
 /**
- *
- * @author Alumno
+ * Ventana para comprobar los datos del Alojamiento introducido y confirmar.
+ * @author Mario Codes Sánchez
+ * @since 21/02/2017
  */
-public class VentanaAltaAlojamientoVista extends javax.swing.JFrame {
+public class VentanaCheckAlojamientoVista extends javax.swing.JFrame {
+    private Alojamiento alojamiento;
+    
     /**
      * Creates new form VentanaAltaAlojamiento
+     * @param alojamiento Alojamiento del cual se obtienen los datos.
      */
-    public VentanaAltaAlojamientoVista() {
+    public VentanaCheckAlojamientoVista(Alojamiento alojamiento) {
         initComponents();
         
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        
+        this.alojamiento = alojamiento;
+        
+        setDatos(this.alojamiento);
     }
 
+    private void setDatos(Alojamiento alojamiento) {
+        String nombre = alojamiento.getNombre();
+        String telefono = alojamiento.getTelefonoContacto();
+        String dirSoc = alojamiento.getDireccionSocial();
+        String razSoc = alojamiento.getRazonSocial();
+        int valoracion = alojamiento.getValoracion();
+        String apertura = alojamiento.getFechaApertura();
+        int habitaciones = alojamiento.getNumHabitaciones();
+        String provincia = alojamiento.getProvincia();
+        String descripcion = alojamiento.getDescripcion();
+        
+        if(nombre != null) this.jTextFieldInputNombreAloj.setText(nombre);
+        if(telefono != null) this.jTextFieldInputTelefono.setText(telefono);
+        if(dirSoc != null) this.jTextFieldInputDirSocial.setText(dirSoc);
+        if(razSoc != null) this.jTextFieldInputRazonSocial.setText(razSoc);
+        this.jSpinnerValoracion.setValue(valoracion);
+        if(apertura != null) this.jTextFieldInputFechaApertura.setText(apertura);
+        this.jSpinnerHabitaciones.setValue(habitaciones);
+        if(provincia != null) this.jComboBoxProvincia.setSelectedItem(nombre);
+        if(descripcion != null) this.jTextPaneInputDescripcionAloj.setText(descripcion);
+    }
+    
     private VistaActividadesAlojamientoId getDatos() {
         String nombre = this.jTextFieldInputNombreAloj.getText();
         String telefono = this.jTextFieldInputTelefono.getText();
@@ -93,26 +124,40 @@ public class VentanaAltaAlojamientoVista extends javax.swing.JFrame {
 
         jLabelTelefono.setText("Telefono");
 
+        jTextFieldInputTelefono.setEnabled(false);
+
         jLabelNombre.setText("Nombre");
 
+        jTextFieldInputNombreAloj.setEnabled(false);
+
+        jTextFieldInputDirSocial.setEnabled(false);
+
         jLabelDirSocial.setText("Dir. Social");
+
+        jTextFieldInputRazonSocial.setEnabled(false);
 
         jLabelRazonSocial.setText("Razon Social");
 
         jSpinnerValoracion.setModel(new javax.swing.SpinnerNumberModel(1, 1, 5, 1));
+        jSpinnerValoracion.setEnabled(false);
 
         jLabelValoracion.setText("Valoracion");
 
         jLabelFechaApertura.setText("Fecha Apertura");
 
+        jTextFieldInputFechaApertura.setEnabled(false);
+
         jLabelHabitaciones.setText("Habitaciones");
 
         jSpinnerHabitaciones.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        jSpinnerHabitaciones.setEnabled(false);
 
         jLabelProvincia.setText("Provincia");
 
         jComboBoxProvincia.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Huesca", "Zaragoza", "Teruel" }));
+        jComboBoxProvincia.setEnabled(false);
 
+        jTextPaneInputDescripcionAloj.setEnabled(false);
         jScrollPane2.setViewportView(jTextPaneInputDescripcionAloj);
 
         jLabelDescripcion.setText("Descripcion");
@@ -197,9 +242,9 @@ public class VentanaAltaAlojamientoVista extends javax.swing.JFrame {
         );
 
         jLabelMainTitulo.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
-        jLabelMainTitulo.setText("Alta Alojamiento");
+        jLabelMainTitulo.setText("Comprobacion de Datos");
 
-        jButtonAceptar.setText("Añadir");
+        jButtonAceptar.setText("Confirmar");
         jButtonAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAceptarActionPerformed(evt);
@@ -232,7 +277,7 @@ public class VentanaAltaAlojamientoVista extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabelMainTitulo)
-                .addGap(128, 128, 128))
+                .addGap(96, 96, 96))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,17 +301,8 @@ public class VentanaAltaAlojamientoVista extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
-        if(checkObligatorios()) {
-            VistaActividadesAlojamientoId id = getDatos();
-            if(id != null) {
-                if(alta(id)) {
-                    JOptionPane.showMessageDialog(this, "Alojamiento dado de alta satisfactoriamente.");
-                    this.dispose();
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Hay algun campo obligatorio vacio.");
-        }
+        VentanaSeleccion.setAlojamiento(this.alojamiento);
+        this.dispose();
     }//GEN-LAST:event_jButtonAceptarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

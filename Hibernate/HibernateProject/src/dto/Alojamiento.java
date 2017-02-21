@@ -15,7 +15,7 @@ public class Alojamiento  implements java.io.Serializable {
      private String razonSocial;
      private String telefonoContacto;
      private String descripcion;
-     private Boolean valoracion;
+     private int valoracion;
      private String fechaApertura;
      private Integer numHabitaciones;
      private String provincia;
@@ -29,7 +29,7 @@ public class Alojamiento  implements java.io.Serializable {
         this.nombre = nombre;
         this.direccionSocial = direccionSocial;
     }
-    public Alojamiento(int idAlojamiento, String nombre, String direccionSocial, String razonSocial, String telefonoContacto, String descripcion, Boolean valoracion, String fechaApertura, Integer numHabitaciones, String provincia) {
+    public Alojamiento(int idAlojamiento, String nombre, String direccionSocial, String razonSocial, String telefonoContacto, String descripcion, int valoracion, String fechaApertura, Integer numHabitaciones, String provincia) {
        this.idAlojamiento = idAlojamiento;
        this.nombre = nombre;
        this.direccionSocial = direccionSocial;
@@ -84,11 +84,11 @@ public class Alojamiento  implements java.io.Serializable {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    public Boolean getValoracion() {
+    public int getValoracion() {
         return this.valoracion;
     }
     
-    public void setValoracion(Boolean valoracion) {
+    public void setValoracion(int valoracion) {
         this.valoracion = valoracion;
     }
     public String getFechaApertura() {

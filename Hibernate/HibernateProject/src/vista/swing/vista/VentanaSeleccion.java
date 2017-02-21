@@ -5,15 +5,22 @@
  */
 package vista.swing.vista;
 
+import aplicacion.facade.Facade;
 import controlador.datos.Singleton;
+import dto.Alojamiento;
+import javax.swing.JOptionPane;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import vista.swing.comun.VentanaPrincipal;
 
 /**
- *
- * @author Alumno
+ * Ventana para dar de alta en la vidsta.
+ * @author Mario Codes Sánchez
+ * @since 21/02/2017
  */
 public class VentanaSeleccion extends javax.swing.JFrame {
     private final VentanaPrincipal VP = Singleton.getVentanaPrincipalObtencionSingleton();
+    private static Alojamiento alojamiento;
     
     /**
      * Creates new form VentanaSeleccion
@@ -27,6 +34,14 @@ public class VentanaSeleccion extends javax.swing.JFrame {
         this.setTitle("Seleccionar Elementos");
     }
 
+    private Alojamiento getAlojamiento(int pk) {
+        Session s = Facade.abrirSessionHibernate();
+        Query q = s.createQuery("FROM Alojamiento "
+                + "WHERE id_alojamiento = :idAloj");
+        q.setParameter("idAloj", pk);
+        return (Alojamiento) q.uniqueResult();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,7 +56,7 @@ public class VentanaSeleccion extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        jLabelAlojamiento = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
 
@@ -92,7 +107,7 @@ public class VentanaSeleccion extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabelAlojamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -101,7 +116,7 @@ public class VentanaSeleccion extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelAlojamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addGap(8, 8, 8)
@@ -126,22 +141,40 @@ public class VentanaSeleccion extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new VentanaAltaAlojamientoVista();
+        int id = Integer.parseInt(JOptionPane.showInputDialog("ID de Alojamiento"));
+        Alojamiento alojamiento = getAlojamiento(id);
+        if(alojamiento != null) new VentanaCheckAlojamientoVista(alojamiento);
+        else JOptionPane.showMessageDialog(this, "Problemas con el Alojamiento. Compruebe que existe.");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         new VentanaAltaActividadVista();
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+    
+    /**
+     * @return the alojamiento
+     */
+    public static Alojamiento getAlojamiento() {
+        return alojamiento;
+    }
 
+    /**
+     * @param aAlojamiento the alojamiento to set
+     */
+    public static void setAlojamiento(Alojamiento aAlojamiento) {
+        alojamiento = aAlojamiento;
+        VentanaSeleccion.jLabelAlojamiento.setText(alojamiento.getNombre());
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private static javax.swing.JLabel jLabelAlojamiento;
     // End of variables declaration//GEN-END:variables
 }
