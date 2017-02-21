@@ -7,7 +7,10 @@ package vista.swing.vista;
 
 import aplicacion.facade.Facade;
 import controlador.datos.Singleton;
+import dto.Actividad;
 import dto.Alojamiento;
+import dto.VistaActividadesAlojamiento;
+import dto.VistaActividadesAlojamientoId;
 import javax.swing.JOptionPane;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -21,6 +24,7 @@ import vista.swing.comun.VentanaPrincipal;
 public class VentanaSeleccion extends javax.swing.JFrame {
     private final VentanaPrincipal VP = Singleton.getVentanaPrincipalObtencionSingleton();
     private static Alojamiento alojamiento;
+    private static Actividad actividad;
     
     /**
      * Creates new form VentanaSeleccion
@@ -40,6 +44,27 @@ public class VentanaSeleccion extends javax.swing.JFrame {
                 + "WHERE id_alojamiento = :idAloj");
         q.setParameter("idAloj", pk);
         return (Alojamiento) q.uniqueResult();
+    }
+    
+    private Actividad getActividad(int pk) {
+        Session s = Facade.abrirSessionHibernate();
+        Query q = s.createQuery("FROM Actividad "
+                + "WHERE id_actividad = :idActiv");
+        q.setParameter("idActiv", pk);
+        return (Actividad) q.uniqueResult();
+    }
+    
+    private boolean alta(Alojamiento alojamiento, Actividad actividad) {
+        Session s = Facade.abrirSessionHibernate();
+//        Query q = s.createQuery("INSERT INTO vista_actividades_alojamiento (id_alojamiento, id_actividad) "
+//                + "values (" +alojamiento.getIdAlojamiento() +", " +actividad.getIdActividad() +")");
+//        result = q.executeUpdate();
+        VistaActividadesAlojamientoId vId = new VistaActividadesAlojamientoId();
+        vId.setIdAlojamiento(alojamiento.getIdAlojamiento());
+        vId.setIdActividad(actividad.getIdActividad());
+        
+        s.save(new VistaActividadesAlojamiento(vId));
+        return Facade.cerrarSessionHibernate(s);
     }
     
     /**
@@ -84,6 +109,11 @@ public class VentanaSeleccion extends javax.swing.JFrame {
         });
 
         jButton4.setText("Realizar Alta");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Alojamiento: ");
 
@@ -141,16 +171,36 @@ public class VentanaSeleccion extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        int id = Integer.parseInt(JOptionPane.showInputDialog("ID de Alojamiento"));
-        Alojamiento alojamiento = getAlojamiento(id);
-        if(alojamiento != null) new VentanaCheckAlojamientoVista(alojamiento);
-        else JOptionPane.showMessageDialog(this, "Problemas con el Alojamiento. Compruebe que existe.");
+        try {
+            int id = Integer.parseInt(JOptionPane.showInputDialog("ID de Alojamiento"));
+            Alojamiento alojamiento = getAlojamiento(id);
+            if(alojamiento != null) new VentanaCheckAlojamientoVista(alojamiento);
+            else JOptionPane.showMessageDialog(this, "Problemas con el Alojamiento. Compruebe que existe.");
+        }catch(NumberFormatException ex) {
+            System.out.println("Excepcion de parse de numero al cancelar capturada. Es normal.");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        new VentanaAltaActividadVista();
-        this.dispose();
+        try {
+            int id = Integer.parseInt(JOptionPane.showInputDialog("ID de Actividad"));
+            Actividad actividad = getActividad(id);
+            if(actividad != null) new VentanaAltaActividadVista(actividad);
+            else JOptionPane.showMessageDialog(this, "Problemas con la Actividad. Compruebe que exista");
+        }catch(NumberFormatException ex) {
+            System.out.println("Excepcion de parse de numero al cancelar capturada. Es normal.");
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        if(VentanaSeleccion.jLabelAlojamiento.getText().isEmpty() | VentanaSeleccion.jLabel5.getText().isEmpty()) JOptionPane.showMessageDialog(this, "Selecciona dos elementos validos.");
+        else {
+            int confirmacion = JOptionPane.showConfirmDialog(this, "Se añadira la actividad " +actividad.getNombre() +" en el alojamiento " +alojamiento.getNombre() +". ¿Seguro?");
+            if(confirmacion == 0) {
+                if(alta(alojamiento, actividad)) JOptionPane.showMessageDialog(this, "Relacion añadida.");
+            }
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
     
     /**
      * @return the alojamiento
@@ -167,6 +217,21 @@ public class VentanaSeleccion extends javax.swing.JFrame {
         VentanaSeleccion.jLabelAlojamiento.setText(alojamiento.getNombre());
     }
     
+    /**
+     * @return the actividad
+     */
+    public static Actividad getActividad() {
+        return actividad;
+    }
+
+    /**
+     * @param aActividad the actividad to set
+     */
+    public static void setActividad(Actividad aActividad) {
+        actividad = aActividad;
+        VentanaSeleccion.jLabel5.setText(actividad.getNombre());
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -174,7 +239,7 @@ public class VentanaSeleccion extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private static javax.swing.JLabel jLabel5;
     private static javax.swing.JLabel jLabelAlojamiento;
     // End of variables declaration//GEN-END:variables
 }

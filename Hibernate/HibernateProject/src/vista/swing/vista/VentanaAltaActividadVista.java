@@ -5,23 +5,56 @@
  */
 package vista.swing.vista;
 
+import dto.Actividad;
+
 /**
- *
- * @author Alumno
+ * Ventana para chequear los datos de la actividad.
+ * @author Mario Codes Sánchez
+ * @since 21/02/2017
  */
 public class VentanaAltaActividadVista extends javax.swing.JFrame {
+    private Actividad actividad;
     
     /**
      * Creates new form VentanaAltaActividadVista
      */
-    public VentanaAltaActividadVista() {
+    public VentanaAltaActividadVista(Actividad actividad) {
         initComponents();
         
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        
+        this.actividad = actividad;
+        setDatos(actividad );
     }
 
+    private void setDatos(Actividad actividad) {
+        int id = actividad.getIdActividad();
+        String nombre = actividad.getNombre();
+        String fecha = actividad.getDiaRealizacion();
+        String diaSemana = actividad.getDiaSemana();
+        String horaIni = actividad.getHoraInicio();
+        String horaFin = actividad.getHoraFin();
+        int dificultad = actividad.getDificultad();
+        String capacidad = actividad.getCapacidad();
+        String localizacion = actividad.getLocalizacion();
+        String guia = actividad.getNombreGuia();
+        String descripcion = actividad.getDescripcion();
+        
+        this.jTextFieldInputIDActividad.setText(Integer.toString(id));
+        if(nombre != null) this.jTextFieldInputNombreActiv.setText(nombre);
+        if(fecha != null) this.jTextFieldInputFechaActiv.setText(fecha);
+        if(diaSemana != null) this.jTextFieldInputDiaSemana.setText(diaSemana);
+        if(horaIni != null) this.jTextFieldInputHoraInicioAc.setText(horaIni);
+        if(horaFin != null) this.jTextFieldInputHoraFinActiv.setText(horaFin);
+        this.jSpinnerDificultad.setValue(dificultad);
+        if(capacidad != null) this.jSpinnerCapacidadActiv.setValue(Integer.parseInt(capacidad));
+        if(localizacion != null) this.jTextFieldInputLocalizacion.setText(localizacion);
+        if(guia != null) this.jTextFieldInputNombreGuia.setText(guia);
+        if(descripcion != null) this.jTextPaneInputDescrip.setText(descripcion);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -62,37 +95,56 @@ public class VentanaAltaActividadVista extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabelMainTitulo.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
-        jLabelMainTitulo.setText("Alta Actividad");
+        jLabelMainTitulo.setText("Comprobacion Datos Actividad");
 
         jPanelDatosActividad.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos Actividad", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("sansserif", 2, 12))); // NOI18N
 
         jLabelIDActiv.setText("ID");
 
+        jTextFieldInputIDActividad.setEnabled(false);
+
         jLabelNombreAc.setText("Nombre");
 
+        jTextFieldInputNombreActiv.setEnabled(false);
+
+        jTextPaneInputDescrip.setEnabled(false);
         jScrollPane1.setViewportView(jTextPaneInputDescrip);
 
         jLabelDescripAc.setText("Descripcion");
 
+        jTextFieldInputDiaSemana.setEnabled(false);
+
         jLabelDiaSemana.setText("Dia Semana");
+
+        jTextFieldInputFechaActiv.setEnabled(false);
 
         jLabelFechaAc.setText("Fecha");
 
+        jTextFieldInputHoraInicioAc.setEnabled(false);
+
         jLabelHoraIni.setText("Hora Inicio");
+
+        jTextFieldInputHoraFinActiv.setEnabled(false);
 
         jLabelHoraFin.setText("Hora Fin");
 
         jSpinnerCapacidadActiv.setModel(new javax.swing.SpinnerNumberModel(1, 1, 20, 1));
+        jSpinnerCapacidadActiv.setEnabled(false);
 
         jLabelCapacidad.setText("Capacidad");
 
         jSpinnerDificultad.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10, 1));
+        jSpinnerDificultad.setEnabled(false);
 
         jLabelDificultad.setText("Dificultad");
+
+        jTextFieldInputLocalizacion.setEnabled(false);
 
         jLabelLocalizacion.setText("Localizacion");
 
         jLabelNombreGuia.setText("Nombre Guia");
+
+        jTextFieldInputNombreGuia.setEnabled(false);
 
         javax.swing.GroupLayout jPanelDatosActividadLayout = new javax.swing.GroupLayout(jPanelDatosActividad);
         jPanelDatosActividad.setLayout(jPanelDatosActividadLayout);
@@ -192,7 +244,7 @@ public class VentanaAltaActividadVista extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jButton1.setText("Añadir");
+        jButton1.setText("Confirmar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -224,7 +276,7 @@ public class VentanaAltaActividadVista extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabelMainTitulo)
-                .addGap(149, 149, 149))
+                .addGap(75, 75, 75))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -248,7 +300,8 @@ public class VentanaAltaActividadVista extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        VentanaSeleccion.setActividad(actividad);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
