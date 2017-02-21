@@ -22,6 +22,7 @@ import vista.swing.comun.VentanaPrincipal;
  * @since 21/02/2017
  */
 public class VentanaSeleccion extends javax.swing.JFrame {
+    private final boolean ALTA; //Si estamos en la version de alta o en la de baja.
     private final VentanaPrincipal VP = Singleton.getVentanaPrincipalObtencionSingleton();
     private static Alojamiento alojamiento;
     private static Actividad actividad;
@@ -29,13 +30,17 @@ public class VentanaSeleccion extends javax.swing.JFrame {
     /**
      * Creates new form VentanaSeleccion
      */
-    public VentanaSeleccion() {
+    public VentanaSeleccion(boolean alta) {
         initComponents();
         
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.setTitle("Seleccionar Elementos");
+        
+        this.ALTA = alta;
+        this.jButton4.setEnabled(alta);
+        this.jButton5.setEnabled(!alta);
     }
 
     private Alojamiento getAlojamiento(int pk) {
@@ -56,14 +61,32 @@ public class VentanaSeleccion extends javax.swing.JFrame {
     
     private boolean alta(Alojamiento alojamiento, Actividad actividad) {
         Session s = Facade.abrirSessionHibernate();
-//        Query q = s.createQuery("INSERT INTO vista_actividades_alojamiento (id_alojamiento, id_actividad) "
-//                + "values (" +alojamiento.getIdAlojamiento() +", " +actividad.getIdActividad() +")");
-//        result = q.executeUpdate();
         VistaActividadesAlojamientoId vId = new VistaActividadesAlojamientoId();
         vId.setIdAlojamiento(alojamiento.getIdAlojamiento());
         vId.setIdActividad(actividad.getIdActividad());
         
         s.save(new VistaActividadesAlojamiento(vId));
+        return Facade.cerrarSessionHibernate(s);
+    }
+    
+    private boolean baja(Alojamiento alojamiento, Actividad actividad) {
+        Session s = Facade.abrirSessionHibernate();
+        
+        Query q = s.createQuery("from VistaActividadesAlojamiento "
+                                    + "where ID_ALOJAMIENTO = :idAloj "
+                                    + "and id_actividad = :idActiv");
+        q.setParameter("idAloj", alojamiento.getIdAlojamiento());
+        q.setParameter("idActiv", actividad.getIdActividad());
+        
+        VistaActividadesAlojamiento va = (VistaActividadesAlojamiento) q.uniqueResult();
+        
+        if(va != null) s.delete(va);
+        else return false;
+//        VistaActividadesAlojamientoId vId = new VistaActividadesAlojamientoId();
+//        vId.setIdAlojamiento(alojamiento.getIdAlojamiento());
+//        vId.setIdActividad(actividad.getIdActividad());
+//        s.delete(new VistaActividadesAlojamiento(vId));
+        
         return Facade.cerrarSessionHibernate(s);
     }
     
@@ -84,6 +107,7 @@ public class VentanaSeleccion extends javax.swing.JFrame {
         jLabelAlojamiento = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -119,6 +143,13 @@ public class VentanaSeleccion extends javax.swing.JFrame {
 
         jLabel4.setText("Actividad: ");
 
+        jButton5.setText("Realizar Baja");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -137,7 +168,8 @@ public class VentanaSeleccion extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                        .addComponent(jLabelAlojamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabelAlojamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -158,8 +190,10 @@ public class VentanaSeleccion extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addComponent(jButton3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -201,6 +235,17 @@ public class VentanaSeleccion extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        if(VentanaSeleccion.jLabelAlojamiento.getText().isEmpty() | VentanaSeleccion.jLabel5.getText().isEmpty()) JOptionPane.showMessageDialog(this, "Selecciona dos elementos validos.");
+        else {
+            int confirmacion = JOptionPane.showConfirmDialog(this, "Se borrara la relacion entre la actividad " +actividad.getNombre() +" y el alojamiento " +alojamiento.getNombre() +". ¿Seguro?");
+            if(confirmacion == 0) {
+                if(baja(alojamiento, actividad)) JOptionPane.showMessageDialog(this, "Relacion eliminada.");
+                else JOptionPane.showMessageDialog(this, "Problema con alguno de los elementos. Por favor comprueba que la relacion entre ambos existe.");
+            }
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
     
     /**
      * @return the alojamiento
@@ -237,6 +282,7 @@ public class VentanaSeleccion extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private static javax.swing.JLabel jLabel5;

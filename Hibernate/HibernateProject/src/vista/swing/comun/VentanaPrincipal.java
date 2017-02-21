@@ -61,7 +61,6 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         labelTitulo = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         botonAltaAlojamiento = new javax.swing.JButton();
-        botonModifAlojamiento = new javax.swing.JButton();
         botonBajaAlojamiento = new javax.swing.JButton();
         botonListado = new javax.swing.JButton();
         jButtonBuscarValoracion = new javax.swing.JButton();
@@ -92,17 +91,6 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         botonAltaAlojamiento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonAltaAlojamientoActionPerformed(evt);
-            }
-        });
-
-        botonModifAlojamiento.setText("Modificacion");
-        botonModifAlojamiento.setEnabled(false);
-        botonModifAlojamiento.setMaximumSize(new java.awt.Dimension(190, 60));
-        botonModifAlojamiento.setMinimumSize(new java.awt.Dimension(190, 60));
-        botonModifAlojamiento.setPreferredSize(new java.awt.Dimension(190, 60));
-        botonModifAlojamiento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonModifAlojamientoActionPerformed(evt);
             }
         });
 
@@ -144,7 +132,6 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(botonModifAlojamiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(botonBajaAlojamiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(botonListado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonBuscarValoracion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -157,9 +144,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
                 .addComponent(botonAltaAlojamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16)
                 .addComponent(botonBajaAlojamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17)
-                .addComponent(botonModifAlojamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17)
+                .addGap(94, 94, 94)
                 .addComponent(botonListado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17)
                 .addComponent(jButtonBuscarValoracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -289,7 +274,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
                 .addComponent(labelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -298,20 +283,16 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAltaAlojamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAltaAlojamientoActionPerformed
-        new VentanaSeleccion();
+        new VentanaSeleccion(true);
     }//GEN-LAST:event_botonAltaAlojamientoActionPerformed
 
     private void botonBajaAlojamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBajaAlojamientoActionPerformed
-        new VentanaBajaVista();
+        new VentanaSeleccion(false);
     }//GEN-LAST:event_botonBajaAlojamientoActionPerformed
 
     private void botonListadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonListadoActionPerformed
         new VentanaListadoVista();
     }//GEN-LAST:event_botonListadoActionPerformed
-
-    private void botonModifAlojamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModifAlojamientoActionPerformed
-        new VentanaBuscarAlojID();
-    }//GEN-LAST:event_botonModifAlojamientoActionPerformed
 
     private void botonHabitacionesPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonHabitacionesPrecioActionPerformed
         VENTANAS_INDEPENDIENTES_ABIERTAS.add(new VentanaOrdenarHabitacionPrecioInput());
@@ -384,7 +365,6 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     private javax.swing.JButton botonHabitacionesPrecio;
     private javax.swing.JButton botonListado;
     private javax.swing.JButton botonListadoCompletoHabitaciones;
-    private javax.swing.JButton botonModifAlojamiento;
     private javax.swing.JButton botonModificacionHabitacion;
     private javax.swing.JButton jButtonBuscarValoracion;
     private javax.swing.JMenuBar jMenuBar1;
