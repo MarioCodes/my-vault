@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.math.BigInteger;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketException;
@@ -218,8 +219,8 @@ public class Red {
             oos.flush();
             
             boolean estado = ois.readBoolean(); //Leemos la respuesta del server.
-            
-            finConexion();
+            System.out.println("Booleano recibido.");
+//            finConexion();
             
             return estado;
         }catch(ConnectException ex) {
@@ -233,5 +234,29 @@ public class Red {
             ex.printStackTrace();
             return false;
         }
+    }
+    
+    /**
+     * Obtencion de la clave publica del Server y envio de la propia.
+     * @param rsa Clase Rsa de donde obtenemos las claves.
+     * @return BigInteger[] que conforma la clave publica.
+     */
+    public BigInteger[] getClavePublica(Rsa rsa) {
+        try {
+            oos.writeObject(rsa.getPublicKey());
+            oos.flush();
+            System.out.println("Clave Publica propia enviada.");
+            
+            BigInteger[] clavePublica = (BigInteger[]) ois.readObject();
+            System.out.println("Clave Publica del Server recibida.");
+            
+            return clavePublica;
+        }catch(IOException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }finally {
+            finConexion();
+        }
+        
+        return null;
     }
 }

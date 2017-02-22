@@ -7,7 +7,9 @@ package vista;
 
 import controlador.Facade;
 import controlador.Mapeador;
+import controlador.Rsa;
 import java.io.File;
+import java.math.BigInteger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
@@ -18,6 +20,8 @@ import javax.swing.JTree;
  * @since 06/02/2017
  */
 public class MainWindow extends javax.swing.JFrame {
+    private BigInteger[] clavePublicaServer;
+    private final Rsa RSA = new Rsa(512);
     private boolean conexion = false;
     private String url;
     private int puerto;
@@ -121,7 +125,10 @@ public class MainWindow extends javax.swing.JFrame {
         this.url = this.jTextFieldInputURL.getText();
         this.puerto = Integer.parseInt(this.jTextFieldInputPuerto.getText());
         
-        Runnable runnable = () -> conexion = Facade.abrirConexionCliente(url, puerto);
+        Runnable runnable = () ->  {
+            conexion = Facade.abrirConexionCliente(url, puerto);
+            clavePublicaServer = Facade.getClavePublica(RSA);
+        };
         Thread t = new Thread(runnable); //Para que no se quede colgada la GUI.
         try {
             t.start();

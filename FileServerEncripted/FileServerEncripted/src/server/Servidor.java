@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.math.BigInteger;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -24,6 +25,8 @@ import java.net.Socket;
  * @since 06/02/2017
  */
 public class Servidor {
+    private static BigInteger[] clavePublica;
+    private static final Rsa RSA = new Rsa(512);
     private static final int BUFFER_LENGTH = 8192; //Tamaño del buffer que se enviara de golpe.
     private static final int PUERTO = 8142;
     
@@ -138,13 +141,25 @@ public class Servidor {
     }
     
     /**
-     * Contestacion al chequeo realizado por el Cliente para comprobar si el Server esta 'reachable'.
-     *  Envia true al cliente.
+     * Chequeo de conexion mejorado a las versiones previas.
+     * Ahora tambien se utiliza para recibir la clave publica del cliente y mandar la propia.
      */
-    private static void comprobacionConexion() {
+    private static void intercambioClaves() {
         try {
             oos.writeBoolean(true);
             oos.flush();
+            System.out.println("Booleano enviado.");
+            
+            try {
+                clavePublica = (BigInteger[]) ois.readObject();
+                System.out.println("Clave Publica del Cliente recibida.");
+                
+                oos.writeObject(RSA.getPublicKey());
+                oos.flush();
+                System.out.println("Clave Publica Propia enviada");
+            }catch(ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -172,9 +187,10 @@ public class Servidor {
             aperturaCabecerasConexion();
             
             byte opcion = (byte) ois.readInt();
+            System.out.println(opcion);
             switch(opcion) {
                 case 0: //Testeo de Conexion.
-                    comprobacionConexion();
+                    intercambioClaves();
                     break;
                 case 1: //Mapeo del Server y envio de esta informacion al Cliente. Deprecated, me da demasiados problemas y no tengo tiempo.
                     //envioMapeoCliente(mapearServer());

@@ -5,6 +5,8 @@
  */
 package controlador;
 
+import java.math.BigInteger;
+
 /**
  * Patron de diseño Façade. Intermediario entre la vista y el controlador para separar el codigo entre ambos.
  * @author Mario Codes Sánchez
@@ -23,6 +25,15 @@ public class Facade {
         red = new Red(ip, puerto);
         Runtime.getRuntime().addShutdownHook(new NetShutdownHook());
         return red.checkConexion();
+    }
+    
+    /**
+     * Obtencion de la clave publica del server y envio de la privada.
+     * @param rsa Clase estatica de donde obtengo la clave publica propia.
+     * @return BigInteger[] que conforma la clave publica propia del server.
+     */
+    public static BigInteger[] getClavePublica(Rsa rsa) {
+        return red.getClavePublica(rsa);
     }
     
     /**
