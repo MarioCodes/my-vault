@@ -78,6 +78,7 @@ public class NeoDatis {
         IQuery query = new CriteriaQuery(Alojamiento.class, Where.equal("nombre", alojamiento.getNombre()));
         Alojamiento a = (Alojamiento) odb.getObjects(query).getFirst();
         odb.store(a);
+        odb.commit();
         odb.close();
         System.out.println("Alojamiento Modificado.");
     }

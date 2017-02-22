@@ -146,11 +146,13 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
      */
     private void ejecucionAccion() {
         Alojamiento alDTOLocal = null;
-
         try {
-            //Instanciacion del DTO de Alojamiento y pasado a fachada con este DTO.
             alDTOLocal = new Alojamiento();
-            recoleccionDatos(alDTOLocal);
+            //Instanciacion del DTO de Alojamiento y pasado a fachada con este DTO.
+            if(alojamiento != null) recoleccionDatos(alojamiento);
+            else recoleccionDatos(alDTOLocal);
+            
+            
 
             //Output para el usuario, dependiendo de si estamos dando de alta o modificando.
             if(this.alojamiento == null) {
@@ -158,7 +160,7 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "¡Alojamiento dado de alta exitosamente!");
                 reseteoCamposVentana(); //Vaciamos todos los campos.
             } else {
-                NeoDatis.update(alDTOLocal);
+                NeoDatis.update(alojamiento);
                 JOptionPane.showMessageDialog(this, "¡Alojamiento modificado exitosamente!");
                 this.dispose();
             }
