@@ -73,6 +73,15 @@ public class NeoDatis {
         System.out.println("Insert realizado.");
     }
     
+    public static void update(Alojamiento alojamiento) {
+        ODB odb = ODBFactory.open(DATABASE);
+        IQuery query = new CriteriaQuery(Alojamiento.class, Where.equal("nombre", alojamiento.getNombre()));
+        Alojamiento a = (Alojamiento) odb.getObjects(query).getFirst();
+        odb.store(a);
+        odb.close();
+        System.out.println("Alojamiento Modificado.");
+    }
+    
     public static void delete(Alojamiento alojamiento) {
         Alojamiento a = null;
         ODB odb = ODBFactory.open(DATABASE);

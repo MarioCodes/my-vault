@@ -144,42 +144,24 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
     /**
      * Recoleccion de los campos de la ventana e instanciacion de un alojamiento con esos datos. Previamente se ha realizado la comprobacion de que los datos sean correctos.
      */
-    private void insert() {
+    private void ejecucionAccion() {
         Alojamiento alDTOLocal = null;
 
         try {
             //Instanciacion del DTO de Alojamiento y pasado a fachada con este DTO.
             alDTOLocal = new Alojamiento();
             recoleccionDatos(alDTOLocal);
-            
-            NeoDatis.insert(alDTOLocal);
 
             //Output para el usuario, dependiendo de si estamos dando de alta o modificando.
             if(this.alojamiento == null) {
+                NeoDatis.insert(alDTOLocal);
                 JOptionPane.showMessageDialog(null, "¡Alojamiento dado de alta exitosamente!");
                 reseteoCamposVentana(); //Vaciamos todos los campos.
             } else {
+                NeoDatis.update(alDTOLocal);
                 JOptionPane.showMessageDialog(this, "¡Alojamiento modificado exitosamente!");
                 this.dispose();
             }
-        } catch(NullPointerException ex) {
-            JOptionPane.showMessageDialog(this, "ERROR. NullPointerException. Mirar Output. \n");
-            System.out.println(ex.getLocalizedMessage());
-        } catch(IllegalArgumentException ex) {
-            JOptionPane.showMessageDialog(this, "ERROR. Problema con la conversion de la fecha: \n" +ex.getLocalizedMessage());
-        } catch(ClassCastException ex) {
-            JOptionPane.showMessageDialog(this, "ERROR. Problema generico: \n" +ex.getLocalizedMessage());
-        }
-    }
-    
-    private void update() {
-        Alojamiento alojamiento = null;
-        
-        try {
-            alojamiento = new Alojamiento();
-            recoleccionDatos(alojamiento);
-            
-            
         } catch(NullPointerException ex) {
             JOptionPane.showMessageDialog(this, "ERROR. NullPointerException. Mirar Output. \n");
             System.out.println(ex.getLocalizedMessage());
@@ -482,8 +464,7 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
     
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
         if(checkCompletoInput()) {
-            if(alojamiento == null) insert(); //Depende de la version de ventana en la que estemos.
-            else update();
+            ejecucionAccion();
         }
     }//GEN-LAST:event_botonAceptarActionPerformed
 
