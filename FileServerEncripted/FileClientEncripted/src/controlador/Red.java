@@ -132,17 +132,27 @@ public class Red {
         }
     }
     
+    public static byte[] encriptar(Rsa rsa, byte[] bytes, BigInteger[] clavePublicaServer) {
+        BigInteger mensaje = new BigInteger(bytes);
+        return rsa.encrypt(mensaje, clavePublicaServer).toByteArray();
+    }
+    
+    public static byte[] encriptar(Rsa rsa, String raw, BigInteger[] clavePublicaServer) {
+        BigInteger mensaje = new BigInteger(raw.getBytes());
+        return rsa.encrypt(mensaje, clavePublicaServer).toByteArray();
+    }
+    
     /**
      * Metodo para el envio de un fichero del Cliente al Server.
+     * @param rsa
+     * @param claveServer
      * @param rutaServer Ruta del Servidor donde queremos el  fichero.
      * @param rutaLocal Ruta local recortada (sin incluir el fichero) de donde lo pillamos.
      * @param nombreFichero Nombre recortado del fichero suelto.
      */
-    public void envioFicheroClienteServer(String rutaServer, String rutaLocal, String nombreFichero) {
+    public void envioFicheroClienteServer(Rsa rsa, BigInteger[] claveServer, String rutaServer, String rutaLocal, String nombreFichero) {
         try {
             cabeceraComienzoConexion();
-            
-            long inicio = System.currentTimeMillis(); //Envio y medida del tiempo tardado.
             
             File file = new File(rutaLocal+nombreFichero);
             byte[] bytes = new byte[BUFFER_LENGTH];
@@ -152,19 +162,19 @@ public class Red {
             oos.writeInt(2);
             oos.flush();
             
-            byte[] bytesRutaFich = rutaServer.getBytes();
+            byte[] bytesRutaFich = encriptar(rsa, rutaServer.getBytes(), claveServer);
             oos.writeByte(bytesRutaFich.length);
             oos.write(bytesRutaFich);
             oos.flush();
             
-            byte[] bytesNombreFich = nombreFichero.getBytes();
+            byte[] bytesNombreFich = encriptar(rsa, nombreFichero.getBytes(), claveServer);
             oos.writeByte(bytesNombreFich.length);
             oos.write(bytesNombreFich);
             oos.flush();
             
             int count;
             while((count = in.read(bytes)) > 0) {
-                oos.write(bytes, 0, count);
+                oos.write(encriptar(rsa, bytes, claveServer), 0, count);
             }
             
             oos.flush();

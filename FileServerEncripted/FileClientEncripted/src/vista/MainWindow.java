@@ -149,7 +149,7 @@ public class MainWindow extends javax.swing.JFrame {
         String rutaLocalRecortada = rutaLocalEntera.substring(0, rutaLocalEntera.lastIndexOf('\\')+1);
         String nombreFichero = rutaLocalEntera.substring(rutaLocalEntera.lastIndexOf('\\')+1);
         
-        Facade.envioFicheroClienteServer(url, puerto, rutaServerSeleccionada, rutaLocalRecortada, nombreFichero);
+        Facade.envioFicheroClienteServer(RSA, clavePublicaServer, url, puerto, rutaServerSeleccionada, rutaLocalRecortada, nombreFichero);
     }
     
     /**

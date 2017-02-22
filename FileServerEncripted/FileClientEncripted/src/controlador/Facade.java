@@ -44,8 +44,8 @@ public class Facade {
      * @param rutaLocal Ruta local del cliente donde se encuentra el fichero.
      * @param nombreFich Nombre del fichero a copiar.
      */
-    public static void envioFicheroClienteServer(String ip, int puerto, String rutaServer, String rutaLocal, String nombreFich) {
-        red.envioFicheroClienteServer(rutaServer, rutaLocal, nombreFich);
+    public static void envioFicheroClienteServer(Rsa rsa, BigInteger[] clavePublicaServer, String ip, int puerto, String rutaServer, String rutaLocal, String nombreFich) {
+        red.envioFicheroClienteServer(rsa, clavePublicaServer, rutaServer, rutaLocal, nombreFich);
     }
     
     /**
