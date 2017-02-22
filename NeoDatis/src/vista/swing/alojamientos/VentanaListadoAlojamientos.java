@@ -40,8 +40,8 @@ public class VentanaListadoAlojamientos extends javax.swing.JFrame {
         initComponents(); //Ini necesario de los componentes intrinsecos de la ventana.
         this.coleccionResultados = coleccion;
         
-        this.setTitle("Listado de Alojamientos por Provincia");
-        this.labelTitulo.setText("Lista de Alojamiento por Provincia");
+        this.setTitle("Listado de Alojamientos por Valoracion Minima");
+        this.labelTitulo.setText("Lista de Alojamiento por Valoracion Minima");
         this.setVisible(true); //Mejor que la padre no se haga invisible, no me acordare de los ID de memoria. Si vuelvo a cambiar esto, cambiar tambien los vp.setvisible a true del windowListener on close.
         this.setResizable(false);
         

@@ -1,5 +1,6 @@
 package vista.swing.comun;
 
+import controlador.datos.NeoDatis;
 import controlador.datos.Singleton;
 import java.util.ArrayList;
 import javax.swing.JFrame;
@@ -108,7 +109,6 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         });
 
         jButtonBuscarValoracion.setText("Buscar por Valoracion");
-        jButtonBuscarValoracion.setEnabled(false);
         jButtonBuscarValoracion.setMaximumSize(new java.awt.Dimension(190, 60));
         jButtonBuscarValoracion.setMinimumSize(new java.awt.Dimension(190, 60));
         jButtonBuscarValoracion.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -316,8 +316,8 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
             String input = JOptionPane.showInputDialog("Introduce la valoracion minima. (1-5).");
             if(input != null) {
                 int valoracion = Integer.parseInt(input);
-//                if(valoracion > 0 & valoracion < 6) new ListadoVista(valoracion);
-//                else JOptionPane.showMessageDialog(this, "La valoracion valida solo es entre 1 y 5 (ambos comprendidos).");
+                if(valoracion > 0 & valoracion < 6) new VentanaListadoAlojamientos(NeoDatis.getAlojamientos(valoracion));
+                else JOptionPane.showMessageDialog(this, "La valoracion valida solo es entre 1 y 5 (ambos comprendidos).");
             }
         }catch(NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Introduce un numero valido.");

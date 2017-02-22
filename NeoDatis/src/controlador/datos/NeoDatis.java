@@ -30,6 +30,27 @@ public class NeoDatis {
     }
     
     /**
+     * Obtencion de los Alojamiento de la BDD con una valoracion SUPERIOR a la indicada.
+     * @param valoracion Valoracion minima del Alojamiento.
+     * @return Objects de NeoDatis con todos los Alojamiento que tienen una valoracion superior a la indicada.
+     */
+    public static Objects<Alojamiento> getAlojamientos(int valoracion) {
+        ODB odb = ODBFactory.open(database);
+        Objects<Alojamiento> objects = odb.getObjects(Alojamiento.class);
+        
+        while(objects.hasNext()) { //Quitamos de la lista los Alojamientos que no cumplen con la valoracion minima.
+            Alojamiento a = (Alojamiento) objects.next();
+            if(a.getValoracion() < valoracion) {
+                objects.remove(a);
+            }
+        }
+        objects.reset();
+        
+        odb.close();
+        return objects;
+    }
+    
+    /**
      * Insert del Alojamiento pasado como parametro.
      * @param alojamiento Alojamiento a insertar.
      */
