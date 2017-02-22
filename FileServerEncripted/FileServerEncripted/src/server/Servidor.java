@@ -25,7 +25,7 @@ import java.net.Socket;
  * @since 06/02/2017
  */
 public class Servidor {
-    private static BigInteger[] clavePublica;
+    private static BigInteger[] clavePublicaCliente;
     private static final Rsa RSA = new Rsa(512);
     private static final int BUFFER_LENGTH = 8192; //Tamaño del buffer que se enviara de golpe.
     private static final int PUERTO = 8142;
@@ -52,6 +52,21 @@ public class Servidor {
         }
     }
     
+    private static byte[] desencriptar(byte[] mensaje) {
+        BigInteger b = new BigInteger(mensaje);
+        return RSA.decrypt(b, clavePublicaCliente).toByteArray();
+    }
+    
+    private static byte[] desencriptar(String mensaje) {
+        BigInteger b = new BigInteger(mensaje.getBytes());
+        return RSA.decrypt(b, clavePublicaCliente).toByteArray();
+    }
+    
+    private static byte[] desencriptar(StringBuilder mensaje) {
+        BigInteger b = new BigInteger(mensaje.toString().getBytes());
+        return RSA.decrypt(b, clavePublicaCliente).toByteArray();
+    }
+    
     /**
      * Recogida de los parametros necesarios para recibir un fichero y paso a recibo del mismo.
      */
@@ -63,6 +78,8 @@ public class Servidor {
                 byte bit = (byte) ois.read();
                 rutaFichero.append((char) bit);
             }
+            rutaFichero = new StringBuilder(desencriptar(rutaFichero).toString());
+            System.out.println(rutaFichero.toString());
             
             byte nameLength = ois.readByte(); //Tamaño del nombre.
             StringBuilder nombreFichero = new StringBuilder();
@@ -70,6 +87,8 @@ public class Servidor {
                 byte bit = (byte) ois.read();
                 nombreFichero.append((char) bit);
             }
+            nombreFichero = new StringBuilder(desencriptar(nombreFichero).toString());
+            System.out.println(nombreFichero.toString());
             
             recibirFichero(rutaFichero.toString(), nombreFichero.toString());
         }catch(IOException ex) {
@@ -151,7 +170,7 @@ public class Servidor {
             System.out.println("Booleano enviado.");
             
             try {
-                clavePublica = (BigInteger[]) ois.readObject();
+                clavePublicaCliente = (BigInteger[]) ois.readObject();
                 System.out.println("Clave Publica del Cliente recibida.");
                 
                 oos.writeObject(RSA.getPublicKey());
