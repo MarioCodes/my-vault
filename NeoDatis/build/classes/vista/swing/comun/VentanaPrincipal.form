@@ -212,7 +212,6 @@
         <Component class="javax.swing.JButton" name="botonModificacionHabitacion1">
           <Properties>
             <Property name="text" type="java.lang.String" value="Modificaci&#xf3;n"/>
-            <Property name="enabled" type="boolean" value="false"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[190, 60]"/>
             </Property>

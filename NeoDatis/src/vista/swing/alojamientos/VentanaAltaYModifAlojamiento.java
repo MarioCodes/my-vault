@@ -36,7 +36,7 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
         
         VP.setVisible(false);
         
-        desactivarCamposIDAlojamiento(); //En todas las ventanas de alta, no me interesa que se vea el campo de ID, ya que estara vacio. Lo hace la propia BDD con AI / Secuencias.
+//        desactivarCamposIDAlojamiento(); //En todas las ventanas de alta, no me interesa que se vea el campo de ID, ya que estara vacio. Lo hace la propia BDD con AI / Secuencias.
     }
     
     /**
@@ -60,10 +60,10 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
     /**
      * El ID en al version de Alta, con BDD se hace de manera automatica con AI de MySQL.
      */
-    private void desactivarCamposIDAlojamiento() {
-        this.jLabelID.setVisible(false);
-        this.inputIDAlojamiento.setVisible(false);
-    }
+//    private void desactivarCamposIDAlojamiento() {
+//        this.jLabelID.setVisible(false);
+//        this.inputIDAlojamiento.setVisible(false);
+//    }
     
     /*
         Metodos Comunes a ambas versiones (Checks principalmente).
@@ -144,7 +144,7 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
     /**
      * Recoleccion de los campos de la ventana e instanciacion de un alojamiento con esos datos. Previamente se ha realizado la comprobacion de que los datos sean correctos.
      */
-    private void recoleccionDatosVentana() {
+    private void insert() {
         Alojamiento alDTOLocal = null;
 
         try {
@@ -162,6 +162,24 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "¡Alojamiento modificado exitosamente!");
                 this.dispose();
             }
+        } catch(NullPointerException ex) {
+            JOptionPane.showMessageDialog(this, "ERROR. NullPointerException. Mirar Output. \n");
+            System.out.println(ex.getLocalizedMessage());
+        } catch(IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(this, "ERROR. Problema con la conversion de la fecha: \n" +ex.getLocalizedMessage());
+        } catch(ClassCastException ex) {
+            JOptionPane.showMessageDialog(this, "ERROR. Problema generico: \n" +ex.getLocalizedMessage());
+        }
+    }
+    
+    private void update() {
+        Alojamiento alojamiento = null;
+        
+        try {
+            alojamiento = new Alojamiento();
+            recoleccionDatos(alojamiento);
+            
+            
         } catch(NullPointerException ex) {
             JOptionPane.showMessageDialog(this, "ERROR. NullPointerException. Mirar Output. \n");
             System.out.println(ex.getLocalizedMessage());
@@ -258,8 +276,6 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
         inputDescripcion = new javax.swing.JTextField();
         jLabelTituloVentana = new javax.swing.JLabel();
         inputFecha = new javax.swing.JTextField();
-        inputIDAlojamiento = new javax.swing.JTextField();
-        jLabelID = new javax.swing.JLabel();
         jLabelNumHabitaciones = new javax.swing.JLabel();
         spinnerNumHabitaciones = new javax.swing.JSpinner();
 
@@ -357,13 +373,6 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
             }
         });
 
-        inputIDAlojamiento.setEditable(false);
-        inputIDAlojamiento.setMaximumSize(new java.awt.Dimension(85, 30));
-        inputIDAlojamiento.setMinimumSize(new java.awt.Dimension(85, 30));
-        inputIDAlojamiento.setPreferredSize(new java.awt.Dimension(85, 30));
-
-        jLabelID.setText("ID*");
-
         jLabelNumHabitaciones.setText("Num. Habitaciones*");
 
         spinnerNumHabitaciones.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(0), null, Integer.valueOf(1)));
@@ -382,8 +391,7 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jLabelValoracion)
-                                .addComponent(jLabelDescripcion)
-                                .addComponent(jLabelID))
+                                .addComponent(jLabelDescripcion))
                             .addComponent(jLabelDirSocial, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addComponent(jLabelProvincia, javax.swing.GroupLayout.Alignment.TRAILING))
                     .addComponent(jLabelTelefono))
@@ -397,10 +405,8 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
                                 .addComponent(jLabelTituloVentana)
                                 .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(inputBoxProvincia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(inputDireccionSocial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(inputIDAlojamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(inputBoxProvincia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(inputDireccionSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(inputTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -429,10 +435,6 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(inputIDAlojamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelID))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(inputDireccionSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabelDirSocial))
@@ -480,7 +482,8 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
     
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
         if(checkCompletoInput()) {
-            recoleccionDatosVentana(); //Llamada al metodo que comienza a trabajar los datos.
+            if(alojamiento == null) insert(); //Depende de la version de ventana en la que estemos.
+            else update();
         }
     }//GEN-LAST:event_botonAceptarActionPerformed
 
@@ -535,13 +538,11 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
     protected javax.swing.JTextField inputDescripcion;
     protected javax.swing.JTextField inputDireccionSocial;
     protected javax.swing.JTextField inputFecha;
-    protected javax.swing.JTextField inputIDAlojamiento;
     protected javax.swing.JTextField inputNombre;
     protected javax.swing.JTextField inputRazonSocial;
     protected javax.swing.JTextField inputTelefono;
     private javax.swing.JLabel jLabelDescripcion;
     private javax.swing.JLabel jLabelDirSocial;
-    private javax.swing.JLabel jLabelID;
     private javax.swing.JLabel jLabelNombre;
     private javax.swing.JLabel jLabelNumHabitaciones;
     private javax.swing.JLabel jLabelProvincia;

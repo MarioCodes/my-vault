@@ -124,7 +124,6 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         });
 
         botonModificacionHabitacion1.setText("Modificación");
-        botonModificacionHabitacion1.setEnabled(false);
         botonModificacionHabitacion1.setMaximumSize(new java.awt.Dimension(190, 60));
         botonModificacionHabitacion1.setMinimumSize(new java.awt.Dimension(190, 60));
         botonModificacionHabitacion1.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -352,7 +351,9 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     }//GEN-LAST:event_jMenuItemSalirActionPerformed
 
     private void botonModificacionHabitacion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificacionHabitacion1ActionPerformed
-        // TODO add your handling code here:
+        String nombre = JOptionPane.showInputDialog("Nombre del Alojamiento: ");
+        Alojamiento a = NeoDatis.getAlojamiento(nombre);
+        if(a != null) new VentanaAltaYModifAlojamiento(a);
     }//GEN-LAST:event_botonModificacionHabitacion1ActionPerformed
           
     /**
