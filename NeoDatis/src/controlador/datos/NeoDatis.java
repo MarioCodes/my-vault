@@ -25,6 +25,7 @@ public class NeoDatis {
     public static Objects<Alojamiento> getAlojamientos() {
         ODB odb = ODBFactory.open(database);
         Objects<Alojamiento> objects = odb.getObjects(Alojamiento.class);
+        odb.close();
         return objects;
     }
     

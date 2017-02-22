@@ -7,7 +7,6 @@ package vista.swing.alojamientos;
 
 import controlador.datos.NeoDatis;
 import controlador.dto.Alojamiento;
-import java.util.Collection;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.neodatis.odb.Objects;
@@ -15,11 +14,11 @@ import org.neodatis.odb.Objects;
 /**
  * Ventana con la estructura para mostrar resultados de Alojamientos. Segun el constructor ejecutara unos metodos u otros.
  * @author Mario Codes Sánchez
- * @since 30/11/2016
+ * @since 22/02/2016
  */
 public class VentanaListadoAlojamientos extends javax.swing.JFrame {    
     private DefaultTableModel model;
-    private Collection<Alojamiento> coleccionResultados;
+    private Objects<Alojamiento> coleccionResultados;
     
     /**
      * Constructor de la version sin filtrar. Muestra todos los Alojamientos Existentes.
@@ -31,34 +30,41 @@ public class VentanaListadoAlojamientos extends javax.swing.JFrame {
         this.setVisible(true); //Mejor que la padre no se haga invisible, no me acordare de los ID de memoria. Si vuelvo a cambiar esto, cambiar tambien los vp.setvisible a true del windowListener on close.
         this.setResizable(false);
         
-        creacionTablaCompletaBDDoJSON(); //Introduccion del ResultSet en la tabla.
+        creacionTabla();
     }
     
     /**
      * Constructor de la version en la cual le metemos directamente la Coleccion a mostrar. Ahora mismo, muestra solo los existentes localizados en la provincia seleccionada en la ventana anterior.
-     * @param coleccionResultados Coleccion de AlojamientosDTO que queremos mostrar.
      */
-//    public VentanaListadoAlojamientos(Collection<AlojamientoDTO> coleccionResultados) {
-//        initComponents(); //Ini necesario de los componentes intrinsecos de la ventana.
-//        this.coleccionResultados = coleccionResultados;
-//        
-//        this.setTitle("Listado de Alojamientos por Provincia");
-//        this.labelTitulo.setText("Lista de Alojamiento por Provincia");
-//        this.setVisible(true); //Mejor que la padre no se haga invisible, no me acordare de los ID de memoria. Si vuelvo a cambiar esto, cambiar tambien los vp.setvisible a true del windowListener on close.
-//        this.setResizable(false);
-//        
-//        rellenoTablaDatos(coleccionResultados);
-//    }
+    public VentanaListadoAlojamientos(Objects coleccion) {
+        initComponents(); //Ini necesario de los componentes intrinsecos de la ventana.
+        this.coleccionResultados = coleccion;
+        
+        this.setTitle("Listado de Alojamientos por Provincia");
+        this.labelTitulo.setText("Lista de Alojamiento por Provincia");
+        this.setVisible(true); //Mejor que la padre no se haga invisible, no me acordare de los ID de memoria. Si vuelvo a cambiar esto, cambiar tambien los vp.setvisible a true del windowListener on close.
+        this.setResizable(false);
+        
+        rellenoTablaDatos(coleccionResultados);
+    }
+    
+    /**
+     * Get de todos los resultados de la BDD. Para la version de mostrar todos; la filtrada se la salta.
+     */
+    private void creacionTabla() {
+        Objects o = NeoDatis.getAlojamientos();
+        rellenoTablaDatos(o);
+    }
     
     /**
      * Una vez rellenada la Coleccion con los datos que queremos (filtrados o no), introducimos estos en la tabla.
-     * @param col Collection de AlojamientoDTOs a mostrar por pantalla.
      */
-    private void rellenoTablaDatos(Collection<Alojamiento> col) {
+    private void rellenoTablaDatos(Objects col) {
         model = (DefaultTableModel) tabla.getModel(); //Hacemos un get del DefaultModel con el que creamos la tabla desde Swing.
 
         try {
-            for(Alojamiento alDTO : col) { //Para cada objeto Alojamiento de la coleccion.
+            while(col.hasNext()) {
+                Alojamiento alDTO = (Alojamiento) col.next();
                 Object[] row = new Object[10]; //Creamos un objeto 'fila' con tantas columnas como tenga nuestra tabla (10 en este caso).
                 row[0] = alDTO.getIdAlojamiento(); //Para cada row, se va rellenando columna a columna con los datos.
                 row[1] = alDTO.getNombre();
@@ -76,31 +82,6 @@ public class VentanaListadoAlojamientos extends javax.swing.JFrame {
             System.out.println("Error especifico: " +ex.getLocalizedMessage());
             JOptionPane.showMessageDialog(this, "ERROR. NullPointerException.");
         }
-    }
-    
-    /**
-     * Get de los datos que hay en la BDD de NeoDatis.
-     * @return Objects con todos los Alojamientos.
-     */
-    private Objects obtencionDatos() {
-        return NeoDatis.getAlojamientos();
-    }
-    
-    /**
-     * Metodo Sobrecargado. Version sin filtrar.
-     * Si hay conexion a BDD, carga desde la BDD. Si no la hay, lo hace desde JSON.
-     */
-    private void creacionTablaCompletaBDDoJSON() {
-        Facade fachada = new Facade();
-        Collection <Alojamiento> col;
-        
-        if(DBBConexion.checkConexionDBBExiste()) {
-            col = fachada.listadoAlojamientosBDD();
-        }else {
-            col = fachada.listadoAlojamientosJSON();
-        }
-        
-        rellenoTablaDatos(col);
     }
     
     /**
@@ -211,7 +192,7 @@ public class VentanaListadoAlojamientos extends javax.swing.JFrame {
     /**
      * Recarga la Coleccion a partir de la cual mostrara la informacion al darle a actualizar.
      */
-    private void recargarFiltradoPorProvincia() {
+    private void recargarFiltrado() {
 //        Facade fachada = new Facade();
 //        String provincia = coleccionResultados.iterator().next().getProvincia();
 //
@@ -232,9 +213,9 @@ public class VentanaListadoAlojamientos extends javax.swing.JFrame {
         model.setRowCount(0); //Hace un vaciado de la tabla. Despúes de ejecutar esto, se debera volver a rellenar o quedara vacia.
         
         if(coleccionResultados == null) { //En funcion de que version de la ventana se haya invocado, se debera ejecutar una u otra version del metodo sobrecargado.
-            creacionTablaCompletaBDDoJSON();
+            creacionTabla();
         } else {
-            recargarFiltradoPorProvincia();
+            recargarFiltrado();
         }
         
         JOptionPane.showMessageDialog(this, "Lista Actualizada");

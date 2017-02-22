@@ -1,20 +1,9 @@
-/*
- * Proyecto de aprendizaje de Hibernate para Acceso a Datos.
- *  Dejo modificados los dto y los .xml para acceder a la BDD tal como esta en mi pc principal ahora mismo.
- *  Pasos para cambiar el foco de conexion:
- *      Cambiar el .cfg.xml -> IP, User y PWD.
- *      Cambiar el Schema de CADA dto.
- *  Los archivos .cfg.xml y .reveng.xml tienen que estar si o si en el package por default o no funcionaria.
- */
 package vista.swing.comun;
 
-import controlador.datos.NeoDatis;
 import controlador.datos.Singleton;
-import controlador.dto.Alojamiento;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import org.neodatis.odb.Objects;
 import vista.swing.alojamientos.VentanaAltaYModifAlojamiento;
 import vista.swing.alojamientos.VentanaListadoAlojamientos;
 import vista.swing.habitacion.AltaModifHabitacion;
