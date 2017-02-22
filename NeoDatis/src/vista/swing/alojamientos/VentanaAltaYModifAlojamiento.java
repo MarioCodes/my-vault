@@ -124,22 +124,12 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
             return false;
         }
     }
-
-    /**
-     * Recoleccionamos el ID cuando estemos en la ventana de Modificacion. En las de Alta no, porque se gestiona automaticamente en la BDD.
-     * @param alDTO AlojamientoDTO donde meter el ID.
-     */
-    private void recoleccionDatosID(Alojamiento alDTO) {
-        if(this.alojamiento != null) alDTO.setIdAlojamiento(Integer.parseInt(this.inputIDAlojamiento.getText()));
-    }
     
     /**
      * Recoleccion de los datos actuales en la ventana. ID solo si estamos en la version de JSON.
      * @param alDTO AlojamientoDTO donde se meteran todos los datos.
      */
     private void recoleccionDatos(Alojamiento alDTO) {
-        recoleccionDatosID(alDTO);
-        
         alDTO.setNumHabitaciones((int) this.spinnerNumHabitaciones.getValue());
         alDTO.setNombre(this.inputNombre.getText());
         alDTO.setTelefonoContacto(this.inputTelefono.getText());
@@ -229,7 +219,6 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
      * @param alDTO Alojamiento cuyos datos se mostraran en la ventana.
      */
     private void cargadoDatosAlojamiento(Alojamiento alDTO) {
-        this.inputIDAlojamiento.setText(Integer.toString(alDTO.getIdAlojamiento()));
         this.inputNombre.setText(alDTO.getNombre());
         this.inputDireccionSocial.setText(alDTO.getDireccionSocial());
         this.inputRazonSocial.setText(alDTO.getRazonSocial());

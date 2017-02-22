@@ -65,17 +65,16 @@ public class VentanaListadoAlojamientos extends javax.swing.JFrame {
         try {
             while(col.hasNext()) {
                 Alojamiento alDTO = (Alojamiento) col.next();
-                Object[] row = new Object[10]; //Creamos un objeto 'fila' con tantas columnas como tenga nuestra tabla (10 en este caso).
-                row[0] = alDTO.getIdAlojamiento(); //Para cada row, se va rellenando columna a columna con los datos.
-                row[1] = alDTO.getNombre();
-                row[2] = alDTO.getDireccionSocial();
-                row[3] = alDTO.getRazonSocial();
-                row[4] = alDTO.getTelefonoContacto();
-                row[5] = alDTO.getDescripcion();
-                row[6] = alDTO.getValoracion();
-                row[7] = alDTO.getFechaApertura();
-                row[8] = alDTO.getNumHabitaciones();
-                row[9] = alDTO.getProvincia();
+                Object[] row = new Object[9]; //Creamos un objeto 'fila' con tantas columnas como tenga nuestra tabla (10 en este caso).
+                row[0] = alDTO.getNombre();
+                row[1] = alDTO.getDireccionSocial();
+                row[2] = alDTO.getRazonSocial();
+                row[3] = alDTO.getTelefonoContacto();
+                row[4] = alDTO.getDescripcion();
+                row[5] = alDTO.getValoracion();
+                row[6] = alDTO.getFechaApertura();
+                row[7] = alDTO.getNumHabitaciones();
+                row[8] = alDTO.getProvincia();
                 model.addRow(row); //Añade la fila ya rellena al modelo de la tabla.
             }
         }catch(NullPointerException ex) {
@@ -110,14 +109,14 @@ public class VentanaListadoAlojamientos extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Nombre", "Dir_Social", "Razon_Social", "Telefono", "Descripcion", "Valoracion", "Fecha_Apertura", "Num_Habitaciones", "Provincia"
+                "Nombre", "Dir_Social", "Razon_Social", "Telefono", "Descripcion", "Valoracion", "Fecha_Apertura", "Num_Habitaciones", "Provincia"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {

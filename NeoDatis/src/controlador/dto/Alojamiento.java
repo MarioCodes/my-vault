@@ -8,8 +8,6 @@ package controlador.dto;
  */
 public class Alojamiento  implements java.io.Serializable {
 
-
-     private int idAlojamiento;
      private String nombre;
      private String direccionSocial;
      private String razonSocial;
@@ -24,13 +22,11 @@ public class Alojamiento  implements java.io.Serializable {
     }
 
 	
-    public Alojamiento(int idAlojamiento, String nombre, String direccionSocial) {
-        this.idAlojamiento = idAlojamiento;
+    public Alojamiento(String nombre, String direccionSocial) {
         this.nombre = nombre;
         this.direccionSocial = direccionSocial;
     }
-    public Alojamiento(int idAlojamiento, String nombre, String direccionSocial, String razonSocial, String telefonoContacto, String descripcion, int valoracion, String fechaApertura, Integer numHabitaciones, String provincia) {
-       this.idAlojamiento = idAlojamiento;
+    public Alojamiento(String nombre, String direccionSocial, String razonSocial, String telefonoContacto, String descripcion, int valoracion, String fechaApertura, Integer numHabitaciones, String provincia) {
        this.nombre = nombre;
        this.direccionSocial = direccionSocial;
        this.razonSocial = razonSocial;
@@ -41,14 +37,7 @@ public class Alojamiento  implements java.io.Serializable {
        this.numHabitaciones = numHabitaciones;
        this.provincia = provincia;
     }
-   
-    public int getIdAlojamiento() {
-        return this.idAlojamiento;
-    }
     
-    public void setIdAlojamiento(int idAlojamiento) {
-        this.idAlojamiento = idAlojamiento;
-    }
     public String getNombre() {
         return this.nombre;
     }
