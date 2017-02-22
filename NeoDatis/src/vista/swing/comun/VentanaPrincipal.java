@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import vista.swing.alojamientos.VentanaAltaYModifAlojamiento;
+import vista.swing.alojamientos.VentanaBajaAlojamiento;
 import vista.swing.alojamientos.VentanaListadoAlojamientos;
 import vista.swing.habitacion.AltaModifHabitacion;
 import vista.swing.habitacion.BajaHabitacion;
@@ -88,7 +89,6 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         });
 
         botonBajaAlojamiento.setText("Baja");
-        botonBajaAlojamiento.setEnabled(false);
         botonBajaAlojamiento.setMaximumSize(new java.awt.Dimension(190, 60));
         botonBajaAlojamiento.setMinimumSize(new java.awt.Dimension(190, 60));
         botonBajaAlojamiento.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -300,7 +300,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     }//GEN-LAST:event_botonAltaAlojamientoActionPerformed
 
     private void botonBajaAlojamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBajaAlojamientoActionPerformed
-//        new AltaBajaVista(false);
+        new VentanaBajaAlojamiento();
     }//GEN-LAST:event_botonBajaAlojamientoActionPerformed
 
     private void botonListadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonListadoActionPerformed

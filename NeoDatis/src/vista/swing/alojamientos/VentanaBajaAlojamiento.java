@@ -5,7 +5,9 @@
  */
 package vista.swing.alojamientos;
 
+import controlador.datos.NeoDatis;
 import controlador.datos.Singleton;
+import controlador.dto.Alojamiento;
 import vista.swing.comun.VentanaPrincipal;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -31,7 +33,6 @@ public class VentanaBajaAlojamiento extends javax.swing.JFrame implements Window
         this.setResizable(false);
         
         addWindowListener(this);
-        
         VP.setVisible(false);
     }
 
@@ -44,12 +45,8 @@ public class VentanaBajaAlojamiento extends javax.swing.JFrame implements Window
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabelID = new javax.swing.JLabel();
         jLabelNombre = new javax.swing.JLabel();
         inputNombre = new javax.swing.JTextField();
-        inputID = new javax.swing.JTextField();
-        checkBoxBooleanConfirmacion = new javax.swing.JCheckBox();
-        jLabelConfirmacion = new javax.swing.JLabel();
         botonBorrar = new javax.swing.JButton();
         botonCancelar = new javax.swing.JButton();
         jLabelTitulo = new javax.swing.JLabel();
@@ -57,18 +54,9 @@ public class VentanaBajaAlojamiento extends javax.swing.JFrame implements Window
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        jLabelID.setText("# ID: ");
-
         jLabelNombre.setText("Nombre: ");
 
         inputNombre.setToolTipText("Nombre que ostenta la empresa");
-
-        inputID.setToolTipText("ID identificativo del alojamiento en la BDD");
-
-        checkBoxBooleanConfirmacion.setText("Sí");
-        checkBoxBooleanConfirmacion.setToolTipText("¿De verdad?");
-
-        jLabelConfirmacion.setText("¿Estás Seguro/a?");
 
         botonBorrar.setText("Borrar");
         botonBorrar.setMaximumSize(new java.awt.Dimension(75, 23));
@@ -95,35 +83,19 @@ public class VentanaBajaAlojamiento extends javax.swing.JFrame implements Window
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelTitulo)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(botonBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(31, 31, 31)
-                                .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabelConfirmacion)
-                                .addGap(27, 27, 27)
-                                .addComponent(checkBoxBooleanConfirmacion)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabelNombre)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(inputNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabelID)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(inputID, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(10, 10, 10)))))
-                .addContainerGap(20, Short.MAX_VALUE))
+                        .addComponent(botonBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabelNombre)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(inputNombre))
+                        .addComponent(jLabelTitulo)))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,16 +104,8 @@ public class VentanaBajaAlojamiento extends javax.swing.JFrame implements Window
                 .addComponent(jLabelTitulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelID)
-                    .addComponent(inputID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelNombre)
                     .addComponent(inputNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(checkBoxBooleanConfirmacion)
-                    .addComponent(jLabelConfirmacion))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -155,24 +119,7 @@ public class VentanaBajaAlojamiento extends javax.swing.JFrame implements Window
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
         this.dispose();
     }//GEN-LAST:event_botonCancelarActionPerformed
-
-    /**
-     * Check de que los campos de inputs esten rellenados y no vacios.
-     * @return True si estan los 2 llenos.
-     */
-    private boolean checkInputLleno() {
-        return (this.inputID.getText().length() != 0 && this.inputNombre.getText().length() != 0);
-    }
-    
-    /**
-     * Reseteo de los campos a su estado inicial.
-     */
-    private void reseteoCampos() {
-        this.inputID.setText(null);
-        this.inputNombre.setText(null);
-        this.checkBoxBooleanConfirmacion.setSelected(false);
-    }
-    
+   
     /**
      * Borrado de un Alojamiento en la BDD.
      * @param id ID del alojamiento a borrar.
@@ -224,22 +171,9 @@ public class VentanaBajaAlojamiento extends javax.swing.JFrame implements Window
      */
     private void borrarAlojamiento() {        
         try {
-            if(checkInputLleno()) { //Si no hay campos vacios.
-                if(this.checkBoxBooleanConfirmacion.isSelected()) {
-                    int id = Integer.parseInt(this.inputID.getText());
-                    String nombre = this.inputNombre.getText();
-                
-//                    if(DBBConexion.checkConexionDBBExiste()) {
-//                        operacionBorrarDesdeBDD(id, nombre);
-//                    } else {
-//                        operacionBorrarDesdeJSONInterno(id, nombre);
-//                    }
-                } else {
-                    JOptionPane.showMessageDialog(this, "Por Favor, marque la casilla como que está \nconforme con borrar esta entrada.");
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "ERROR. Ninguno de los campos puede estar vacío.");
-            }
+            String nombre = this.inputNombre.getText();
+            Alojamiento a = NeoDatis.getAlojamiento(nombre);
+            NeoDatis.delete(a);
         } catch(NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "ERROR. La ID contiene caracteres no validos. \nCompruebe que la ID sea un # entero");
         }
@@ -253,11 +187,7 @@ public class VentanaBajaAlojamiento extends javax.swing.JFrame implements Window
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonBorrar;
     private javax.swing.JButton botonCancelar;
-    private javax.swing.JCheckBox checkBoxBooleanConfirmacion;
-    private javax.swing.JTextField inputID;
     private javax.swing.JTextField inputNombre;
-    private javax.swing.JLabel jLabelConfirmacion;
-    private javax.swing.JLabel jLabelID;
     private javax.swing.JLabel jLabelNombre;
     private javax.swing.JLabel jLabelTitulo;
     // End of variables declaration//GEN-END:variables
