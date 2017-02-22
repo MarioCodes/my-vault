@@ -5,6 +5,7 @@
  */
 package vista.swing.alojamientos;
 
+import controlador.datos.NeoDatis;
 import controlador.datos.Singleton;
 import controlador.dto.Alojamiento;
 import vista.swing.comun.VentanaPrincipal;
@@ -161,11 +162,7 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
             alDTOLocal = new Alojamiento();
             recoleccionDatos(alDTOLocal);
             
-//            if(DBBConexion.checkConexionDBBExiste()) { //Esto creo que sobra del todo.
-//                FACHADA.altaOModificacionAlojamientoBDD(alDTOLocal);
-//            } else {
-//                FACHADA.altaOModificacionAlojamientoJSON(alDTOLocal);
-//            }
+            NeoDatis.insert(alDTOLocal);
 
             //Output para el usuario, dependiendo de si estamos dando de alta o modificando.
             if(this.alojamiento == null) {
