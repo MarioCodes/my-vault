@@ -5,10 +5,12 @@
  */
 package vista.swing.alojamientos;
 
+import controlador.datos.NeoDatis;
 import controlador.dto.Alojamiento;
 import java.util.Collection;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.neodatis.odb.Objects;
 
 /**
  * Ventana con la estructura para mostrar resultados de Alojamientos. Segun el constructor ejecutara unos metodos u otros.
@@ -52,45 +54,53 @@ public class VentanaListadoAlojamientos extends javax.swing.JFrame {
      * Una vez rellenada la Coleccion con los datos que queremos (filtrados o no), introducimos estos en la tabla.
      * @param col Collection de AlojamientoDTOs a mostrar por pantalla.
      */
-//    private void rellenoTablaDatos(Collection<AlojamientoDTO> col) {
-//        model = (DefaultTableModel) tabla.getModel(); //Hacemos un get del DefaultModel con el que creamos la tabla desde Swing.
-//
-//        try {
-//            for(AlojamientoDTO alDTO : col) { //Para cada objeto Alojamiento de la coleccion.
-//                Object[] row = new Object[10]; //Creamos un objeto 'fila' con tantas columnas como tenga nuestra tabla (10 en este caso).
-//                row[0] = alDTO.getId(); //Para cada row, se va rellenando columna a columna con los datos.
-//                row[1] = alDTO.getNombre();
-//                row[2] = alDTO.getDir_Social();
-//                row[3] = alDTO.getRazon_Social();
-//                row[4] = alDTO.getTelefono_Contacto();
-//                row[5] = alDTO.getDescripcion();
-//                row[6] = alDTO.getValoracion();
-//                row[7] = alDTO.getFecha_Apertura();
-//                row[8] = alDTO.getNumero_Habitaciones();
-//                row[9] = alDTO.getProvincia();
-//                model.addRow(row); //Añade la fila ya rellena al modelo de la tabla.
-//            }
-//        }catch(NullPointerException ex) {
-//            System.out.println("Error especifico: " +ex.getLocalizedMessage());
-//            JOptionPane.showMessageDialog(this, "ERROR. NullPointerException.");
-//        }
-//    }
+    private void rellenoTablaDatos(Collection<Alojamiento> col) {
+        model = (DefaultTableModel) tabla.getModel(); //Hacemos un get del DefaultModel con el que creamos la tabla desde Swing.
+
+        try {
+            for(Alojamiento alDTO : col) { //Para cada objeto Alojamiento de la coleccion.
+                Object[] row = new Object[10]; //Creamos un objeto 'fila' con tantas columnas como tenga nuestra tabla (10 en este caso).
+                row[0] = alDTO.getIdAlojamiento(); //Para cada row, se va rellenando columna a columna con los datos.
+                row[1] = alDTO.getNombre();
+                row[2] = alDTO.getDireccionSocial();
+                row[3] = alDTO.getRazonSocial();
+                row[4] = alDTO.getTelefonoContacto();
+                row[5] = alDTO.getDescripcion();
+                row[6] = alDTO.getValoracion();
+                row[7] = alDTO.getFechaApertura();
+                row[8] = alDTO.getNumHabitaciones();
+                row[9] = alDTO.getProvincia();
+                model.addRow(row); //Añade la fila ya rellena al modelo de la tabla.
+            }
+        }catch(NullPointerException ex) {
+            System.out.println("Error especifico: " +ex.getLocalizedMessage());
+            JOptionPane.showMessageDialog(this, "ERROR. NullPointerException.");
+        }
+    }
+    
+    /**
+     * Get de los datos que hay en la BDD de NeoDatis.
+     * @return Objects con todos los Alojamientos.
+     */
+    private Objects obtencionDatos() {
+        return NeoDatis.getAlojamientos();
+    }
     
     /**
      * Metodo Sobrecargado. Version sin filtrar.
      * Si hay conexion a BDD, carga desde la BDD. Si no la hay, lo hace desde JSON.
      */
     private void creacionTablaCompletaBDDoJSON() {
-//        Facade fachada = new Facade();
-//        Collection <AlojamientoDTO> col;
-//        
-//        if(DBBConexion.checkConexionDBBExiste()) {
-//            col = fachada.listadoAlojamientosBDD();
-//        }else {
-//            col = fachada.listadoAlojamientosJSON();
-//        }
-//        
-//        rellenoTablaDatos(col);
+        Facade fachada = new Facade();
+        Collection <Alojamiento> col;
+        
+        if(DBBConexion.checkConexionDBBExiste()) {
+            col = fachada.listadoAlojamientosBDD();
+        }else {
+            col = fachada.listadoAlojamientosJSON();
+        }
+        
+        rellenoTablaDatos(col);
     }
     
     /**

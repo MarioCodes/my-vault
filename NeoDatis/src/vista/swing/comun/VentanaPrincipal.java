@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.neodatis.odb.Objects;
 import vista.swing.alojamientos.VentanaAltaYModifAlojamiento;
+import vista.swing.alojamientos.VentanaListadoAlojamientos;
 import vista.swing.habitacion.AltaModifHabitacion;
 import vista.swing.habitacion.BajaHabitacion;
 import vista.swing.habitacion.BuscarHabitacionID;
@@ -108,7 +109,6 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
         });
 
         botonListado.setText("Listado Completo");
-        botonListado.setEnabled(false);
         botonListado.setMaximumSize(new java.awt.Dimension(190, 60));
         botonListado.setMinimumSize(new java.awt.Dimension(190, 60));
         botonListado.setPreferredSize(new java.awt.Dimension(190, 60));
@@ -315,7 +315,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     }//GEN-LAST:event_botonBajaAlojamientoActionPerformed
 
     private void botonListadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonListadoActionPerformed
-//        new ListadoVista();
+        new VentanaListadoAlojamientos();
     }//GEN-LAST:event_botonListadoActionPerformed
 
     private void botonHabitacionesPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonHabitacionesPrecioActionPerformed
