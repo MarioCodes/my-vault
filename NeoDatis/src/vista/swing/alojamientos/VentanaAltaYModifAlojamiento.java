@@ -40,11 +40,11 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
     
     /**
      * Version que llamaremos para hacer la modificacion, pasandole un AlojamientoDTO para cargar sus datos en la ventana.
-     * @param alDTO AlojamientoDTO instanciado cuyos datos modificaremos.
+     * @param alojamiento AlojamientoDTO instanciado cuyos datos modificaremos.
      */
-    public VentanaAltaYModifAlojamiento(Alojamiento alDTO) {
+    public VentanaAltaYModifAlojamiento(Alojamiento alojamiento) {
         initComponents();
-        this.alojamiento = alDTO;
+        this.alojamiento = alojamiento;
         this.jLabelTituloVentana.setText("Modificar Alojamiento");
         this.botonAceptar.setText("Guardar");
         
@@ -53,7 +53,7 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         
-//        cargadoDatosAlojamiento(alDTO);
+        cargadoDatosAlojamiento(alojamiento);
     }
     
     /**
@@ -67,14 +67,6 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
     /*
         Metodos Comunes a ambas versiones (Checks principalmente).
     */
-
-    /**
-     * Check de que estamos en la version de DBB.
-     * @return True si hay conexion a DBB.
-     */
-//    private boolean checkConexionDBB() {
-//        return DBBConexion.checkConexionDBBExiste();
-//    }
     
     /**
      * Recopilacion de checks. Mira que no haya nada obligatorio vacio, que el telefono sea numerico y que no se intente meter la fecha por default.
@@ -136,61 +128,61 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
      * Recoleccionamos el ID cuando estemos en la ventana de Modificacion. En las de Alta no, porque se gestiona automaticamente en la BDD.
      * @param alDTO AlojamientoDTO donde meter el ID.
      */
-//    private void recoleccionDatosID(Alojamiento alDTO) {
-//        if(this.alojamiento != null) alDTO.setId(Integer.parseInt(this.inputIDAlojamiento.getText()));
-//    }
+    private void recoleccionDatosID(Alojamiento alDTO) {
+        if(this.alojamiento != null) alDTO.setIdAlojamiento(Integer.parseInt(this.inputIDAlojamiento.getText()));
+    }
     
     /**
      * Recoleccion de los datos actuales en la ventana. ID solo si estamos en la version de JSON.
      * @param alDTO AlojamientoDTO donde se meteran todos los datos.
      */
-//    private void recoleccionDatos(Alojamiento alDTO) {
-//        recoleccionDatosID(alDTO);
-//        
-//        alDTO.setNumero_Habitaciones((int) this.spinnerNumHabitaciones.getValue());
-//        alDTO.setNombre(this.inputNombre.getText());
-//        alDTO.setTelefono_Contacto(this.inputTelefono.getText());
-//        alDTO.setDir_Social(this.inputDireccionSocial.getText());
-//        alDTO.setRazon_Social(this.inputRazonSocial.getText());
-//        alDTO.setProvincia((String) this.inputBoxProvincia.getSelectedItem());
-//        alDTO.setDescripcion(this.inputDescripcion.getText());
-//        alDTO.setValoracion(this.sliderValoracion.getValue());
-//        alDTO.setFecha_Apertura(this.inputFecha.getText());
-//    }
+    private void recoleccionDatos(Alojamiento alDTO) {
+        recoleccionDatosID(alDTO);
+        
+        alDTO.setNumHabitaciones((int) this.spinnerNumHabitaciones.getValue());
+        alDTO.setNombre(this.inputNombre.getText());
+        alDTO.setTelefonoContacto(this.inputTelefono.getText());
+        alDTO.setDireccionSocial(this.inputDireccionSocial.getText());
+        alDTO.setRazonSocial(this.inputRazonSocial.getText());
+        alDTO.setProvincia((String) this.inputBoxProvincia.getSelectedItem());
+        alDTO.setDescripcion(this.inputDescripcion.getText());
+        alDTO.setValoracion(this.sliderValoracion.getValue());
+        alDTO.setFechaApertura(this.inputFecha.getText());
+    }
     
     /**
      * Recoleccion de los campos de la ventana e instanciacion de un alojamiento con esos datos. Previamente se ha realizado la comprobacion de que los datos sean correctos.
      */
     private void recoleccionDatosVentana() {
-//        AlojamientoDTO alDTOLocal = null;
-//
-//        try {
-//            //Instanciacion del DTO de Alojamiento y pasado a fachada con este DTO.
-//            alDTOLocal = new AlojamientoDTO();
-//            recoleccionDatos(alDTOLocal);
-//            
-//            if(DBBConexion.checkConexionDBBExiste()) {
+        Alojamiento alDTOLocal = null;
+
+        try {
+            //Instanciacion del DTO de Alojamiento y pasado a fachada con este DTO.
+            alDTOLocal = new Alojamiento();
+            recoleccionDatos(alDTOLocal);
+            
+//            if(DBBConexion.checkConexionDBBExiste()) { //Esto creo que sobra del todo.
 //                FACHADA.altaOModificacionAlojamientoBDD(alDTOLocal);
 //            } else {
 //                FACHADA.altaOModificacionAlojamientoJSON(alDTOLocal);
 //            }
-//
-//            //Output para el usuario, dependiendo de si estamos dando de alta o modificando.
-//            if(this.alojamiento == null) {
-//                JOptionPane.showMessageDialog(null, "¡Alojamiento dado de alta exitosamente!");
-//                reseteoCamposVentana(); //Vaciamos todos los campos.
-//            } else {
-//                JOptionPane.showMessageDialog(this, "¡Alojamiento modificado exitosamente!");
-//                this.dispose();
-//            }
-//        } catch(NullPointerException ex) {
-//            JOptionPane.showMessageDialog(this, "ERROR. NullPointerException. Mirar Output. \n");
-//            System.out.println(ex.getLocalizedMessage());
-//        } catch(IllegalArgumentException ex) {
-//            JOptionPane.showMessageDialog(this, "ERROR. Problema con la conversion de la fecha: \n" +ex.getLocalizedMessage());
-//        } catch(ClassCastException ex) {
-//            JOptionPane.showMessageDialog(this, "ERROR. Problema generico: \n" +ex.getLocalizedMessage());
-//        }
+
+            //Output para el usuario, dependiendo de si estamos dando de alta o modificando.
+            if(this.alojamiento == null) {
+                JOptionPane.showMessageDialog(null, "¡Alojamiento dado de alta exitosamente!");
+                reseteoCamposVentana(); //Vaciamos todos los campos.
+            } else {
+                JOptionPane.showMessageDialog(this, "¡Alojamiento modificado exitosamente!");
+                this.dispose();
+            }
+        } catch(NullPointerException ex) {
+            JOptionPane.showMessageDialog(this, "ERROR. NullPointerException. Mirar Output. \n");
+            System.out.println(ex.getLocalizedMessage());
+        } catch(IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(this, "ERROR. Problema con la conversion de la fecha: \n" +ex.getLocalizedMessage());
+        } catch(ClassCastException ex) {
+            JOptionPane.showMessageDialog(this, "ERROR. Problema generico: \n" +ex.getLocalizedMessage());
+        }
     }
     
     /**
@@ -239,18 +231,18 @@ public class VentanaAltaYModifAlojamiento extends javax.swing.JFrame {
      * Rellena la ventana con los datos de AlojamientoDTO pasado por contructor.
      * @param alDTO Alojamiento cuyos datos se mostraran en la ventana.
      */
-//    private void cargadoDatosAlojamiento(AlojamientoDTOalDTO) {
-//        this.inputIDAlojamiento.setText(Integer.toString(alDTO.getId()));
-//        this.inputNombre.setText(alDTO.getNombre());
-//        this.inputDireccionSocial.setText(alDTO.getDir_Social());
-//        this.inputRazonSocial.setText(alDTO.getRazon_Social());
-//        this.inputTelefono.setText(alDTO.getTelefono_Contacto());
-//        this.inputDescripcion.setText(alDTO.getDescripcion());
-//        this.sliderValoracion.setValue(alDTO.getValoracion());
-//        this.inputFecha.setText(alDTO.getFecha_Apertura());
-//        this.spinnerNumHabitaciones.setValue(alDTO.getNumero_Habitaciones());
-//        rellenoAutoProvincia(alDTO);
-//    }
+    private void cargadoDatosAlojamiento(Alojamiento alDTO) {
+        this.inputIDAlojamiento.setText(Integer.toString(alDTO.getIdAlojamiento()));
+        this.inputNombre.setText(alDTO.getNombre());
+        this.inputDireccionSocial.setText(alDTO.getDireccionSocial());
+        this.inputRazonSocial.setText(alDTO.getRazonSocial());
+        this.inputTelefono.setText(alDTO.getTelefonoContacto());
+        this.inputDescripcion.setText(alDTO.getDescripcion());
+        this.sliderValoracion.setValue(alDTO.getValoracion());
+        this.inputFecha.setText(alDTO.getFechaApertura());
+        this.spinnerNumHabitaciones.setValue(alDTO.getNumHabitaciones());
+        rellenoAutoProvincia(alDTO);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

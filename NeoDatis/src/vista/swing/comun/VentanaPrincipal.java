@@ -8,10 +8,14 @@
  */
 package vista.swing.comun;
 
+import controlador.datos.NeoDatis;
 import controlador.datos.Singleton;
+import controlador.dto.Alojamiento;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import org.neodatis.odb.Objects;
+import vista.swing.alojamientos.VentanaAltaYModifAlojamiento;
 import vista.swing.habitacion.AltaModifHabitacion;
 import vista.swing.habitacion.BajaHabitacion;
 import vista.swing.habitacion.BuscarHabitacionID;
@@ -303,7 +307,7 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAltaAlojamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAltaAlojamientoActionPerformed
-//        new AltaBajaVista(true);
+        new VentanaAltaYModifAlojamiento();
     }//GEN-LAST:event_botonAltaAlojamientoActionPerformed
 
     private void botonBajaAlojamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBajaAlojamientoActionPerformed
