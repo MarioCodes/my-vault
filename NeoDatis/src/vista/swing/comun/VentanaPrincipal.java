@@ -2,17 +2,22 @@ package vista.swing.comun;
 
 import controlador.datos.NeoDatis;
 import controlador.datos.Singleton;
+import controlador.dto.Alojamiento;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import vista.swing.alojamientos.VentanaAltaYModifAlojamiento;
-import vista.swing.alojamientos.VentanaBajaAlojamiento;
 import vista.swing.alojamientos.VentanaListadoAlojamientos;
+import vista.swing.alojamientos.VentanaShowAlojamiento;
 import vista.swing.habitacion.AltaModifHabitacion;
 import vista.swing.habitacion.BajaHabitacion;
 import vista.swing.habitacion.BuscarHabitacionID;
 import vista.swing.habitacion.ListadoHabitaciones;
 import vista.swing.habitacion.InputTiposHabitacion;
+
+/*
+    fixme: Bug en el listado filtrado, a veces aunque un alojamiento tenga menos valoracion de la que pido, lo muestra igual. Comprobarlo y arreglarlo.
+*/
 
 /**
  * Ventana Principal del programa. Conduce al resto de Ventanas que haran las operaciones.
@@ -300,7 +305,9 @@ public class VentanaPrincipal extends javax.swing.JFrame  {
     }//GEN-LAST:event_botonAltaAlojamientoActionPerformed
 
     private void botonBajaAlojamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBajaAlojamientoActionPerformed
-        new VentanaBajaAlojamiento();
+        String nombre = JOptionPane.showInputDialog("Nombre del Alojamiento: ");
+        Alojamiento a = NeoDatis.getAlojamiento(nombre);
+        if(a != null) new VentanaShowAlojamiento(a);
     }//GEN-LAST:event_botonBajaAlojamientoActionPerformed
 
     private void botonListadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonListadoActionPerformed

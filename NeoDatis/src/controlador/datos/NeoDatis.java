@@ -23,9 +23,8 @@ public class NeoDatis {
     
     public static Alojamiento getAlojamiento(String nombre) {
         Alojamiento al = null;
-//        nombre = "%" +nombre.substring(0) +"%";
         ODB odb = ODBFactory.open(DATABASE);
-        IQuery query = new CriteriaQuery(Alojamiento.class, Where.equal("nombre", nombre));
+        IQuery query = new CriteriaQuery(Alojamiento.class, Where.like("nombre", nombre));
         al = (Alojamiento) odb.getObjects(query).getFirst();
         odb.close();
         return al;
@@ -74,10 +73,13 @@ public class NeoDatis {
         System.out.println("Insert realizado.");
     }
     
-    public static void delete(Alojamiento a) {
+    public static void delete(Alojamiento alojamiento) {
+        Alojamiento a = null;
         ODB odb = ODBFactory.open(DATABASE);
+        IQuery query = new CriteriaQuery(Alojamiento.class, Where.like("nombre", alojamiento.getNombre()));
+        a = (Alojamiento) odb.getObjects(query).getFirst();
         odb.delete(a);
         odb.close();
-        System.out.println("Delete realizado.");
+        System.out.printf("Alojamiento %s eliminado.", alojamiento.getNombre());
     }
 }
