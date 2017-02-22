@@ -5,9 +5,6 @@
  */
 package vista.swing.alojamientos;
 
-import controlador.DTO.AlojamientoDTO;
-import controlador.datos.DBBConexion;
-import aplicacion.facade.Facade;
 import java.util.Collection;
 
 /**
@@ -112,18 +109,18 @@ public class VentanaInputProvinciaAlojamiento extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonCancelarActionPerformed
     
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
-        Facade fachada = new Facade();
-        String provincia = (String) this.jComboBoxProvincias.getSelectedItem();
-        Collection <AlojamientoDTO> col = null;
-
-        if(DBBConexion.checkConexionDBBExiste()) {
-            col = fachada.listadoAlojamientosBDD(provincia);
-        } else {
-            col = fachada.listadoAlojamientosJSON(provincia);
-        }
-
-        new VentanaListadoAlojamientos(col);
-        this.dispose();
+//        Facade fachada = new Facade();
+//        String provincia = (String) this.jComboBoxProvincias.getSelectedItem();
+//        Collection <AlojamientoDTO> col = null;
+//
+//        if(DBBConexion.checkConexionDBBExiste()) {
+//            col = fachada.listadoAlojamientosBDD(provincia);
+//        } else {
+//            col = fachada.listadoAlojamientosJSON(provincia);
+//        }
+//
+//        new VentanaListadoAlojamientos(col);
+//        this.dispose();
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

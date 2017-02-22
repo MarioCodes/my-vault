@@ -5,9 +5,7 @@
  */
 package vista.swing.alojamientos;
 
-import controlador.DTO.AlojamientoDTO;
-import controlador.datos.DBBConexion;
-import aplicacion.facade.Facade;
+import controlador.dto.Alojamiento;
 import java.util.Collection;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -19,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class VentanaListadoAlojamientos extends javax.swing.JFrame {    
     private DefaultTableModel model;
-    private Collection<AlojamientoDTO> coleccionResultados;
+    private Collection<Alojamiento> coleccionResultados;
     
     /**
      * Constructor de la version sin filtrar. Muestra todos los Alojamientos Existentes.
@@ -38,61 +36,61 @@ public class VentanaListadoAlojamientos extends javax.swing.JFrame {
      * Constructor de la version en la cual le metemos directamente la Coleccion a mostrar. Ahora mismo, muestra solo los existentes localizados en la provincia seleccionada en la ventana anterior.
      * @param coleccionResultados Coleccion de AlojamientosDTO que queremos mostrar.
      */
-    public VentanaListadoAlojamientos(Collection<AlojamientoDTO> coleccionResultados) {
-        initComponents(); //Ini necesario de los componentes intrinsecos de la ventana.
-        this.coleccionResultados = coleccionResultados;
-        
-        this.setTitle("Listado de Alojamientos por Provincia");
-        this.labelTitulo.setText("Lista de Alojamiento por Provincia");
-        this.setVisible(true); //Mejor que la padre no se haga invisible, no me acordare de los ID de memoria. Si vuelvo a cambiar esto, cambiar tambien los vp.setvisible a true del windowListener on close.
-        this.setResizable(false);
-        
-        rellenoTablaDatos(coleccionResultados);
-    }
+//    public VentanaListadoAlojamientos(Collection<AlojamientoDTO> coleccionResultados) {
+//        initComponents(); //Ini necesario de los componentes intrinsecos de la ventana.
+//        this.coleccionResultados = coleccionResultados;
+//        
+//        this.setTitle("Listado de Alojamientos por Provincia");
+//        this.labelTitulo.setText("Lista de Alojamiento por Provincia");
+//        this.setVisible(true); //Mejor que la padre no se haga invisible, no me acordare de los ID de memoria. Si vuelvo a cambiar esto, cambiar tambien los vp.setvisible a true del windowListener on close.
+//        this.setResizable(false);
+//        
+//        rellenoTablaDatos(coleccionResultados);
+//    }
     
     /**
      * Una vez rellenada la Coleccion con los datos que queremos (filtrados o no), introducimos estos en la tabla.
      * @param col Collection de AlojamientoDTOs a mostrar por pantalla.
      */
-    private void rellenoTablaDatos(Collection<AlojamientoDTO> col) {
-        model = (DefaultTableModel) tabla.getModel(); //Hacemos un get del DefaultModel con el que creamos la tabla desde Swing.
-
-        try {
-            for(AlojamientoDTO alDTO : col) { //Para cada objeto Alojamiento de la coleccion.
-                Object[] row = new Object[10]; //Creamos un objeto 'fila' con tantas columnas como tenga nuestra tabla (10 en este caso).
-                row[0] = alDTO.getId(); //Para cada row, se va rellenando columna a columna con los datos.
-                row[1] = alDTO.getNombre();
-                row[2] = alDTO.getDir_Social();
-                row[3] = alDTO.getRazon_Social();
-                row[4] = alDTO.getTelefono_Contacto();
-                row[5] = alDTO.getDescripcion();
-                row[6] = alDTO.getValoracion();
-                row[7] = alDTO.getFecha_Apertura();
-                row[8] = alDTO.getNumero_Habitaciones();
-                row[9] = alDTO.getProvincia();
-                model.addRow(row); //Añade la fila ya rellena al modelo de la tabla.
-            }
-        }catch(NullPointerException ex) {
-            System.out.println("Error especifico: " +ex.getLocalizedMessage());
-            JOptionPane.showMessageDialog(this, "ERROR. NullPointerException.");
-        }
-    }
+//    private void rellenoTablaDatos(Collection<AlojamientoDTO> col) {
+//        model = (DefaultTableModel) tabla.getModel(); //Hacemos un get del DefaultModel con el que creamos la tabla desde Swing.
+//
+//        try {
+//            for(AlojamientoDTO alDTO : col) { //Para cada objeto Alojamiento de la coleccion.
+//                Object[] row = new Object[10]; //Creamos un objeto 'fila' con tantas columnas como tenga nuestra tabla (10 en este caso).
+//                row[0] = alDTO.getId(); //Para cada row, se va rellenando columna a columna con los datos.
+//                row[1] = alDTO.getNombre();
+//                row[2] = alDTO.getDir_Social();
+//                row[3] = alDTO.getRazon_Social();
+//                row[4] = alDTO.getTelefono_Contacto();
+//                row[5] = alDTO.getDescripcion();
+//                row[6] = alDTO.getValoracion();
+//                row[7] = alDTO.getFecha_Apertura();
+//                row[8] = alDTO.getNumero_Habitaciones();
+//                row[9] = alDTO.getProvincia();
+//                model.addRow(row); //Añade la fila ya rellena al modelo de la tabla.
+//            }
+//        }catch(NullPointerException ex) {
+//            System.out.println("Error especifico: " +ex.getLocalizedMessage());
+//            JOptionPane.showMessageDialog(this, "ERROR. NullPointerException.");
+//        }
+//    }
     
     /**
      * Metodo Sobrecargado. Version sin filtrar.
      * Si hay conexion a BDD, carga desde la BDD. Si no la hay, lo hace desde JSON.
      */
     private void creacionTablaCompletaBDDoJSON() {
-        Facade fachada = new Facade();
-        Collection <AlojamientoDTO> col;
-        
-        if(DBBConexion.checkConexionDBBExiste()) {
-            col = fachada.listadoAlojamientosBDD();
-        }else {
-            col = fachada.listadoAlojamientosJSON();
-        }
-        
-        rellenoTablaDatos(col);
+//        Facade fachada = new Facade();
+//        Collection <AlojamientoDTO> col;
+//        
+//        if(DBBConexion.checkConexionDBBExiste()) {
+//            col = fachada.listadoAlojamientosBDD();
+//        }else {
+//            col = fachada.listadoAlojamientosJSON();
+//        }
+//        
+//        rellenoTablaDatos(col);
     }
     
     /**
@@ -204,16 +202,16 @@ public class VentanaListadoAlojamientos extends javax.swing.JFrame {
      * Recarga la Coleccion a partir de la cual mostrara la informacion al darle a actualizar.
      */
     private void recargarFiltradoPorProvincia() {
-        Facade fachada = new Facade();
-        String provincia = coleccionResultados.iterator().next().getProvincia();
-
-        if(DBBConexion.checkConexionDBBExiste()) {
-            coleccionResultados = fachada.listadoAlojamientosBDD(provincia);
-        }else {
-            coleccionResultados = fachada.listadoAlojamientosJSON(provincia);
-        }
-
-        rellenoTablaDatos(coleccionResultados);
+//        Facade fachada = new Facade();
+//        String provincia = coleccionResultados.iterator().next().getProvincia();
+//
+//        if(DBBConexion.checkConexionDBBExiste()) {
+//            coleccionResultados = fachada.listadoAlojamientosBDD(provincia);
+//        }else {
+//            coleccionResultados = fachada.listadoAlojamientosJSON(provincia);
+//        }
+//
+//        rellenoTablaDatos(coleccionResultados);
     }
     
     /*

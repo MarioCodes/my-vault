@@ -5,9 +5,6 @@
  */
 package vista.swing.alojamientos;
 
-import controlador.DTO.AlojamientoDTO;
-import controlador.datos.DBBConexion;
-import aplicacion.facade.Facade;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
@@ -131,32 +128,32 @@ public class VentanaBuscarAlojamientoInputID extends javax.swing.JFrame {
      * Operacion en si misma.
      */
     private void buscarAlojamiento() {
-        try {
-            Facade fachada = new Facade();
-            
-            if(checkInputIDNumericoExprRegular()) {
-                AlojamientoDTO alDTOTmp;
-                int idInput = Integer.parseInt(jTextFieldInputID.getText());
-                
-                if(DBBConexion.checkConexionDBBExiste()) {
-                    alDTOTmp = fachada.buscarAlojamientoIdEspecificoBDD(idInput); //Buscamos los datos del Alojamiento que corresponde con ese ID y los metemos en AlojamientoDTO.
-                } else {
-                    alDTOTmp = fachada.buscarAlojamientoIDespecificoJSON(idInput);
-                }
-                
-                if(alDTOTmp != null) { //Si existe, pasamos el control a la siguiente ventana con este Alojamiento.
-                    new VentanaAltaYModifAlojamiento(alDTOTmp);
-                    this.setVisible(false);
-                } else { //Si no, simplemente avisamos al usuario.
-                    JOptionPane.showMessageDialog(this, "No existe ningun Alojamiento con esa ID");
-                    this.jTextFieldInputID.setText(null);
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "Introduce un numero valido");
-            }
-        }catch(NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "El numero introducido no es un entero");
-        }
+//        try {
+//            Facade fachada = new Facade();
+//            
+//            if(checkInputIDNumericoExprRegular()) {
+//                AlojamientoDTO alDTOTmp;
+//                int idInput = Integer.parseInt(jTextFieldInputID.getText());
+//                
+//                if(DBBConexion.checkConexionDBBExiste()) {
+//                    alDTOTmp = fachada.buscarAlojamientoIdEspecificoBDD(idInput); //Buscamos los datos del Alojamiento que corresponde con ese ID y los metemos en AlojamientoDTO.
+//                } else {
+//                    alDTOTmp = fachada.buscarAlojamientoIDespecificoJSON(idInput);
+//                }
+//                
+//                if(alDTOTmp != null) { //Si existe, pasamos el control a la siguiente ventana con este Alojamiento.
+//                    new VentanaAltaYModifAlojamiento(alDTOTmp);
+//                    this.setVisible(false);
+//                } else { //Si no, simplemente avisamos al usuario.
+//                    JOptionPane.showMessageDialog(this, "No existe ningun Alojamiento con esa ID");
+//                    this.jTextFieldInputID.setText(null);
+//                }
+//            } else {
+//                JOptionPane.showMessageDialog(this, "Introduce un numero valido");
+//            }
+//        }catch(NumberFormatException ex) {
+//            JOptionPane.showMessageDialog(this, "El numero introducido no es un entero");
+//        }
     }
     
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed

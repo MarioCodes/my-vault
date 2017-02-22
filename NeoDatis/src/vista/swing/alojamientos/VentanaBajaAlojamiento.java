@@ -5,14 +5,11 @@
  */
 package vista.swing.alojamientos;
 
-import controlador.DTO.AlojamientoDTO;
-import controlador.datos.DBBConexion;
+import controlador.datos.Singleton;
 import vista.swing.comun.VentanaPrincipal;
-import aplicacion.facade.Facade;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.JOptionPane;
-import vista.swing.comun.SingletonVentanas;
 
 /**
  * Ventana para dar de Baja un Alojamiento ya existente en la BDD.
@@ -20,7 +17,7 @@ import vista.swing.comun.SingletonVentanas;
  * @since 30/11/2016
  */
 public class VentanaBajaAlojamiento extends javax.swing.JFrame implements WindowListener {
-    private final VentanaPrincipal VP = SingletonVentanas.getVentanaPrincipalObtencionSingleton();
+    private final VentanaPrincipal VP = Singleton.getVentanaPrincipalObtencionSingleton();
     
     /**
      * Creates new form VentanaBajaAlojamiento
@@ -182,21 +179,21 @@ public class VentanaBajaAlojamiento extends javax.swing.JFrame implements Window
      * @param nombre Nombre del alojamiento a borrar.
      */
     private void operacionBorrarDesdeBDD(int id, String nombre) {
-        Facade fachada = new Facade();
-        
-        AlojamientoDTO alDTOTmp = fachada.buscarAlojamientoIdEspecificoBDD(id);
-        
-        if(alDTOTmp != null) {
-            if(alDTOTmp.getNombre().matches(nombre)) {
-                int res = fachada.bajaAlojamientoBDD(alDTOTmp); //Int con el resultado de la operacion.
-                JOptionPane.showMessageDialog(this, res +" fila modificada.");
-                reseteoCampos();
-            }else {
-                JOptionPane.showMessageDialog(this, "El nombre del Alojamiento no Coincide.");
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Ningun Alojamiento con esa ID.");
-        }
+//        Facade fachada = new Facade();
+//        
+//        AlojamientoDTO alDTOTmp = fachada.buscarAlojamientoIdEspecificoBDD(id);
+//        
+//        if(alDTOTmp != null) {
+//            if(alDTOTmp.getNombre().matches(nombre)) {
+//                int res = fachada.bajaAlojamientoBDD(alDTOTmp); //Int con el resultado de la operacion.
+//                JOptionPane.showMessageDialog(this, res +" fila modificada.");
+//                reseteoCampos();
+//            }else {
+//                JOptionPane.showMessageDialog(this, "El nombre del Alojamiento no Coincide.");
+//            }
+//        } else {
+//            JOptionPane.showMessageDialog(this, "Ningun Alojamiento con esa ID.");
+//        }
     }
     
     /**
@@ -205,21 +202,21 @@ public class VentanaBajaAlojamiento extends javax.swing.JFrame implements Window
      * @param nombre Nombre del Alojamiento a borrar.
      */
     private void operacionBorrarDesdeJSONInterno(int id, String nombre) {
-        Facade fachada = new Facade();
-        
-        AlojamientoDTO alDTOTmp = fachada.buscarAlojamientoIDespecificoJSON(id);
-
-        if(alDTOTmp != null) {
-            if(alDTOTmp.getNombre().matches(nombre)) {
-                fachada.bajaAlojamientoJSON(alDTOTmp);
-                JOptionPane.showMessageDialog(this, "Alojamiento dado de Baja.");
-                reseteoCampos();
-            } else {
-                JOptionPane.showMessageDialog(this, "El nombre del Alojamiento no coincide con los datos de esa ID.");
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Ningun Alojamiento con esa ID");
-        }
+//        Facade fachada = new Facade();
+//        
+//        AlojamientoDTO alDTOTmp = fachada.buscarAlojamientoIDespecificoJSON(id);
+//
+//        if(alDTOTmp != null) {
+//            if(alDTOTmp.getNombre().matches(nombre)) {
+//                fachada.bajaAlojamientoJSON(alDTOTmp);
+//                JOptionPane.showMessageDialog(this, "Alojamiento dado de Baja.");
+//                reseteoCampos();
+//            } else {
+//                JOptionPane.showMessageDialog(this, "El nombre del Alojamiento no coincide con los datos de esa ID.");
+//            }
+//        } else {
+//            JOptionPane.showMessageDialog(this, "Ningun Alojamiento con esa ID");
+//        }
     }
     
     /**
@@ -232,11 +229,11 @@ public class VentanaBajaAlojamiento extends javax.swing.JFrame implements Window
                     int id = Integer.parseInt(this.inputID.getText());
                     String nombre = this.inputNombre.getText();
                 
-                    if(DBBConexion.checkConexionDBBExiste()) {
-                        operacionBorrarDesdeBDD(id, nombre);
-                    } else {
-                        operacionBorrarDesdeJSONInterno(id, nombre);
-                    }
+//                    if(DBBConexion.checkConexionDBBExiste()) {
+//                        operacionBorrarDesdeBDD(id, nombre);
+//                    } else {
+//                        operacionBorrarDesdeJSONInterno(id, nombre);
+//                    }
                 } else {
                     JOptionPane.showMessageDialog(this, "Por Favor, marque la casilla como que está \nconforme con borrar esta entrada.");
                 }
