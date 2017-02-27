@@ -51,7 +51,12 @@ class Empleado:
         return self.sueldo_base+self.get_pago_horas_extra()
     
     def get_retencion_irpf(self):
-        return self.porcentaje_irpf()*self.get_sueldo_bruto()
+        porcentaje = self.porcentaje_irpf
+        if(self.casado == True):
+            porcentaje = porcentaje - 2
+        porcentaje = porcentaje - (1 * self.numero_hijos)
+            
+        return self.get_sueldo_bruto()*porcentaje/100
     
     def get_sueldo_neto(self):
         return self.get_sueldo_bruto()-self.get_retencion_irpf()
