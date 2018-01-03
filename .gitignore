@@ -1,0 +1,6 @@
+*.pyc
+*.swp
+.project
+.pydevproject
+*.resources.prefs
+__init__.py
