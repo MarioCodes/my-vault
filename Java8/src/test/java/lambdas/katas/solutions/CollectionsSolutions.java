@@ -1,4 +1,4 @@
-package lambdas;
+package lambdas.katas.solutions;
 
 import java.util.Arrays;
 import java.util.List;
@@ -7,20 +7,20 @@ import java.util.function.Predicate;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class Collections {
+public class CollectionsSolutions {
 	final List<String> friends = Arrays.asList("Moha", "Carlos", "Carlos Arturo", "Alejandro",
 			"Maria", "Ramon", "Lorem", "Ipsum", "Dolor", "Sit", "Amed");
 
 	@Test
 	@Ignore
-	public void iterateTroughAListAndPrint() throws Exception {
+	public void iterateTroughAListAndPrintAll() throws Exception {
 		friends.stream()
 				.forEach(System.out::println);
 	}
 
 	@Test
 	@Ignore
-	public void transformAListIntoAnother() throws Exception {
+	public void transformListInputIntoAnother() throws Exception {
 		friends.stream()
 				.map(String::toUpperCase) // .map((String name) -> name.toUpperCase());
 				.forEach(System.out::println);
@@ -28,7 +28,7 @@ public class Collections {
 
 	@Test
 	@Ignore
-	public void findingElements() throws Exception {
+	public void findElementsInTheList() throws Exception {
 		friends.stream()
 				.filter(name -> name.startsWith("Ca"))
 				.forEach(System.out::println);
@@ -36,20 +36,21 @@ public class Collections {
 
 	@Test
 	@Ignore
-	public void reuseLambda() throws Exception {
+	public void saveLambdaAsLocalVariableAndUseIt() throws Exception {
 		Predicate<String> startsWith = name -> name.startsWith("Ca");
 		friends.stream().filter(startsWith)
 				.forEach(System.out::println);
 	}
 
 	@Test
-	public void returnLambdaInAFunction() throws Exception {
+	@Ignore
+	public void createFunctionWhichReturnsLambdaAndUseIt() throws Exception {
 		friends.stream()
 				.filter(checkStartsWith("Ca"))
 				.forEach(System.out::println);
 	}
 
-	public static Predicate<String> checkStartsWith(String letter) {
+	private static Predicate<String> checkStartsWith(String letter) {
 		return name -> name.startsWith(letter);
 	}
 }
