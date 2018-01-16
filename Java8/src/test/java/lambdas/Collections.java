@@ -1,45 +1,55 @@
 package lambdas;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 
 import org.junit.Ignore;
 import org.junit.Test;
 
 public class Collections {
 	final List<String> friends = Arrays.asList("Moha", "Carlos", "Carlos Arturo", "Alejandro",
-			"Maria", "Ramon");
+			"Maria", "Ramon", "Lorem", "Ipsum", "Dolor", "Sit", "Amed");
 
-	// Example 1
 	@Test
-	@Ignore("Do not use this, use method reference.")
-	public void givenFriendsWhenIterateThenPrintAllOldWay() {
-		friends.forEach(name -> System.out.println(name));
+	@Ignore
+	public void iterateTroughAListAndPrint() throws Exception {
+		friends.stream()
+				.forEach(System.out::println);
 	}
 
 	@Test
 	@Ignore
-	public void givenFriendsWhenIterateThenPrintWithMethodReference() throws Exception {
-		friends.forEach(System.out::println);
-	}
-
-	// Example 2
-	@Test
-	@Ignore("Old way")
-	public void givenFriendsWhenUpperCaseOldWayThenPrint() throws Exception {
-		ArrayList<String> upperCase = new ArrayList<>();
-		for (String name : friends)
-			upperCase.add(name.toUpperCase());
-
-		for (String name : upperCase)
-			System.out.println(name);
-	}
-
-	@Test
-	public void givenFriendsWhenUpperCaseThenPrint() throws Exception {
+	public void transformAListIntoAnother() throws Exception {
 		friends.stream()
-				.map(String::toUpperCase)
+				.map(String::toUpperCase) // .map((String name) -> name.toUpperCase());
 				.forEach(System.out::println);
+	}
+
+	@Test
+	@Ignore
+	public void findingElements() throws Exception {
+		friends.stream()
+				.filter(name -> name.startsWith("Ca"))
+				.forEach(System.out::println);
+	}
+
+	@Test
+	@Ignore
+	public void reuseLambda() throws Exception {
+		Predicate<String> startsWith = name -> name.startsWith("Ca");
+		friends.stream().filter(startsWith)
+				.forEach(System.out::println);
+	}
+
+	@Test
+	public void returnLambdaInAFunction() throws Exception {
+		friends.stream()
+				.filter(checkStartsWith("Ca"))
+				.forEach(System.out::println);
+	}
+
+	public static Predicate<String> checkStartsWith(String letter) {
+		return name -> name.startsWith(letter);
 	}
 }
