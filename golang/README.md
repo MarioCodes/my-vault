@@ -43,6 +43,7 @@ To compile / build / run
 Semicolons are **not** needed.
 
 * variable declaration  
+
         var age int // assigned to 0 by default
         var footSize = 45 // type inference
         fmt.Println("my age is:", age, "and my foot size: ", footSize)
