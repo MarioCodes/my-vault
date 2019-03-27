@@ -3,8 +3,8 @@ package main
 import "fmt"
 
 func main() {
-	result := functionWithParamsOfSameType(100, 5)
-	fmt.Println("the result is:", result)
+	result1, _ := multipleReturnValues(12, 64)
+	fmt.Println("the result is:", result1)
 }
 
 func functionNoParams() {
@@ -19,6 +19,8 @@ func functionWithParamsOfSameType(price, number int) int {
 	return price * number
 }
 
-func multipleReturnValues(price, number int) (int, int) {
+func multipleReturnValues(price, number int) (result1, result2 int) {
+	result1 = price
+	result2 = number
 	return
 }
