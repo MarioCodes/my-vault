@@ -4,3 +4,7 @@
 .pydevproject
 *.resources.prefs
 __init__.py
+.idea/
+*.class
+target/
+*.iml
