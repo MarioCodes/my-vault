@@ -13,6 +13,9 @@
 	<!-- General -->
 	<main.class>es.msanchez.templates.spring.starter.Main</main.class> <!-- Override in local POM -->
 
+	<!-- kotlin dependencies -->
+	<kotlin.jackson.version>2.9.8</kotlin.jackson.version>
+
 	<!-- Normal Dependency Versions -->
 	<vertx.version>3.5.4</vertx.version>
 	<lombok.version>1.16.18</lombok.version>
@@ -38,6 +41,12 @@
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-stdlib-jdk8</artifactId>
 			<version>${kotlin.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-kotlin</artifactId>
+			<version>${kotlin.jackson.version}</version>
 		</dependency>
 
 		<!-- Spring -->
@@ -118,32 +127,46 @@
 				<artifactId>kotlin-maven-plugin</artifactId>
 				<groupId>org.jetbrains.kotlin</groupId>
 				<version>${kotlin.version}</version>
+				<configuration>
+					<compilerPlugins>
+						<plugin>spring</plugin>
+					</compilerPlugins>
+				</configuration>
 				<executions>
 					<execution>
 						<id>compile</id>
+						<phase>compile</phase>
 						<goals>
 							<goal>compile</goal>
 						</goals>
 						<configuration>
 							<sourceDirs>
-								<sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
-								<sourceDir>${project.basedir}/src/main/java</sourceDir>
+								<sourceDir>src/main/kotlin</sourceDir>
+								<sourceDir>src/main/java</sourceDir>
 							</sourceDirs>
 						</configuration>
 					</execution>
 					<execution>
 						<id>test-compile</id>
+						<phase>test-compile</phase>
 						<goals>
 							<goal>test-compile</goal>
 						</goals>
 						<configuration>
 							<sourceDirs>
-								<sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
-								<sourceDir>${project.basedir}/src/test/java</sourceDir>
+								<sourceDir>src/main/kotlin</sourceDir>
+								<sourceDir>src/main/java</sourceDir>
 							</sourceDirs>
 						</configuration>
 					</execution>
 				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.jetbrains.kotlin</groupId>
+						<artifactId>kotlin-maven-allopen</artifactId>
+						<version>${kotlin.version}</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 
 			<!-- Sets the compiler version -->

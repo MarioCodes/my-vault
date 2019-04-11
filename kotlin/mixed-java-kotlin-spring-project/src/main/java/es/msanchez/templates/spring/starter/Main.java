@@ -16,10 +16,10 @@ public class Main {
     log.info("Configuration is ready");
 
     final JavaBean javaBean = context.getBean(JavaBean.class);
-    log.info(javaBean.toString());
+    log.error(javaBean.toString());
 
-    final KotlinBean kotlinBean = new KotlinBean();
-    log.info(kotlinBean.toString());
+    final KotlinBean kotlinBean = context.getBean(KotlinBean.class);
+    log.error(kotlinBean.toString());
 
     log.info("Application is done");
   }
