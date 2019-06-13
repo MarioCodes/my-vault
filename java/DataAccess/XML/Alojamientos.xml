@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Alojamientos>
+<Alojamiento>
+<Nombre>Casa Rivera</Nombre>
+<Dir_Social>C:/Santa Cruz Nº 14</Dir_Social>
+<Razon_Social>Ruiz S.L.</Razon_Social>
+<Telefono>976475825</Telefono>
+<Descripcion>976475825</Descripcion>
+<Valoracion>3</Valoracion>
+<Fecha_Apertura>03/05/1999</Fecha_Apertura>
+<Num_Habitaciones>8</Num_Habitaciones>
+<Provincia>Teruel</Provincia>
+<Habitaciones>
+<Habitacion>
+<ID>5</ID>
+<Tipo>simple</Tipo>
+<Precio>90</Precio>
+<Extras>Cuarto de baño</Extras>
+<Resenias>Habitacion de transito</Resenias>
+</Habitacion>
+<Habitacion>
+<ID>6</ID>
+<Tipo>cuadruple</Tipo>
+<Precio>300</Precio>
+<Extras>Horno, Piscina y Aire acondicionado</Extras>
+<Resenias>Habitacion para familias</Resenias>
+</Habitacion>
+</Habitaciones>
+</Alojamiento>
+<Alojamiento>
+<Nombre>La Cuca</Nombre>
+<Dir_Social>C:/Doctor Lopez Nº 66</Dir_Social>
+<Razon_Social>Alfambra S.L.</Razon_Social>
+<Telefono>973461222</Telefono>
+<Descripcion>973461222</Descripcion>
+<Valoracion>2</Valoracion>
+<Fecha_Apertura>20/01/2007</Fecha_Apertura>
+<Num_Habitaciones>15</Num_Habitaciones>
+<Provincia>Huesca</Provincia>
+<Habitaciones>
+<Habitacion>
+<ID>7</ID>
+<Tipo>simple</Tipo>
+<Precio>110</Precio>
+<Extras>Trastero</Extras>
+<Resenias>Habitacion para dormir</Resenias>
+</Habitacion>
+<Habitacion>
+<ID>8</ID>
+<Tipo>doble</Tipo>
+<Precio>210</Precio>
+<Extras>Jardin</Extras>
+<Resenias>Habitacion comoda</Resenias>
+</Habitacion>
+</Habitaciones>
+</Alojamiento>
+<Alojamiento>
+<Nombre>La Estibialla</Nombre>
+<Dir_Social>Valle de Benasque</Dir_Social>
+<Razon_Social>Cerbin S.A.</Razon_Social>
+<Telefono>976782511</Telefono>
+<Descripcion>976782511</Descripcion>
+<Valoracion>1</Valoracion>
+<Fecha_Apertura>02/05/1958</Fecha_Apertura>
+<Num_Habitaciones>9</Num_Habitaciones>
+<Provincia>Teruel</Provincia>
+<Habitaciones>
+<Habitacion>
+<ID>9</ID>
+<Tipo>simple</Tipo>
+<Precio>120</Precio>
+<Extras>Horno</Extras>
+<Resenias>Habitacion luminosa</Resenias>
+</Habitacion>
+<Habitacion>
+<ID>10</ID>
+<Tipo>doble</Tipo>
+<Precio>180</Precio>
+<Extras>Jardin y piscina</Extras>
+<Resenias>Habitacion tranquila</Resenias>
+</Habitacion>
+</Habitaciones>
+</Alojamiento>
+<Alojamiento>
+<Nombre>Las Rosas</Nombre>
+<Dir_Social>C:/Maria Zambrano Nº 15</Dir_Social>
+<Razon_Social>Ferragosa S.A.</Razon_Social>
+<Telefono>974586523</Telefono>
+<Descripcion>974586523</Descripcion>
+<Valoracion>5</Valoracion>
+<Fecha_Apertura>22/07/1998</Fecha_Apertura>
+<Num_Habitaciones>8</Num_Habitaciones>
+<Provincia>Huesca</Provincia>
+<Habitaciones>
+<Habitacion>
+<ID>1</ID>
+<Tipo>simple</Tipo>
+<Precio>80</Precio>
+<Extras>MiniBar y Cafetera Italiana</Extras>
+<Resenias>Bien Iluminada</Resenias>
+</Habitacion>
+<Habitacion>
+<ID>2</ID>
+<Tipo>triple</Tipo>
+<Precio>180</Precio>
+<Extras>Horno y Cabina de Hidromasaje</Extras>
+<Resenias>Habitacion Amplia</Resenias>
+</Habitacion>
+</Habitaciones>
+</Alojamiento>
+<Alojamiento>
+<Nombre>Puerta de Ordesa</Nombre>
+<Dir_Social>C:/Ramon y Cajal Nº 10</Dir_Social>
+<Razon_Social>Hermanos Antonio S.A.</Razon_Social>
+<Telefono>974315841</Telefono>
+<Descripcion>974315841</Descripcion>
+<Valoracion>4</Valoracion>
+<Fecha_Apertura>08/05/1976</Fecha_Apertura>
+<Num_Habitaciones>4</Num_Habitaciones>
+<Provincia>Zaragoza</Provincia>
+<Habitaciones>
+<Habitacion>
+<ID>3</ID>
+<Tipo>simple</Tipo>
+<Precio>100</Precio>
+<Extras>Microondas</Extras>
+<Resenias>Habitacion Pequeña</Resenias>
+</Habitacion>
+<Habitacion>
+<ID>4</ID>
+<Tipo>triple</Tipo>
+<Precio>200</Precio>
+<Extras>Horno y Piscina</Extras>
+<Resenias>Habitacion considerada de lujo</Resenias>
+</Habitacion>
+</Habitaciones>
+</Alojamiento>
+</Alojamientos>

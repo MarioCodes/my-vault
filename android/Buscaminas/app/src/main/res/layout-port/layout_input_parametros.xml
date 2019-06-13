@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_parametros_popup"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/titulo_input_dificultad"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/button_dificultad_facil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="botonAccionJuegoFacil"
+        android:text="@string/dificultad_facil"/>
+
+    <Button
+        android:id="@+id/button_dificultad_medio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="botonAccionJuegoMedio"
+        android:text="@string/dificultad_medio"/>
+
+    <Button
+        android:id="@+id/button_dificultad_dificil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="botonAccionJuegoDificil"
+        android:text="@string/dificultad_dificil"/>
+
+</LinearLayout>

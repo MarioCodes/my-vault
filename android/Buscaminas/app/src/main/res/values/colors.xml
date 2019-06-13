@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Web de mi esquema de colores: https://coolors.co/79b473-70a37f-41658a-414073-4c3957 -->
+    <color name="colorPrimary">#414073</color> <!-- Gradiente 5-->
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorGradiente1">#79B473</color>
+    <color name="colorGradiente2">#70A37F</color>
+    <color name="colorGradiente3">#41658A</color>
+    <color name="colorGradiente5">#4C3957</color>
+
+    <!-- Defaults por Android
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    -->
+</resources>

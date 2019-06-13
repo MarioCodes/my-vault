@@ -1,0 +1,27 @@
+<resources>
+    <!-- App principal -->
+    <string name="app_name">Buscaminas</string>
+    <string name="titulo_principal">Buscaminas</string>
+
+    <string name="boton_jugar">JUGAR</string>
+    <string name="boton_nuevo_juego">NUEVO JUEGO</string>
+    <string name="boton_puntuaciones">PUNTUACIONES</string>
+    <string name="boton_acerca_de">ACERCA DE...</string>
+    <string name="boton_ayuda">AYUDA</string>
+    <string name="boton_salir">SALIR</string>
+
+    <!-- Pop up parametros -->
+    <string name="titulo_input_dificultad">Dificultad de Juego:</string>
+    <string name="dificultad_facil">FACIL</string>
+    <string name="dificultad_medio">MEDIO</string>
+    <string name="dificultad_dificil">DIFICIL</string>
+    <string name="dificultad_locura">LOCURA</string>
+
+    <!-- Parametros Juego Principal -->
+    <string name="output_numero_minas_titulo">Minas</string>
+    <string name="output_numero_flags_titulo">Banderas</string>
+
+    <!-- Parametros Acerca de -->
+    <string name="titulo_acerca_de">Acerca De...</string>
+    <string name="texto_acerca_de">Aplicacion Buscaminas desarrollado por Mario Codes Sanchez para la asignatura de Programacion Multimedia y Dispositivos Moviles a fecha de Diciembre de 2016.</string>
+</resources>

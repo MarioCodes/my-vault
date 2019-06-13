@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/linear_layout_tipo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        style="@style/linear_layouts_alta_libros">
+        <TextView
+            android:id="@+id/text_view_tipo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/alta_tipo"
+            style="@style/text_views_alta_libros"/>
+
+        <Spinner
+            android:id="@+id/spinner_tipo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_titulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        style="@style/linear_layouts_alta_libros">
+        <TextView
+            android:id="@+id/text_view_titulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/alta_titulo"
+            style="@style/text_views_alta_libros"/>
+
+        <EditText
+            android:id="@+id/edit_text_input_titulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_autor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        style="@style/linear_layouts_alta_libros">
+        <TextView
+            android:id="@+id/text_view_autor"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/alta_autor"
+            style="@style/text_views_alta_libros"/>
+        <EditText
+            android:id="@+id/edit_text_input_autor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_idioma"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        style="@style/linear_layouts_alta_libros">
+        <TextView
+            android:id="@+id/text_view_idioma"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/alta_idioma"
+            style="@style/text_views_alta_libros"/>
+        <Spinner
+            android:id="@+id/spinner_idioma"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_formato"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        style="@style/linear_layouts_alta_libros">
+        <TextView
+            android:id="@+id/text_view_formato"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/alta_formato"
+            style="@style/text_views_alta_libros"/>
+        <Spinner
+            android:id="@+id/spinner_formato"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_fechas_lectura"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        style="@style/linear_layouts_alta_libros">
+        <TextView
+            android:id="@+id/text_view_titulo_fecha_lectura"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/alta_titulo_fecha_lectura"
+            style="@style/text_views_alta_libros"/>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_fecha_lectura_ini"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/text_view_titulo_fecha_inic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/alta_fecha_lectura_ini"
+                android:layout_weight="2.2"
+                style="@style/text_views_fecha_libros"/>
+
+            <TextView
+                android:id="@+id/text_view_output_fecha_inic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center_vertical"/>
+
+            <Button
+                android:id="@+id/button_cambiar_fecha_ini"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.7"
+                android:text="@string/alta_button_cambiar_fecha"
+                android:drawableLeft="@drawable/calendar"
+                android:onClick="seleccionarFechaIni"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_fecha_lectura_fin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/text_view_titulo_fecha_fin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/alta_fecha_lectura_fin"
+                android:layout_weight="2.2"
+                style="@style/text_views_fecha_libros"/>
+
+            <TextView
+                android:id="@+id/text_view_output_fecha_fin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center_vertical"/>
+
+            <Button
+                android:id="@+id/button_cambiar_fecha_fin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.7"
+                android:text="@string/alta_button_cambiar_fecha"
+                android:drawableLeft="@drawable/calendar"
+                android:onClick="seleccionarFechaFin"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_valoracion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/text_view_valoracion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/alta_valoracion"
+            style="@style/text_views_alta_libros"/>
+        <RatingBar
+            android:id="@+id/rating_bar_valoracion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_prestado_a"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/text_view_prestado_a"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/alta_prestado_a"
+            style="@style/text_views_alta_libros"/>
+        <EditText
+            android:id="@+id/edit_text_input_prestado_a"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_notas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/text_view_notas"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/alta_notas"
+            style="@style/text_views_alta_libros"/>
+
+        <EditText
+            android:id="@+id/edit_text_input_notas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button_introducir_registro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/alta_button_introducir"
+        android:layout_gravity="center"
+        android:onClick="guardar"/>
+</LinearLayout>

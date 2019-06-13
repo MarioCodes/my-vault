@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Biblioteca</string>
+
+    <!-- Alta o modificacion de Libro -->
+    <string name="alta_tipo">Tipo</string>
+    <string name="alta_titulo">Titulo:</string>
+    <string name="alta_autor">Autor: </string>
+    <string name="alta_idioma">Idioma</string>
+    <string name="alta_formato">Formato</string>
+    <string name="alta_titulo_fecha_lectura">Fechas de Lectura</string>
+    <string name="alta_fecha_lectura_ini">Inicio: </string>
+    <string name="alta_fecha_lectura_fin">Fin: </string>
+    <string name="alta_valoracion">Valoracion</string>
+    <string name="alta_prestado_a">Prestado a</string>
+    <string name="alta_notas">Notas</string>
+
+    <string name="alta_button_cambiar_fecha">Cambiar Fecha</string>
+    <string name="alta_button_introducir">Introducir</string>
+
+    <!-- Layout de vista de libro -->
+    <string name="vista_titulo">Titulo</string>
+    <string name="vista_autor">Autor</string>
+</resources>

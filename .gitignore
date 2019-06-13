@@ -9,3 +9,5 @@ __init__.py
 target/
 *.iml
 docker/dockerfile*/data/
+venv/
+python/convert-java-logs-to-csv-file/resources/

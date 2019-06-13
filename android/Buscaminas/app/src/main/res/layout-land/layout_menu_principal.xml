@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/titulo_principal"
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/titulo_principal"
+        style="@style/menu_princ_titulo"/>
+
+    <Button
+        android:id="@+id/boton_jugar"
+        android:layout_marginTop="50dp"
+        android:layout_height="wrap_content"
+        android:text="@string/boton_jugar"
+        style="@style/landscape_botones_primer_boton"/>
+
+    <LinearLayout
+        android:id="@+id/layout_principal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/layout_grupo_botones1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/boton_acerca_de"
+                android:layout_width="@dimen/botones_ancho"
+                android:layout_height="wrap_content"
+                android:text="@string/boton_acerca_de"
+                style="@style/menu_princ_botones"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_grupo_botones2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+
+            <Button
+                android:id="@+id/boton_salir"
+                android:layout_width="@dimen/botones_ancho"
+                android:layout_height="wrap_content"
+                android:text="@string/boton_salir"
+                style="@style/menu_princ_botones"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,1 @@
+Copiar los .php con la carpeta entera en la raiz de Apache. El programa los bucara alli.

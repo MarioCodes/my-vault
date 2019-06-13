@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+    <item android:id="@+id/altalibro" android:title="Alta libro"
+        android:icon="@drawable/insertar"/>
+    <item android:id="@+id/acercade" android:title="Acerca de..."
+        android:icon="@drawable/acercade"/>
+    <item android:id="@+id/ordenarpor" android:title="Ordenar por..."
+        android:icon="@drawable/ordenar"/>
+    <item android:id="@+id/importar" android:title="Importar"
+        android:icon="@drawable/importar"/>
+    <item android:id="@+id/exportar" android:title="Exportar"
+        android:icon="@drawable/exportar"/>
+</menu>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="14"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/text_view_minas_titulo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/output_numero_minas_titulo"
+            android:layout_weight="1"
+            style="@style/juego_princ_output_titulo"/>
+
+        <TextView
+            android:id="@+id/text_view_minas_output"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="10"
+            style="@style/juego_princ_output_texto"/>
+
+        <TextView
+            android:id="@+id/text_view_flags_titulo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/output_numero_flags_titulo"
+            android:layout_weight="1"
+            style="@style/juego_princ_output_titulo"/>
+
+        <TextView
+            android:id="@+id/text_view_flags_output"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="10"
+            android:layout_weight="1"
+            style="@style/juego_princ_output_texto"/>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/separador_informacion_output"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_weight="0"
+        style="@style/juego_princ_separador"/>
+    
+    <GridLayout
+        android:id="@+id/grid_layout_principal_juego"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginTop="20dp"
+        style="@style/juego_princ_grid_layout">
+    </GridLayout>
+</LinearLayout>
