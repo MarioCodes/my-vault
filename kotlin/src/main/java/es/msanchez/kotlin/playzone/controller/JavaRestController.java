@@ -1,5 +1,6 @@
 package es.msanchez.kotlin.playzone.controller;
 
+import es.msanchez.kotlin.playzone.basic.syntax.BasicSyntax;
 import es.msanchez.kotlin.playzone.validator.JavaValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,13 @@ public class JavaRestController {
     @RequestMapping("/java")
     public String index() {
         return this.javaValidator.validate();
+    }
+
+    @RequestMapping("/kotlin/test")
+    public String classes() {
+        final BasicSyntax syntax = new BasicSyntax();
+        syntax.stringTemplates();
+        return "";
     }
 
 }
