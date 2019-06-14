@@ -1,4 +1,4 @@
-package es.msanchez.kotlin.playzone.controller;
+package es.msanchez.kotlin.skeleton.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

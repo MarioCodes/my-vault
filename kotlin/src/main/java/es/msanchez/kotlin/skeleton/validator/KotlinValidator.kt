@@ -1,4 +1,4 @@
-package es.msanchez.kotlin.playzone.validator
+package es.msanchez.kotlin.skeleton.validator
 
 import org.springframework.stereotype.Component
 

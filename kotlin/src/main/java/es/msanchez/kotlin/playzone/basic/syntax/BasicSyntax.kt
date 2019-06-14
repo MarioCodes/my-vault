@@ -1,5 +1,8 @@
 package es.msanchez.kotlin.playzone.basic.syntax
 
+/**
+ * examples from: https://kotlinlang.org/docs/reference/basic-syntax.html
+ */
 class BasicSyntax {
 
     class Classes {

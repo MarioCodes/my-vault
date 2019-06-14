@@ -1,4 +1,4 @@
-package es.msanchez.kotlin.playzone;
+package es.msanchez.kotlin.skeleton;
 
 import java.util.Arrays;
 import java.util.List;

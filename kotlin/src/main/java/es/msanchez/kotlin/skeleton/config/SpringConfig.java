@@ -1,4 +1,4 @@
-package es.msanchez.kotlin.playzone.config;
+package es.msanchez.kotlin.skeleton.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
