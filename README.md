@@ -1,2 +1,1 @@
-# Langauge Testing
-Used as VCS to test new languages or new structures in already known languages.
+Repository to test new ideas and technologies which are not yet big enough to warrant their own repo. 
