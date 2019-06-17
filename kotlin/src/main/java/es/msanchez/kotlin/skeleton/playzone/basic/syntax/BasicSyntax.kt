@@ -1,4 +1,4 @@
-package es.msanchez.kotlin.playzone.basic.syntax
+package es.msanchez.kotlin.skeleton.playzone.basic.syntax
 
 /**
  * examples from: https://kotlinlang.org/docs/reference/basic-syntax.html
