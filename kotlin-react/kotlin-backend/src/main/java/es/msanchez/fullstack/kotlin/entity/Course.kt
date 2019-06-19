@@ -14,7 +14,7 @@ class Course(
     constructor() : this(username = "",
             description = "")
 
-    constructor(us: String,
-                de: String) : this(username = us,
-            description = de)
+    constructor(username: String,
+                description: String) : this(null, username = username,
+            description = description)
 }
