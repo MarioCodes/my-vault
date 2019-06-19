@@ -11,3 +11,4 @@ target/
 docker/dockerfile*/data/
 venv/
 python/convert-java-logs-to-csv-file/resources/
+*/database/data/
