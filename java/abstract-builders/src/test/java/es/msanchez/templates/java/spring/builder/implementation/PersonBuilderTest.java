@@ -1,4 +1,4 @@
-package es.msanchez.templates.java.spring.builders.implementations;
+package es.msanchez.templates.java.spring.builder.implementation;
 
 import es.msanchez.templates.java.spring.entity.Person;
 import org.assertj.core.api.BDDAssertions;

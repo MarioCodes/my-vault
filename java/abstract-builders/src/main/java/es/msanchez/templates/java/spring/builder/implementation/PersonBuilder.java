@@ -1,9 +1,13 @@
-package es.msanchez.templates.java.spring.builders.implementations;
+package es.msanchez.templates.java.spring.builder.implementation;
 
-import es.msanchez.templates.java.spring.builders.generics.AbstractBuilder;
+import es.msanchez.templates.java.spring.builder.generic.AbstractBuilder;
 import es.msanchez.templates.java.spring.entity.Person;
 
 public class PersonBuilder extends AbstractBuilder<PersonBuilder, Person> {
+
+    /*
+     * Methods to copy, paste and modify in all *Builder instances.
+     */
 
     public static PersonBuilder getInstance() {
         return new PersonBuilder();
@@ -19,7 +23,9 @@ public class PersonBuilder extends AbstractBuilder<PersonBuilder, Person> {
         return this;
     }
 
-    // Custom 'with' methods
+    /*
+     * Custom 'with' methods per builder.
+     */
 
     public PersonBuilder withAge(final Integer age) {
         super.with(p -> p.setAge(age));

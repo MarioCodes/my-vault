@@ -11,4 +11,6 @@ public class Person {
 
     private Integer age;
 
+    private Boolean smoker;
+
 }

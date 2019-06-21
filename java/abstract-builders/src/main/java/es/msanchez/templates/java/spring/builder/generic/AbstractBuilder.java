@@ -1,4 +1,4 @@
-package es.msanchez.templates.java.spring.builders.generics;
+package es.msanchez.templates.java.spring.builder.generic;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 
 @Slf4j
 @Getter
-public abstract class AbstractBuilder<BUILDER, TYPE> extends RandomBuilder<TYPE> {
+public abstract class AbstractBuilder<BUILDER, TYPE> extends Randomizer<TYPE> {
 
     private static final Integer DEFAULT_INSTANCES = 5;
 
@@ -43,7 +43,7 @@ public abstract class AbstractBuilder<BUILDER, TYPE> extends RandomBuilder<TYPE>
     }
 
     public BUILDER random() {
-        super.randomize(this.instances);
+        super.fill(this.instances);
         return this.builder();
     }
 

@@ -1,4 +1,4 @@
-package es.msanchez.templates.java.spring.builders.generics;
+package es.msanchez.templates.java.spring.builder.generic;
 
 public interface Randoms {
 
@@ -10,8 +10,12 @@ public interface Randoms {
 
     Integer randomPositiveInteger();
 
+    Integer randomPositiveInteger(final Integer limit);
+
     String randomAlphanumeric();
 
-    String randomNumeric();
+    String randomAlphabetic();
+
+    Boolean randomBoolean();
 
 }
