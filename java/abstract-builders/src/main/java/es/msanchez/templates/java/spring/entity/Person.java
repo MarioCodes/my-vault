@@ -9,14 +9,12 @@ public class Person {
 
     private Integer age;
 
-    private Double d;
-
-    private Float f;
-
     private String name;
 
-    private Boolean smoker;
+    private Double doubleField;
 
+    private Float floatField;
 
+    private Boolean booleanField;
 
 }
