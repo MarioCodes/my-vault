@@ -7,10 +7,14 @@ public class Person {
 
     private Long id;
 
-    private String name;
-
     private Integer age;
 
+    private Double d;
+
+    private String name;
+
     private Boolean smoker;
+
+
 
 }

@@ -24,6 +24,7 @@ public class RandomizerTest {
             soft.assertThat(bean.getAge()).isInstanceOf(Integer.class).isPositive();
             soft.assertThat(bean.getId()).isInstanceOf(Long.class).isPositive();
             soft.assertThat(bean.getSmoker()).isInstanceOf(Boolean.class);
+            soft.assertThat(bean.getD()).isInstanceOf(Double.class).isPositive();
         });
     }
 

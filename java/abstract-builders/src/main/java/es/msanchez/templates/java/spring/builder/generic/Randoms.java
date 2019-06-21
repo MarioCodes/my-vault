@@ -12,6 +12,8 @@ public interface Randoms {
 
     Integer randomPositiveInteger(final Integer limit);
 
+    Double randomDouble();
+
     String randomAlphanumeric();
 
     String randomAlphabetic();

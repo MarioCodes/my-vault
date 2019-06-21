@@ -53,6 +53,17 @@ public class RandomsImplTest {
         BDDAssertions.assertThat(randomPositiveInteger).isPositive();
     }
 
+    @Test(invocationCount = 200)
+    public void testRandomDouble() {
+        // @GIVEN
+
+        // @WHEN
+        final Double randomDouble = this.randoms.randomDouble();
+
+        // @THEN
+        BDDAssertions.assertThat(randomDouble).isInstanceOf(Double.class).isPositive();
+    }
+
     @Test
     public void testRandomAlphanumericString() {
         // @GIVEN

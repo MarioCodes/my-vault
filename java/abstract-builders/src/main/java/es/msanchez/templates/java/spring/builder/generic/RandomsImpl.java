@@ -58,6 +58,15 @@ public class RandomsImpl implements Randoms {
     }
 
     /**
+     * @return not null, positive double
+     */
+    @Override
+    public Double randomDouble() {
+        final Random random = this.randomGenerator();
+        return random.nextDouble();
+    }
+
+    /**
      * @return not null, random String with length = 50, which contains from a to Z and 0 to 9
      */
     @Override
