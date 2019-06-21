@@ -25,6 +25,7 @@ public class RandomizerTest {
             soft.assertThat(bean.getId()).isInstanceOf(Long.class).isPositive();
             soft.assertThat(bean.getSmoker()).isInstanceOf(Boolean.class);
             soft.assertThat(bean.getD()).isInstanceOf(Double.class).isPositive();
+            soft.assertThat(bean.getF()).isInstanceOf(Float.class).isPositive();
         });
     }
 

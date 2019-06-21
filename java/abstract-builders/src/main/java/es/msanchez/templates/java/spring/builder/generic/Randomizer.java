@@ -60,6 +60,8 @@ class Randomizer<TYPE> extends RandomsImpl {
             random = this.randomBoolean();
         } else if(fieldName.contains("Double")) {
             random = this.randomDouble();
+        } else if(fieldName.contains("Float")) {
+            random = this.randomFloat();
         } else {
             log.error("Tried to fill the field type '{}' but it's not known", fieldName);
             throw new UnsupportedOperationException("Tried to automatically fill a field for a Builder, " +

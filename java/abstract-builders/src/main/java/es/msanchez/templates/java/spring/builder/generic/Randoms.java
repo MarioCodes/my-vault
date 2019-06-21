@@ -14,6 +14,8 @@ public interface Randoms {
 
     Double randomDouble();
 
+    Float randomFloat();
+
     String randomAlphanumeric();
 
     String randomAlphabetic();

@@ -66,6 +66,12 @@ public class RandomsImpl implements Randoms {
         return random.nextDouble();
     }
 
+    @Override
+    public Float randomFloat() {
+        final Random random = this.randomGenerator();
+        return random.nextFloat();
+    }
+
     /**
      * @return not null, random String with length = 50, which contains from a to Z and 0 to 9
      */

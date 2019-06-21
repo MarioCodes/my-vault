@@ -11,6 +11,8 @@ public class Person {
 
     private Double d;
 
+    private Float f;
+
     private String name;
 
     private Boolean smoker;
