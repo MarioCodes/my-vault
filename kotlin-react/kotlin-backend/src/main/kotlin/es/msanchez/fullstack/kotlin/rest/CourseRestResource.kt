@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("courses")
-@CrossOrigin("http://localhost:3000")
 class CourseRestResource(private val courseService: CourseService) {
 
     init {
