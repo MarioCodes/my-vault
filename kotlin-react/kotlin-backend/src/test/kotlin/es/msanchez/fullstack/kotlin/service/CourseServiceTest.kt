@@ -53,4 +53,17 @@ internal class CourseServiceTest {
         verify { dao.findAll() }
     }
 
+    @Test
+    internal fun testDeleteOne() {
+        // Given
+        val id = 1L
+        every { dao.deleteById(id) } returns Unit
+
+        // When
+        this.service.deleteOne(id)
+
+        // Then
+        verify { dao.deleteById(id) }
+    }
+
 }

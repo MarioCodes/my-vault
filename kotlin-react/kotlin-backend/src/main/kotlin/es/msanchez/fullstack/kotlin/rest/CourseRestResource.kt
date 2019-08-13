@@ -23,4 +23,9 @@ class CourseRestResource(private val courseService: CourseService) {
         return this.courseService.findAllByUsername(username)
     }
 
+    @DeleteMapping("/{id}")
+    fun deleteCourse(@PathVariable id: Long) {
+        this.courseService.deleteOne(id)
+    }
+
 }

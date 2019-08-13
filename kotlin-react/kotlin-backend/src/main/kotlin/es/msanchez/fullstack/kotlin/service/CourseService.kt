@@ -28,4 +28,8 @@ class CourseService(private val courseDao: CourseDao) {
         this.courseDao.save(course)
     }
 
+    fun deleteOne(id: Long) {
+        this.courseDao.deleteById(id)
+    }
+
 }

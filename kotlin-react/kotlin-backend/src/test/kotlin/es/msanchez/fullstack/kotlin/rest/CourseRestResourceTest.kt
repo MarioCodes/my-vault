@@ -51,4 +51,16 @@ internal class CourseRestResourceTest {
         verify { courseService.findAllByUsername(username) }
     }
 
+    @Test
+    internal fun testDeleteCourse() {
+        // Given
+        val id = 1L
+
+        // When
+        this.restResource.deleteCourse(id)
+
+        // Then
+        verify { courseService.deleteOne(id) }
+    }
+
 }
