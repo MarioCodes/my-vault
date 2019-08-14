@@ -14,6 +14,7 @@ class ListCoursesComponent extends React.Component {
         this.refreshCourses = this.refreshCourses.bind(this)
         this.deleteCourseClicked = this.deleteCourseClicked.bind(this)
         this.updateCourseClicked = this.updateCourseClicked.bind(this)
+        this.addCourseClicked = this.addCourseClicked.bind(this)
     }
 
     componentDidMount() {
@@ -43,6 +44,10 @@ class ListCoursesComponent extends React.Component {
     updateCourseClicked(id) {
         console.log('update: ' + id)
         this.props.history.push(`/courses/${id}`)
+    }
+
+    addCourseClicked() {
+        this.props.history.push(`/courses/-1`)
     }
 
     render() {
@@ -83,6 +88,9 @@ class ListCoursesComponent extends React.Component {
                         }
                         </tbody>
                     </table>
+                    <div className="row">
+                        <button className="btn btn-success" onClick={this.addCourseClicked}>Add</button>
+                    </div>
                 </div>
             </div>
         )

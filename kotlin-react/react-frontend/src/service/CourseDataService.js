@@ -6,13 +6,17 @@ const INSTRUCTOR_API_URL = `${COURSE_API_URL}/courses/instructors/${INSTRUCTOR}`
 
 class CourseDataService {
 
-  retrieveAllCourses(name) {
-    return axios.get(`${INSTRUCTOR_API_URL}`);
-  }
+    retrieveAllCourses(name) {
+        return axios.get(`${INSTRUCTOR_API_URL}`);
+    }
 
-  deleteCourse(id) {
-    return axios.delete(`${COURSE_API_URL}/courses/${id}`);
-  }
+    retrieveCourse(id) {
+        return axios.get(`${COURSE_API_URL}/courses/${id}`)
+    }
+
+    deleteCourse(id) {
+        return axios.delete(`${COURSE_API_URL}/courses/${id}`);
+    }
 
 }
 

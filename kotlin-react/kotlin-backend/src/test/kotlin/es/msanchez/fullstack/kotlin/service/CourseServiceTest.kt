@@ -11,6 +11,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.BDDAssertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import java.util.*
 
 @ExtendWith(MockKExtension::class)
 internal class CourseServiceTest {
@@ -51,6 +52,38 @@ internal class CourseServiceTest {
         // Then
         BDDAssertions.assertThat(result).isSameAs(foundCourses)
         verify { dao.findAll() }
+    }
+
+    @Test
+    internal fun testGetOne() {
+        // Given
+        val id = 1L
+
+        val givenCourse = Optional.of(Course())
+        every { dao.findById(id) } returns givenCourse
+
+        // When
+        val course = this.service.getOne(id)
+
+        // Then
+        verify { dao.findById(id) }
+        BDDAssertions.assertThat(course).isPresent.isSameAs(course)
+    }
+
+    @Test
+    internal fun testGetOneCaseEmpty() {
+        // Given
+        val id = 1L
+
+        val emptyCourse = Optional.empty<Course>()
+        every { dao.findById(id) } returns emptyCourse
+
+        // When
+        val course = this.service.getOne(id)
+
+        // Then
+        verify { dao.findById(id) }
+        BDDAssertions.assertThat(course).isEmpty
     }
 
     @Test

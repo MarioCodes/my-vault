@@ -3,6 +3,7 @@ package es.msanchez.fullstack.kotlin.service
 import es.msanchez.fullstack.kotlin.dao.CourseDao
 import es.msanchez.fullstack.kotlin.entity.Course
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class CourseService(private val courseDao: CourseDao) {
@@ -26,6 +27,10 @@ class CourseService(private val courseDao: CourseDao) {
 
     fun save(course: Course) {
         this.courseDao.save(course)
+    }
+
+    fun getOne(id: Long): Optional<Course> {
+        return this.courseDao.findById(id)
     }
 
     fun deleteOne(id: Long) {

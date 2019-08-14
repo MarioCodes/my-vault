@@ -10,6 +10,9 @@ import io.mockk.verify
 import org.assertj.core.api.BDDAssertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import java.util.*
+import javax.persistence.EntityNotFoundException
+import kotlin.test.assertFailsWith
 
 @ExtendWith(MockKExtension::class)
 internal class CourseRestResourceTest {
@@ -61,6 +64,36 @@ internal class CourseRestResourceTest {
 
         // Then
         verify { courseService.deleteOne(id) }
+    }
+
+    @Test
+    internal fun testGetCourse() {
+        // Given
+        val id = 1L
+
+        val optGivenCourse = Optional.of(Course())
+        every { courseService.getOne(id) } returns optGivenCourse
+
+        // When
+        val course = this.restResource.getCourse(id)
+
+        // Then
+        verify { courseService.getOne(id) }
+        BDDAssertions.assertThat(course).isEqualTo(optGivenCourse.get());
+    }
+
+    @Test
+    internal fun testGetCourseCaseEmpty() {
+        // Given
+        val id = 1L
+
+        val optGivenCourse = Optional.empty<Course>()
+        every { courseService.getOne(id) } returns optGivenCourse
+
+        // When
+        assertFailsWith<EntityNotFoundException>("EntityNotFound") { this.restResource.getCourse(id) }
+
+        // Then
     }
 
 }
