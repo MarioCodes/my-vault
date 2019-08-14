@@ -1,5 +1,6 @@
 import React from 'react';
 import CourseDataService from "../service/CourseDataService";
+import {Field, Form, Formik} from "formik";
 
 class CourseComponent extends React.Component {
 
@@ -27,12 +28,34 @@ class CourseComponent extends React.Component {
     }
 
     render() {
-        let { description, id } = this.state
+        let {description, id} = this.state
         return (
             <div>
-              <h3>Course</h3>
-              <div>{id}</div>
-              <div>{description}</div>
+                <h3>Course</h3>
+                <div className="container">
+                    <Formik
+                        enableReinitialize={true}
+                        initialValues={{
+                            id: id,
+                            description: description
+                        }}>
+                        {
+                            (props) => (
+                                <Form>
+                                    <fieldset className="form-group">
+                                        <label>Id</label>
+                                        <Field className="form-control" type="text" name="id" disabled/>
+                                    </fieldset>
+                                    <fieldset className="form-group">
+                                        <label>Description</label>
+                                        <Field className="form-control" type="text" name="description"/>
+                                    </fieldset>
+                                    <button className="btn btn-success" type="submit">Save</button>
+                                </Form>
+                            )
+                        }
+                    </Formik>
+                </div>
             </div>
         )
     }
