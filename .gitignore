@@ -14,3 +14,4 @@ python/convert-java-logs-to-csv-file/resources/
 */database/data/
 *.ipr
 *.iws
+*.lock
