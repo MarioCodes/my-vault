@@ -1,0 +1,17 @@
+# Use of official Python runtime
+FROM python:3.6.5-slim
+
+# Set working dir.
+WORKDIR /app
+
+# copy current dir. contents into container at /app
+ADD . /app
+
+# install specified packages
+RUN pip install --trusted-host pypi.python.org -r docker/requirements.txt
+
+# make port 80 available outside this container
+EXPOSE 80
+
+# run app when container launches
+CMD ["python", "Main.py"]
