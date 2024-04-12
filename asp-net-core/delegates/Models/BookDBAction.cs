@@ -1,24 +1,24 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 
 namespace delegates.Models
 {
-    // Declare a delegate type for processing a book:
-    public delegate void ProcessBookCallback(Book book);
-
-    public class BookDB
+    public class BookDBAction
     {
         // List of all books in the database:
         List<Book> list = new List<Book>();
 
-        // Add a book to the database:
-        public void AddBook(string title, string author, decimal price, bool paperBack)
+        public BookDBAction()
         {
-            list.Add(new Book(title, author, price, paperBack));
+            // initialize test data
+            list.Add(new Book("title1", "author1", 10, true));
+            list.Add(new Book("title2", "author2", 20, true));
+            list.Add(new Book("title3", "author3", 30, false));
+            list.Add(new Book("title4", "author4", 40, true));
         }
 
         // Call a passed-in delegate on each paperback book to process it:
-        public void ProcessPaperbackBooks(ProcessBookCallback processBook)
+        public void ProcessPaperbackBooks(Action<Book> processBook)
         {
             foreach (Book b in list)
             {
