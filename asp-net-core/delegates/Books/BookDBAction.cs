@@ -18,6 +18,7 @@ namespace delegates.Models
         }
 
         // Call a passed-in delegate on each paperback book to process it:
+        // Action has a class as input and outputs void
         public void ProcessPaperbackBooks(Action<Book> processBook)
         {
             foreach (Book b in list)

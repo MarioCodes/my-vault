@@ -18,6 +18,7 @@ namespace delegates.Models
         }
 
         // Call a passed-in delegate on each paperback book to process it:
+        // Predicate has a class as input and outputs bool
         public void ProcessPaperbackBooks(Predicate<Book> processBook)
         {
             foreach (Book book in list)
